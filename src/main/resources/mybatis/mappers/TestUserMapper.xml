@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hoge.reservation.mapper.TestUserMapper">
+<mapper namespace="com.hoge.mapper.TestUserMapper">
 	<!-- 
 		List<User> getAllUsers();
 	 -->
-	 <select id="getAllUsers" resultType="com.hoge.reservation.vo.User">
+	 <select id="getAllUsers" resultType="com.hoge.vo.User">
 	 	select
 	 		user_no as no,
 	 		user_id as id,
