@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hoge.reservation.mapper.TestUserMapper">
+	<!-- 
+		List<User> getAllUsers();
+	 -->
+	 <select id="getAllUsers" resultType="com.hoge.reservation.vo.User">
+	 	select
+	 		user_no as no,
+	 		user_id as id,
+	 		user_name as name,
+	 		user_tel as tel,
+	 		user_email as email
+	 	from
+	 		tb_final_users
+	 	order by
+	 		user_no desc
+	 </select>
+</mapper>
