@@ -9,7 +9,7 @@ public class HomeController {
 	
 	@GetMapping("/")
 	public String home(Model model) throws Exception {
-		model.addAttribute("message", "홈페이지 방문을 환영합니다.");
+		// model.addAttribute("message", "홈페이지 방문을 환영합니다.");
 		
 		return "home";
 	}
