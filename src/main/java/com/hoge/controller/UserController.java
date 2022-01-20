@@ -11,13 +11,13 @@ import com.hoge.service.UserService;
 import com.hoge.vo.other.User;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/testApi/users")
 public class UserController {
 	@Autowired
-	private UserService testUserService;
+	private UserService userService;
 
 	@GetMapping
 	public List<User> users() {
-		return testUserService.getAllUsers();
+		return userService.getAllUsers();
 	}
 }

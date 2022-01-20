@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mybatis.mappers.AccommodationMapper">
+
+	<resultMap id="AccommoResultMap" type="com.hoge.vo.accommo.Accommodation">
+		<id column="accommo_no" property="no"/>
+		<result column="host_no" property="hostNo"/>
+		<result column="accommo_type" property="type"/>
+		<result column="accommo_name" property="name"/>
+		<result column="accommo_intro_title" property="introTitle"/>
+		<result column="accommo_intro_content" property="introContent"/>
+		<result column="accommo_web_address" property="webAddress"/>
+		<result column="accommo_check_in_time" property="checkInTime"/>
+		<result column="accommo_check_out_time" property="checkOutime"/>
+		<result column="average_cleanliness_star" property="cleanlinessStar"/>
+		<result column="average_communication_star" property="communicationStar"/>
+		<result column="average_accuracy_star" property="accuracyStar"/>
+		<result column="average_location_star" property="locationStar"/>
+		<result column="accommo_address" property="adress"/>
+		<result column="accommo_region_depth1" property="regionDepth1"/>
+		<result column="accommo_region_depth2" property="regionDepth2"/>
+		<result column="accommo_region_depth3" property="regionDepth3"/>
+		<result column="accommo_xce" property="xce"/>
+		<result column="accommo_yce" property="yce"/>
+		<result column="accommo_registered_date" property="registeredDate"/>
+	</resultMap>
+	
+	<select id="getAllAccommodations" resultMap="AccommoResultMap">
+		select
+			accommo_no, host_no, accommo_type, accommo_name, accommo_intro_title, accommo_intro_content, 
+			accommo_web_address, accommo_check_in_time, accommo_check_out_time, average_cleanliness_star,
+			average_communication_star, average_accuracy_star, average_location_star, accommo_address,
+			accommo_region_depth1, accommo_region_depth2, accommo_region_depth3, accommo_xce, accommo_yce,
+			accommo_registered_date
+		from
+			tb_final_accommodations
+	</select>
+	
+</mapper>
