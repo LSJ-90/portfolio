@@ -10,4 +10,5 @@ import com.hoge.vo.other.User;
 public interface UserMapper {
 	
 	List<User> getAllUsers();
+	
 }
