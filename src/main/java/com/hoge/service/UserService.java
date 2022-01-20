@@ -12,9 +12,9 @@ import com.hoge.vo.other.User;
 public class UserService {
 	
 	@Autowired
-	private UserMapper UserMapper;
+	private UserMapper userMapper;
 	
 	public List<User> getAllUsers() {
-		return UserMapper.getAllUsers();
+		return userMapper.getAllUsers();
 	}
 }

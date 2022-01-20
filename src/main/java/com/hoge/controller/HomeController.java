@@ -11,6 +11,6 @@ public class HomeController {
 	public String home(Model model) throws Exception {
 		model.addAttribute("message", "홈페이지 방문을 환영합니다.");
 		
-		return "home";
+		return "home.tiles";
 	}
 }
