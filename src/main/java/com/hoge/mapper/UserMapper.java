@@ -15,8 +15,6 @@ import com.hoge.vo.other.User;
 public interface UserMapper {
 	
 	List<User> getAllUsers();
-	User getUser();
-	User getUserByNo(int no);
-	User getUserById(String id);
-	User getUserBypwd(String pwd);
-}
+
+
+	

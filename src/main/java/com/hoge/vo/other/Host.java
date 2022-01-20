@@ -22,7 +22,7 @@ public class Host {
 	private int userNo;
 	private String accountHolderName;
 	private int accountNumber;
-	private String BankName;
+	private String bankName;
 	private int hostingType; // 1. 시설 2.체험
 	private String tel;
 	private String gradeName;
