@@ -11,7 +11,6 @@
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-<%@ include file="../common/nav.jsp" %>
 <div class="container">
 	<div class="p-3 mb-4 bg-light rounded-3">
 		<div class="container-fluid py-5">

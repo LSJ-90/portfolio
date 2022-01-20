@@ -76,6 +76,13 @@
     		<groupId>javax.servlet</groupId>
     		<artifactId>jstl</artifactId>
 		</dependency>
+		<!-- 타일즈 관련 의존성 추가 S -->
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-jsp</artifactId>
+			<version>3.0.7</version>
+		</dependency>
+		<!-- 타일즈 관련 의존성 추가 E -->
 		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
