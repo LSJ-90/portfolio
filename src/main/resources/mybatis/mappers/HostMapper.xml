@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hoge.mapper.UserMapper">
+	<!-- 
+		Host getHostByNo();
+	 -->
+	 <select id="getHostByNo" parameterType="int" resultType="com.hoge.vo.other.Host">
+	 	select
+	 		host_no as no,
+	 		host_user_no as userNo,
+	 		host_name as name,
+	 		account_holder_name as accountHolderName,
+	 		account_number as accountNumber,
+	 		bank_name as bankName,
+	 		hosting_type as hostingType,
+	 		host_tel as tel,
+	 		grade_name as gradeName
+	 	from
+	 		tb_final_hosts
+	 	where 
+	 		host_no = #{value} 
+	 </select>
+</mapper>
