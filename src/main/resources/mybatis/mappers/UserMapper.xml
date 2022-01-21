@@ -27,10 +27,13 @@
 	 </select>
 	 
 	 
+	 <!-- 성하민
+		int getUsersTotalRows(CriteriaAdminUser CAU);
+	 -->
 	 <select id="getUsersTotalRows" parameterType="com.hoge.form.CriteriaAdminUser" resultType="int">
 		select count(*)
 		from tb_final_users
-		where user_deleted = 'N'
+		where user_deleted = #{deleted}
 			<if test="opt != null and value != null">
 				<choose>
 					<when test="opt == '이름'">
@@ -49,6 +52,9 @@
 			</if>
 	</select>
 	
+	<!-- 성하민
+		List<User> searchUsers(CriteriaAdminUser CAU);
+	 -->
 	<select id="searchUsers" parameterType="com.hoge.form.CriteriaAdminUser" resultType="com.hoge.vo.other.User">
 		select 	
 			user_no as no,
@@ -81,7 +87,7 @@
 	 			user_reported_count, 
 	 			row_number() over (order by user_no desc) rn
 			from tb_final_users
-			where user_deleted = 'N'
+			where user_deleted = #{deleted}
 			<if test="opt != null and value != null">
 				<choose>
 					<when test="opt == '이름'">

@@ -14,24 +14,30 @@
 <body>
 <div class="container">
 
-<div class="row mb-3">
+<div class="row mb-3 mt-3">
 		<div class="col">
 			<form id="form-search-user" class="row row-cols-lg-auto g-3 align-items-center" method="get" action="user-list">
 				<input type="hidden" name="page" value="1" />
-				<div class="col-12">
-					<select class="form-select" name="opt">
-						<option value="" selected disabled="disabled">검색조건을 선택하세요</option>
-						<option value="이름" ${'이름' eq param.opt ? 'selected' : ''}> 이름으로 검색</option>
-						<option value="전화번호" ${'전화번호' eq param.opt ? 'selected' : ''}> 전화번호 검색</option>
-						<option value="아이디" ${'아이디' eq param.opt ? 'selected' : ''}> 아이디로 검색</option>
-						<option value="이메일" ${'이메일' eq param.opt ? 'selected' : ''}> 이메일으로 검색</option>
-					</select>
-				</div>
-				<div class="col-12">
+				<div class="row mb-3 mt-3">
+					<div class="col-3">
+				<input type="radio" name="deleted" value="N" checked>현재 이용중인 회원
+				<input type="radio" name="deleted" value="Y" ${'Y' eq param.deleted ? 'checked' : ''}>탈퇴한 회원
+					</div>
+					<div class="col-3">
+						<select class="form-select" name="opt">
+							<option value="" selected disabled="disabled">검색조건을 선택하세요</option>
+							<option value="이름" ${'이름' eq param.opt ? 'selected' : ''}> 이름으로 검색</option>
+							<option value="전화번호" ${'전화번호' eq param.opt ? 'selected' : ''}> 전화번호 검색</option>
+							<option value="아이디" ${'아이디' eq param.opt ? 'selected' : ''}> 아이디로 검색</option>
+							<option value="이메일" ${'이메일' eq param.opt ? 'selected' : ''}> 이메일으로 검색</option>
+						</select>
+					</div>
+				<div class="col-3">
 					<input type="text" class="form-control" name="value" value="${param.value }">
 				</div>
-				<div class="col-12">
+				<div class="col-3">
 					<button type="button" class="btn btn-outline-primary btn-sm" id="btn-search-user">검색</button>
+				</div>
 				</div>
 			</form>
 		</div>
@@ -48,7 +54,7 @@
 						<th style="width: 15%;">연락처</th>
 						<th style="width: 15%;">성별</th>
 						<th style="width: 15%;">호스팅여부</th>
-						<th style="width: 10%;">업데이트 날짜</th>
+						<th style="width: 10%;">탈퇴여부</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -67,7 +73,7 @@
 									<td>${user.tel }</td>
 									<td>${user.gender == 'F' ? '여' : '남'}</td>
 									<td>${user.isHost == 'N' ?  'X' :'O'}</td>
-									<td></td>
+									<td>${user.deleted }</td>
 								</tr>
 							</c:forEach>
 						</c:otherwise>
@@ -144,6 +150,15 @@ $(".pagination a").click(function(event) {
 	// 검색폼에 onsubmit 이벤트 발생시키기
 	$("#form-search-user").trigger("submit");
 })
+
+
+   $("input:radio[name=deleted]").click(function()
+    {
+	   $("#form-search-user").trigger("submit");
+    })
+
+
+
 
 </script>
 
