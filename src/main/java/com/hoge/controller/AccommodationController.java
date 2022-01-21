@@ -10,8 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.hoge.dto.AccommoListDto;
 import com.hoge.service.AccommodationService;
-import com.hoge.vo.accommo.Accommodation;
 
 @Controller
 @RequestMapping("/accommo")
@@ -24,9 +24,9 @@ public class AccommodationController {
 	
 	@GetMapping("/list.do")
 	public String list(Model model) {
-		List<Accommodation> accommodations = accommodationService.getAllAccommodationList();
-		model.addAttribute("accommodations", accommodations);
+		List<AccommoListDto> dtos = accommodationService.getAllAccommoList();
+		model.addAttribute("accommos", dtos);
 		
-		return "accommo/list.tiles";
+		return "accommo/list";
 	}
 }
