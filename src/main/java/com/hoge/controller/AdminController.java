@@ -60,6 +60,10 @@ public class AdminController {
 		
 		return "adminpage/user-list.admintiles";
 	}
-
 	
+	@GetMapping("/main")
+	public String adminMainInit() {
+		
+		return "adminpage/main.admintiles";
+	}
 }

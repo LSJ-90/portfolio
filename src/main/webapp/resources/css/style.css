@@ -124,3 +124,10 @@ button {
   margin-left: 25px;
   margin-right: 25px;
 }
+
+/* 이승준 추가(LOGIN 옆 사람 이미지) 머지 시 협의 후 삭제 */
+.my {
+  width: 20px;
+  height: auto;
+  padding: 0;
+}

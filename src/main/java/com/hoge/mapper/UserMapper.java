@@ -21,7 +21,11 @@ public interface UserMapper {
 	
 	// 이승준 아이디에 맞는 유저정보를 가져온다.
 	User getUserById(String id);
+	
+	// 성하민
 	int getUsersTotalRows(CriteriaAdminUser CAU);
+	
+	// 성하민
 	List<User> searchUsers(CriteriaAdminUser CAU);
 
 }
