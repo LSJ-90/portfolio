@@ -2,13 +2,23 @@ package com.hoge.form;
 
 public class CriteriaAdminUser {
 
-	
+	private String deleted;
 	private String opt;
 	private String value;
 	private int beginIndex;
 	private int endIndex;
 	
 	public CriteriaAdminUser() {}
+
+
+	public String getDeleted() {
+		return deleted;
+	}
+
+
+	public void setDeleted(String deleted) {
+		this.deleted = deleted;
+	}
 
 
 	public String getOpt() {
