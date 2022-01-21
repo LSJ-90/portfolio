@@ -25,4 +25,81 @@
 	 	order by
 	 		user_no desc
 	 </select>
+	 
+	 
+	 <select id="getUsersTotalRows" parameterType="com.hoge.form.CriteriaAdminUser" resultType="int">
+		select count(*)
+		from tb_final_users
+		where user_deleted = 'N'
+			<if test="opt != null and value != null">
+				<choose>
+					<when test="opt == '이름'">
+						and user_name like '%' || #{value} || '%'
+					</when>
+					<when test="opt == '전화번호'">
+						and user_tel like '%' || #{value} || '%'
+					</when>
+					<when test="opt == '아이디'">
+						and user_id like '%' || #{value} || '%'
+					</when>
+					<when test="opt == '이메일'">
+						and user_email like '%' || #{value} || '%'
+					</when>
+				</choose>
+			</if>
+	</select>
+	
+	<select id="searchUsers" parameterType="com.hoge.form.CriteriaAdminUser" resultType="com.hoge.vo.other.User">
+		select 	
+			user_no as no,
+	 		user_id as id,
+	 		user_is_host as isHost,
+	 		user_name as name,
+	 		user_pwd as pwd,
+	 		user_email as email,
+	 		user_tel as tel,
+	 		user_registered_date as registeredDate,
+	 		user_deleted as deleted,
+	 		user_pnt as pnt,
+	 		user_image as image,
+	 		user_gender as gender,
+	 		user_reported_count as reportedCount
+		from (
+			select 	
+				user_no,
+	 			user_id,
+	 			user_is_host,
+	 			user_name,
+	 			user_pwd,
+	 			user_email,
+	 			user_tel,
+	 			user_registered_date,
+	 			user_deleted,
+	 			user_pnt,
+		 		user_image,
+		 		user_gender,
+	 			user_reported_count, 
+	 			row_number() over (order by user_no desc) rn
+			from tb_final_users
+			where user_deleted = 'N'
+			<if test="opt != null and value != null">
+				<choose>
+					<when test="opt == '이름'">
+						and user_name like '%' || #{value} || '%'
+					</when>
+					<when test="opt == '전화번호'">
+						and user_tel like '%' || #{value} || '%'
+					</when>
+					<when test="opt == '아이디'">
+						and user_id like '%' || #{value} || '%'
+					</when>
+					<when test="opt == '이메일'">
+						and user_email like '%' || #{value} || '%'
+					</when>
+				</choose>
+			</if>		
+		)
+		where rn between #{beginIndex} and #{endIndex}
+	</select> 
+	 
 </mapper>

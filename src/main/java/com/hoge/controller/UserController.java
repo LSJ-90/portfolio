@@ -20,4 +20,7 @@ public class UserController {
 	public List<User> users() {
 		return userService.getAllUsers();
 	}
+	
+	
+	
 }
