@@ -21,24 +21,27 @@ public class HostController {
 	@Autowired
 	private HostService hostService;
 	
+	// 유상효
 	@GetMapping("/host/applyForm")
 	public String ApplyForm() {
 		//SessionUtils.addAttribute("세션아이디", "세션값");
 		return "hostpage/applyForm.tiles";
 	}
 	
+	// 유상효
 	@GetMapping("/host/main")
 	public String Main() {
-		//SessionUtils.addAttribute("세션아이디", "세션값");
 		return "hostpage/main.tiles";
 	}
 	
+	// 유상효
 	@RequestMapping(value = "/host/req", method = RequestMethod.POST)
-	public ModelAndView ApplyReq(ModelAndView mv, Host host) {
-		hostService.apply(host);
-		System.out.print(host);
-		return null;	
+	public String ApplyReq(ModelAndView mv, Host host) {
+		hostService.apply(host);	
+		return "넘어갈곳";	
 	}
+	
+	
 	public ModelAndView MainReq() {
 		return null;	
 	}
