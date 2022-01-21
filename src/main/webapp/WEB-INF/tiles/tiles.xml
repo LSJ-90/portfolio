@@ -11,9 +11,7 @@
        <put-attribute name="body" value="" />
        <put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp" />
    </definition>
-   
-   
-   
+  
    <definition name="*.tiles" extends="layout-tiles">
        <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
    </definition>
@@ -25,8 +23,6 @@
    <definition name="*/*/*.tiles" extends="layout-tiles">
        <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
    </definition>
-
-
 
    <!-- admin -->
    <definition name="layout-admintiles" template="/WEB-INF/tiles/adminbase-layout.jsp">
@@ -41,9 +37,5 @@
    <definition name="*/*.admintiles" extends="layout-admintiles">
        <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
    </definition>
-   
-   
-   
-   
-   
+  
 </tiles-definitions>
