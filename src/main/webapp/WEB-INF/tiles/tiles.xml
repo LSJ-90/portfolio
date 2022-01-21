@@ -8,7 +8,6 @@
    <!-- main -->
    <definition name="layout-tiles" template="/WEB-INF/tiles/base-layout.jsp">
        <put-attribute name="header" value="/WEB-INF/tiles/header.jsp" />
-       <put-attribute name="navbar" value="/WEB-INF/tiles/navbar.jsp" />
        <put-attribute name="body" value="" />
        <put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp" />
    </definition>
@@ -24,5 +23,5 @@
    <definition name="*/*/*.tiles" extends="layout-tiles">
        <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
    </definition>
-
+   
 </tiles-definitions>
