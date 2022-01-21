@@ -6,7 +6,27 @@
 		Host insertHostApply(); 
 	 -->
 	<insert id="insertHostApply" parameterType="com.hoge.vo.other.Host">
-		--적으면됨
+		INSERT INTO TB_FINAL_HOSTS
+		(
+		HOST_NO,
+		HOST_USER_NO,
+		ACCOUNT_HOLDER_NAME,
+		ACCOUNT_NUMBER,
+		BANK_NAME,
+		HOST_NAME,
+		HOSTING_TYPE,
+		HOST_TEL
+		)
+		VALUES
+			(FINAL_HOST_NO_SEQ.NEXTVAL,
+			#{userNo},
+			#{accountHolderName},
+			#{accountNumber},
+			#{bankName},
+			#{name},
+			#{hostingType},
+			#{tel}
+			)
 	</insert>
 
 	<!-- 성하민
