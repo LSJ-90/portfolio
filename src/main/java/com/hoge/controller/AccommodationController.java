@@ -27,6 +27,6 @@ public class AccommodationController {
 		List<Accommodation> accommodations = accommodationService.getAllAccommodationList();
 		model.addAttribute("accommodations", accommodations);
 		
-		return "accommo/list";
+		return "accommo/list.tiles";
 	}
 }
