@@ -1,39 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="mybatis.mappers.AccommodationMapper">
+<mapper namespace="com.hoge.mapper.AccommodationMapper">
 
-	<resultMap id="AccommoResultMap" type="com.hoge.vo.accommo.Accommodation">
-		<id column="accommo_no" property="no"/>
-		<result column="host_no" property="hostNo"/>
-		<result column="accommo_type" property="type"/>
-		<result column="accommo_name" property="name"/>
-		<result column="accommo_intro_title" property="introTitle"/>
-		<result column="accommo_intro_content" property="introContent"/>
-		<result column="accommo_web_address" property="webAddress"/>
-		<result column="accommo_check_in_time" property="checkInTime"/>
-		<result column="accommo_check_out_time" property="checkOutime"/>
-		<result column="average_cleanliness_star" property="cleanlinessStar"/>
-		<result column="average_communication_star" property="communicationStar"/>
-		<result column="average_accuracy_star" property="accuracyStar"/>
-		<result column="average_location_star" property="locationStar"/>
-		<result column="accommo_address" property="adress"/>
-		<result column="accommo_region_depth1" property="regionDepth1"/>
-		<result column="accommo_region_depth2" property="regionDepth2"/>
-		<result column="accommo_region_depth3" property="regionDepth3"/>
-		<result column="accommo_xce" property="xce"/>
-		<result column="accommo_yce" property="yce"/>
-		<result column="accommo_registered_date" property="registeredDate"/>
-	</resultMap>
-	
-	<select id="getAllAccommodations" resultMap="AccommoResultMap">
+	<select id="getAccommoListDto" resultType="com.hoge.dto.AccommoListDto">
 		select
-			accommo_no, host_no, accommo_type, accommo_name, accommo_intro_title, accommo_intro_content, 
-			accommo_web_address, accommo_check_in_time, accommo_check_out_time, average_cleanliness_star,
-			average_communication_star, average_accuracy_star, average_location_star, accommo_address,
-			accommo_region_depth1, accommo_region_depth2, accommo_region_depth3, accommo_xce, accommo_yce,
-			accommo_registered_date
+			a.accommo_no as no, 
+			a.host_no as hostNo, 
+			a.accommo_type as type, 
+			a.accommo_name as name, 
+			a.average_cleanliness_star as cleanlinessStar,
+			a.average_communication_star as communicationStar, 
+			a.average_accuracy_star as accuracyStar, 
+			a.average_location_star as locationStar, 
+			a.accommo_region_depth1 as regionDepth1, 
+			a.accommo_region_depth2 as regionDepth2, 
+			a.accommo_region_depth3 as regionDepth3, 
+			a.accommo_xce as xce, 
+			a.accommo_yce as yce,
+			i.accommo_image as image,
+            r.weekdays_price as weekdaysPrice,
+            r.weekend_price as weekendPrice,
+            r.peak_season_price as peakSeasonPrice,
+            r.standard_number as standardNumber,
+            r.maximum_number as maximumNumber        
 		from
-			tb_final_accommodations
+            tb_final_accommodations a,
+            tb_final_accommo_images i,
+            tb_final_rooms r
+        where
+            a.accommo_no = i.accommo_no(+)
+            and a.accommo_no = r.accommo_no
 	</select>
 	
 </mapper>
