@@ -4,11 +4,11 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
+// import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.hoge.dto.ResponseDto;
+// import com.hoge.dto.ResponseDto;
 import com.hoge.exception.CustomException;
-import com.hoge.exception.LoginErrorException;
+import com.hoge.exception.LoginException;
 
 /*
  * @ControllerAdvice오 @RestControllerAdvice
@@ -25,7 +25,11 @@ import com.hoge.exception.LoginErrorException;
  * 		+ 예외가 발생하면 여러 예외처리 메소드 중에서 발생한 예외와 가장 일치하는 예외가 정의된 예외처리 메소드가 실행된다.
  * 		+ 일치하는 예외가 없으면 부모타입의 예외가 정의된 예외처리 메소드가 실행된다.
  */
-
+/**
+ * 강사님께서 만들어주신 Exception을 컨트롤 할 수 있는 클래스 - 완전히 이해하고 사용할 수 있을 때 저자 바꾸기
+ * @author 이응수
+ *
+ */
 @ControllerAdvice
 public class ExceptionHandlerControllerAdvice {
 	
@@ -65,28 +69,29 @@ public class ExceptionHandlerControllerAdvice {
 	 * return response; }
 	 */
 	
-	@ExceptionHandler(LoginErrorException.class) 
-	public String handleLoginErrorException(LoginErrorException e, Model model){
+	// 이승준: 메세지를 포함하여 LoginException이 발생한 로그인폼 페이지로 리턴
+	@ExceptionHandler(LoginException.class) 
+	public String handleLoginException(LoginException e, Model model){
 		e.printStackTrace();
 		model.addAttribute("error", e.getMessage());
-		return "loginForm.jsp";
+		return "form/loginForm.tiles";
 	}
 	
 	@ExceptionHandler(CustomException.class) 
 	public String handleCustomException(CustomException e) {
 		e.printStackTrace();
-		return "error/customError.jsp";
+		return "error/customError.tiles";
 	}
 	
 	@ExceptionHandler(DataAccessException.class)
 	public String handleDataAccessException(DataAccessException e) {
 		
-		return "error/databaseError.jsp";
+		return "error/databaseError.tiles";
 	}
 	
 	@ExceptionHandler(Exception.class)
 	public String handleException(Exception e) {
 		e.printStackTrace();
-		return "error/serverError.jsp";
+		return "error/serverError.tiles";
 	}
 }
