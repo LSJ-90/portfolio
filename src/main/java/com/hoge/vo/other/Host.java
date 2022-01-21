@@ -16,7 +16,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 public class Host {
-
 	private int no;
 	private String name;
 	private int userNo;
