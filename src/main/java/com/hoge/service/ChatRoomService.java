@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hoge.exception.LoginErrorException;
 import com.hoge.form.CriteriaAdminUser;
 import com.hoge.mapper.ChatRoomMapper;
 import com.hoge.mapper.UserMapper;
