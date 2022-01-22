@@ -35,7 +35,7 @@ public class HostService {
 	}
   
   // 성하민
-	public Host getHostByNo() {
-		return hostMapper.getHostByNo();
+	public Host getHostByNo(int no) {
+		return hostMapper.getHostByNo(no);
 	}
 }

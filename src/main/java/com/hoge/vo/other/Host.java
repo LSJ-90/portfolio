@@ -25,5 +25,10 @@ public class Host {
 	private int hostingType; // 1. 시설 2.체험
 	private String tel;
 	private String gradeName;
+	private String status; // W(승인 대기), Y(승인 완료), N(승인 반려), D(호스팅 종료), R(신고로 인한 강제 종료)
+	private String statusDetail; // 상태 상세 사유
+	private int request; //1(첫 요청인 경우) 2(승인 반려 후 내용 보강해서 재요청) 3(호스팅 자의로 종료후 재시작요청)
+
+	
 
 }

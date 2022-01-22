@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hoge.mapper.ChatRoomMapper">
+	
+	 <!-- 성하민
+		List<ChatRoom> getChatRoomsbyHostNo(int no);
+	 -->
+	  <select id="getChatRoomsbyHostNo" parameterType="int" resultType="com.hoge.vo.other.ChatRoom">
+	 	select
+	 		chatroom_no as no,
+	 		host_no as hostNo,
+	 		user_no as userNo,
+	 		updated_date as updatedDate 	
+	 	from
+	 		TB_FINAL_CHATROOMS
+	 	where host_no =  #{no} 
+	 	order by
+	 		updated_date desc
+	 </select>
+	 
+	 
+	 
+	 <!-- 성하민
+		List<ChatRoom> getChatRoomsbyUserNo(int no);
+	 -->
+	 <select id="getChatRoomsbyUserNo" parameterType="int" resultType="com.hoge.vo.other.ChatRoom">
+	 	select
+	 		chatroom_no as no,
+	 		host_no as hostNo,
+	 		user_no as userNo,
+	 		updated_date as updatedDate 	
+	 	from
+	 		TB_FINAL_CHATROOMS
+	 	where user_no =  #{no} 
+	 	order by
+	 		updated_date desc
+	 </select>
+	
+	 
+</mapper>
