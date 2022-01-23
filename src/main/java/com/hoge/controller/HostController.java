@@ -65,7 +65,7 @@ public class HostController {
 	//성하민
 	@GetMapping("/host/chat")
 	public ModelAndView chat(Host host, ModelAndView mv) {
-		mv.setViewName("hostpage/chat");
+		mv.setViewName("hostpage/chat.hosttiles");
 		List<ChatRoom> chatList = chatRoomService.getChatRoomsbyHostNo(100);
 		mv.addObject("chatList", chatList);
 	
