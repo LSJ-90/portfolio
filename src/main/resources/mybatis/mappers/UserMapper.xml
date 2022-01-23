@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hoge.mapper.UserMapper">
 	
-	<!-- 
+	<!-- 이승준 테스트용
 		List<User> getAllUsers();
 	 -->
 	 <select id="getAllUsers" resultType="com.hoge.vo.other.User">
@@ -25,6 +25,32 @@
 	 	order by
 	 		user_no desc
 	 </select>
+	 
+	 <!-- 이승준 
+		User getUserById(String id);
+	 -->
+	 <select id="getUserById" resultType="com.hoge.vo.other.User" parameterType="string">
+	 	select
+	 		user_no as no,
+	 		user_id as id,
+	 		user_is_host as isHost,
+	 		user_name as name,
+	 		user_pwd as pwd,
+	 		user_email as email,
+	 		user_tel as tel,
+	 		user_registered_date as registeredDate,
+	 		user_deleted as deleted,
+	 		user_pnt as pnt,
+	 		user_image as image,
+	 		user_gender as gender,
+	 		user_reported_count as reportedCount
+	 	from
+	 		tb_final_users
+		where 
+			user_id = #{id}
+	 </select>
+	 
+	 
 	 
 	 
 	 <!-- 성하민

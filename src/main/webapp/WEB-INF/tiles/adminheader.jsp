@@ -12,7 +12,12 @@
     </nav>
     <nav id="nav">
       <ul class="nav__menu">
-        <li class="admin_nav__item">logout</li>
+        <!-- 이승준
+        		로그아웃을 위한 a tag추가  
+        		admin계정이 없어 우선 hong을 관리자라 생각하고 LoginController에 기능을 구현하였습니다.
+        		hong으로 로그인하시고 확인 후 수정하시면됩니다.
+        -->
+        <li class="admin_nav__item"><a href="/logout">LOGOUT</a></li>
       </ul>
     </nav>
   </div>

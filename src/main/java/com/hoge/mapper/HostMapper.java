@@ -25,7 +25,7 @@ public interface HostMapper {
 	 * 성하민
 	 * @return Host번호로 Host반환
 	 */
-	Host getHostByNo();
+	Host getHostByNo(int no);
 
 	void insertAccomadation(Accommodation acc);
 

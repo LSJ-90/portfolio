@@ -49,9 +49,8 @@ public class HostService {
 		//이미지삽입
 		imgSave(req);	
 	}
-  
 	
-
+  // 유상효
 	private void imgSave(MultipartHttpServletRequest req) {
 
 		//이미지명을 가져와서
@@ -59,11 +58,10 @@ public class HostService {
 		
 	}
 
+  // 성하민
+	public Host getHostByNo(int no) {
+		return hostMapper.getHostByNo(no);
 
-
-	// 성하민
-	public Host getHostByNo() {
-		return hostMapper.getHostByNo();
 	}
 
 }

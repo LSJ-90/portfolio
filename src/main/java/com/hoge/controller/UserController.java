@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hoge.service.UserService;
 import com.hoge.vo.other.User;
 
+/**
+ * 테스트용 유저 컨트롤러 - 필요없을 시 삭제
+ * @author 이승준
+ *
+ */
 @RestController
 @RequestMapping("/testApi/users")
 public class UserController {
