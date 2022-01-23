@@ -16,9 +16,10 @@
 			padding:0;
 		}
 		
-		.chat_wrap{
- 		   overflow-y:auto;
-
+		.chating{
+			width: 500px;
+			height: 500px;
+			overflow: auto;
 		}
 		.chating p{
 			color: #fff;
@@ -97,27 +98,28 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
-		<div id="chatting-detail" class="chat-list col-6">
+		<div class="chat-list col-6">
 			<div class="header">
 		        예약 문의 
 			</div>
 			<div id="chatting-waiting" class="chat_wrap">
-				<div>
+				<div class="chat">
 					게스트문의입니다.
 				</div>
 			</div>	
-			<div id="chatting-content" class="chat_wrap" data-bs-spy="scroll">	
+			<div id="chatting-content" class="chat_wrap">	
+				
 				<div class="chat">
 					<ul>
 					
 					</ul>
 				</div>	
-			</div>
 				<div>
 				    <div id="yourMsg" class="input-div">
 				        <textarea class="chatting" id="chatting" placeholder="Press Enter for send message."></textarea>
 				    </div>
 			    </div>
+			</div>
 		</div>
 		
 		
@@ -154,6 +156,22 @@
 	
 	
 	
+<div id="chatting-content" class="chat_wrap format">		
+	<div class="chat">
+		<ul>
+		
+		</ul>
+	</div>	
+	<div>
+	    <div id="yourMsg" class="input-div">
+	        <textarea class="chatting" id="chatting" placeholder="Press Enter for send message."></textarea>
+	    </div>
+    </div>
+</div>	
+	
+	
+	
+	
 	
 	
 
@@ -179,10 +197,6 @@
 	const userName = "하민";
 	var ws;
 
-	$(function(){
-		wsOpen();
-	});
-	
 	function wsOpen(){
 		ws = new WebSocket("ws://localhost/chatting");
 		wsEvt();
@@ -253,21 +267,17 @@
         $('div.chat:not(.format) ul').append(chatLi);
  
         // 스크롤바 아래 고정
-        $("#chatting-content").scrollTop($("#chatting-content")[0].scrollHeight);
-   
+        $('div.chat').scrollTop($('div.chat').prop('scrollHeight'));
     }
-    
+ 
     function enter(ChatRoomNo) {
-    		
-    	console.log(ChatRoomNo);
+    	wsOpen();	
 		$("#chatting-waiting").hide();
-		$('div.chat:not(.format) ul').empty();
 		$("#chatting-content").show();
 		
     	console.log('여기까지 오키');
-    
-
-    	 console.log('추가까지 오키');
+		
+    	console.log(ChatRoomNo);
 		
 		$.getJSON('/host/chat-enter.do', {no:ChatRoomNo}, function(messageDtos) {
 			console.log('가져오는 거 오키');
