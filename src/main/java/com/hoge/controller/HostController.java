@@ -1,5 +1,6 @@
 package com.hoge.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +14,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.hoge.dto.ChattingMessageDto;
 import com.hoge.service.ChatRoomService;
 import com.hoge.service.HostService;
 import com.hoge.util.SessionUtils;
+import com.hoge.vo.accommo.Accommodation;
+import com.hoge.vo.activities.Activity;
 import com.hoge.vo.other.ChatRoom;
 import com.hoge.vo.other.Host;
 
@@ -46,8 +52,8 @@ public class HostController {
 	
 	// 유상효
 	@RequestMapping(value = "/host/req", method = RequestMethod.POST)
-	public String ApplyReq(ModelAndView mv, Host host) {
-		hostService.apply(host);	
+	public String ApplyReq(Host host, Accommodation acc, Activity act, MultipartHttpServletRequest req) throws IllegalStateException, IOException {
+		hostService.apply(host, acc, act, req);
 		return "넘어갈곳";	
 	}
 	
