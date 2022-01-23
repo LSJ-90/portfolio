@@ -16,12 +16,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Abel&display=swap" rel="stylesheet">  
-    <link rel="stylesheet" href="../../resources/css/style.css" />   
+    <link href="https://fonts.googleapis.com/css2?family=Abel&display=swap" rel="stylesheet">     
+    <link rel="stylesheet" href="../../resources/css/host_style.css" />
     <!-- <script src="main.js" defer></script> -->
   </head>
    <body>
-      <tiles:insertAttribute name="adminheader"/> 
+      <tiles:insertAttribute name="hostheader"/> 
       
       <tiles:insertAttribute name="body"/>
 
