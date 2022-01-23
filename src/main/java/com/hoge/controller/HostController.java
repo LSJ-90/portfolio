@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.hoge.dto.ChattingMessageDto;
 import com.hoge.service.ChatRoomService;
 import com.hoge.service.HostService;
 import com.hoge.util.SessionUtils;
@@ -54,12 +55,14 @@ public class HostController {
 	}
 	
 	//성하민
-	@RequestMapping("/host/chat")
-	public ModelAndView chat() {
+	@GetMapping("/host/chat")
+	public ModelAndView chat(Host host) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("hostpage/chat.tiles");
 		List<ChatRoom> chatList = chatRoomService.getChatRoomsbyHostNo(110);
+		//List<ChattingMessageDto> msgList = chatRoomService.getMessagesByChatRoomNo(chatRoomNo);
 		mv.addObject("chatList", chatList);
+	//	mv.addObject("msgList", msgList);
 	
 		return mv;
 	}

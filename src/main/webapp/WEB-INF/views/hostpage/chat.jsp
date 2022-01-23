@@ -61,7 +61,8 @@
  
 .chatting-list-box {font-size: 20px; height: 80px; border: 1px solid #888; padding: 10px; border-radius: 5px; background-color: #FCFCFC; color: #555;  }
 
-	
+
+#chating {display: none;}
 		
 	</style>
 </head>
@@ -101,7 +102,10 @@
 				<div class="header">
 			        CHAT
 				</div>
-				<div id="chating" class="chat">
+				<div id="chatting-waiting" class="chat">
+					게스트문의입니다.
+				</div>
+				<div id="chatting-content" class="chat">
 					<ul>
 					
 					</ul>
@@ -115,11 +119,42 @@
 			</div>
 		</div>
 		<div class="chat-list col-3">
-		예약 히스토리
 		
-		진행중인 프로모션
 		
-		예약상황
+		<table id="calendar" align="center">
+		<tr>
+			<td align="center"><label onclick="prevCalendar()"> ◀ </label></td>
+			<td colspan="5" align="center" id="calendarTitle">yyyy년 m월</td>
+			<td align="center"><label onclick="nextCalendar()"> ▶ </label></td>
+		</tr>
+		<tr>
+			<td align="center"><font color ="#F79DC2">일</td>
+			<td align="center">월</td>
+			<td align="center">화</td>
+			<td align="center">수</td>
+			<td align="center">목</td>
+			<td align="center">금</td>
+			<td align="center"><font color ="skyblue">토</td>
+		</tr>
+		<script type="text/javascript">buildCalendar();</script>
+		</table>
+		
+		진행중인 프로모션<br>
+		
+		예약상황- 달력...하지 말까? 어려우면 그냥 테이블로..<br>
+		
+		- 채팅방 누르면 채팅방 번호 받아서 채팅 내용 바뀌도록<br>
+		<br>
+		- 채팅 누르면 지금 있는 방이 확인되도록 색변화?<br>
+		<br>
+		- 새 메시지가 있는 경우 빨간 버튼으로 표시<br>
+		
+		
+		<br>구현할 메소드
+		<br>message+user+ dto(int chatRoomNo) order by updated_date desc 
+		<br>
+		<br>
+		
 			<div id="yourName">
 					<table class="inputTable">
 						<tr>
@@ -197,6 +232,8 @@
 		}else{
 			wsOpen();
 			$("#yourName").hide();
+			$("#chatting-waiting").hide();
+			$("#chatting-content").show();
 		}
 	}
 
@@ -242,6 +279,111 @@
         $('div.chat').scrollTop($('div.chat').prop('scrollHeight'));
     }
  
+    
+    //ajax로 기존 메시지 가져오기
+    $("#btn-load-products").click(function() {
+		
+		// 서버랑 HTTP 통신해서 데이터 받아와서 표현하기
+		$.ajax({
+			type: 'get',
+			url: '/host/chat',
+			dataType: 'json',
+			success: function(products) {
+				var $tbody = $("#table-products tbody");
+				$.each(products, function(index, product) {
+					var row = "<tr>";
+					row += "<td>"+product.no+"</td>";
+					row += "<td>"+product.name+"</td>";
+					row += "<td>"+product.company+"</td>";
+					row += "<td>"+product.price.toLocaleString()+" 원</td>";
+					row += "<td><strong>"+product.discountPrice.toLocaleString()+" 원</strong></td>";
+					row += "</tr>";
+					
+					$tbody.append(row);
+				})
+			}
+		});
+		
+	});
+    
+    
+    
+    
+    
+    
+    
+    
+    //여기부터 달력
+   
+	var today = new Date();
+	function buildCalendar(){
+  var row = null
+  var cnt = 0;
+  var calendarTable = document.getElementById("calendar");
+  var calendarTableTitle = document.getElementById("calendarTitle");
+  calendarTableTitle.innerHTML = today.getFullYear()+"년"+(today.getMonth()+1)+"월";
+  
+  var firstDate = new Date(today.getFullYear(), today.getMonth(), 1);
+  var lastDate = new Date(today.getFullYear(), today.getMonth()+1, 0);
+  while(calendarTable.rows.length > 2){
+  	calendarTable.deleteRow(calendarTable.rows.length -1);
+  }
+
+  row = calendarTable.insertRow();
+  for(i = 0; i < firstDate.getDay(); i++){
+  	cell = row.insertCell();
+  	cnt += 1;
+  }
+
+  row = calendarTable.insertRow();
+
+  for(i = 1; i <= lastDate.getDate(); i++){
+  	cell = row.insertCell();
+  	cnt += 1;
+
+    cell.setAttribute('id', i);
+  	cell.innerHTML = i;
+  	cell.align = "center";
+
+    cell.onclick = function(){
+    	clickedYear = today.getFullYear();
+    	clickedMonth = ( 1 + today.getMonth() );
+    	clickedDate = this.getAttribute('id');
+
+    	clickedDate = clickedDate >= 10 ? clickedDate : '0' + clickedDate;
+    	clickedMonth = clickedMonth >= 10 ? clickedMonth : '0' + clickedMonth;
+    	clickedYMD = clickedYear + "-" + clickedMonth + "-" + clickedDate;
+
+    	opener.document.getElementById("date").value = clickedYMD;
+    	self.close();
+    }
+
+    if (cnt % 7 == 1) {
+    	cell.innerHTML = "<font color=#F79DC2>" + i + "</font>";
+    }
+
+    if (cnt % 7 == 0){
+    	cell.innerHTML = "<font color=skyblue>" + i + "</font>";
+    	row = calendar.insertRow();
+    }
+  }
+
+  if(cnt % 7 != 0){
+  	for(i = 0; i < 7 - (cnt % 7); i++){
+  		cell = row.insertCell();
+  	}
+  }
+}
+
+function prevCalendar(){
+	today = new Date(today.getFullYear(), today.getMonth()-1, today.getDate());
+	buildCalendar();
+}
+
+function nextCalendar(){
+	today = new Date(today.getFullYear(), today.getMonth()+1, today.getDate());
+	buildCalendar();
+}
     
 	
 	

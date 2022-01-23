@@ -4,9 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.hoge.dto.ChattingMessageDto;
 import com.hoge.vo.other.ChatRoom;
 
-
+//성하민
 @Mapper
 public interface ChatRoomMapper {
 
@@ -14,6 +15,8 @@ public interface ChatRoomMapper {
 	
 	List<ChatRoom> getChatRoomsbyHostNo(int no); //호스트 번호로 chatroom 조회, 호스프 페이지 채팅 구현
 	
+	
+	List<ChattingMessageDto> getMessagesByChatRoomNo(int no); // chatroom번호로 메시지와 유저정보 조회.
 	
 	
 }
