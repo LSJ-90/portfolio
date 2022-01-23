@@ -3,7 +3,6 @@
   --color-white: #ffffff;
   --color-header-gray: #e8e8e8;
   --color-background-gray: #f5f5f5;
-  --color-footer-gray: #cccccc;
   --color-faq-text-gray: #888888;
   --color-text-black: #333333;
   --color-title-black: #181818;
@@ -45,13 +44,10 @@ button {
 }
 
 /* Typography */
-
 h1,
-h2,
-h3,
 p {
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
 /* Header */
@@ -62,69 +58,65 @@ p {
 }
 
 .header-wrap {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 0;
+  text-align: center;
   margin: 0 auto;
   border-bottom: 1px solid var(--color-header-gray);
   max-width: 1400px;
 }
 
-.logo {
-  width: 86px;
-  height: 36px;
+.header__title {
+  padding: 70px 0;
 }
 
-.search__stay,
-.search__activity {
-  font-family: "Lato";
+.title {
+  font-family: "Lato", "Spoqa Han Sans Neo", sans-serif;
   font-weight: 400;
-  font-size: 15px;
-  padding: 0;
+  font-size: 18px;
 }
 
-.search__stay::after {
-  content: "";
-  display: inline-block;
-  width: 1px;
-  height: 15px;
-  margin: 0 23px 0 25px;
-  background: #888;
-  vertical-align: middle;
+.text {
+  font-size: 15px;
+  font-weight: 300;
+  margin-top: 10px;
+}
+
+#nav {
+  position: relative;
 }
 
 .nav__menu {
   display: flex;
-  font-family: "Lato";
-  font-weight: 700;
-  font-size: 15px;
+  justify-content: center;
+  margin-bottom: 25px;
 }
 
 .nav__item {
-  margin-left: 25px;
-  color: var(--color-black);
-}
-
-.nav__item:first-child {
-  border-right: 1px solid #ddd;
-  padding-right: 25px;
+  padding: 8px 0;
+  margin: 0 35px;
 }
 
 .nav__item a {
+  font-family: "Spoqa Han Sans Neo", sans-serif;
+  font-weight: 200;
+  font-size: 18px;
+  padding: 5px 0;
   color: var(--color-black);
 }
 
-#main {
-  margin: 0 auto;
+.nav__item a.active {
+  font-weight: 500;
+  border-bottom: 3px solid #000;
+}
+.nav__dropdown {
+  position: absolute;
+  right: 0;
+  bottom: 6px;
 }
 
-#stay {
-  text-align: center;
-}
-
-.stay-new__list img {
-  max-width: 1400px;
+.dropdown__image,
+.dropdown__image.active {
+  width: 25px;
+  height: 25px;
 }
 
 #footer {

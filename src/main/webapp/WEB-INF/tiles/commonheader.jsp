@@ -4,7 +4,7 @@
 <header id="header">
   <div class="header-wrap">
     <div class="header__logo">
-      <a href="/home"><img src="../../resources/images/common/mainLogo.png" alt="logo" class="logo" /></a>
+      <a href="/home"><img src="../../resources/images/main/logo.png" alt="logo" class="logo" /></a>
     </div>
     <div class="search">
       <button class="search__stay">STAY</button>
@@ -21,7 +21,7 @@
         <c:if test="${not empty LOGIN_USER}">
         	<li class="nav__item">
        			<a href="/mypage/main">
-       				<img src="../../resources/images/common/my.png" alt="my" class="my" />
+       				<img src="../../resources/images/main/login_icon_active.png" alt="my" class="my" />
        			</a>
        		</li>
        		<li class="nav__item">

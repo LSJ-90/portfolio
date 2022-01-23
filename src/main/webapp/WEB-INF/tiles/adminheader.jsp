@@ -3,7 +3,7 @@
 <header id="header">
   <div class="admin-header-wrap">
     <div class="header__logo">
-      <a href="#"><img src="../../resources/images/common/mainLogo.png" alt="logo" class="logo" /></a>
+      <a href="#"><img src="../../resources/images/main/logo.png" alt="logo" class="logo" /></a>
     </div>
     <nav id="nav">
       <ul class="nav__menu">

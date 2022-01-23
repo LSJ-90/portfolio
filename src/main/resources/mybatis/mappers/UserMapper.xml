@@ -50,8 +50,22 @@
 			user_id = #{id}
 	 </select>
 	 
-	 
-	 
+	 <!-- 이승준 
+		void insertUser();
+	 -->
+	 <insert id="insertUser" parameterType="com.hoge.vo.other.User">
+		insert into tb_final_users
+		(
+	 		user_id as id,
+	 		user_name as name,
+	 		user_pwd as pwd,
+	 		user_email as email,
+	 		user_tel as tel,
+	 		user_gender as gender
+	 	)
+		values
+		(#{id}, #{name}, #{pwd}, #{tel}, #{email}, #{gender})
+	</insert>
 	 
 	 <!-- 성하민
 		int getUsersTotalRows(CriteriaAdminUser CAU);
