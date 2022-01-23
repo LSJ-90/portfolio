@@ -28,6 +28,56 @@
 			#{tel}
 			)
 	</insert>
+	
+	<insert id="insertAcc" parameterType="com.hoge.vo.accommo.Accommodation">
+		INSERT INTO TB_FINAL_HOSTS
+		(
+		ACCOMMO_NO,
+		HOST_NO,
+		ACCOMMO_TYPE,
+		ACCOMMO_NAME,
+		ACCOMMO_INTRO_TITLE,
+		ACCOMMO_INTRO_CONTENT,
+		ACCOMMO_WEB_ADDRESS,
+		ACCOMMO_CHECK_IN_TIME,
+		ACCOMMO_CHECK_OUT_TIME,
+		ACCOMMO_ADDRESS
+		)
+		VALUES
+			(FINAL_HOST_NO_SEQ.NEXTVAL,
+			#{userNo},
+			#{accountHolderName},
+			#{accountNumber},
+			#{bankName},
+			#{name},
+			#{hostingType},
+			#{tel}
+			)
+	</insert>
+	
+	<insert id="insertAct" parameterType="com.hoge.vo.activities.Activity">
+		INSERT INTO TB_FINAL_HOSTS
+		(
+		HOST_NO,
+		HOST_USER_NO,
+		ACCOUNT_HOLDER_NAME,
+		ACCOUNT_NUMBER,
+		BANK_NAME,
+		HOST_NAME,
+		HOSTING_TYPE,
+		HOST_TEL
+		)
+		VALUES
+			(FINAL_HOST_NO_SEQ.NEXTVAL,
+			#{userNo},
+			#{accountHolderName},
+			#{accountNumber},
+			#{bankName},
+			#{name},
+			#{hostingType},
+			#{tel}
+			)
+	</insert>
 
 	<!-- 성하민
 		Host getHostByNo();
