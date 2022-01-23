@@ -1,5 +1,6 @@
 package com.hoge.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.hoge.dto.ChattingMessageDto;
 import com.hoge.service.ChatRoomService;
 import com.hoge.service.HostService;
 import com.hoge.util.SessionUtils;
+import com.hoge.vo.accommo.Accommodation;
+import com.hoge.vo.activities.Activity;
 import com.hoge.vo.other.ChatRoom;
 import com.hoge.vo.other.Host;
 
@@ -44,8 +52,8 @@ public class HostController {
 	
 	// 유상효
 	@RequestMapping(value = "/host/req", method = RequestMethod.POST)
-	public String ApplyReq(ModelAndView mv, Host host) {
-		hostService.apply(host);	
+	public String ApplyReq(Host host, Accommodation acc, Activity act, MultipartHttpServletRequest req) throws IllegalStateException, IOException {
+		hostService.apply(host, acc, act, req);
 		return "넘어갈곳";	
 	}
 	
@@ -56,17 +64,21 @@ public class HostController {
 	
 	//성하민
 	@GetMapping("/host/chat")
-	public ModelAndView chat(Host host) {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("hostpage/chat.tiles");
+	public ModelAndView chat(Host host, ModelAndView mv) {
+		mv.setViewName("hostpage/chat");
 		List<ChatRoom> chatList = chatRoomService.getChatRoomsbyHostNo(110);
-		//List<ChattingMessageDto> msgList = chatRoomService.getMessagesByChatRoomNo(chatRoomNo);
 		mv.addObject("chatList", chatList);
-	//	mv.addObject("msgList", msgList);
 	
 		return mv;
 	}
 
+	//성하민
+	@GetMapping("/host/chat-enter.do")							// 요청핸들러 메소드에 @ResponseBody를 붙인다.
+	public @ResponseBody List<ChattingMessageDto> enter(@RequestParam(name = "no",required = false) int no) {
+		
+		List<ChattingMessageDto> msgList = chatRoomService.getMessagesByChatRoomNo(no);
+		return msgList;
+	}
 	
 	
 }

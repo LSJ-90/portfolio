@@ -3,6 +3,8 @@ package com.hoge.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.hoge.vo.accommo.Accommodation;
+import com.hoge.vo.activities.Activity;
 import com.hoge.vo.other.Host;
 
 /**
@@ -12,8 +14,12 @@ import com.hoge.vo.other.Host;
  */
 @Mapper
 public interface HostMapper {
-
+	
+	// 유상효 호스트 등록
 	Host insertHostApply(Host host);
+	Accommodation insertAcc(Accommodation accommodation);
+	Activity insertAct(Activity activity);
+	
 	
 	/**
 	 * 성하민
@@ -21,6 +27,9 @@ public interface HostMapper {
 	 */
 	Host getHostByNo(int no);
 
+	void insertAccomadation(Accommodation acc);
+
+	void insertActivity(Activity act);
 
 
 }

@@ -10,6 +10,7 @@
 	 		c.chatroom_no as chatRoomNo,
 	 		c.host_no as hostNo,
 	 		h.host_name as hostName,
+	 		h.host_user_no as hostingUserNo,
 	 		h.hosting_type as hostingType,
 	 		h.host_tel as tel,
 	 		h.grade_name as gradeName,
@@ -30,7 +31,7 @@
 	 	and m.sender_no = u.user_no
 	 	and m.receiver_no = r.user_no
 	 	order by
-	 		m.MESSAGE_SENDING_DATE desc	
+	 		m.MESSAGE_SENDING_DATE asc	
 	 </select>
 	 
 	
