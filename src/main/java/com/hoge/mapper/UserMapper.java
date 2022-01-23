@@ -22,6 +22,9 @@ public interface UserMapper {
 	// 이승준 아이디에 맞는 유저정보를 가져온다.
 	User getUserById(String id);
 	
+	// 이승준 회원가입을 위한 메소드이다.
+	void insertUser(User user);
+	
 	// 성하민
 	int getUsersTotalRows(CriteriaAdminUser CAU);
 	

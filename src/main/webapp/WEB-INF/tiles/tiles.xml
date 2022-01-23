@@ -7,7 +7,7 @@
 
    <!-- main -->
    <definition name="layout-tiles" template="/WEB-INF/tiles/base-layout.jsp">
-       <put-attribute name="header" value="/WEB-INF/tiles/header.jsp" />
+       <put-attribute name="commonheader" value="/WEB-INF/tiles/commonheader.jsp" />
        <put-attribute name="body" value="" />
        <put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp" />
    </definition>
@@ -26,7 +26,7 @@
 
    <!-- admin -->
    <definition name="layout-admintiles" template="/WEB-INF/tiles/adminbase-layout.jsp">
-       <put-attribute name="header" value="/WEB-INF/tiles/adminheader.jsp" />
+       <put-attribute name="adminheader" value="/WEB-INF/tiles/adminheader.jsp" />
        <put-attribute name="body" value="" />
        <put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp" />
    </definition>
@@ -36,6 +36,28 @@
    </definition>
    <definition name="*/*.admintiles" extends="layout-admintiles">
        <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+   </definition>
+   <definition name="*/*/*.admintiles" extends="layout-admintiles">
+       <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
+   </definition>
+   
+   <!-- host -->
+   <definition name="layout-hosttiles" template="/WEB-INF/tiles/hostbase-layout.jsp">
+       <put-attribute name="hostheader" value="/WEB-INF/tiles/hostheader.jsp" />
+       <put-attribute name="body" value="" />
+       <put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp" />
+   </definition>
+  
+   <definition name="*.hosttiles" extends="layout-hosttiles">
+       <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+   </definition>
+   
+   <definition name="*/*.hosttiles" extends="layout-hosttiles">
+       <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+   </definition>
+   
+   <definition name="*/*/*.hosttiles" extends="layout-hosttiles">
+       <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
    </definition>
   
 </tiles-definitions>

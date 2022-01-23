@@ -47,7 +47,7 @@ public class HostController {
 	// 유상효
 	@GetMapping("/host/main")
 	public String Main() {
-		return "hostpage/main.tiles";
+		return "hostpage/main.hosttiles";
 	}
 	
 	// 유상효
