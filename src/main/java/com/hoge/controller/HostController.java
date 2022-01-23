@@ -60,7 +60,7 @@ public class HostController {
 	@GetMapping("/host/chat")
 	public ModelAndView chat(Host host, ModelAndView mv) {
 		mv.setViewName("hostpage/chat");
-		List<ChatRoom> chatList = chatRoomService.getChatRoomsbyHostNo(110);
+		List<ChatRoom> chatList = chatRoomService.getChatRoomsbyHostNo(100);
 		mv.addObject("chatList", chatList);
 	
 		return mv;
