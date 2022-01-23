@@ -1,10 +1,21 @@
 package com.hoge.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.hoge.mapper.HostMapper;
 import com.hoge.util.SessionUtils;
+import com.hoge.vo.accommo.Accommodation;
+import com.hoge.vo.activities.Activity;
 import com.hoge.vo.other.Host;
 
 /**
@@ -19,23 +30,40 @@ public class HostService {
 	private HostMapper hostMapper;
   
   // 유상효
-	public void apply(Host host) {
+	public void apply(Host host, Accommodation acc, Activity act, MultipartHttpServletRequest req) throws IllegalStateException, IOException {
 		SessionUtils.addAttribute("user_no", "1000"); //세션값 임의 테스트
 		int userNo = Integer.parseInt((String) SessionUtils.getAttribute("user_no"));
 		host.setUserNo(userNo); //세션값 임의 테스트
 		
-		hostMapper.insertHostApply(host);
+		//hostMapper.insertHostApply(host);
 		
 		int x = host.getHostingType();
 		if(x == 1) {
 			//숙박
+			//hostMapper.insertAccomadation(acc);
 		} else {
 			//체험
+			//hostMapper.insertActivity(act);
 		}
+		
+		//이미지삽입
+		imgSave(req);	
 	}
   
-  // 성하민
+	
+
+	private void imgSave(MultipartHttpServletRequest req) {
+
+		//이미지명을 가져와서
+		//hostMapper.insertImg(fileName);
+		
+	}
+
+
+
+	// 성하민
 	public Host getHostByNo() {
 		return hostMapper.getHostByNo();
 	}
+
 }
