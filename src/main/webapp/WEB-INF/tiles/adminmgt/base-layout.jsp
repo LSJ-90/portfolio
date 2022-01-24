@@ -21,7 +21,7 @@
     <!-- <script src="main.js" defer></script> -->
   </head>
    <body>
-      <tiles:insertAttribute name="adminheader"/> 
+      <tiles:insertAttribute name="header"/> 
       
       <tiles:insertAttribute name="body"/>
 

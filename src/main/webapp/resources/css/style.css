@@ -127,6 +127,18 @@ p {
   max-width: 1400px;
 }
 
+.nav__dropdown {
+  position: absolute;
+  right: 0;
+  bottom: 6px;
+}
+
+.dropdown__image,
+.dropdown__image.active {
+  width: 25px;
+  height: 25px;
+}
+
 #footer {
   background-color: var(--color-background-gray);
   padding: 70px 0;

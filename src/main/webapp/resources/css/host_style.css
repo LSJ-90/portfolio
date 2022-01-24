@@ -107,6 +107,7 @@ p {
   font-weight: 500;
   border-bottom: 3px solid #000;
 }
+
 .nav__dropdown {
   position: absolute;
   right: 0;

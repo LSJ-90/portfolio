@@ -31,7 +31,7 @@
 					<input type="password" class="form-control" name="pwd" />
 				</div>
 				<div class="mb-3 text-end">
-					<a href="#" class="btn btn-secondary">회원가입</a>
+					<a href="/register" class="btn btn-secondary">회원가입</a>
 					<a href="#" class="btn btn-secondary">비밀번호찾기</a>
 					<button class="btn btn-primary">로그인</button>
 				</div>

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 // import com.hoge.dto.ResponseDto;
 import com.hoge.exception.CustomException;
 import com.hoge.exception.LoginException;
+import com.hoge.exception.RegisterException;
 
 /*
  * @ControllerAdvice오 @RestControllerAdvice
@@ -75,6 +76,13 @@ public class ExceptionHandlerControllerAdvice {
 		e.printStackTrace();
 		model.addAttribute("error", e.getMessage());
 		return "form/loginForm.tiles";
+	}
+	
+	@ExceptionHandler(RegisterException.class) 
+	public String registerLoginException(RegisterException e, Model model){
+		e.printStackTrace();
+		model.addAttribute("error", e.getMessage());
+		return "form/registerForm.tiles";
 	}
 	
 	@ExceptionHandler(CustomException.class) 

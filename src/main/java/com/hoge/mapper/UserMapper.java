@@ -25,10 +25,15 @@ public interface UserMapper {
 	// 이승준 회원가입을 위한 메소드이다.
 	void insertUser(User user);
 	
+	// 이승준 아이디 중복여부체크
+	int userCheckByid(String id);
+	
 	// 성하민
 	int getUsersTotalRows(CriteriaAdminUser CAU);
 	
 	// 성하민
 	List<User> searchUsers(CriteriaAdminUser CAU);
+
+	
 
 }
