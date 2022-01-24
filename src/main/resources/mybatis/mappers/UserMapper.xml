@@ -55,17 +55,22 @@
 	 -->
 	 <insert id="insertUser" parameterType="com.hoge.vo.other.User">
 		insert into tb_final_users
-		(
-	 		user_id as id,
-	 		user_name as name,
-	 		user_pwd as pwd,
-	 		user_email as email,
-	 		user_tel as tel,
-	 		user_gender as gender
-	 	)
+			(user_no, user_id, user_name, user_pwd, user_tel, user_email, user_gender)
 		values
-		(#{id}, #{name}, #{pwd}, #{tel}, #{email}, #{gender})
+			(final_user_no_seq, #{id}, #{name}, #{pwd}, #{tel}, #{email}, #{gender})
 	</insert>
+	
+	<!-- 이승준 
+		int userCheckByid(String id);
+	 -->
+	<select id="userCheckByid" parameterType="string" resultType="int">
+		select 
+			count(*) 
+		from 
+			tb_final_users 
+		where 
+			user_id = #{id}
+	</select>
 	 
 	 <!-- 성하민
 		int getUsersTotalRows(CriteriaAdminUser CAU);

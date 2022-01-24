@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../views/common/tags.jsp" %>
+<%@ include file="../../views/common/tags.jsp" %>
 <header id="header">
 	<div class="header-wrap">
 		<div class="header__title">

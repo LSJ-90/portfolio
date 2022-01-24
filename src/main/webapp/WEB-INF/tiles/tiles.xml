@@ -6,10 +6,10 @@
 <tiles-definitions>
 
    <!-- main -->
-   <definition name="layout-tiles" template="/WEB-INF/tiles/base-layout.jsp">
-       <put-attribute name="commonheader" value="/WEB-INF/tiles/commonheader.jsp" />
+   <definition name="layout-tiles" template="/WEB-INF/tiles/common/base-layout.jsp">
+       <put-attribute name="header" value="/WEB-INF/tiles/common/header.jsp" />
        <put-attribute name="body" value="" />
-       <put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp" />
+       <put-attribute name="footer" value="/WEB-INF/tiles/common/footer.jsp" />
    </definition>
   
    <definition name="*.tiles" extends="layout-tiles">
@@ -25,10 +25,10 @@
    </definition>
 
    <!-- admin -->
-   <definition name="layout-admintiles" template="/WEB-INF/tiles/adminbase-layout.jsp">
-       <put-attribute name="adminheader" value="/WEB-INF/tiles/adminheader.jsp" />
+   <definition name="layout-admintiles" template="/WEB-INF/tiles/adminmgt/base-layout.jsp">
+       <put-attribute name="header" value="/WEB-INF/tiles/adminmgt/header.jsp" />
        <put-attribute name="body" value="" />
-       <put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp" />
+       <put-attribute name="footer" value="/WEB-INF/tiles/common/footer.jsp" />
    </definition>
    
    <definition name="*.admintiles" extends="layout-admintiles">
@@ -42,10 +42,10 @@
    </definition>
    
    <!-- host -->
-   <definition name="layout-hosttiles" template="/WEB-INF/tiles/hostbase-layout.jsp">
-       <put-attribute name="hostheader" value="/WEB-INF/tiles/hostheader.jsp" />
+   <definition name="layout-hosttiles" template="/WEB-INF/tiles/hostmgt/base-layout.jsp">
+       <put-attribute name="header" value="/WEB-INF/tiles/hostmgt/header.jsp" />
        <put-attribute name="body" value="" />
-       <put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp" />
+       <put-attribute name="footer" value="/WEB-INF/tiles/common/footer.jsp" />
    </definition>
   
    <definition name="*.hosttiles" extends="layout-hosttiles">
