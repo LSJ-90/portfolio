@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.ChattingMessageDto;
 import com.hoge.mapper.ChatRoomMapper;
 import com.hoge.vo.other.ChatRoom;
+import com.hoge.vo.other.Message;
 
 /**
  * ChatRoom관련 로직
@@ -38,5 +40,13 @@ public class ChatRoomService {
 	public List<ChattingMessageDto> getMessagesByChatRoomNo(int no){
 		return chatRoomMapper.getMessagesByChatRoomNo(no);
 	}
+	
+	
+
+	//성하민
+	public List<ChattingListDto> getChattingListDtobyHostNo(int no) {
+		return chatRoomMapper.getChattingListDtobyHostNo(no);
+	}
+	// //호스트 번호로 chatroom 조회, 호스프 페이지 채팅 구현
 	
 }

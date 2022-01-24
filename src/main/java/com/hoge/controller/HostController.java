@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.ChattingMessageDto;
 import com.hoge.service.ChatRoomService;
 import com.hoge.service.HostService;
@@ -63,12 +64,28 @@ public class HostController {
 	}
 	
 	//성하민
-	@GetMapping("/host/chat")
-	public ModelAndView chat(Host host, ModelAndView mv) {
-		mv.setViewName("hostpage/chat.hosttiles");
-		List<ChatRoom> chatList = chatRoomService.getChatRoomsbyHostNo(100);
-		mv.addObject("chatList", chatList);
+	@GetMapping("/host/qna")
+	public ModelAndView qna(ModelAndView mv) {
+		mv.setViewName("hostpage/qna.hosttiles");
 	
+		return mv;
+	}
+	
+	//성하민
+	@GetMapping("/host/sales")
+	public ModelAndView sales (ModelAndView mv) {
+		mv.setViewName("hostpage/sales.hosttiles");
+		
+		return mv;
+	}
+	
+	
+	@GetMapping("/host/chat")
+	public ModelAndView chat(ModelAndView mv) {
+		mv.setViewName("hostpage/chat.hosttiles");
+		List<ChattingListDto> chatList = chatRoomService.getChattingListDtobyHostNo(100);
+		mv.addObject("chatList", chatList);
+		
 		return mv;
 	}
 

@@ -65,7 +65,7 @@ p {
 }
 
 .header__title {
-  padding: 70px 0;
+  padding: 30px 0;
 }
 
 .title {
@@ -87,7 +87,7 @@ p {
 .nav__menu {
   display: flex;
   justify-content: center;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 .nav__item {
