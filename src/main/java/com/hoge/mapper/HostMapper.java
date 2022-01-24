@@ -17,7 +17,9 @@ public interface HostMapper {
 	
 	// 유상효 호스트 등록
 	Host insertHostApply(Host host);
+	// 유상효 숙소 등록
 	Accommodation insertAcc(Accommodation accommodation);
+	// 유상효 체험 등록
 	Activity insertAct(Activity activity);
 	
 	
