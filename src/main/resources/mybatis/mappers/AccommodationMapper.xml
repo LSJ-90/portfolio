@@ -2,54 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hoge.mapper.AccommodationMapper">
 	<!-- 염주환 -->
-	<select id="getAllAccommodations" resultType="com.hoge.vo.accommo.Accommodation">
-		select
-			accommo_no as no, 
-			host_no as hostNo, 
-			accommo_type as type, 
-			accommo_name as name, 
-			accommo_intro_title as introTitle,
-			accommo_intro_content as introContent,
-			accommo_web_address as webAddress,
-			accommo_check_in_time as checkInTime,
-			accommo_check_out_time as checkOutime,
-			average_cleanliness_star as cleanlinessStar,
-			average_communication_star as communicationStar, 
-			average_accuracy_star as accuracyStar, 
-			average_location_star as locationStar, 
-			accommo_address as adress,
-			accommo_region_depth1 as regionDepth1, 
-			accommo_region_depth2 as regionDepth2, 
-			accommo_region_depth3 as regionDepth3, 
-			accommo_xce as xce, 
-			accommo_yce as yce,
-			accommo_registered_date as registeredDate
-		from
-            tb_final_accommodations 
-	</select>
-	
-	<!-- 염주환 -->
-	<select id="getRoomsByAccommoNo" parameterType="int" resultType="com.hoge.vo.accommo.Room">
-		select
-			room_no as no,
-			accommo_no as accommoNo,
-			room_name as name,
-			weekdays_price as weekdaysPrice,
-            weekend_price as weekendPrice,
-            peak_season_price as peakSeasonPrice,
-            standard_number as standardNumber,
-            maximum_number as maximumNumber,
-        	price_per_person as pricePerPerson,
-        	room_amenity as amenity,
-        	room_feature as feature
-        from
-        	tb_final_rooms
-        where
-        	accommo_no = #{value}
-	</select>
-	
-	<!-- 염주환 -->
-	<select id="getAccommoImageListByAccommoNo" parameterType="int" resultType="com.hoge.vo.accommo.AccommoImage">
+	<select id="getAccommoImagesByAccommoNo" parameterType="int" resultType="com.hoge.vo.accommo.AccommoImage">
 		select
 			accommo_image as image,
 			accommo_no as accommoNo
@@ -116,5 +69,46 @@
 			tb_final_rooms
 		where
 			room_no = #{value}
+	</select>
+	
+	<!-- 염주환(검색 기능 추가 해야함) -->
+	<select id="getAccommodationsTotalRows" parameterType="com.hoge.form.Criteria" resultType="int">
+		select count(*)
+		from tb_final_accommodations
+	</select>
+	
+	<!-- 염주환(검색 기능 추가 해야함) -->
+	<select id="searchAccommoListDtos" parameterType="com.hoge.form.Criteria" resultType="com.hoge.dto.AccommoListDto">
+		select
+			a.accommo_no as no, 
+			a.host_no as hostNo, 
+			a.accommo_type as type, 
+			a.accommo_name as name, 
+			a.average_cleanliness_star as cleanlinessStar,
+			a.average_communication_star as communicationStar, 
+			a.average_accuracy_star as accuracyStar, 
+			a.average_location_star as locationStar, 
+			a.accommo_region_depth1 as regionDepth1, 
+			a.accommo_region_depth2 as regionDepth2, 
+			a.accommo_region_depth3 as regionDepth3, 
+			a.accommo_xce as xce, 
+			a.accommo_yce as yce,
+            min(r.weekdays_price) as minWeekdaysPrice,
+			max(r.weekdays_price) as maxWeekdaysPrice,
+            min(r.weekend_price) as minWeekendPrice,
+			max(r.weekend_price) as maxWeekendPrice,
+            min(r.peak_season_price) as minPeakSeasonPrice,
+			max(r.peak_season_price) as maxPeakSeasonPrice,
+            min(r.standard_number) as minStandardNumber,
+			max(r.standard_number) as maxStandardNumber
+		from
+            tb_final_accommodations a,
+            tb_final_rooms r
+        where
+            a.accommo_no = r.accommo_no 
+        group by 
+            a.accommo_no, a.host_no, a.accommo_type, a.accommo_name, a.average_cleanliness_star, a.average_communication_star, 
+            a.average_accuracy_star, a.average_location_star, a.accommo_region_depth1, a.accommo_region_depth2, 
+            a.accommo_region_depth3, a.accommo_xce, a.accommo_yce
 	</select>
 </mapper>

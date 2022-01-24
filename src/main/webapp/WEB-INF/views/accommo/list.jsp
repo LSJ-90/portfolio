@@ -19,7 +19,7 @@
 				<c:choose>
 					<c:when test="${empty accommos }">
 						<tr>
-							<td class="text-center" colspan="6">등록된 도서 정보가 없습니다.</td>
+							<td class="text-center" colspan="6">위치에 맞는 숙소 정보가 없습니다.</td>
 						</tr>
 					</c:when>
 					<c:otherwise>
@@ -29,15 +29,39 @@
 							<div class="row">
 								<div class="col-3">
 									<ul>
-										<li id="position" data-xce="${accommos.xce }" data-yce="${accommos.yce }">${accommos.regionDepth1 }</li>
-										<li>기준 ${accommos.minNumber }명(최대 ${accommos.maxNumber }명)</li>
-										<li>${accommos.minPrice }~${accommos.maxPrice }</li>
-										<li>${accommos.averageStar }</li>
+										<li>${accommos.regionDepth1 }</li>
+										<li>기준 ${accommos.minStandardNumber }명(최대 ${accommos.maxStandardNumber }명)</li>
+										<li><fmt:formatNumber value="${accommos.minWeekdaysPrice }" />~<fmt:formatNumber value="${accommos.maxWeekdaysPrice }" /></li>
+										<li>${(accommos.cleanlinessStar+accommos.communicationStar+accommos.accuracyStar+accommos.locationStar)/4 }</li>
 										<li>예약하기</li>
 									</ul>
 								</div>
 								<div class="col-7">
-									<img style="height: 200px; width: auto" src="/resources/images/accommos/200/accommo_200_1.jpg" alt="숙소 이미지">
+									<div id="carouselExampleIndicators${accommos.no }" class="carousel slide" data-bs-interval="false">
+									    <div class="carousel-indicators">
+										    <button type="button" data-bs-target="#carouselExampleIndicators${accommos.no }" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+										    <button type="button" data-bs-target="#carouselExampleIndicators${accommos.no }" data-bs-slide-to="1" aria-label="Slide 2"></button>
+										    <button type="button" data-bs-target="#carouselExampleIndicators${accommos.no }" data-bs-slide-to="2" aria-label="Slide 3"></button>
+										    <button type="button" data-bs-target="#carouselExampleIndicators${accommos.no }" data-bs-slide-to="3" aria-label="Slide 4"></button>
+										    <button type="button" data-bs-target="#carouselExampleIndicators${accommos.no }" data-bs-slide-to="4" aria-label="Slide 5"></button>
+										    <button type="button" data-bs-target="#carouselExampleIndicators${accommos.no }" data-bs-slide-to="5" aria-label="Slide 6"></button>
+									    </div>
+									    <div class="carousel-inner">
+									    	<c:forEach var="image" items="${accommos.accommoImages }">
+										    	<div class="carousel-item ${fn:substring(image.image, 12, 13) eq 1 ? 'active' : '' } ">
+										      		<img src="/resources/images/accommoList/${accommos.no }/${image.image }" class="d-block w-100" alt="${image.image }">
+										    	</div>
+									    	</c:forEach>
+									    </div>
+									    <button class="carousel-control-prev" type="button" data-bs-target="carouselExampleIndicators${accommos.no }" data-bs-slide="prev">
+									    	<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+									    	<span class="visually-hidden">Previous</span>
+									    </button>
+									    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators${accommos.no }" data-bs-slide="next">
+									    	<span class="carousel-control-next-icon" aria-hidden="true"></span>
+								    		<span class="visually-hidden">Next</span>
+								    	</button>
+									</div>
 								</div>
 								<div class="col-2">
 									<span>heart</span>
@@ -58,6 +82,8 @@
 
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8606c7f07c8e2d80f27869dab7ebaec2"></script>
 <script>
+	// 공휴일 API
+	
 
 	window.onload=function(){
 		$.getJSON('/rest/accommo/list', function(accommo) {
