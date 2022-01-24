@@ -29,6 +29,9 @@
 			)
 	</insert>
 	
+<!-- 유상효
+		Host insertAcc(); 
+	 -->
 	<insert id="insertAcc" parameterType="com.hoge.vo.accommo.Accommodation">
 		INSERT INTO TB_FINAL_HOSTS
 		(
@@ -44,38 +47,43 @@
 		ACCOMMO_ADDRESS
 		)
 		VALUES
-			(FINAL_HOST_NO_SEQ.NEXTVAL,
-			#{userNo},
-			#{accountHolderName},
-			#{accountNumber},
-			#{bankName},
+			(FINAL_ACCOMMO_NO_SEQ.NEXTVAL,
+			#{hostNo},
+			#{type},
 			#{name},
-			#{hostingType},
-			#{tel}
+			#{introTitle},
+			#{introContent},
+			#{webAddress},
+			#{checkInTime},
+			#{checkOutime},
+			#{adress}
 			)
 	</insert>
-	
+
+<!-- 유상효
+		Host insertAct(); 
+	 -->	
 	<insert id="insertAct" parameterType="com.hoge.vo.activities.Activity">
 		INSERT INTO TB_FINAL_HOSTS
 		(
+		ACTIVITI_NO,
 		HOST_NO,
-		HOST_USER_NO,
-		ACCOUNT_HOLDER_NAME,
-		ACCOUNT_NUMBER,
-		BANK_NAME,
-		HOST_NAME,
-		HOSTING_TYPE,
-		HOST_TEL
+		MAXIMUM_NUMBER,
+		PRICE_PER_PERSON,
+		ACTIVITY_NAME,
+		ACTIVITY_ADDRESS,
+		ACTIVITY_INTRO_TITLE,
+		ACTIVITY_INTRO_CONTENT
 		)
 		VALUES
-			(FINAL_HOST_NO_SEQ.NEXTVAL,
-			#{userNo},
-			#{accountHolderName},
-			#{accountNumber},
-			#{bankName},
+			(FINAL_ACTIVITY_NO_SEQ.NEXTVAL,
+			#{hostNo},
+			#{maximumNumber},
+			#{pricePerPerson},
 			#{name},
-			#{hostingType},
-			#{tel}
+			#{adress},
+			#{introTitle},
+			#{introContent}
 			)
 	</insert>
 
