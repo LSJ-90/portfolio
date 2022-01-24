@@ -17,7 +17,7 @@ public class AccommoRestController {
 	@Autowired
 	private AccommodationService accommodationService;
 	
-	// 염주환
+	// 염주환 보류
 	@GetMapping("/list")
 	public List<AccommoPositionDto> list() {
 		return accommodationService.getAccommoPosition();
