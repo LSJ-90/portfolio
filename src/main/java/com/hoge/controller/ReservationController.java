@@ -7,9 +7,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hoge.annotation.LoginedUser;
+import com.hoge.dto.ReserveAccommoDto;
 import com.hoge.service.AccommodationService;
 import com.hoge.service.ActivityService;
 import com.hoge.service.ReserveService;
@@ -19,6 +21,7 @@ import com.hoge.vo.activities.Activity;
 import com.hoge.vo.other.User;
 
 @Controller
+@RequestMapping("/reserve")
 public class ReservationController {
 	
 	@Autowired
@@ -29,27 +32,19 @@ public class ReservationController {
 	private ActivityService activityService;
 	
 	// 염주환
-	@GetMapping("/reserve")
-	public String form(@RequestParam("no") int no, @RequestParam (defaultValue="0") int roomNo,
-			@RequestParam(required = false) @DateTimeFormat(pattern = "yyyyMMdd") Date startDate,
-			@RequestParam(required = false) @DateTimeFormat(pattern = "yyyyMMdd") Date endDate,
-			/* @LoginedUser User user, */
-			Model model) {
+	@GetMapping("/accommo")
+	public String form(@RequestParam("no") int no, @RequestParam("roomNo") int roomNo,
+			@RequestParam("checkIn") @DateTimeFormat(pattern = "yyyyMMdd") Date checkIn,
+			@RequestParam("checkOut") @DateTimeFormat(pattern = "yyyyMMdd") Date checkOut,
+			@LoginedUser User user,	Model model) {
 		
-		if (roomNo == 0) {
-			Activity activity = activityService.getActivityDetail(no);
-			model.addAttribute("info", activity);
-		} else {
-			// AccommodationDto 가져오면 가장 좋을 것 같음
-			Accommodation accommodation = AccommodationService.getAccommodationDetail(no);
-			model.addAttribute("info", accommodation);
-			Room room = AccommodationService.getRoomDetail(roomNo);
-			model.addAttribute("room", room);
-			model.addAttribute("startDate", startDate);
-			model.addAttribute("endDate", endDate);
-		}
+		ReserveAccommoDto reserveAccommoDto = reserveService.getReserveAccommoDto(no, roomNo);
+		
+		model.addAttribute("accommo", reserveAccommoDto);
+		model.addAttribute("checkIn", checkIn);
+		model.addAttribute("checkOut", checkOut);
+		model.addAttribute("user", user);
 		/* model.addAttribute("user", user); */
 		return "form/reserveForm";
 	}
-
 }

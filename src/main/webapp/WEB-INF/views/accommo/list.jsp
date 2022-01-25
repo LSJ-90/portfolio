@@ -10,6 +10,7 @@
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	 
 </head>
 <body>
 <div class="container">
@@ -74,31 +75,39 @@
 		</div>
 		
 		<!-- 지도 -->
-		<div class="col-6">
+		<!-- <div class="col-6">
 			<div id="map" style="width:100%;height:600px;"></div>
-		</div>
+		</div> -->
 	</div>
 </div>
 
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8606c7f07c8e2d80f27869dab7ebaec2"></script>
 <script>
 	// 공휴일 API
-	
-
-	window.onload=function(){
-		$.getJSON('/rest/accommo/list', function(accommo) {
-			console.log("실행되니?");
-			console.log(accommo);
+	window.onload = function () {
+		$.ajax({
+			type: 'get',
+			url: '/holidays',
+			data: {year: "2022", month: "01"},
+			dataType: 'json',
+			success: function(result) {
+				console.log(result);
+			},
+			error: function(error) {
+				console.log(error);
+			}
 		})
 	}
 	
-	$(function() {
-		$.getJSON('list.jsp', function(data) {
-			
-		})
-	})
 
-	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+	/* window.onload=function(){
+		$.getJSON('/rest/accommo/list', function(accommo) {
+			console.log(accommo);
+		})
+	} */
+	
+
+	/* var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 	mapOption = {
 		center : new kakao.maps.LatLng(37.57145, 126.98959), // 지도의 중심좌표
 		level : 6, // 지도의 확대 레벨
@@ -117,11 +126,11 @@
 	        var lat = position.coords.latitude, // 위도
 	            lon = position.coords.longitude; // 경도
 	        
-	        /* var locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-	            message = '<div style="padding:5px;">여기에 계신가요?!</div>'; // 인포윈도우에 표시될 내용입니다
+	        //var locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+	        //message = '<div style="padding:5px;">여기에 계신가요?!</div>'; // 인포윈도우에 표시될 내용입니다
 	        
 	        // 마커와 인포윈도우를 표시합니다
-	        displayMarker(locPosition, message); */
+	        //displayMarker(locPosition, message); 
 	            
 	      });
 	    
@@ -173,7 +182,7 @@
 	        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
 	        image : markerImage // 마커 이미지 
 	    });
-	}
+	} */
 	
 		
 </script>
