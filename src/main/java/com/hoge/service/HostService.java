@@ -30,24 +30,25 @@ public class HostService {
 	private HostMapper hostMapper;
   
   // 유상효
-	public void apply(Host host, Accommodation acc, Activity act, MultipartHttpServletRequest req) throws IllegalStateException, IOException {
+	public void apply(Host host) throws IllegalStateException, IOException {
 		SessionUtils.addAttribute("user_no", "1000"); //세션값 임의 테스트
 		int userNo = Integer.parseInt((String) SessionUtils.getAttribute("user_no"));
 		host.setUserNo(userNo); //세션값 임의 테스트
 		
-		//hostMapper.insertHostApply(host);
+		hostMapper.insertHostApply(host);
 		
-		int x = host.getHostingType();
-		if(x == 1) {
+		//int x = host.getHostingType();
+		//if(x == 1) {
 			//숙박
 			//hostMapper.insertAccomadation(acc);
-		} else {
+		//} else {
 			//체험
 			//hostMapper.insertActivity(act);
-		}
+		//}
 		
 		//이미지삽입
-		imgSave(req);	
+		//imgSave(req);
+		
 	}
 	
   // 유상효

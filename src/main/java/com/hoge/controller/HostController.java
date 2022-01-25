@@ -46,15 +46,15 @@ public class HostController {
 	}
 	
 	// 유상효
-	@GetMapping("/host/main")
+	@GetMapping("/mypage/hostingList")
 	public String Main() {
-		return "hostpage/main.hosttiles";
+		return "mypage/hostingList.hosttiles";
 	}
 	
 	// 유상효
 	@RequestMapping(value = "/host/req", method = RequestMethod.POST)
 	public String ApplyReq(Host host, Accommodation acc, Activity act, MultipartHttpServletRequest req) throws IllegalStateException, IOException {
-		hostService.apply(host, acc, act, req);
+		hostService.apply(host);
 		return "넘어갈곳";	
 	}
 	

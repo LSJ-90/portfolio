@@ -16,7 +16,7 @@
 <body>
 
 <!-- first start -->
-	<form class="border p-3 bg-light" id="first" method="post" action="/host/req" enctype="multipart/form-data">
+	<form class="border p-3 bg-light" id="first" method="post" action="insertHostApply" enctype="multipart/form-data">
 		<div class="container">
 			<div class="row mb-3 ">
 				<div class="col text-center">
