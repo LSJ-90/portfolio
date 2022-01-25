@@ -22,12 +22,14 @@ import org.springframework.web.servlet.ModelAndView;
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.ChattingMessageDto;
 import com.hoge.service.ChatRoomService;
+import com.hoge.service.HostQnAService;
 import com.hoge.service.HostService;
 import com.hoge.util.SessionUtils;
 import com.hoge.vo.accommo.Accommodation;
 import com.hoge.vo.activities.Activity;
 import com.hoge.vo.other.ChatRoom;
 import com.hoge.vo.other.Host;
+import com.hoge.vo.other.HostQnA;
 
 @Controller
 public class HostController {
@@ -37,6 +39,9 @@ public class HostController {
 	
 	@Autowired
 	private ChatRoomService chatRoomService;
+	
+	@Autowired
+	private HostQnAService hostQnAService;
 	
 	// 유상효
 	@GetMapping("/host/applyForm")
@@ -67,6 +72,8 @@ public class HostController {
 	@GetMapping("/host/qna")
 	public ModelAndView qna(ModelAndView mv) {
 		mv.setViewName("hostpage/qna.hosttiles");
+		List<HostQnA> qnaList = hostQnAService.getHostQnAListByHostNo(100);
+		mv.addObject("qnaList", qnaList);
 	
 		return mv;
 	}

@@ -16,7 +16,7 @@
  
 .header { font-size: 14px; padding: 15px 0; background: #F18C7E; color: white; text-align: center;  }
  
-.chat_wrap {height: 700px; overflow-y:auto;} 
+.chat_wrap {height: 550px; overflow-y:auto;} 
 .chat_wrap .chat { padding-bottom: 80px; height:85% }
 .chat_wrap .chat ul { width: 100%; list-style: none; }
 .chat_wrap .chat ul li { width: 100%; }
@@ -31,7 +31,8 @@
 .input-div { bottom: 0; height: 80px; width: 100%; background-color: #FFF; text-align: center; border-top: 1px solid #F18C7E; }
 .input-div > textarea { width: 90%; height: 50px; border: none; padding: 10px; margin: 5px 0 0 0;}
  
-.chat-list  {border: 1px solid #888; height: 850px;}
+.chat-list  {border: 1px solid #888; height: 700px;}
+.chat-detail  {border: 1px solid #888; height: 700px;}
  
 .chat-list-label { font-size: 14px; padding: 15px 0; background: #F18C7E; color: white; text-align: center;  }
  
@@ -50,9 +51,9 @@
 	
 <div class="container">
 	<div class="row mb-3">
-		<div class="chat-list col-3 ">
+		<div class="chat-list m-2 col-3 ">
 			<div class="chat-list-label">
-			채팅목록
+			예약 문의 리스트
 			</div>	
 			<c:choose>
 				<c:when test="${empty chatList }">
@@ -60,7 +61,7 @@
 				</c:when>
 				<c:otherwise>
 					<c:forEach var="chatRoom" items="${chatList }" varStatus="loop">
-						<div id="chatting-list-box" class="chatting-list-box" onclick="enter(${chatRoom.chatRoomNo })">
+						<div id="chatting-list-box" class="chatting-list-box m-1" onclick="enter(${chatRoom.chatRoomNo })">
 							<div class="row">
 								<div class="col-4">
 									<img src="" class="flex-shrink-0 me-3" alt="">
@@ -75,17 +76,32 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
-		<div id="chatting-waiting" class="chat-list col-6">
+		<div id="chat-middle" class="col-5">
+		<div id="chatting-waiting" class="chat-list m-2 ">
 			<div class="header">
 		        예약 문의 
 			</div>
-			
+			<c:choose>
+			<c:when test="${empty chatList }">
+			<div>
+				예약상담이 없습니다.
+			</div>>
+			</c:when>
+			<c:otherwise>
+			<div>
+				예약상담을 시작하기 위해 왼쪽의 리스트에서 게스트를 선택하세요
+			</div>
+			</c:otherwise>
+			</c:choose>
 			
 		</div>
-		<div id="chatting-detail" class="chat-list col-6">
+		<div id="chatting-detail" class="chat-detail m-2">
 			<div class="header">
 		        예약 문의 
 			</div>
+			<h1></h1>
+			<input type="hidden" id="sessionId" value="">
+			<input type="hidden" id="roomNumber" value="">
 			<div id="chatting-content" class="chat_wrap" data-bs-spy="scroll">	
 				<div class="chat">
 					<ul>
@@ -99,10 +115,10 @@
 			    </div>
 		    </div>
 		</div>
+		</div>
 		
 		
-		
-		<div class="chat-list col-3">
+		<div class="chat-list m-2 col-3">
 		
 		
 	
@@ -127,6 +143,8 @@
 </div>
 	
 
+		
+
 
  <div class="chat format">
         <ul>
@@ -146,14 +164,17 @@
 <script type="text/javascript">
 
 	const userName = "하민";
-	var ws;
+	let ws;
 
-	$(function(){
-		wsOpen();
-	});
 	
 	function wsOpen(){
-		ws = new WebSocket("ws://localhost/chatting");
+		if (ws) {
+			ws.close();
+		}
+		var num = $("#roomNumber").val();
+		console.log(num);
+		ws = new WebSocket("ws://localhost/chatting/"+$("#roomNumber").val());
+		console.log('웹소켓 열림');
 		wsEvt();
 	}
 		
@@ -164,9 +185,29 @@
 		
 		ws.onmessage = function(data) {
 			
+			console.log('메세지 받기 시도');
 			var msg = JSON.parse(data.data);
-			const LR = (msg.senderName != $("#userName").val())? "left" : "right";
-	        appendMessageTag(LR, msg.senderName, msg.message);
+			console.log('메세지 받았음');
+			if(msg.type == "getId"){
+				var si = msg.sessionId != null ? msg.sessionId : "";
+				if(si != ''){
+					$("#sessionId").val(si); 
+					console.log('1');
+				}
+			}else if(msg.type == "message"){
+				if(msg.sessionId == $("#sessionId").val()){
+					console.log('2');
+					let LR = "right";
+				    appendMessageTag(LR, msg.senderName, msg.message);
+				}else{
+					console.log('3');
+					let LR = "left";
+					appendMessageTag(LR, msg.senderName, msg.message);
+				}	
+			}else{
+				console.warn("unknown type!")
+			}
+	      
 			
 		}
 
@@ -183,11 +224,15 @@
 	function send() {
 		var msg = {
 			    type: "message", 
+			    roomNumber: $("#roomNumber").val(),
+				sessionId : $("#sessionId").val(),
 			    senderName: userName, 
 			    message: $("#chatting").val(), 
 			    
 			  };
-
+		console.log($("#sessionId").val());
+		console.log($("#chatting").val());
+		console.log('메세지 보냈음');
 		ws.send(JSON.stringify(msg));
 	    $('div.input-div textarea').val('');
 
@@ -220,26 +265,44 @@
     }
     
     function enter(ChatRoomNo) {
-    	console.log(ChatRoomNo);
-		$('div.chat:not(.format) ul').empty();
-		$("#chatting-waiting").hide();
-		$("#chatting-detail").show();
-		
-    	console.log('여기까지 오키');
-		
-		$.getJSON('/host/chat-enter.do', {no:ChatRoomNo}, function(messageDtos) {
-			console.log('가져오는 거 오키');
-			$.each(messageDtos, function(index, value) {
-				
-				//let LR = (messageDto.sendingUserNo == messageDto.hostingUserNo)? "right" : "left";
-				const LR = "right"
-		      appendMessageTag(LR, value.sendingUserName, value.content);
-			})
-    });
+    	
+    	
+    	if (ChatRoomNo != $("#roomNumber").val()) {
+	    	console.log(ChatRoomNo);
+	    	console.log('함수버튼 눌렀을 때 받아온 룸넘버');
+			$('div.chat:not(.format) ul').empty();
+			$("#chatting-waiting").hide();
+			$("#chatting-detail").show();
+			
+			var Myelement = document.getElementById("roomNumber");
+			
+			console.log('포맷 안 처음 룸넘버');
+			console.log(Myelement.value);
+			Myelement.value = ChatRoomNo;
+			console.log('포맷 안바뀐 룸넘버');
+			console.log(Myelement.value);
+			
+			 
 	
+			
+	    	console.log('여기까지 오키');
+			
+			$.getJSON('/host/chat-enter.do', {no:ChatRoomNo}, function(messageDtos) {
+				console.log('가져오는 거 오키');
+				$.each(messageDtos, function(index, value) {
+					
+					//let LR = (messageDto.sendingUserNo == messageDto.hostingUserNo)? "right" : "left";
+					const LR = "right"
+			      appendMessageTag(LR, value.sendingUserName, value.content);
+				})
+	    });
 		
-    }
-		
+			wsOpen();
+			
+	    } else {
+	    	$("#chatting-detail").show();
+	    }
+    }	
 			
 </script>
 </html>

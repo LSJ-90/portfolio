@@ -41,39 +41,36 @@
 							<div class="faq-box">
 								<div class="faq-title">
 									<span>
-									Q. 대금 수령까지 걸리는 시간	
+									Q. 질문1
 									</span>
 								</div>
 								<div class="faq-content">
 									<span>
-									A. HOGE는 게스트가 숙소에 체크인한 후 24시간이 지나면 호스트에게 예약 대금을 지급합니다. 
-									단, 대금이 실제로 계좌에 입금되기까지 걸리는 시간은 은행과 대금 수령 방법에 따라 다릅니다.
+									A. 답변1
 									</span>
 								</div>
 							</div>
 							<div class="faq-box">
 								<div class="faq-title">
 									<span>
-									Q. 게스트가 취소하면 대금 수령은 어떻게 되나요?
+									Q. 질문2
 									</span>
 								</div>
 								<div class="faq-content">
 									<span>
-									A. 게스트가 (체크인 전이나 숙박 도중에) 예약을 취소하면 호스트의 환불 정책에 따라 자동으로 환불이 제공되지만, 
-									몇 가지 예외 사항이 있습니다.
+									A. 답변2
 									</span>
 								</div>
 							</div>
 							<div class="faq-box">
 								<div class="faq-title">
 									<span>
-									Q. 어떻게 많은 게스트에게 노출되게 할 수 있을까요?
+									Q. 질문3
 									</span>
 								</div>
 								<div class="faq-content">
 									<span>
-									A. 필터설정은 검색 순위 알고리즘은 게스트에게는 여행에 완벽한 숙소를 찾아주고 
-									호스트에게는 숙소에 알맞은 게스트를 찾아주는 역할을 합니다. 검색 태그를 추가해주세요.
+									A. 답변3
 									</span>
 								</div>
 							</div>
@@ -163,10 +160,10 @@
 							<label class="form-label mb-3" for="title"><strong>문의 카테고리</strong></label>
 							<select id="select-box" class="m-1" name="category">
 								<option disabled selected value="">문의사유를 선택해 주세요</option>
-								<option value="정산">정산</option>
-								<option value="호스트정보변경">호스트 정보 변경</option>
-								<option value="호스트탈퇴">호스트 탈퇴</option>
-								<option value="게스트신고">게스트 신고</option>
+								<option value="로그인">로그인</option>
+								<option value="회원정보변경">회원 정보 변경</option>
+								<option value="결제취소">결제취소</option>
+								<option value="호스트신고">호스트 신고</option>
 								<option value="불편사항">불편사항</option>
 								<option value="기타">기타</option>
 							</select>

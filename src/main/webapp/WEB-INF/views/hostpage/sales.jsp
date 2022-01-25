@@ -20,22 +20,29 @@
 <body>
 <div class="container">
 	<div class="row mt-3">
-		<div class="col-5">
-		<div class=chart>
-			<canvas id="line-chart-daily" width="200" height="100"></canvas>
-		</div>
-		<div class=chart>
-			<canvas id="line-chart-monthly" width="200" height="100"></canvas>
-		</div>
-		<div class=chart>
-			<canvas id="bar-chart-horizontal" width="200" height="50"></canvas>
-		</div>
-	</div> 
-		<div class="col-7">
+		<div class="col-6">
+			<div class="row mt-3">
+				<div class="col-6">
+					<div class=chart>
+						<canvas id="line-chart-daily" width="200" height="150"></canvas>
+					</div>
+				</div>
+				<div class="col-6">
+					<div class=chart>
+						<canvas id="line-chart-monthly" width="200" height="150"></canvas>
+					</div>
+				</div>
+			</div>
+		
+			<div class=chart>
+				<canvas id="bar-chart-horizontal" width="200" height="40"></canvas>
+			</div>
+		</div> 
+		<div class="col-6">
 				<div class="row mt-3">
 					<div class="withdrawal">
 						<div class="mt-3 text-end">
-							<button type="submit" class="btn btn-dark">출금신청</button>
+							<button type="button" class="btn btn-dark" onclick="creatingModal()">출금신청</button>
 						</div>
 					</div>
 				</div>
@@ -66,15 +73,68 @@
 			  </tbody>
 			</table>
 			
-			
 			</div>			
 				</div>
 				
-			
-		
-		</div>
-				
 	</div> <!-- row -->
+	
+	
+	<div class="modal fade" id="modal-createing-withdrawal" tabindex="-1" aria-labelledby="출금신청" aria-hidden="true">
+  		<div class="modal-dialog modal-lg">
+    		<div class="modal-content">
+      			<div class="modal-header">
+        			<h5 class="modal-title" id="exampleModalLabel">출금 신청</h5>
+      			</div>
+        			<strong class="p-3">최소 출금가능액은 50,000원 입니다.</strong>
+      			<div class="modal-body">
+					<form id="qna-form" action="/host/qna">
+					<input type="hidden" name="orderNo" value="">
+					<div class="row mb-3 mt-2 order-font">
+					
+					<div class="mb-3">
+						<label class="form-label">은행 선택</label>
+							<select class="form-control" id="bankName" name="bankName">
+								<option value="농협">농협</option>
+								<option value="국민은행">국민은행</option>
+								<option value="신한은행">신한은행</option>
+								<option value="우리은행">우리은행</option>
+								<option value="기업은행">기업은행</option>
+								<option value="하나은행">하나은행</option>
+								<option value="대구은행">대구은행</option>
+								<option value="부산은행">부산은행</option>
+								<option value="우체국">우체국</option>
+								<option value="SC제일은행">SC제일은행</option>
+								<option value="광주은행">광주은행</option>
+								<option value="경남은행">경남은행</option>
+								<option value="수협">수협</option>
+								<option value="케이뱅크">케이뱅크</option>
+							</select>
+					</div>
+					<div class="mb-3">
+						<label class="form-label">예금주 입력</label>
+						<input type="text" class="form-control" id="accName" name="accountHolderName" />
+					</div>
+					<div class="mb-3">
+						<label class="form-label">계좌번호 입력</label>
+						<input type="text" class="form-control" id="hostAcc" name="accountNumber" />
+					</div>
+						<div class="title-box mb-3">
+							<label class="form-label mb-3" for="title"><strong>출금액(출금액은 현재 보유액 이하로만 입력하실 수 있습니다.) 현재 보유액 : xxx.xxxx원</strong></label>
+							<input type="text" class="form-control" name="title" id="title" maxlength="30">
+						</div>
+					 </div>
+				</form>
+      			</div>
+      			<div class="modal-footer">
+        			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">신청</button>
+        			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+      			</div>
+    		</div>
+  		</div>
+	</div>
+	
+	
+	
 </div> <!-- 컨테이너 -->
   </body>
 <script type="text/javascript">
@@ -85,7 +145,7 @@ new Chart(document.getElementById("bar-chart-horizontal"), {
       datasets: [
         {
           label: "booking rate by gender",
-          backgroundColor: ["#f19bc3","#aefcf8"],
+          backgroundColor: ["black","black"],
           data: [2478,5267]
         }
       ]
@@ -107,7 +167,7 @@ new Chart(document.getElementById("line-chart-daily"), {
 	    datasets: [ { 
 	        data: [168,170,178,190,203,276,408,547],
 	        label: "거래금액",
-	        borderColor: "#3cba9f",
+	        borderColor: "black",
 	        fill: false
 	      }
 	      
@@ -128,7 +188,7 @@ new Chart(document.getElementById("line-chart-monthly"), {
 	    datasets: [ { 
 	        data: [150,170,190,100,250,408],
 	        label: "거래금액",
-	        borderColor: "#f59090",
+	        borderColor: "black",
 	        fill: false
 	      }
 	      
@@ -141,6 +201,20 @@ new Chart(document.getElementById("line-chart-monthly"), {
 	    }
 	  }
 	});	
+	
+	
+
+function creatingModal() {
+	
+	let withdrawalModal = new bootstrap.Modal(document.getElementById('modal-createing-withdrawal'), {
+		keyboard: false
+	
+	});
+		withdrawalModal.show();
+}
+
+
+
 </script>
 
 </html>
