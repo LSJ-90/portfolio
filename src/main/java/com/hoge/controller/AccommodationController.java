@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +29,8 @@ public class AccommodationController {
 	// 염주환
 	@GetMapping("/list")
 	public String list(@RequestParam(name = "page", required = false, defaultValue = "1") String page,
-			Criteria criteria, Model model) {
+			@RequestParam("startDate") @Nullable String startDate, @RequestParam("endDate") @Nullable String endDate,
+			@RequestParam("address") @Nullable String address, Criteria criteria, Model model) {
 		
 		int totalRecords = accommodationService.getTotalRows(criteria);
 		
@@ -37,8 +39,6 @@ public class AccommodationController {
 		criteria.setBeginIndex(pagination.getBegin());
 		criteria.setEndIndex(pagination.getEnd());
 		
-		
-		// 여기부터 수정하기
 		List<AccommoListDto> accommoListDtos = accommodationService.searchAccommoListDto(criteria);
 		
 		model.addAttribute("accommos", accommoListDtos);

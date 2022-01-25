@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../common/tags.jsp" %>
-<head>
+<!DOCTYPE html>
+<html lang="ko">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
+<body>
 <div class="container ">
 	<div class="row mb-3 ">
 		<div class="col text-center">
@@ -13,18 +15,18 @@
 				<table class="table">
 					<tr>
 						<th>예약 스테이</th>
-						<td>${info.name } <c:if test="${!empty room }"> / ${room.name }</c:if></td>
+						<td>${accommo.accommoName } / ${accommo.roomName }</td>
 					</tr>
 					<tr>
 						<th>예약일</th>
 						<td>
-							<fmt:formatDate value="${startDate }" pattern="yyyy-MM-dd"/>~<fmt:formatDate value="${endDate }" pattern="yyyy-MM-dd"/> | 
+							<fmt:formatDate value="${checkIn }" pattern="yyyy-MM-dd"/>~<fmt:formatDate value="${checkOut }" pattern="yyyy-MM-dd"/> | 
 						</td>
 					</tr>
 					<tr>
 						<th>이름</th>
 						<td>
-						
+							
 						</td>
 					</tr>
 					<tr>
@@ -40,22 +42,22 @@
 						</td>
 					</tr>
 					<tr>
-						<th>인원 (최대 ${room.maximumNumber }명)</th>
+						<th>인원 (최대 ${accommo.maximumNumber }명)</th>
 						<td>
 							<div class="d-flex justify-content-between">
 								<div class="d-flex justify-content-start">
 									<div class="d-flex justify-content-start">
 										<span style="width: 50px; padding-right: 2px">성인</span>
 										<select class="form-select form-select-sm" aria-label=".form-select-sm example">
-											<c:forEach begin="1" end="${room.maximumNumber }" var="number" step="1" varStatus="status">
-												<option value="${status.index }" ${status.index eq room.standardNumber ? 'selected' : '' } >${status.index } 명</option>
+											<c:forEach begin="1" end="${accommo.maximumNumber }" var="number" step="1" varStatus="status">
+												<option value="${status.index }" ${status.index eq accommo.standardNumber ? 'selected' : '' } >${status.index } 명</option>
 											</c:forEach>
 										</select>
 									</div>
 									<div class="d-flex justify-content-start">
 										<span style="width: 50px; padding-right: 2px">아동</span>
 										<select class="form-select form-select-sm" aria-label=".form-select-sm example">
-											<c:forEach begin="0" end="${room.maximumNumber-1 }" var="number" step="1" varStatus="status">
+											<c:forEach begin="0" end="${accommo.maximumNumber-1 }" var="number" step="1" varStatus="status">
 												<option value="${status.index }" ${status.index eq 0 ? 'selected' : '' } >${status.index } 명</option>
 											</c:forEach>
 										</select>
@@ -63,7 +65,7 @@
 									<div class="d-flex justify-content-start">
 										<span style="width: 50px; padding-right: 2px">영아</span>
 										<select class="form-select form-select-sm" aria-label=".form-select-sm example">
-											<c:forEach begin="0" end="${room.maximumNumber-1 }" var="number" step="1" varStatus="status">
+											<c:forEach begin="0" end="${accommo.maximumNumber-1 }" var="number" step="1" varStatus="status">
 												<option value="${status.index }" ${status.index eq 0 ? 'selected' : '' } >${status.index } 명</option>
 											</c:forEach>
 										</select>
@@ -78,13 +80,13 @@
 					<tr>
 						<th>이용자 정보</th>
 						<td>
-							<div class="form-check">
+							<div class="form-check real-user">
 								<input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked> 
 								<label class="form-check-label" for="flexCheckChecked">
 									예약자 정보와 동일합니다.
 								</label>
 							</div>
-							<div>
+							<div id="real-user">
 								<table class="table">
 									<tr>
 										<th>성명</th>
@@ -157,3 +159,8 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+
+</script>
+</body>
+</html>
