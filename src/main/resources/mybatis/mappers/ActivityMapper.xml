@@ -12,7 +12,7 @@
 			activity_name as name,
 			activity_registered_date as registeredDate,
 			average_star as star,
-			activity_address as adress,
+			activity_address as address,
 			activity_region_depth1 as regionDepth1,
 			activity_region_depth2 as regionDepth2,
 			activity_region_depth3 as regionDepth3,

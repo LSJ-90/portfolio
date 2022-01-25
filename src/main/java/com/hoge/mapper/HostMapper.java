@@ -23,11 +23,13 @@ public interface HostMapper {
 	Activity insertAct(Activity activity);
 	
 	
-	/**
-	 * 성하민
-	 * @return Host번호로 Host반환
-	 */
+	// 호스트 번호로 호스트객체 반환
 	Host getHostByNo(int no);
+	
+	
+	
+	
+	
 
 	void insertAccomadation(Accommodation acc);
 

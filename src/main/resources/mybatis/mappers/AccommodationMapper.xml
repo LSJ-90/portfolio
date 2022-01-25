@@ -38,7 +38,7 @@
 			average_communication_star as communicationStar, 
 			average_accuracy_star as accuracyStar, 
 			average_location_star as locationStar, 
-			accommo_address as adress,
+			accommo_address as address,
 			accommo_region_depth1 as regionDepth1, 
 			accommo_region_depth2 as regionDepth2, 
 			accommo_region_depth3 as regionDepth3, 

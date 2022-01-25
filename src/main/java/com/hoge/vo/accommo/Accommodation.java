@@ -31,7 +31,7 @@ public class Accommodation {
 	private double communicationStar;
 	private double accuracyStar;
 	private double locationStar;
-	private String adress;
+	private String address;
 	private String regionDepth1;
 	private String regionDepth2;
 	private String regionDepth3;

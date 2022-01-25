@@ -56,7 +56,7 @@
 			#{webAddress},
 			#{checkInTime},
 			#{checkOutime},
-			#{adress}
+			#{address}
 			)
 	</insert>
 
@@ -81,7 +81,7 @@
 			#{maximumNumber},
 			#{pricePerPerson},
 			#{name},
-			#{adress},
+			#{address},
 			#{introTitle},
 			#{introContent}
 			)

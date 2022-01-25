@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="../../views/common/tags.jsp" %>
 <header id="header">
   <div class="admin-header-wrap">
     <div class="header__logo">
@@ -21,43 +22,37 @@
       </ul>
     </nav>
   </div>
- <nav class="navbar navbar-expand-sm bg-dark navbar-dark mb-3">
-	<div class="container">
-    	<ul class="navbar-nav me-auto mb-2">
-      		<li class="nav-item">
-        		<a class="nav-link" style="color: yellow;" href="main">관리자페이지</a>
-      		</li>
-      		<li class="nav-item">
-        		<a class="nav-link" href="user-list">회원관리</a>
-      		</li>
-      		<li class="nav-item">
-        		<a class="nav-link" href="#">숙소관리</a>
-      		</li>
-      		<li class="nav-item">
-        		<a class="nav-link" href="#">체험관리</a>
-      		</li>
-      		<li class="nav-item">
-        		<a class="nav-link" href="#">프로모션관리</a>
-      		</li>
-      		<li class="nav-item">
-        		<a class="nav-link" href="#">리뷰관리</a>
-      		</li>
-      		<li class="nav-item">
-        		<a class="nav-link" href="#">호스트문의</a>
-      		</li>
-      		<li class="nav-item">
-        		<a class="nav-link" href="#">회원문의</a>
-      		</li>
-      		<li class="nav-item">
-        		<a class="nav-link" href="#">송금신청내역</a>
-      		</li>
-      		<li class="nav-item">
-        		<a class="nav-link" href="#">매출내역</a>
-      		</li>
-      		<li class="nav-item">
-        		<a class="nav-link" href="#">통계</a>
-      		</li>
-      	</ul>
-  	</div>
-</nav>
+	<nav id="nav">
+			<ul class="nav__menu">
+				<li class="nav__item"><a href="/admin/main" class="active">관리자페이지</a></li>
+				<li class="nav__item"><a href="/admin/user-list">회원관리</a></li>
+				<li class="nav__item"><a href="/admin/host-accommo-list">숙소관리</a></li>
+				<li class="nav__item"><a href="/admin/host-activity-list">체험관리</a></li>
+				<li class="nav__item"><a href="/admin/promotion-list">프로모션관리</a></li>
+				<li class="nav__item"><a href="">리뷰관리</a></li>
+				<li class="nav__item"><a href="">호스트문의</a></li>
+				<li class="nav__item"><a href="">회원문의</a></li>
+				<li class="nav__item"><a href="">송금신청내역</a></li>
+				<li class="nav__item"><a href="">매출내역</a></li>
+				<li class="nav__item"><a href="">통계</a></li>
+				
+			</ul>
+			<div class="nav__dropdown">
+				<button class="btn__dropdown">
+					<img src="../../resources/images/main/login_icon.png" alt="" class="dropdown__image" />
+					<!-- 
+						Active
+						<img
+							src="img/main/login_icon_active.png"
+							alt=""
+							class="dropdown__image active"
+						/>
+					 -->
+				</button>
+				<ul class="dropdown__menu" style="display: none">
+					<li class="dropdown__item"><a href="">마이페이지</a></li>
+					<li class="dropdown__item"><a href="">호스팅 페이지</a></li>
+				</ul>
+			</div>
+		</nav>
 </header>
