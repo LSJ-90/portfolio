@@ -19,6 +19,11 @@
 	</properties>
 	<dependencies>
 		
+		<!-- 암호화 https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+		<dependency>
+		    <groupId>commons-codec</groupId>
+		    <artifactId>commons-codec</artifactId>
+		</dependency>
 	
 		<!-- 웹소켓 -->
 		<dependency>
