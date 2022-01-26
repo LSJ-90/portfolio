@@ -21,11 +21,18 @@ public class HostQnAService {
 	
 
 	// 성하민 호스트번호로 문의글 찾기
-	public List<HostQnA> getHostQnAListByHostNo(int no) {
+	public List<HostQnA> getHostQnAListByHostNo(int no, int begin, int end) {
 
-		// 성하민 호스트번호로 문의글 찾기
-		return hostQnAMapper.getHostQnAListByHostNo(no);
+		return hostQnAMapper.getHostQnAListByHostNo(no, begin, end);
 	}
-  
+	//성하민 호스트페이지 문의 등록
+	public void insertHostQnA(HostQnA hostQnA) {
+		hostQnAMapper.insertHostQnA(hostQnA);
+	}
+	
+	//호스트 넘버로 문의글 개수 찾기
+	public int getHostQnACountByHostNo(int no) {
+		return hostQnAMapper.getHostQnACountByHostNo(no);
+	}
 
 }
