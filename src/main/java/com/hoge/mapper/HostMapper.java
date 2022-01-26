@@ -16,11 +16,15 @@ import com.hoge.vo.other.Host;
 public interface HostMapper {
 	
 	// 유상효 호스트 등록
-	Host insertHostApply(Host host);
+	void insertHostApply(Host host);
 	// 유상효 숙소 등록
-	Accommodation insertAcc(Accommodation accommodation);
+	void insertAcc(Accommodation acc);
 	// 유상효 체험 등록
-	Activity insertAct(Activity activity);
+	void insertAct(Activity act);
+	// 유상효 로그인세션에서 userNo 가져오기
+	int getUserNoByUserId(String userId);
+	// 유상효 로그인세션에서 userId를 받아와서 hostNo 가져오기(hostNo중 가장 큰 넘버를 가져온다)
+	int getHostNoByUserId(String userId);
 	
 	
 	// 호스트 번호로 호스트객체 반환
@@ -34,6 +38,8 @@ public interface HostMapper {
 	void insertAccomadation(Accommodation acc);
 
 	void insertActivity(Activity act);
+	
+	
 
 
 }

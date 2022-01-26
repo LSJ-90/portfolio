@@ -51,18 +51,30 @@ public class HostController {
 	}
 	
 	// 유상효
+	@GetMapping("/host/accInsertForm")
+	public String AccInsertForm() {
+		return "hostpage/accInsertForm.tiles";
+	}
+	
+	// 유상효
+	@PostMapping(value = "/host/insertHostApply")
+	public String insertHostApply(Host host) throws IllegalStateException, IOException {
+		hostService.hostApply(host);
+		return "hostpage/accInsertForm.tiles";
+	}
+	
+	// 유상효
+	@PostMapping(value = "/host/insertAcc")
+	public String insertAcc(Accommodation acc)  throws IllegalStateException, IOException {
+		hostService.insertAcc(acc);
+		return "넘어갈곳";
+	}
+	
+	// 유상효
 	@GetMapping("/mypage/hostingList")
 	public String Main() {
 		return "mypage/hostingList.hosttiles";
 	}
-	
-	// 유상효
-	@RequestMapping(value = "/host/req", method = RequestMethod.POST)
-	public String ApplyReq(Host host, Accommodation acc, Activity act, MultipartHttpServletRequest req) throws IllegalStateException, IOException {
-		hostService.apply(host);
-		return "넘어갈곳";	
-	}
-	
 	
 	public ModelAndView MainReq() {
 		return null;	
