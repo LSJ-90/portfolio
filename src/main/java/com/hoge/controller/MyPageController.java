@@ -17,6 +17,6 @@ public class MyPageController {
 	@GetMapping("/main")
 	public String myPageMainInit() { 
 		
-		return "mypage/main.tiles";
+		return "mypage/main.mytiles";
 	}
 }
