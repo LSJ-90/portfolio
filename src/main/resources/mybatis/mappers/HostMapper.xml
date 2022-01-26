@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hoge.mapper.HostMapper">
-  
-  <!-- 유상효
-		Host insertHostApply(); 
-	 -->
+
+	<!-- 유상효 userId로 가장 큰 hostNo 불러오기 -->
+	<select id="getHostNoByUserId" parameterType="String" resultType="int">
+		SELECT MAX(H.HOST_NO)
+		FROM TB_FINAL_HOSTS H, TB_FINAL_USERS U
+		WHERE H.HOST_USER_NO = U.USER_NO
+		AND USER_ID = #{VALUE}
+	</select>
+
+	<!-- 유상효 userId로 userNo 불러오기 -->
+	<select id="getUserNoByUserId" parameterType="String" resultType="int">
+	  	SELECT USER_NO FROM TB_FINAL_USERS
+	  	WHERE USER_ID = #{VALUE}
+	</select>
+
+	<!-- 유상효 Host insertHostApply(); -->
 	<insert id="insertHostApply" parameterType="com.hoge.vo.other.Host">
 		INSERT INTO TB_FINAL_HOSTS
 		(
@@ -29,11 +41,9 @@
 			)
 	</insert>
 	
-<!-- 유상효
-		Host insertAcc(); 
-	 -->
+	<!-- 유상효 Host insertAcc(); -->
 	<insert id="insertAcc" parameterType="com.hoge.vo.accommo.Accommodation">
-		INSERT INTO TB_FINAL_HOSTS
+		INSERT INTO TB_FINAL_ACCOMMODATIONS
 		(
 		ACCOMMO_NO,
 		HOST_NO,
@@ -60,11 +70,9 @@
 			)
 	</insert>
 
-<!-- 유상효
-		Host insertAct(); 
-	 -->	
+<!-- 유상효 Host insertAct(); -->	
 	<insert id="insertAct" parameterType="com.hoge.vo.activities.Activity">
-		INSERT INTO TB_FINAL_HOSTS
+		INSERT INTO TB_FINAL_ACTIVITIES
 		(
 		ACTIVITI_NO,
 		HOST_NO,

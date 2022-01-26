@@ -121,12 +121,132 @@
 	</form>
 <!-- first end -->
 		
+<!-- second start -->
+	<form class="border p-3 bg-light" id="second" method="post" action="insertAcc" enctype="multipart/form-data">
+		<div class="container">
+			<div class="row mb-3 ">
+				<div class="col text-center">
+					<h1>숙박 시설 정보 입력</h1>
+				</div>
+			</div>
+			<div class="row mb-3 d-flex justify-content-center">
+				<div class="col-6 text-center">
+					<div class="mb-3">
+						<label class="form-label">스테이 유형</label>
+						<select class="form-control text-center" id="type" name="type">
+							<option value="호텔">호텔</option>
+							<option value="게스트하우스">게스트하우스</option>
+							<option value="렌탈하우스">렌탈하우스</option>
+							<option value="펜션">펜션</option>
+							<option value="한옥">한옥</option>
+							<option value="캠핑&아웃도어">캠핑&아웃도어</option>
+							<option value="호스텔">호스텔</option>
+							<option value="리조트">리조트</option>
+							<option value="민박">민박</option>
+							<option value="호텔">호텔</option>
+						</select>
+					</div>
+					<div class="mb-3">
+						<label class="form-label">숙박 시설 이름</label>
+						<input type="text" class="form-control" id="accName" name="name" />
+					</div>
+					<div class="mb-3">
+						<label class="form-label">숙박 시설 사이트</label>
+						<input type="text" class="form-control" id="accWebAddress" name="webAddress" />
+					</div>
+					<div class="mb-3">
+						<label class="form-label">숙박 시설 타이틀</label>
+						<input type="text" class="form-control" id="accTitle" name="introTitle" />
+					</div>
+					<div class="mb-3">
+						<label class="form-label">숙박 시설 소개글</label>
+						<textarea rows="15" cols="76" name="introContent"></textarea>
+					</div>
+					<div class="mb-3">
+						<label class="form-label">사진 첨부</label>
+						<input type="file" class="form-control" name="image" />
+						<input type="file" class="form-control" name="image" />
+						<input type="file" class="form-control" name="image" />
+						<input type="file" class="form-control" name="image" />
+						<input type="file" class="form-control" name="image" />
+					</div>
+					<div class="mb-3">
+						<label class="form-label">숙박 시설 주소</label>
+						<input type="text" class="form-control" id="accAdress" name="adress" />
+					</div>
+					<div class="mb-3">
+						<label class="form-label">체크인 시간</label>
+						<input type="text" class="form-control" id="checkInTime" name="checkInTime" />
+					</div>
+					<div class="mb-3">
+						<label class="form-label">체크아웃 시간</label>
+						<input type="text" class="form-control" id="checkOutime" name="checkOutime" />
+					</div>
+					<div class="mb-3">
+						<button class="btn btn-primary" id="accInsertBtn" type="submit">등록 신청</button>
+					</div>					
+				</div>
+			</div>
+		</div>
+	</form>
+<!-- second end -->
+		
+<!-- third start -->
+	<form class="border p-3 bg-light" id="third" method="post" action="insertAct" enctype="multipart/form-data">
+		<div class="container">
+			<div class="row mb-3 ">
+				<div class="col text-center">
+					<h1>체험 활동 정보 입력</h1>
+				</div>
+			</div>
+			<div class="row mb-3 d-flex justify-content-center">
+				<div class="col-6 text-center">
+					<div class="mb-3">
+						<label class="form-label">체험 활동 이름</label>
+						<input type="text" class="form-control" id="hostName" name="name" />
+					</div>
+					<div class="mb-3">
+						<label class="form-label">체험 활동 타이틀</label>
+						<input type="text" class="form-control" id="actTitle" name="introTitle"/>
+					</div>
+					<div class="mb-3">
+						<label class="form-label">숙박 시설 소개글</label>
+						<textarea rows="15" cols="76" name="introContent"></textarea>
+					</div>
+					<div class="mb-3">
+						<label class="form-label">최대 인원</label>
+						<input type="text" class="form-control" id="maximumNumber" name="maximumNumber" />
+					</div>
+					<div class="mb-3">
+						<label class="form-label">1인당 가격</label>
+						<input type="text" class="form-control" id="pricePerPerson" name="pricePerPerson" />
+					</div>
+					<div class="mb-3">
+						<label class="form-label">사진 첨부</label>
+						<input type="file" class="form-control" name="image" />
+						<input type="file" class="form-control" name="image" />
+						<input type="file" class="form-control" name="image" />
+						<input type="file" class="form-control" name="image" />
+						<input type="file" class="form-control" name="image" />
+					</div>
+					<div class="mb-3">
+						<label class="form-label">체험 활동 주소</label>
+						<input type="text" class="form-control" id="actAdress" name="adress" />
+					</div>
+					<div class="mb-3">
+						<button class="btn btn-primary" id="actInsertBtn" type="submit">등록 신청</button>
+					</div>					
+				</div>
+			</div>
+		</div>
+	</form>
+<!-- third end -->
 
 </body>
 <script type="text/javascript">
 	$(function(){
-		//$('#second').hide();
-		//$('#third').hide();
+		$('#second').hide();
+		$('#third').hide();
 		
 		$('#ck-all').on('click', function(e){
 			var bool = $(this).prop('checked');
