@@ -154,11 +154,11 @@ input::placeholder {
 /* Mypage-main */
 #main {
   margin: 0 auto;
-  text-align: center;
   max-width: 1400px;
 }
 
 .section__header {
+  text-align: center;
   margin: 70px 0;
 }
 
@@ -183,6 +183,7 @@ input::placeholder {
 }
 
 .mypage__info {
+  text-align: center;
   padding-bottom: 60px;
 }
 
