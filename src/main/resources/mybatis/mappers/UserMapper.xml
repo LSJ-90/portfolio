@@ -50,6 +50,9 @@
 			user_id = #{id}
 	 </select>
 	 
+	 
+	 
+	 
 	 <!-- 이승준 
 		void insertUser();
 	 -->
@@ -57,8 +60,19 @@
 		insert into tb_final_users
 			(user_no, user_id, user_name, user_pwd, user_tel, user_email, user_gender)
 		values
-			(final_user_no_seq, #{id}, #{name}, #{pwd}, #{tel}, #{email}, #{gender})
+			(final_user_no_seq.NEXTVAL, #{id}, #{name}, #{pwd}, #{tel}, #{email}, #{gender})
 	</insert>
+	
+	
+	
+	<!-- 성하민 void insertUserKaKao(User user); -->
+	 <insert id="insertUserKaKao" parameterType="com.hoge.dto.KakaoUserDto">
+		insert into tb_final_users
+			(user_no, user_id, user_name, user_email, user_gender)
+		values
+			(final_user_no_seq.NEXTVAL, #{id}, #{name}, #{email}, #{gender})
+	</insert>
+	
 	
 	<!-- 이승준 
 		int userCheckByid(String id);

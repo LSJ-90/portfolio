@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.hoge.dto.KakaoUserDto;
 import com.hoge.form.CriteriaAdminUser;
 import com.hoge.vo.other.User;
 
@@ -24,6 +25,9 @@ public interface UserMapper {
 	
 	// 이승준 회원가입을 위한 메소드이다.
 	void insertUser(User user);
+	
+	// (성하민 수정) 카카오 로그인을 통해 회원가입
+	void insertUserKaKao(KakaoUserDto user);
 	
 	// 이승준 아이디 중복여부체크
 	int userCheckByid(String id);
