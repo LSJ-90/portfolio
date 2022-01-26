@@ -1,12 +1,18 @@
 package com.hoge.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,15 +27,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.ChattingMessageDto;
+import com.hoge.pagination.Pagination;
+import com.hoge.pagination.PaginationQnA;
 import com.hoge.service.ChatRoomService;
 import com.hoge.service.HostQnAService;
 import com.hoge.service.HostService;
 import com.hoge.util.SessionUtils;
 import com.hoge.vo.accommo.Accommodation;
 import com.hoge.vo.activities.Activity;
-import com.hoge.vo.other.ChatRoom;
 import com.hoge.vo.other.Host;
 import com.hoge.vo.other.HostQnA;
+import com.hoge.vo.other.User;
 
 @Controller
 public class HostController {
@@ -70,10 +78,24 @@ public class HostController {
 	
 	//성하민
 	@GetMapping("/host/qna")
-	public ModelAndView qna(ModelAndView mv) {
+	public ModelAndView qna(@RequestParam(name = "page", required = false, defaultValue = "1") String page, ModelAndView mv) {
 		mv.setViewName("hostpage/qna.hosttiles");
-		List<HostQnA> qnaList = hostQnAService.getHostQnAListByHostNo(100);
+		
+		
+		int totalRecords = hostQnAService.getHostQnACountByHostNo(100);
+				// 현재 페이지번호와 총 데이터 갯수를 전달해서 페이징 처리에 필요한 정보를 제공하는 Pagination객체 생성
+		
+		
+		PaginationQnA pagination = new PaginationQnA(page, totalRecords);
+				
+		int begin = pagination.getBegin();
+		int end = pagination.getEnd();
+
+		
+		List<HostQnA> qnaList = hostQnAService.getHostQnAListByHostNo(100, begin, end);
 		mv.addObject("qnaList", qnaList);
+		mv.addObject("pagination", pagination);
+		mv.addObject("totalRecords", totalRecords);
 	
 		return mv;
 	}
@@ -102,6 +124,15 @@ public class HostController {
 		
 		List<ChattingMessageDto> msgList = chatRoomService.getMessagesByChatRoomNo(no);
 		return msgList;
+	}
+	
+	
+	@PostMapping("/host/qna-insert.do")
+	public String save(HostQnA hostQnA) throws IOException {
+		
+		hostQnAService.insertHostQnA(hostQnA);
+		
+		return "redirect:qna";
 	}
 	
 	
