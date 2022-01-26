@@ -3,56 +3,52 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../common/tags.jsp" %>
 <head>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  	<!-- 카카오 api -->
-  	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+  	
 </head>
-<div class="container ">
-	<div class="row mb-3 ">
-		<div class="col text-center">
-			<h1>로그인</h1>
-			<h3>Login</h3>
-		</div>
-	</div>
-	<div class="row mb-3 d-flex justify-content-center">
-		<div class="col-8">
+ <main id="main">
+	<div class="login-wrap">
+		<header class="section__header">
+			<h1 class="section__title">LOGIN</h1>
+			<p class="section__text">로그인</p>
+		</header>
+		<article class="login">
 			<c:if test="${not empty error }">
-				<div class="mb-3 alert alert-danger">
-					${error }
-				</div>
+				<div class="mb-3 alert alert-danger">${error }</div>
 			</c:if>
-			<!-- 일반폼 -->
-			<form class="" method="post" action="login">
-				<div class="mb-3">
-					<label class="form-label">아이디</label>
-					<input type="text" class="form-control" name="id" />
+			<form action="login" class="login-form" method="post">
+				<div class="form__wrap">
+					<div class="login__id">
+						<input type="text" class="form__id" name="id" placeholder="아이디" />
+					</div>
+					<div class="login__pwd">
+						<input type="password" class="form__pwd" name="pwd" placeholder="비밀번호" />
+					</div>
 				</div>
-				<div class="mb-3">
-					<label class="form-label">비밀번호</label>
-					<input type="password" class="form-control" name="pwd" />
+				<div class="login__btn">
+					<button type="submit" class="btn__login">LOGIN</button>
 				</div>
-				<div class="mb-3 text-end">
-					<a href="/register" class="btn btn-secondary">회원가입</a>
-					<a href="#" class="btn btn-secondary">비밀번호찾기</a>
-					<button class="btn btn-primary">로그인</button>
+				<div class="login__etc">
+					<a href="/register" class="sign-in">회원가입</a>
+					<a href="" class="forgot-pwd">비밀번호 찾기</a>
 				</div>
 			</form>
-				<div class="mb-3 text-end">
-   					<a id="btn-kakao-login" href="kakao/login">
- 						<img src="../../resources/images/main/login_icon_kakao.png" alt=""/>
+			<div class="login__sns">
+				<p class="sns__title">SNS 계정으로 로그인하기</p>
+				<div class="sns__login">
+					<a href="kakao/login" id="btn-kakao-login"> 
+						<img src="../../resources/images/main/login_icon_kakao.png" alt="kakao-icon" class="sns__icon" />
 					</a>
-   				</div>
-			<!--  카카오 폼 -->
-    		<form id="form-kakao-login" method="post" action="loginKakao">
-	    		<input type="hidden" name="id" />
-	    		<input type="hidden" name="name" />
-	    		<input type="hidden" name="email" />
-    		</form>
-		</div>
+				</div>
+			</div>
+		</article>
 	</div>
-</div>
+</main>
+<!--  카카오 폼 -->
+<form id="form-kakao-login" method="post" action="loginKakao">
+	<input type="hidden" name="id" />
+	<input type="hidden" name="name" />
+	<input type="hidden" name="email" />
+</form>
 <script type="text/javascript">
 $(function() {
 	// 카카오 로그인 버튼을 클릭할 때 실행할 이벤트 핸들러 함수를 등록한다.
