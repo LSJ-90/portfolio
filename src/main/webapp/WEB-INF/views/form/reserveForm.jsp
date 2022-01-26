@@ -9,9 +9,14 @@
 </head>
 <body>
 <div class="container ">
-	<div class="row mb-3 ">
-		<div class="col text-center">
-			<form action="">
+	<form method="post" action="" >
+		<div class="row mb-3">
+			<div class="col">
+				
+			</div>
+		</div>
+		<div class="row mb-3 border">
+			<div class="col text-center">
 				<table class="table">
 					<tr>
 						<th>예약 스테이</th>
@@ -20,7 +25,9 @@
 					<tr>
 						<th>예약일</th>
 						<td>
-							<fmt:formatDate value="${checkIn }" pattern="yyyy-MM-dd"/>~<fmt:formatDate value="${checkOut }" pattern="yyyy-MM-dd"/> | 
+							<fmt:parseNumber value="${checkIn.time / (1000*60*60*24)}" integerOnly="true" var="strDate"></fmt:parseNumber>
+							<fmt:parseNumber value="${checkOut.time / (1000*60*60*24)}" integerOnly="true" var="endDate"></fmt:parseNumber>
+							<fmt:formatDate value="${checkIn }" pattern="yyyy-MM-dd"/>~<fmt:formatDate value="${checkOut }" pattern="yyyy-MM-dd"/> | ${endDate-strDate }박
 						</td>
 					</tr>
 					<tr>
@@ -80,13 +87,13 @@
 					<tr>
 						<th>이용자 정보</th>
 						<td>
-							<div class="form-check real-user">
-								<input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked> 
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" value="realUser" id="flexCheckChecked-real-user" checked> 
 								<label class="form-check-label" for="flexCheckChecked">
 									예약자 정보와 동일합니다.
 								</label>
 							</div>
-							<div id="real-user">
+							<div id="real-user-form" style="display: none">
 								<table class="table">
 									<tr>
 										<th>성명</th>
@@ -141,26 +148,52 @@
 						</td>
 					</tr>
 				</table>
-			</form>
-		</div>
-		
-		<!-- 이용자 약관 동의 -->
-		<div>
-			<h6>이용자 약관 동의</h6>
+			</div>
+			
+			<!-- 이용자 약관 동의 -->
 			<div>
-				<div class="form-check">
-					<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-					<label class="form-check-label" for="flexCheckDefault">사용자 약관 전체 동의</label>
-				</div>
+				<h6>이용자 약관 동의</h6>
 				<div>
-					
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+						<label class="form-check-label" for="flexCheckDefault">사용자 약관 전체 동의</label>
+					</div>
+					<div>
+						
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</form>
 </div>
 <script type="text/javascript">
-
+window.onload = function () {
+	$.ajax({
+		type: 'get',
+		url: '/getPrice',
+		data:  {checkIn: 20220126, checkOut: 20220202, number: 5},
+		dataType: 'json',
+		success: function(result) {
+			console.log(result);
+		},
+		error: function(error) {
+			console.log(error);
+		}
+	})
+}
+$(function() {
+	$("#flexCheckChecked-real-user").change(function() {
+		if ($("input:checkbox[id='flexCheckChecked-real-user']").is(":checked") == true){
+			$("#real-user-form").hide();
+		} else {
+			$("#real-user-form").show();
+		}
+	});
+	
+})
+	
+	
+	
 </script>
 </body>
 </html>
