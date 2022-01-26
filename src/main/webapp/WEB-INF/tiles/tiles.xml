@@ -59,5 +59,25 @@
    <definition name="*/*/*.hosttiles" extends="layout-hosttiles">
        <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
    </definition>
+   
+   <!-- mypage -->
+   <definition name="layout-mytiles" template="/WEB-INF/tiles/mypagemgt/base-layout.jsp">
+       <put-attribute name="header" value="/WEB-INF/tiles/common/header.jsp" />
+       <put-attribute name="sideNav" value="/WEB-INF/tiles/mypagemgt/sideNav.jsp" />
+       <put-attribute name="body" value="" />
+       <put-attribute name="footer" value="/WEB-INF/tiles/common/footer.jsp" />
+   </definition>
+  
+   <definition name="*.mytiles" extends="layout-mytiles">
+       <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+   </definition>
+   
+   <definition name="*/*.mytiles" extends="layout-mytiles">
+       <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+   </definition>
+   
+   <definition name="*/*/*.mytiles" extends="layout-mytiles">
+       <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
+   </definition>
   
 </tiles-definitions>
