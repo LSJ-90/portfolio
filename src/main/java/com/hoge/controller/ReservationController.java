@@ -44,7 +44,6 @@ public class ReservationController {
 		model.addAttribute("checkIn", checkIn);
 		model.addAttribute("checkOut", checkOut);
 		model.addAttribute("user", user);
-		/* model.addAttribute("user", user); */
 		return "form/reserveForm";
 	}
 }

@@ -20,11 +20,7 @@ public class ReserveAccommoDto {
 	private String accommoName;
 	private int roomNo;
 	private String roomName;
-	private long weekdaysPrice;
-	private long weekendPrice;
-	private long peakSeasonPrice;
 	private int standardNumber;
 	private int maximumNumber;
-	private long pricePerPerson;
 
 }

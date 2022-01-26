@@ -10,11 +10,7 @@
 			r.room_no as roomNo,
 			r.room_name as roomName,
 			r.standard_number as standardNumber,
-			r.maximum_number as maximumNumber,
-			r.weekdays_price as weekdaysPrice,
-			r.weekend_price as weekendPrice,
-			r.peak_season_price as peakSeasonPrice,
-			r.price_per_person as pricePerPerson
+			r.maximum_number as maximumNumber
 		from 
 			tb_final_accommodations a,
 			tb_final_rooms r
