@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.hoge.dto.KakaoUserDto;
 import com.hoge.exception.LoginException;
 import com.hoge.form.CriteriaAdminUser;
 import com.hoge.mapper.UserMapper;
@@ -54,10 +55,11 @@ public class UserService {
 	}
 	
 	// 이승준: 카카오톡 로그인
-	public User loginKakao(User kakaoUser) {
+	public User loginKakao(KakaoUserDto kakaoUser) {
 		User savedUser = userMapper.getUserById(kakaoUser.getId());
 		if (savedUser == null) {
-			userMapper.insertUser(kakaoUser);
+			System.out.println(kakaoUser.getId());
+			userMapper.insertUserKaKao(kakaoUser);
 		}
 		return savedUser;
 	}

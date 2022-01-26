@@ -95,7 +95,7 @@ public class UserAuthController {
 					.gender(kakaoUser.getGender())
 					.build();
 		
-		User savedUser = userService.loginKakao(user);
+		User savedUser = userService.loginKakao(kakaoUser);
 		
 		if (savedUser != null) {
 			SessionUtils.addAttribute("LOGIN_USER", savedUser);

@@ -48,6 +48,7 @@
 	<input type="hidden" name="id" />
 	<input type="hidden" name="name" />
 	<input type="hidden" name="email" />
+	<input type="hidden" name="gender" />
 </form>
 <script type="text/javascript">
 $(function() {
@@ -72,7 +73,7 @@ $(function() {
 						$('#form-kakao-login input[name=name]').val(account.profile.nickname);
 						$('#form-kakao-login input[name=email]').val(account.email);
 						//$('#form-kakao-login input[name=age]').val(account.age_range);
-						//$('#form-kakao-login input[name=gender]').val(account.gender);
+						$('#form-kakao-login input[name=gender]').val(account.gender);
 						// 사용자 정보가 포함된 폼을 서버로 제출한다.
 						document.querySelector("#form-kakao-login").submit()
 					},
