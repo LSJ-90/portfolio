@@ -16,8 +16,15 @@
 	  	WHERE USER_ID = #{VALUE}
 	</select>
 
-	<!-- 유상효 Host insertHostApply(); -->
+<!-- 
+ -->
+ 
+	<!-- 유상효 호스트 등록하기 -->
 	<insert id="insertHostApply" parameterType="com.hoge.vo.other.Host">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+				select FINAL_HOST_NO_SEQ.NEXTVAL
+				from dual
+		</selectKey>
 		INSERT INTO TB_FINAL_HOSTS
 		(
 		HOST_NO,
@@ -30,7 +37,8 @@
 		HOST_TEL
 		)
 		VALUES
-			(FINAL_HOST_NO_SEQ.NEXTVAL,
+			(
+			#{no},
 			#{userNo},
 			#{accountHolderName},
 			#{accountNumber},
@@ -41,8 +49,12 @@
 			)
 	</insert>
 	
-	<!-- 유상효 Host insertAcc(); -->
+	<!-- 유상효 숙박 등록하기 -->
 	<insert id="insertAcc" parameterType="com.hoge.vo.accommo.Accommodation">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+				select FINAL_ACCOMMO_NO_SEQ.NEXTVAL
+				from dual
+		</selectKey>
 		INSERT INTO TB_FINAL_ACCOMMODATIONS
 		(
 		ACCOMMO_NO,
@@ -57,7 +69,8 @@
 		ACCOMMO_ADDRESS
 		)
 		VALUES
-			(FINAL_ACCOMMO_NO_SEQ.NEXTVAL,
+			(
+			#{no},
 			#{hostNo},
 			#{type},
 			#{name},
@@ -70,11 +83,29 @@
 			)
 	</insert>
 
-<!-- 유상효 Host insertAct(); -->	
+	<!-- 유상효 숙소 사진 저장 -->
+	<insert id="insertAccImage" parameterType="com.hoge.vo.accommo.AccommoImage">
+		INSERT INTO TB_FINAL_ACCOMMO_IMAGES
+		(
+		ACCOMMO_IMAGE,
+		ACCOMMO_NO
+		)
+		VALUES
+			(
+			#{image},
+			#{accommoNo}
+			)
+	</insert>
+	
+	<!-- 유상효 체험 등록하기 -->	
 	<insert id="insertAct" parameterType="com.hoge.vo.activities.Activity">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+				select FINAL_ACTIVITY_NO_SEQ.NEXTVAL
+				from dual
+		</selectKey>
 		INSERT INTO TB_FINAL_ACTIVITIES
 		(
-		ACTIVITI_NO,
+		ACTIVITY_NO,
 		HOST_NO,
 		MAXIMUM_NUMBER,
 		PRICE_PER_PERSON,
@@ -84,7 +115,8 @@
 		ACTIVITY_INTRO_CONTENT
 		)
 		VALUES
-			(FINAL_ACTIVITY_NO_SEQ.NEXTVAL,
+			(
+			#{no},
 			#{hostNo},
 			#{maximumNumber},
 			#{pricePerPerson},
@@ -94,6 +126,43 @@
 			#{introContent}
 			)
 	</insert>
+	
+	<!-- 유상효 체험 사진 저장-->
+	<insert id="insertActImage" parameterType="com.hoge.vo.activities.ActivityImage">
+		INSERT INTO TB_FINAL_ACTIVITY_IMAGES
+		(
+		ACTIVITY_IMAGE,
+		ACTIVITY_NO
+		)
+		VALUES
+			(
+			#{image},
+			#{activityNo}
+			)
+	</insert>
+	
+	<!-- 유상효 accNo로 숙소사진 불러오기 -->
+	<select id="getAccImagesByHostNo" parameterType="int" resultType="com.hoge.vo.accommo.AccommoImage">
+		SELECT
+			ACCOMMO_IMAGE	image,
+			ACCOMMO_NO		accommoNo
+		FROM
+			TB_FINAL_ACCOMMO_IMAGES
+		WHERE
+			ACCOMMO_NO = #{VALUE}
+	</select>
+	
+	<!-- 유상효 accNo로 체험 불러오기 -->
+	<select id="getActImagesByHostNo" parameterType="int" resultType="com.hoge.vo.activities.ActivityImage">
+		SELECT
+			ACTIVITY_IMAGE	image,
+			ACTIVITY_NO		activityNo
+		FROM
+			TB_FINAL_ACTIVITY_IMAGES
+		WHERE
+			ACCOMMO_NO = #{VALUE}
+	</select>
+	
 
 	<!-- 성하민
 		Host getHostByNo();
