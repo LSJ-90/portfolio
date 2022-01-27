@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 // import com.hoge.dto.ResponseDto;
 import com.hoge.exception.CustomException;
+import com.hoge.exception.FindException;
+import com.hoge.exception.UpdateException;
 import com.hoge.exception.LoginException;
 import com.hoge.exception.RegisterException;
 
@@ -78,6 +80,24 @@ public class ExceptionHandlerControllerAdvice {
 		return "form/loginForm.tiles";
 	}
 	
+	// 이승준: 메세지를 포함하여 FindException이 발생한 findIdForm 페이지로 리턴
+	@ExceptionHandler(FindException.class) 
+	public String handleFindException(FindException e, Model model){
+		e.printStackTrace();
+		model.addAttribute("error", e.getMessage());
+		return "form/findIdForm.tiles";
+	}
+	
+	 // 이승준: 메세지를 포함하여 UpdateException이 발생한 findIdForm 페이지로 리턴
+	 @ExceptionHandler(UpdateException.class) 
+	 public String handleUpdateException(UpdateException e, Model model) { 
+		 e.printStackTrace();
+		 model.addAttribute("error", e.getMessage()); 
+		 return "mypage/userUpdate.mytiles"; 
+	 }
+	
+	
+	// 이승준: 메세지를 포함하여 RegisterException이 발생한 registerForm 페이지로 리턴
 	@ExceptionHandler(RegisterException.class) 
 	public String registerLoginException(RegisterException e, Model model){
 		e.printStackTrace();
