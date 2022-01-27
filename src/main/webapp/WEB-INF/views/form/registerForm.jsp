@@ -111,7 +111,7 @@
 		});
 	</script>
 </head>
- <main id="main">
+<main id="main">
   <div class="login-wrap">
     <header class="section__header">
       <h1 class="section__title">JOIN</h1>
@@ -156,7 +156,7 @@
               type="text"
               id="userName"
               name="name"
-              placeholder="이름 입력해 주세요"
+              placeholder="이름을 입력해 주세요"
             />
           </div>
           <div class="join__box">
@@ -196,14 +196,24 @@
         <div class="agree-checkbox">
           <div class="agree__all">
             <div class="all-wrap">
-              <input type="checkbox" id="check_all" />
+              <input
+                type="checkbox"
+                id="check_all"
+                name="selectall"
+                onclick="selectAll(this)"
+              />
               <label for="check_all">사용자 약관 전체 동의</label>
             </div>
           </div>
           <details>
             <summary>
               <div class="agree__box">
-                <input type="checkbox" id="check_service" />
+                <input
+                  type="checkbox"
+                  id="check_service"
+                  name="agreecheck"
+                  onclick="checkSelectAll()"
+                />
                 <label for="check_service">
                   서비스 이용 약관 동의 (필수)
                 </label>
@@ -248,7 +258,12 @@
           <details>
             <summary>
               <div class="agree__box">
-                <input type="checkbox" id="check_privacy" />
+                <input
+                  type="checkbox"
+                  id="check_privacy"
+                  name="agreecheck"
+                  onclick="checkSelectAll()"
+                />
                 <label for="check_privacy">
                   개인정보 취급방침 동의 (필수)
                 </label>
@@ -333,7 +348,12 @@
           <details>
             <summary>
               <div class="agree__box">
-                <input type="checkbox" id="check_above" />
+                <input
+                  type="checkbox"
+                  id="check_above"
+                  name="agreecheck"
+                  onclick="checkSelectAll()"
+                />
                 <label for="check_above">만14세 이상 확인 (필수)</label>
               </div>
             </summary>
@@ -349,7 +369,12 @@
           <details>
             <summary>
               <div class="agree__box">
-                <input type="checkbox" id="check_lifetime" />
+                <input
+                  type="checkbox"
+                  id="check_lifetime"
+                  name="agreecheck"
+                  onclick="checkSelectAll()"
+                />
                 <label for="check_lifetime">평생회원제동의 (선택)</label>
               </div>
             </summary>
@@ -361,7 +386,12 @@
           <details>
             <summary>
               <div class="agree__box">
-                <input type="checkbox" id="check_marketing" />
+                <input
+                  type="checkbox"
+                  id="check_marketing"
+                  name="agreecheck"
+                  onclick="checkSelectAll()"
+                />
                 <label for="check_marketing">
                   마케팅정보 수신 동의 (선택)
                 </label>
@@ -396,7 +426,6 @@
     </article>
   </div>
 </main>
-
 <!--  카카오 폼 -->
 <form id="form-kakao-login" method="post" action="loginKakao">
 	<input type="hidden" name="id" />
