@@ -171,7 +171,7 @@ window.onload = function () {
 	$.ajax({
 		type: 'get',
 		url: '/getPrice',
-		data:  {checkIn: 20220126, checkOut: 20220202, number: 5},
+		data:  {checkIn: 20220714, checkOut: 20220716, roomNo: 100, number: 5},
 		dataType: 'json',
 		success: function(result) {
 			console.log(result);

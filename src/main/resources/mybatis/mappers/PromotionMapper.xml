@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hoge.mapper.PromotionMapper">
+	
+	<select id="getPromotionDiscount" resultType="com.hoge.vo.other.PromotionDiscount">
+		select 
+			p.discount_promotion_no as no,
+			p.promotion_intro_content as introContent,
+			p.weekdays_discount_rate as weekdaysDiscountRate,
+			p.weekend_discount_rate as weekendDiscountRate,
+			p.peak_season_discount_rate as peakSeasonDiscountRate,
+			p.promotion_starting_date as startingDate,
+			p.promotion_ending_date as endingDate
+		from 
+			tb_final_accommodations a,
+			tb_final_discount_promotions p
+		where a.host_no = p.host_no
+			and a.accommo_no = #{accommoNo}
+			and ((#{checkIn} between p.promotion_starting_date and p.promotion_ending_date) or 
+			(#{checkOut} between p.promotion_starting_date and p.promotion_ending_date))
+	</select>
+
+</mapper>
