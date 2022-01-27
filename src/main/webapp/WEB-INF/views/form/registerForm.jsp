@@ -76,12 +76,12 @@
 				
 				$.ajax({
 					url : "/register/checkId",
-					type : "POST",
-					data: {userId : id},
-					success : function(reuslt) {
+					type : "post",
+					data : {userId : id},
+					success : function(result) {
 						// 확인용: console.log("1=중복 // 0=정상 : "+ reuslt);							
 						
-						if (reuslt == 1) {
+						if (result == 1) {
 							// 1 : 중복
 							$("#check_id").text("사용중인 아이디입니다!!  :(");
 							$("#check_id").css("color", "red");

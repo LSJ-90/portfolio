@@ -15,7 +15,7 @@
     </ul>
     <ul class="menu__my-info">
       <li class="my-info__item title">내 계정</li>
-      <li class="my-info__item"><a href="">회원 정보 수정</a></li>
+      <li class="my-info__item"><a href="/userUpdate">회원 정보 수정</a></li>
       <li class="my-info__item"><a href="">1:1 문의</a></li>
       <li class="my-info__item"><a href="">FAQ</a></li>
     </ul>

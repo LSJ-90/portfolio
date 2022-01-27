@@ -1,11 +1,7 @@
-<!-- 이승준: 부트스트랩을 이용한 데모뷰, 디자인 적용 시 삭제 될 것-->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../common/tags.jsp" %>
-<head>
-  	
-</head>
- <main id="main">
+<main id="main">
 	<div class="login-wrap">
 		<header class="section__header">
 			<h1 class="section__title">LOGIN</h1>
@@ -29,6 +25,7 @@
 				</div>
 				<div class="login__etc">
 					<a href="/register" class="sign-in">회원가입</a>
+					<a href="/findId" class="forgot-pwd">아이디 찾기</a>
 					<a href="" class="forgot-pwd">비밀번호 찾기</a>
 				</div>
 			</form>

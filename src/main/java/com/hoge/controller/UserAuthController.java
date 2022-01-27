@@ -3,11 +3,13 @@ package com.hoge.controller;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hoge.annotation.LoginedUser;
 import com.hoge.dto.HogeUserDto;
 import com.hoge.dto.KakaoUserDto;
 import com.hoge.service.UserService;
@@ -30,7 +32,7 @@ public class UserAuthController {
 	
 	// 이승준: 로그인폼 페이지 리턴
 	@GetMapping("/login")
-	public String login() throws Exception {
+	public String loginInit() throws Exception {
 		
 		return "form/loginForm.tiles";
 	}
@@ -51,17 +53,9 @@ public class UserAuthController {
 	
 	// 이승준: 회원가입 페이지로 리턴
 	@GetMapping("/register")
-	public String register() {
+	public String registerInit() {
 		
 		return "form/registerForm.tiles";
-	}
-	
-	// 이승준: 아이디 중복여부 체크
-	@PostMapping("/register/checkId")
-	@ResponseBody
-	public int register(@RequestParam("userId") String id) {
-		
-		return userService.userCheckById(id);
 	}
 	
 	// 이승준: 회원가입 
@@ -89,11 +83,11 @@ public class UserAuthController {
 		log.info("카카오 로그인 인증정보 : " + kakaoUser );
 		
 		User user = User.builder()
-					.id(kakaoUser.getId())
-					.name(kakaoUser.getName())
-					.email(kakaoUser.getEmail())
-					.gender(kakaoUser.getGender())
-					.build();
+					    .id(kakaoUser.getId())
+					    .name(kakaoUser.getName())
+					    .email(kakaoUser.getEmail())
+					    .gender(kakaoUser.getGender())
+					    .build();
 		
 		User savedUser = userService.loginKakao(kakaoUser);
 		
@@ -104,6 +98,49 @@ public class UserAuthController {
 		}
 		
 		return "redirect:home";
+	}
+	
+	// 이승준: 아이디 찾기 페이지 리턴
+	@GetMapping("/findId")
+	public String findIdInit() {
+		
+		return "form/findIdForm.tiles";
+	}
+	
+	// 이승준: 이메일로 아이디 찾기
+	@PostMapping("/findId")
+	public String findId(@RequestParam("userEmail") String email, Model model) {
+		
+		User savedUser = userService.getUserByEmail(email);
+		
+		model.addAttribute("userId", savedUser.getId());
+		
+		return "form/findIdForm.tiles";
+	}
+	
+	// 이승준: 회원정보 업데이트 페이지 리턴
+	@GetMapping("/userUpdate")
+	public String userUpdateInit() {
+		
+		return "mypage/userUpdate.mytiles";
+	}
+	
+	// 이승준: 회원정보 업데이트
+	@PostMapping("/userUpdate")
+	public String userUpdate(User user) {
+		User updateUserInfo = User.builder()
+								  .name(user.getName())
+					    		  .id(user.getId())
+					    		  .pwd(DigestUtils.sha512Hex(user.getPwd()))
+					    		  .tel(user.getTel())
+								  .email(user.getEmail())
+								  .gender(user.getGender())
+								  .build();
+		System.out.println(updateUserInfo.getEmail());
+		userService.updateUser(updateUserInfo);
+		System.out.println(updateUserInfo.getEmail());
+		
+		return "mypage/userUpdate.mytiles";
 	}
 	
 	// 이승준: 로그아웃 시 홈 페이지로 리다이렉트

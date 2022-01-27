@@ -8,9 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.hoge.dto.KakaoUserDto;
+import com.hoge.exception.UpdateException;
+import com.hoge.exception.FindException;
 import com.hoge.exception.LoginException;
 import com.hoge.form.CriteriaAdminUser;
 import com.hoge.mapper.UserMapper;
+import com.hoge.util.SessionUtils;
 import com.hoge.vo.other.User;
 
 /**
@@ -27,6 +30,32 @@ public class UserService {
 	// 이승준 공용
 	public List<User> getAllUsers() {
 		return userMapper.getAllUsers();
+	}
+	
+	// 이승준: 이메일 정보를 조회하여 유저정보를 리턴
+	public User getUserByEmail(String email) {
+		
+		User savedUser = userMapper.getUserByEmail(email);
+		
+		if (savedUser == null) {
+			throw new FindException("회원정보가 존재하지 않습니다.");
+		}
+		
+		return savedUser;
+	}
+	
+	// 이승준: 유저 정보 업데이트 트랜젝션
+	public void updateUser(User user) {
+		
+		User savedUser = (User) SessionUtils.getAttribute("LOGIN_USER");
+		
+		/*
+		 * String authPwd = DigestUtils.sha512Hex(user.getPwd()); if
+		 * (!authPwd.equals(savedUser.getPwd())) { throw new
+		 * UpdateException("비밀번호가 일치하지 않습니다."); }
+		 */
+		
+		userMapper.updateUser(user);
 	}
 	
 	// 이승준 로그인페이지
@@ -54,23 +83,25 @@ public class UserService {
 		return savedUser;
 	}
 	
-	// 이승준: 카카오톡 로그인
+	// 이승준: 카카오톡 로그인페이지
 	public User loginKakao(KakaoUserDto kakaoUser) {
+		
 		User savedUser = userMapper.getUserById(kakaoUser.getId());
+		
 		if (savedUser == null) {
 			System.out.println(kakaoUser.getId());
 			userMapper.insertUserKaKao(kakaoUser);
 		}
+		
 		return savedUser;
 	}
 	
-	// 이승준: 회원가입 중복체크
+	// 이승준: 회원가입 페이지
 	public int userCheckById(String id) {
-		
 		return userMapper.userCheckByid(id);
 	}
 	
-	// 이승준 회원가입
+	// 이승준: 회원가입 페이지
 	public User register(User newUser) {
 		
 		userMapper.insertUser(newUser);

@@ -17,19 +17,25 @@ import com.hoge.vo.other.User;
 @Mapper
 public interface UserMapper {
 	
-	// 이승준 테스트용, 모든 유저정보를 가져온다.
+	// 이승준: 테스트용, 모든 유저정보를 가져온다.
 	List<User> getAllUsers();
 	
-	// 이승준 아이디에 맞는 유저정보를 가져온다.
+	// 이승준: 아이디에 맞는 유저정보를 가져온다.
 	User getUserById(String id);
 	
-	// 이승준 회원가입을 위한 메소드이다.
+	// 이승준: 이메일에 맞는 유저정보를 가져온다.
+	User getUserByEmail(String email);
+	
+	// 이승준: 유저의 정보를 업데이트한다.
+	void updateUser(User user);
+	
+	// 이승준: 회원가입을 위한 메소드이다.
 	void insertUser(User user);
 	
 	// (성하민 수정) 카카오 로그인을 통해 회원가입
 	void insertUserKaKao(KakaoUserDto user);
 	
-	// 이승준 아이디 중복여부체크
+	// 이승준: 아이디 중복여부체크 1: 중복 / 0: 정상
 	int userCheckByid(String id);
 	
 	// 성하민

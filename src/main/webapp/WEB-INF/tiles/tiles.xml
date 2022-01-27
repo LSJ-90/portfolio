@@ -63,6 +63,7 @@
    <!-- mypage -->
    <definition name="layout-mytiles" template="/WEB-INF/tiles/mypagemgt/base-layout.jsp">
        <put-attribute name="header" value="/WEB-INF/tiles/common/header.jsp" />
+       <put-attribute name="myHeader" value="/WEB-INF/tiles/mypagemgt/myHeader.jsp" />
        <put-attribute name="sideNav" value="/WEB-INF/tiles/mypagemgt/sideNav.jsp" />
        <put-attribute name="body" value="" />
        <put-attribute name="footer" value="/WEB-INF/tiles/common/footer.jsp" />
