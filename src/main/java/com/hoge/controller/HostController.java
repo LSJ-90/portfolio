@@ -30,7 +30,7 @@ import com.hoge.dto.ChattingMessageDto;
 import com.hoge.pagination.Pagination;
 import com.hoge.pagination.PaginationQnA;
 import com.hoge.service.ChatRoomService;
-import com.hoge.service.HostQnAService;
+import com.hoge.service.QnAService;
 import com.hoge.service.HostService;
 import com.hoge.util.SessionUtils;
 import com.hoge.vo.accommo.Accommodation;
@@ -49,7 +49,7 @@ public class HostController {
 	private ChatRoomService chatRoomService;
 	
 	@Autowired
-	private HostQnAService hostQnAService;
+	private QnAService hostQnAService;
 	
 	// 유상효
 	@GetMapping("/host/applyForm")

@@ -35,7 +35,7 @@
 <body>
 <div class="container">
 	<div class="row mt-3">
-		<div class="qna-list col-7">
+		<div class="qna-list col">
 						자주 묻는 질문
 						<div class="faq"> 
 							<div class="faq-box">
@@ -75,8 +75,14 @@
 								</div>
 							</div>
 						</div>
-		
-		
+						<div class="row mt-3">
+							<div class="withdrawal">
+								<div class="mt-3 text-middle">
+									<button type="button" class="btn btn-dark" onclick="creatingModal()">문의하기</button>
+								</div>
+							</div>
+						</div>
+	
 		
 					<div class="qna-box">
 					<c:choose>
@@ -91,11 +97,11 @@
 						<div class="row mt-3">
 							<div class="col mt-2">
 								<span style="margin-left: 5px;">
-								총 3건의	상담내역이 있습니다.
+								총 ${totalRecords }건의	상담내역이 있습니다.
 								</span>
 							</div>
 							<div>
-								<div class="accordion accordion-flush" id="faqlist" style="border-top:1px solid #d5d5d5; border-bottom:1px solid #d5d5d5;">
+								<div class="accordion accordion-flush m-3" id="faqlist" style="border-top:1px solid #d5d5d5; border-bottom:1px solid #d5d5d5;">
 									<c:forEach var="qna" items="${qnaList }" varStatus="loop">
 									<div class="accordion-item">
 										<div class="row pt-1">
@@ -106,10 +112,21 @@
 												<span>${qna.title }</span>
 											</div>
 											<div class="col-3 mt-1 text-center">
-												<span style="font-weight: bold;">${qna.questionDate }</span>
+												<span style="font-weight: bold;">
+												<fmt:formatDate value="${qna.questionDate }" pattern="yyyy.MM.dd"/>
+												</span>
 											</div>
 											<div class="col-2 mt-1 text-end">
-												<span style="font-weight: bold;">${qna.answered }</span>
+												<span style="font-weight: bold;">
+												<c:choose>
+													<c:when test="${qna.answered eq 'N'}">
+													답변 대기
+													</c:when>
+													<c:otherwise>
+													답변 완료
+													</c:otherwise>
+												</c:choose>
+												</span>
 											</div>
 											<div class="col-1 mt-1 text-end">
 												<h2 class="accordion-header"
@@ -124,7 +141,7 @@
 										<div id="faq-content-${qna.no }"
 											class="accordion-collapse collapse" data-bs-parent="#faqlist">
 											<div class="accordion-body">
-												<strong>Q. </strong>ddddddddddddd
+												<strong>Q. </strong>${qna.content }
 											</div>
 											<div class="accordion-body">
 												<c:choose>
@@ -141,22 +158,31 @@
 									</c:forEach>
 								</div>
 							</div>
+							
+										
 						</div>
 						</c:otherwise>
 					</c:choose>
 						
+							
 						
 						
 					</div><!-- qna-box -->
 				</div>  <!-- qna-list -->
 								
-				<div class="preqna col-5">
 			
-			<div>
-				<form id="qna-form" action="/host/qna">
-					<input type="hidden" name="orderNo" value="">
-					<div>
-						<div class="category-list-box p-3 ">
+			
+			<div class="modal fade" id="modal-creating-qna" tabindex="-1" aria-labelledby="출금신청" aria-hidden="true">
+		  		<div class="modal-dialog modal-lg">
+		    		<div class="modal-content">
+		      			<div class="">
+		        			<h5 class="modal-title" id="exampleModalLabel">1:1 관리자 문의</h5>
+		      			</div>
+		      			<div class="">
+							<form id="qna-form" action="/host/qna">
+							<input type="hidden" name="orderNo" value="">
+						<div>
+							<div class="category-list-box p-3 ">
 							<label class="form-label mb-3" for="title"><strong>문의 카테고리</strong></label>
 							<select id="select-box" class="m-1" name="category">
 								<option disabled selected value="">문의사유를 선택해 주세요</option>
@@ -167,8 +193,8 @@
 								<option value="불편사항">불편사항</option>
 								<option value="기타">기타</option>
 							</select>
+							</div>
 						</div>
-					</div>
 					<div class="row mb-3 mt-2 order-font">
 						<div class="title-box mb-3">
 							<label class="form-label mb-3" for="title"><strong>문의 제목</strong></label>
@@ -183,15 +209,27 @@
 						</div>
 					 </div>
 				</form>
-			
-			
+		      			</div>
+		      			
+		    		</div>
+		  		</div>
 			</div>
-	
-		</div>
-				
-			</div> <!-- row -->
+	</div> <!-- row -->
 </div> <!-- 컨테이너 -->
   
-</div>
 </body>
+<script type="text/javascript">
+
+function creatingModal() {
+	
+	let qnaModal = new bootstrap.Modal(document.getElementById('modal-creating-qna'), {
+		keyboard: false
+	
+	});
+	qnaModal.show();
+}
+
+
+</script>
+
 </html>
