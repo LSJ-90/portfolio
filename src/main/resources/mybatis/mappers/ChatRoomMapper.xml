@@ -20,6 +20,21 @@
 
 
 	
+	<!-- 	List<ChattingListDto> getChattingListDtobyHostNo(int no); // 유저번호로 채팅목록 조회 -->
+	<select id="getChattingListDtobyUserNo" parameterType="int" resultType="com.hoge.dto.ChattingListDto">
+	select c.last_message as lastMessage,
+		 c.updated_date as updatedDate, 
+		 c.chatroom_no as chatRoomNo, 
+		 c.host_no as hostNo, 
+		 c.user_no as userNo,
+    	h.host_name as name, 
+    	u.user_image as image
+    from TB_FINAL_CHATROOMS c, TB_FINAL_USERS u, TB_FINAL_hosts h
+    where c.host_no = h.host_no
+    and h.host_user_no = u.user_no
+    and c.user_no = #{no}
+	</select>
+	
 
 		
 		
