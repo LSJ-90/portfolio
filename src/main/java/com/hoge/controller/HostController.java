@@ -27,14 +27,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.ChattingMessageDto;
+import com.hoge.form.HostApplyForm;
 import com.hoge.pagination.Pagination;
 import com.hoge.pagination.PaginationQnA;
 import com.hoge.service.ChatRoomService;
 import com.hoge.service.HostQnAService;
 import com.hoge.service.HostService;
 import com.hoge.util.SessionUtils;
+import com.hoge.vo.accommo.AccommoImage;
 import com.hoge.vo.accommo.Accommodation;
 import com.hoge.vo.activities.Activity;
+import com.hoge.vo.activities.ActivityImage;
 import com.hoge.vo.other.Host;
 import com.hoge.vo.other.HostQnA;
 import com.hoge.vo.other.User;
@@ -51,37 +54,86 @@ public class HostController {
 	@Autowired
 	private HostQnAService hostQnAService;
 	
-	// 유상효
+	// 유상효 hostApplyForm 호출
 	@GetMapping("/host/applyForm")
 	public String ApplyForm() {
 		//SessionUtils.addAttribute("세션아이디", "세션값");
 		return "hostpage/applyForm.tiles";
 	}
 	
-	// 유상효
-	@GetMapping("/host/accInsertForm")
-	public String AccInsertForm() {
-		return "hostpage/accInsertForm.tiles";
-	}
-	
-	// 유상효
+	// 유상효 hostApply 입력
 	@PostMapping(value = "/host/insertHostApply")
-	public String insertHostApply(Host host) throws IllegalStateException, IOException {
-		hostService.hostApply(host);
-		return "hostpage/accInsertForm.tiles";
+	public String insertHostApply(HostApplyForm form) throws IOException {
+		
+		// 숙소 사진 저장
+		String saveDirectory1 = "C:\\final-workspace\\finalproject-chanel5\\src\\main\\webapp\\resources\\images\\accommodation";
+		List<AccommoImage> accImages = new ArrayList<AccommoImage>();
+		List<MultipartFile> accFiles = form.getAccImages();
+		for (MultipartFile multipartFile1 : accFiles) {
+			if (!multipartFile1.isEmpty()) {
+				String fileName1 = multipartFile1.getOriginalFilename();
+				AccommoImage accImage = new AccommoImage();
+				accImage.setImage(fileName1);
+				accImages.add(accImage);
+				InputStream in1 = multipartFile1.getInputStream();
+				FileOutputStream out1 = new FileOutputStream(new File(saveDirectory1, fileName1));
+				FileCopyUtils.copy(in1, out1);
+			}
+		}
+		
+		// 체험 사진 저장
+		String saveDirectory2 = "C:\\final-workspace\\finalproject-chanel5\\src\\main\\webapp\\resources\\images\\activities";
+		List<ActivityImage> actImages = new ArrayList<ActivityImage>();
+		List<MultipartFile> actFiles = form.getActImages();
+		for (MultipartFile multipartFile2 : actFiles) {
+			if (!multipartFile2.isEmpty()) {
+				String fileName2 = multipartFile2.getOriginalFilename();
+				ActivityImage actImage = new ActivityImage();
+				actImage.setImage(fileName2);
+				actImages.add(actImage);
+				InputStream in2 = multipartFile2.getInputStream();
+				FileOutputStream out2 = new FileOutputStream(new File(saveDirectory2, fileName2));
+				FileCopyUtils.copy(in2, out2);
+			}
+		}
+		
+		// 호스트 정보 담기
+		Host host = new Host();
+		host.setHostingType(form.getHostingType());
+		host.setName(form.getHostName());
+		host.setTel(form.getTel());
+		host.setAccountHolderName(form.getAccountHolderName());
+		host.setBankName(form.getBankName());
+		host.setAccountNumber(form.getAccountNumber());
+		
+		// 숙소 정보 담기
+		Accommodation acc = new Accommodation();
+		acc.setType(form.getAccType());
+		acc.setName(form.getAccName());
+		acc.setWebAddress(form.getAccWebAddress());
+		acc.setIntroTitle(form.getAccIntroTitle());
+		acc.setIntroContent(form.getAccIntroContent());
+		acc.setAddress(form.getAccAddress());
+		acc.setCheckInTime(form.getAccCheckInTime());
+		acc.setCheckOutime(form.getAccCheckOutime());
+		
+		// 체험 정보 담기
+		Activity act = new Activity();
+		act.setName(form.getActName());
+		act.setIntroTitle(form.getActIntroTitle());
+		act.setIntroContent(form.getActIntroContent());
+		act.setMaximumNumber(form.getActMaximumNumber());
+		act.setPricePerPerson(form.getActPricePerPerson());
+		act.setAddress(form.getActAddress());
+		
+		hostService.hostApply(host, acc, act, accImages, actImages);
+		return "redirect:../mypage/hostingList";
 	}
 	
-	// 유상효
-	@PostMapping(value = "/host/insertAcc")
-	public String insertAcc(Accommodation acc)  throws IllegalStateException, IOException {
-		hostService.insertAcc(acc);
-		return "넘어갈곳";
-	}
-	
-	// 유상효
+	// 유상효 호스팅리스트페이지(호스트마이페이지) 호출
 	@GetMapping("/mypage/hostingList")
 	public String Main() {
-		return "mypage/hostingList.hosttiles";
+		return "mypage/hostingList.tiles";
 	}
 	
 	public ModelAndView MainReq() {

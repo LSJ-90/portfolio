@@ -25,7 +25,7 @@ public class Activity {
 	private int maximumNumber;
 	private long pricePerPerson;
 	private double star;
-	private String adress;
+	private String address;
 	private String regionDepth1;
 	private String regionDepth2;
 	private String regionDepth3;
