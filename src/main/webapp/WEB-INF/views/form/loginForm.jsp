@@ -11,17 +11,17 @@
 			<h1 class="section__title">LOGIN</h1>
 			<p class="section__text">로그인</p>
 		</header>
-		<article class="login">
+		<article id="login">
 			<c:if test="${not empty error }">
 				<div class="mb-3 alert alert-danger">${error }</div>
 			</c:if>
 			<form action="login" class="login-form" method="post">
 				<div class="form__wrap">
-					<div class="login__id">
-						<input type="text" class="form__id" name="id" placeholder="아이디" />
+					<div class="login__box">
+						<input type="text" id="userId" name="id" placeholder="아이디" />
 					</div>
-					<div class="login__pwd">
-						<input type="password" class="form__pwd" name="pwd" placeholder="비밀번호" />
+					<div class="login__box">
+						<input type="password" id="userPwd" name="pwd" placeholder="비밀번호" />
 					</div>
 				</div>
 				<div class="login__btn">
