@@ -57,7 +57,6 @@ div.chat-list {
 
 </style>
 
-
   <div class="mypage__menu">
     <ul class="menu__my-stay">
       <li class="my-stay__item title">My Stay</li>
@@ -67,8 +66,12 @@ div.chat-list {
       <li class="my-stay__item"><a href="">관심 스테이</a></li>
       <li class="my-stay__item"><a href="">다녀온 스테이</a></li>
       <li class="my-stay__item" id="guest-chat" onclick="chatopen()">
-      호스트문의
-        <img src="../../resources/images/main/chat_icon.png" alt="" class="chat-icon"/>
+      <span>호스트 문의</span>
+         <img
+           src="../../resources/images/main/chat_icon.png"
+           alt="chat-icon"
+           class="chat-icon"
+         />
       </li>
     </ul>
     <ul class="menu__my-info">
@@ -373,3 +376,4 @@ function send() {
 	    } 
 			
 </script>
+
