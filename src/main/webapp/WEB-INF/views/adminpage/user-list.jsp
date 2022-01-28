@@ -11,6 +11,10 @@
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
+<style>
+
+table {font-size: 10pt; text-align:center;}
+</style>
 <body>
 <div class="container">
 
@@ -48,13 +52,17 @@
   			<table class="table table-bordered border-dark" >
 				<thead>
 					<tr>
-						<th style="width: 10%;">회원번호</th>
-						<th style="width: 15%;">아이디</th>
-						<th style="width: 15%;">이름</th>
-						<th style="width: 15%;">연락처</th>
-						<th style="width: 15%;">성별</th>
-						<th style="width: 15%;">호스팅여부</th>
-						<th style="width: 10%;">탈퇴여부</th>
+						<th style="width: 7%;">회원번호</th>
+						<th style="width: 8%;">아이디</th>
+						<th style="width: 7%;">이름</th>
+						<th style="width: 10%;">연락처</th>
+						<th style="width: 15%;">이메일</th>
+						<th style="width: 5%;">성별</th>
+						<th style="width: 10%;">포인트</th>
+						<th style="width: 15%;">가입일</th>
+						<th style="width: 7%;">호스팅여부</th>
+						<th style="width: 7%;">탈퇴여부</th>
+						<th style="width: 7%;">신고횟수</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -71,9 +79,13 @@
 									<td>${user.id }</td>
 									<td>${user.name }</td>
 									<td>${user.tel }</td>
-									<td>${user.gender == 'F' ? '여' : '남'}</td>
+									<td>${user.email }</td>
+									<td>${user.gender == 'female' ? '여' : '남'}</td>
+									<td>${user.pnt }</td>
+									<td><fmt:formatDate value="${user.registeredDate }" pattern="yyyy.MM.dd"/></td>
 									<td>${user.isHost == 'N' ?  'X' :'O'}</td>
 									<td>${user.deleted }</td>
+									<td>${user.reportedCount }</td>
 								</tr>
 							</c:forEach>
 						</c:otherwise>

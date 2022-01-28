@@ -2,6 +2,122 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hoge.mapper.QnAMapper">
   
+   <!-- 성하민
+			int getUserQnAsTotalRows(CriteriaAdminQnA criteriaAdminQnA);
+	 -->
+	 <select id="getUserQnAsTotalRows" parameterType="com.hoge.form.CriteriaAdminQnA" resultType="int">
+		select count(*)
+		from TB_FINAL_USER_QNAS q, tb_final_users u
+		where q.QUESTION_ANSWERED = #{answered}
+		and q.USER_NO = u.USER_NO
+			<if test="opt != null and value != null">
+				<choose>
+					<when test="opt == '회원번호'">
+						and u.USER_NO = #{value} 
+					</when>
+					<when test="opt == '아이디'">
+						and u.user_id like '%' || #{value} || '%'
+					</when>
+					<when test="opt == '이름'">
+						and u.user_name like '%' || #{value} || '%'
+					</when>
+					<when test="opt == '제목'">
+						and q.QUESTION_TITLE like '%' || #{value} || '%'
+					</when>
+					<when test="opt == '내용'">
+						and q.QUESTION_CONTENT like '%' || #{value} || '%'
+					</when>
+				</choose>
+			</if>
+	</select>
+
+			
+	<!-- // 성하민
+	List<UserQnA> searchQnAs(CriteriaAdminUser criteriaAdminQnA);
+	 -->
+	<select id="searchQnAs" parameterType="com.hoge.form.CriteriaAdminQnA" resultType="com.hoge.dto.AdminUserQnADto">
+		select 	
+			QUESTION_NO as questionNo,
+		 	USER_NO as userNo,
+		 	QUESTION_CATEGORY as category,
+		 	QUESTION_TITLE as title,
+		 	QUESTION_CONTENT as content,
+		 	QUESTION_DATE as questionDate,
+		 	QUESTION_ANSWERED as answered,
+		 	ANSWER_CONTENT as answerContent,
+		 	ANSWER_UPDATE_DATE as answerUpdateDate,
+		 	ANSWER_MODIFIED as answerModified,
+		 	user_id as userId,
+	 		user_name as userName
+		from (
+			select 	
+				q.QUESTION_NO,
+		 		q.USER_NO,
+		 		q.QUESTION_CATEGORY,
+		 		q.QUESTION_TITLE,
+		 		q.QUESTION_CONTENT,
+		 		q.QUESTION_DATE,
+		 		q.QUESTION_ANSWERED,
+		 		q.ANSWER_CONTENT,
+		 		q.ANSWER_UPDATE_DATE,
+		 		q.ANSWER_MODIFIED,
+		 		u.user_id,
+	 			u.user_name,
+	 			row_number() over (order by q.QUESTION_DATE desc) rn
+			from TB_FINAL_USER_QNAS q, tb_final_users u
+			where q.QUESTION_ANSWERED = #{answered}
+			and q.USER_NO = u.USER_NO
+			<if test="opt != null and value != null">
+				<choose>
+					<when test="opt == '회원번호'">
+						and u.USER_NO = #{value} 
+					</when>
+					<when test="opt == '아이디'">
+						and u.user_id like '%' || #{value} || '%'
+					</when>
+					<when test="opt == '이름'">
+						and u.user_name like '%' || #{value} || '%'
+					</when>
+					<when test="opt == '제목'">
+						and q.QUESTION_TITLE like '%' || #{value} || '%'
+					</when>
+					<when test="opt == '내용'">
+						and q.QUESTION_CONTENT like '%' || #{value} || '%'
+					</when>
+				</choose>
+			</if>
+		)
+		where rn between #{beginIndex} and #{endIndex}
+	</select> 
+  
+  
+  
+  
+  
+  
+  
+  	<!-- 성하민
+  	void insertUserQnA(UserQnA userQnA); 
+  	-->
+  	<insert id="insertUserQnA" parameterType="com.hoge.vo.other.UserQnA">
+		INSERT into TB_FINAL_USER_QNAS
+		(
+		QUESTION_NO,
+		USER_NO,
+		QUESTION_CATEGORY,
+		QUESTION_TITLE,
+		QUESTION_CONTENT
+		)
+		VALUES
+			(FINAL_USER_QNA_NO_SEQ.NEXTVAL,
+			#{userNo},
+			#{category},
+			#{title},
+			#{content}
+			)
+	</insert>
+  
+  
   	<!-- 성하민
   	void insertHostQnA(HostQnA hostQnA); 
   	-->

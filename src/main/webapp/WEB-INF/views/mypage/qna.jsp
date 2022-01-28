@@ -179,8 +179,8 @@
 		        			<h5 class="modal-title" id="exampleModalLabel">1:1 관리자 문의</h5>
 		      			</div>
 		      			<div class="">
-							<form id="qna-form" action="/host/qna">
-							<input type="hidden" name="orderNo" value="">
+							<form id="qna-form" method="post" action="/mypage/qna-insert.do">
+							<input type="hidden" name="userNo" value="${LOGIN_USER.no }">
 						<div>
 							<div class="category-list-box p-3 ">
 							<label class="form-label mb-3" for="title"><strong>문의 카테고리</strong></label>
