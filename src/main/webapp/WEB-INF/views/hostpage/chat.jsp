@@ -14,7 +14,7 @@
 		
 
  
-.header { font-size: 14px; padding: 15px 0; background: #F18C7E; color: white; text-align: center;  }
+.header { font-size: 14px; padding: 15px 0; background: #888; color: white; text-align: center;  }
  
 .chat_wrap {height: 550px; overflow-y:auto;} 
 .chat_wrap .chat { padding-bottom: 80px; height:85% }
@@ -22,7 +22,7 @@
 .chat_wrap .chat ul li { width: 100%; }
 .chat_wrap .chat ul li.left { text-align: left; }
 .chat_wrap .chat ul li.right { text-align: right; }
-.chat_wrap .chat ul li.right > div.message { text-align: right; background: #F18C7E;}
+.chat_wrap .chat ul li.right > div.message { text-align: right;}
  
 .chat_wrap .chat ul li > div { font-size: 15px;  }
 .chat_wrap .chat ul li > div.sender { margin: 10px 20px 0 20px; font-weight: bold; }
@@ -34,11 +34,11 @@
 .chat-list  {border: 1px solid #888; height: 700px;}
 .chat-detail  {border: 1px solid #888; height: 700px;}
  
-.chat-list-label { font-size: 14px; padding: 15px 0; background: #F18C7E; color: white; text-align: center;  }
+.chat-list-label { font-size: 14px; padding: 15px 0; background: #888; color: white; text-align: center;  }
  
-.chatting-list-box {cursor: pointer; font-size: 20px; height: 80px; border: 1px solid #888; padding: 10px; border-radius: 5px; background-color: #FCFCFC; color: #555;  }
+.chatting-list-box {cursor: pointer; font-size: 13px; height: 70px; border: 1px solid #888; padding: 1px; border-radius: 5px; background-color: #FCFCFC; color: #555;  }
 
-
+.userImg {width: 60px; height: 60px; padding:2px;}
 #chatting-detail {display: none;}
 
 		
@@ -64,10 +64,10 @@
 						<div id="chatting-list-box" class="chatting-list-box m-1" onclick="enter(${chatRoom.chatRoomNo })">
 							<div class="row">
 								<div class="col-4">
-									<img src="" class="flex-shrink-0 me-3" alt="">
-									<p>${chatRoom.name }</p> <!-- 여기서는 유저네임 -->
+									<img src="../../resources/images/userprofiles/${chatRoom.image }" id="userImg" class="userImg rounded-circle" alt="">
 								</div>
 								<div class="col-8">
+									<p>${chatRoom.name }</p> <!-- 여기서는 유저네임 -->
 									<p>${chatRoom.lastMessage }</p>
 								</div>
 							</div>
@@ -163,7 +163,7 @@
 
 <script type="text/javascript">
 
-	const userName = "하민";
+	const userName = "홍길동";
 	let ws;
 
 	
@@ -291,8 +291,7 @@
 				console.log('가져오는 거 오키');
 				$.each(messageDtos, function(index, value) {
 					
-					//let LR = (messageDto.sendingUserNo == messageDto.hostingUserNo)? "right" : "left";
-					const LR = "right"
+					let LR = (messageDto.sendingUserNo == ${LOGIN_USER.no })? "right" : "left";
 			      appendMessageTag(LR, value.sendingUserName, value.content);
 				})
 	    });

@@ -21,19 +21,20 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ChattingListDto {
+public class AdminUserQnADto {
 	
-	private int chatRoomNo;
-	private int hostNo;
+	private int questionNo;
 	private int userNo;
-	
-	private String name; //유저이름 or 호스트이름
-	private String image; //유저 or 호스트 이미지
-	
-	private int lastMessageSenderNo;
-	private String lastMessage;
-	private String lastMessageChecked;
-	private Date updatedDate;
+	private String userName;
+	private String userId;
+	private String category;
+	private String title;
+	private String content;
+	private String answered;
+	private Date questionDate;
+	private String answerContent;
+	private Date answerUpdateDate;
+	private String answerModified; //답변 수정 여부
 	
 
 	

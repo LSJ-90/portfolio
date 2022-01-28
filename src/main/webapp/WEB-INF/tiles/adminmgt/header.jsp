@@ -30,8 +30,8 @@
 				<li class="nav__item"><a href="/admin/host-activity-list">체험관리</a></li>
 				<li class="nav__item"><a href="/admin/promotion-list">프로모션관리</a></li>
 				<li class="nav__item"><a href="">리뷰관리</a></li>
-				<li class="nav__item"><a href="">호스트문의</a></li>
-				<li class="nav__item"><a href="">회원문의</a></li>
+				<li class="nav__item"><a href="/admin/host-qna">호스트문의</a></li>
+				<li class="nav__item"><a href="/admin/user-qna">회원문의</a></li>
 				<li class="nav__item"><a href="">송금신청내역</a></li>
 				<li class="nav__item"><a href="">매출내역</a></li>
 				<li class="nav__item"><a href="">통계</a></li>

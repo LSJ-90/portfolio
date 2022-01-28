@@ -85,21 +85,11 @@ public class UserAuthController {
 	public String loginKakao(KakaoUserDto kakaoUser) {
 		
 		log.info("카카오 로그인 인증정보 : " + kakaoUser );
-		
-		User user = User.builder()
-					    .id(kakaoUser.getId())
-					    .name(kakaoUser.getName())
-					    .email(kakaoUser.getEmail())
-					    .gender(kakaoUser.getGender())
-					    .build();
-		
+	
 		User savedUser = userService.loginKakao(kakaoUser);
 		
-		if (savedUser != null) {
-			SessionUtils.addAttribute("LOGIN_USER", savedUser);
-		} else {
-			SessionUtils.addAttribute("LOGIN_USER", user);
-		}
+		SessionUtils.addAttribute("LOGIN_USER", savedUser);
+		
 		
 		return "redirect:home";
 	}

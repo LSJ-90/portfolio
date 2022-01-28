@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hoge.dto.AdminUserQnADto;
+import com.hoge.form.CriteriaAdminQnA;
+import com.hoge.form.CriteriaAdminUser;
 import com.hoge.mapper.QnAMapper;
 import com.hoge.vo.other.HostQnA;
 import com.hoge.vo.other.UserQnA;
@@ -38,6 +41,11 @@ public class QnAService {
 		qnAMapper.insertHostQnA(hostQnA);
 	}
 	
+	//성하민 마이페이지 문의 등록
+	public void insertUserQnA(UserQnA userQnA) {
+		qnAMapper.insertUserQnA(userQnA);
+	}
+	
 	//호스트 넘버로 문의글 개수 찾기
 	public int getHostQnACountByHostNo(int no) {
 		return qnAMapper.getHostQnACountByHostNo(no);
@@ -48,4 +56,15 @@ public class QnAService {
 		return qnAMapper.getUserQnACountByUserNo(no);
 	}
 
+
+	// 성하민
+	public int getUserQnAsTotalRows(CriteriaAdminQnA criteriaAdminQnA) {
+		return qnAMapper.getUserQnAsTotalRows(criteriaAdminQnA);
+	}
+		
+	// 성하민
+	public List<AdminUserQnADto> searchQnAs(CriteriaAdminQnA criteriaAdminQnA) {
+		return qnAMapper.searchQnAs(criteriaAdminQnA);
+	}
+	
 }

@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.ChattingMessageDto;
+import com.hoge.dto.HostingListDto;
 import com.hoge.form.HostApplyForm;
 import com.hoge.pagination.Pagination;
 import com.hoge.pagination.PaginationQnA;
@@ -132,7 +133,10 @@ public class HostController {
 	
 	// 유상효 호스팅리스트페이지(호스트마이페이지) 호출
 	@GetMapping("/mypage/hostingList")
-	public String Main() {
+	public String hostingList(int no, Model model) {
+	    HostingListDto dto = hostService.getHostingList(no);
+	    model.addAttribute("hostingDto", dto);
+	    
 		return "mypage/hostingList.tiles";
 	}
 	

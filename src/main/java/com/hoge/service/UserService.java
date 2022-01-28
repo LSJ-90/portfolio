@@ -123,8 +123,8 @@ public class UserService {
 		User savedUser = userMapper.getUserById(kakaoUser.getId());
 		
 		if (savedUser == null) {
-			System.out.println(kakaoUser.getId());
 			userMapper.insertUserKaKao(kakaoUser);
+			savedUser = userMapper.getUserById(kakaoUser.getId());
 		}
 		
 		return savedUser;
