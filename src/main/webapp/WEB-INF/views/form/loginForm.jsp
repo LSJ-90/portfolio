@@ -25,8 +25,8 @@
 				</div>
 				<div class="login__etc">
 					<a href="/register" class="sign-in">회원가입</a>
-					<a href="/findId" class="forgot-pwd">아이디 찾기</a>
-					<a href="" class="forgot-pwd">비밀번호 찾기</a>
+					<a href="/findid" class="forgot-pwd">아이디 찾기</a>
+					<a href="" class="forgot-pwd">비번찾기(1/29 이메일인증서 활용예정)</a>
 				</div>
 			</form>
 			<div class="login__sns">

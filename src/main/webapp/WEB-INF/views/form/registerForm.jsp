@@ -180,15 +180,19 @@
           <div class="join__check">
             <p class="check__title">성별</p>
             <div class="radio-box">
-              <input
-                type="radio"
-                id="genderF"
-                name="gender"
-                value="F"
-                checked
+              <input type="radio" 
+                id="genderF" 
+                name="gender" 
+                value="female" 
+                checked 
               />
               <label for="genderF">여자</label>
-              <input type="radio" id="genderM" name="gender" value="M" />
+              <input 
+                type="radio" 
+                id="genderM" 
+                name="gender" 
+                value="male" 
+              />
               <label for="genderM">남자</label>
             </div>
           </div>

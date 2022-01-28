@@ -27,6 +27,30 @@
 	 </select>
 	 
 	 <!-- 이승준 
+		User getUserByNo(int no);
+	 -->
+	 <select id="getUserByNo" resultType="com.hoge.vo.other.User" parameterType="int">
+	 	select
+	 		user_no as no,
+	 		user_id as id,
+	 		user_is_host as isHost,
+	 		user_name as name,
+	 		user_pwd as pwd,
+	 		user_email as email,
+	 		user_tel as tel,
+	 		user_registered_date as registeredDate,
+	 		user_deleted as deleted,
+	 		user_pnt as pnt,
+	 		user_image as image,
+	 		user_gender as gender,
+	 		user_reported_count as reportedCount
+	 	from
+	 		tb_final_users
+		where 
+			user_no = #{value}
+	 </select>
+	 
+	 <!-- 이승준 
 		User getUserById(String id);
 	 -->
 	 <select id="getUserById" resultType="com.hoge.vo.other.User" parameterType="string">
@@ -87,21 +111,12 @@
 	<!-- 이승준 
 		User updateUser(User user);
 	 -->
-	<update id="updateUser" parameterType="com.hoge.vo.other.User">
+	<update id="updateUser" parameterType="com.hoge.dto.HogeUserUpdateDto">
 		update 
 			tb_final_users
 		<set>	
-			<if test="id != null">
-		 		user_id = #{id},
-	 		</if>
-	 		<if test="isHost != null">
-		 		user_is_host = #{isHost},
-	 		</if>
 	 		<if test="name != null">
 		 		user_name = #{name},
-	 		</if>
-	 		<if test="pwd != null">
-		 		user_pwd = #{pwd},
 	 		</if>
 	 		<if test="email != null">
 		 		user_email = #{email},
@@ -109,25 +124,36 @@
 	 		<if test="tel != null">
 		 		user_tel = #{tel},
 	 		</if>
-	 		<if test="deleted != null">
-	 			user_deleted = #{deleted},
-	 		</if>
-	 		<if test="pnt != null">
-	 			user_pnt = #{pnt},
-	 		</if>
 	 		<if test="image != null">
 	 			user_image = #{image},
-	 		</if>
-	 		<if test="gender != null">
-	 			user_gender = #{gender},
-	 		</if>
-	 		<if test="reportedCount != null">
-	 			user_reported_count = #{reportedCount}
 	 		</if>
 	 	</set>
 		where
 			user_no = #{no}
 	</update>
+	
+	<!-- 이승준 
+		User updateUser(User user);
+	 -->
+	<update id="updatePwd" parameterType="com.hoge.dto.UpdatePwdDto">
+		update 
+			tb_final_users
+		<set>	
+	 		<if test="changePwd != null">
+		 		user_pwd = #{changePwd}
+	 		</if>
+	 	</set>
+		where
+			user_no = #{no}
+	</update>
+	
+	<!-- 이승준 
+		User deleteUser(int no);
+	 -->
+	<delete id="deleteUser" parameterType="int">
+		delete from tb_final_users
+		where user_no = #{value}
+	</delete>
 	
 	<!-- 성하민 void insertUserKaKao(User user); -->
 	 <insert id="insertUserKaKao" parameterType="com.hoge.dto.KakaoUserDto">
