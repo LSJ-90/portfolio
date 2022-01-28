@@ -30,14 +30,50 @@ table {font-size: 10pt; text-align:center;}
 				<input type="radio" name="answered" value="Y" ${'Y' eq param.answered ? 'checked' : ''}>답변 완료된 질문
 					</div>
 					<div class="col-3">
-						<select class="form-select" name="opt">
-							<option value="" selected disabled="disabled">검색조건을 선택하세요</option>
-							<option value="회원번호" ${'회원번호' eq param.opt ? 'selected' : ''}> 회원번호</option>
-							<option value="아이디" ${'아이디' eq param.opt ? 'selected' : ''}> 아이디</option>
-							<option value="이름" ${'이름' eq param.opt ? 'selected' : ''}> 이름</option>
-							<option value="제목" ${'제목' eq param.opt ? 'selected' : ''}> 제목</option>
-							<option value="내용" ${'내용' eq param.opt ? 'selected' : ''}> 내용</option>
-						</select>
+						<ul class="navbar-nav" >
+							<li class="nav-item" >
+							<select class="form-select" name="opt" onchange="searchQnAs()">
+								<option value="" selected disabled="disabled">카테고리</option>
+								<option value="정산" ${'정산' eq param.opt ? 'selected' : ''}> 정산</option>
+								<option value="호스트승인" ${'호스트승인' eq param.opt ? 'selected' : ''}> 호스트승인</option>
+								<option value="호스트정보변경" ${'호스트정보변경' eq param.opt ? 'selected' : ''}> 호스트정보변경</option>
+								<option value="호스트탈퇴" ${'호스트탈퇴' eq param.opt ? 'selected' : ''}> 호스트탈퇴</option>
+								<option value="게스트신고" ${'게스트신고' eq param.opt ? 'selected' : ''}> 게스트신고</option>
+								<option value="불편사항" ${'불편사항' eq param.opt ? 'selected' : ''}> 불편사항</option>
+								<option value="기타" ${'기타' eq param.opt ? 'selected' : ''}> 기타</option>
+							</select>
+							</li>
+							<li class="nav-item" >
+								<select class="form-select" name="opt" onchange="searchQnAs()">
+								<option value="" selected disabled="disabled">호스트등급</option>
+								<option value="BRONZE" ${'BRONZE' eq param.opt ? 'selected' : ''}> 브론즈</option>
+								<option value="SILVER" ${'SILVER' eq param.opt ? 'selected' : ''}> 실버</option>
+								<option value="GOLD" ${'GOLD' eq param.opt ? 'selected' : ''}> 골드</option>
+								<option value="PLATINUM" ${'PLATINUM' eq param.opt ? 'selected' : ''}> 플래티넘</option>
+								<option value="DIAMOND" ${'DIAMOND' eq param.opt ? 'selected' : ''}> 다이아몬드</option>
+							</select>
+							</li>	
+							<li class="nav-item " >
+								<select class="form-select" name="opt" onchange="searchQnAs()">
+								<option value="" selected disabled="disabled">승인상태</option>
+								<option value="W" ${'W' eq param.opt ? 'selected' : ''}> 승인대기</option>
+								<option value="Y" ${'Y' eq param.opt ? 'selected' : ''}> 승인완료</option>
+								<option value="N" ${'N' eq param.opt ? 'selected' : ''}> 승인반려</option>
+								<option value="D" ${'D' eq param.opt ? 'selected' : ''}> 호스팅종료</option>
+								<option value="R" ${'R' eq param.opt ? 'selected' : ''}> 강제종료</option>
+							</select>
+							</li>	
+							<li class="nav-item " >
+								<select class="form-select" name="opt">
+								<option value="" selected disabled="disabled">검색조건을 선택하세요</option>
+								<option value="회원번호" ${'회원번호' eq param.opt ? 'selected' : ''}> 회원번호</option>
+								<option value="호스트번호" ${'호스트번호' eq param.opt ? 'selected' : ''}> 호스트번호</option>
+								<option value="호스트이름" ${'호스트이름' eq param.opt ? 'selected' : ''}> 호스트이름</option>
+								<option value="제목" ${'제목' eq param.opt ? 'selected' : ''}> 제목</option>
+								<option value="내용" ${'내용' eq param.opt ? 'selected' : ''}> 내용</option>
+							</select>
+							</li>	
+						</ul>
 					</div>
 				<div class="col-3">
 					<input type="text" class="form-control" name="value" value="${param.value }">

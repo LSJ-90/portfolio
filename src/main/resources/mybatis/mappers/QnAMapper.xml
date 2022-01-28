@@ -2,6 +2,64 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hoge.mapper.QnAMapper">
   
+  
+  
+<!-- 성하민  	void updateUserQnA(UserQnA userQnA); -->
+<update id="updateUserQnA" parameterType="com.hoge.vo.other.UserQnA">
+		update 
+			TB_FINAL_USER_QNAS
+			set
+		 		QUESTION_ANSWERED = 'Y',
+		 		ANSWER_CONTENT = #{answerContent},
+		 		ANSWER_UPDATE_DATE = sysdate,
+	 			ANSWER_MODIFIED = #{answerModified}
+		where
+			QUESTION_NO = #{no}
+	</update>
+
+
+<!-- 성하민  	UserQnA getUserQnAbyQnANo(int no); -->
+ <select id="getUserQnAbyQnANo" parameterType="com.hoge.form.CriteriaAdminQnA" resultType="com.hoge.vo.other.UserQnA">
+		select 	
+			QUESTION_NO as no,
+		 	USER_NO as userNo,
+		 	QUESTION_CATEGORY as category,
+		 	QUESTION_TITLE as title,
+		 	QUESTION_CONTENT as content,
+		 	QUESTION_DATE as questionDate,
+		 	QUESTION_ANSWERED as answered,
+		 	ANSWER_CONTENT as answerContent,
+		 	ANSWER_UPDATE_DATE as answerUpdateDate,
+		 	ANSWER_MODIFIED as answerModified
+		 	
+			from TB_FINAL_USER_QNAS
+			where QUESTION_NO = #{no}
+	</select> 
+
+
+
+<!-- 성하민  	AdminUserQnADto getUserQnADtobyQnANo(int no);-->
+  <select id="getUserQnADtobyQnANo" parameterType="com.hoge.form.CriteriaAdminQnA" resultType="com.hoge.dto.AdminUserQnADto">
+		select 	
+			q.QUESTION_NO as questionNo,
+		 	q.USER_NO as userNo,
+		 	q.QUESTION_CATEGORY as category,
+		 	q.QUESTION_TITLE as title,
+		 	q.QUESTION_CONTENT as content,
+		 	q.QUESTION_DATE as questionDate,
+		 	q.QUESTION_ANSWERED as answered,
+		 	q.ANSWER_CONTENT as answerContent,
+		 	q.ANSWER_UPDATE_DATE as answerUpdateDate,
+		 	q.ANSWER_MODIFIED as answerModified,
+		 	u.user_id as userId,
+	 		u.user_name as userName
+			from TB_FINAL_USER_QNAS q, tb_final_users u
+			where q.QUESTION_NO = #{no}
+			and q.USER_NO = u.USER_NO
+	</select> 
+  
+  
+  
    <!-- 성하민
 			int getUserQnAsTotalRows(CriteriaAdminQnA criteriaAdminQnA);
 	 -->
@@ -33,9 +91,9 @@
 
 			
 	<!-- // 성하민
-	List<UserQnA> searchQnAs(CriteriaAdminUser criteriaAdminQnA);
+	List<UserQnA> getUserQnAsByCriteria(CriteriaAdminUser criteriaAdminQnA);
 	 -->
-	<select id="searchQnAs" parameterType="com.hoge.form.CriteriaAdminQnA" resultType="com.hoge.dto.AdminUserQnADto">
+	<select id="getUserQnAsByCriteria" parameterType="com.hoge.form.CriteriaAdminQnA" resultType="com.hoge.dto.AdminUserQnADto">
 		select 	
 			QUESTION_NO as questionNo,
 		 	USER_NO as userNo,

@@ -63,8 +63,22 @@ public class QnAService {
 	}
 		
 	// 성하민
-	public List<AdminUserQnADto> searchQnAs(CriteriaAdminQnA criteriaAdminQnA) {
-		return qnAMapper.searchQnAs(criteriaAdminQnA);
+	public List<AdminUserQnADto> getUserQnAsByCriteria(CriteriaAdminQnA criteriaAdminQnA) {
+		return qnAMapper.getUserQnAsByCriteria(criteriaAdminQnA);
 	}
+	
+	public UserQnA getUserQnAbyQnANo(int no) {
+		return qnAMapper.getUserQnAbyQnANo(no);
+	}
+	public AdminUserQnADto getUserQnADtobyQnANo(int no) {
+		return qnAMapper.getUserQnADtobyQnANo(no);
+	}
+	
+	public void updateUserQnA(UserQnA userQnA) {
+		qnAMapper.updateUserQnA(userQnA);
+	}
+	
+	
+	
 	
 }

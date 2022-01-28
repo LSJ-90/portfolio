@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,14 +12,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hoge.dto.AdminUserQnADto;
+import com.hoge.dto.ChattingMessageDto;
 import com.hoge.form.CriteriaAdminQnA;
 import com.hoge.form.CriteriaAdminUser;
 import com.hoge.pagination.Pagination;
 import com.hoge.service.QnAService;
 import com.hoge.service.UserService;
 import com.hoge.vo.other.User;
+import com.hoge.vo.other.UserQnA;
 
 
 
@@ -88,7 +92,7 @@ public class AdminController {
 		
 		
 		// 검색조건(opt, value)과 조회범위(beginIndex, endIndex)가 포함된 Criteria를 서비스에 전달해서 데이터 조회
-		List<AdminUserQnADto> userQnaList = qnAService.searchQnAs(criteriaAdminQnA);
+		List<AdminUserQnADto> userQnaList = qnAService.getUserQnAsByCriteria(criteriaAdminQnA);
 		
 		model.addAttribute("userQnaList", userQnaList);
 		model.addAttribute("pagination", pagination);
@@ -102,5 +106,35 @@ public class AdminController {
 		
 		return "adminpage/main.admintiles";
 	}
+	
+	//관리자페이지에서 답변을 하거나 답변을 수정하는 메소드
+	@PostMapping("/answer-insert-user-qna")
+	public String updateAnswer(int questionNo, String answerContent) {
+		
+		System.out.println(questionNo +"랑"+ answerContent);
+		UserQnA userQnA = qnAService.getUserQnAbyQnANo(questionNo);
+		if ("N".equals(userQnA.getAnswered())) {
+			userQnA.setAnswerModified("N");
+			
+		} else {
+			userQnA.setAnswerModified("Y");
+		}
+		userQnA.setAnswerContent(answerContent);
+		System.out.println(userQnA);
+		
+		qnAService.updateUserQnA(userQnA);
+		
+		return "redirect:user-qna";
+	}
+
+	
+	//성하민
+		@GetMapping("/user-qna-answer.do")							// 요청핸들러 메소드에 @ResponseBody를 붙인다.
+		public @ResponseBody AdminUserQnADto detail(@RequestParam(name = "no",required = false) int no) {
+			
+			AdminUserQnADto qnaDto = qnAService.getUserQnADtobyQnANo(no);
+			return qnaDto;
+		}
+	
 	
 }
