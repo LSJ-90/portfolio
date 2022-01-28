@@ -11,7 +11,7 @@
 			<c:if test="${not empty error }">
 				<div class="mb-3 alert alert-danger">${error }</div>
 			</c:if>
-			<form action="findId" class="login-form" method="post">
+			<form action="findid" class="login-form" method="post">
 				<c:if test="${empty userId }">
 					<div class="form__wrap">
 						<div class="login__id">

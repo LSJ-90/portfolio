@@ -30,27 +30,19 @@ import com.hoge.vo.other.User;
 @RequestMapping("/mypage")
 public class MyPageController {
 	
-	
-	
 	@Autowired
 	private ChatRoomService chatRoomService;
-	
 	
 	@Autowired
 	private QnAService qnAService;
 	
-	
 	// 이승준: 마이페이지 메인 페이지로 리턴
-	@GetMapping("/main")
-	public String myPageMainInit() { 
+	@GetMapping("/myrevlist")
+	public String myRevListInit() { 
 		
-		User savedUser = (User) SessionUtils.getAttribute("LOGIN_USER");
+		//TODO: 리스트 불러오기 주환님이랑 협의
 		
-		if (savedUser == null) {
-			return "redirect:../login";
-		}
-		
-		return "mypage/main.mytiles";
+		return "mypage/myRevList.mytiles";
 	}
 	
 	//성하민

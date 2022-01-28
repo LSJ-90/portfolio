@@ -29,15 +29,12 @@
 	<main id="main">
 		<article class="mypage">
 			<tiles:insertAttribute name="myHeader" />
-			
-		
 			<div class="mypage-wrap">
 				<tiles:insertAttribute name="sideNav" />
 				<tiles:insertAttribute name="body" />
  			</div>
  		</article>
 	</main>
-	
 	<tiles:insertAttribute name="footer" />
 </body>
 </html>

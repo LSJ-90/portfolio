@@ -21,7 +21,7 @@
         </c:if>
         <c:if test="${not empty LOGIN_USER}">
         	<li class="nav__item">
-       			<a href="/mypage/main">
+       			<a href="/mypage/myrevlist">
        				<img src="../../resources/images/main/login_icon_active.png" alt="" class="dropdown__image" />
        			</a>
        		</li>

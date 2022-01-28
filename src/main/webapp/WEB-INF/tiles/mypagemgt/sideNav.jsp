@@ -58,7 +58,7 @@ div.chat-list {
     <ul class="menu__my-stay">
       <li class="my-stay__item title">My Stay</li>
       <li class="my-stay__item">
-        <a href="" class="active">예약정보</a>
+        <a href="/mypage/myrevlist" class="active">예약정보</a>
       </li>
       <li class="my-stay__item"><a href="">관심 스테이</a></li>
       <li class="my-stay__item"><a href="">다녀온 스테이</a></li>
@@ -69,7 +69,7 @@ div.chat-list {
     </ul>
     <ul class="menu__my-info">
       <li class="my-info__item title">내 계정</li>
-      <li class="my-info__item"><a href="/userUpdate">회원 정보 수정</a></li>
+      <li class="my-info__item"><a href="/mypage/userupdate">회원 정보 수정</a></li>
       <li class="my-info__item"><a href="">1:1 문의</a></li>
       <li class="my-info__item"><a href="">FAQ</a></li>
     </ul>
