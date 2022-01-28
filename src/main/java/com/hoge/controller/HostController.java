@@ -132,13 +132,13 @@ public class HostController {
 	}
 	
 	// 유상효 호스팅리스트페이지(호스트마이페이지) 호출
-	@GetMapping("/mypage/hostingList")
-	public String hostingList(int no, Model model) {
-	    HostingListDto dto = hostService.getHostingList(no);
-	    model.addAttribute("hostingDto", dto);
-	    
-		return "mypage/hostingList.tiles";
-	}
+	/*
+	 * @GetMapping("/mypage/hostingList") public String hostingList(int no, Model
+	 * model) { HostingListDto dto = hostService.getHostingList(no);
+	 * model.addAttribute("hostingDto", dto);
+	 * 
+	 * return "mypage/hostingList.tiles"; }
+	 */
 	
 	public ModelAndView MainReq() {
 		return null;	

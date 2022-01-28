@@ -61,18 +61,17 @@ public class HostService {
 	}
 	
 	// 유저번호에 해당하는 호스팅리스트를 반환
-	public HostingListDto getHostingList(int userNo) {
-		HostingListDto dto = new HostingListDto();
-		
-		User user = hostMapper.getHostingListByUserNo(userNo);
-		
-		
-	    int no = hostMapper.getUserNoByUserId(user.getId());
-	    
-	    
-	    a
-		
-	}
+	/*
+	 * public HostingListDto getHostingList(int userNo) { HostingListDto dto = new
+	 * HostingListDto();
+	 * 
+	 * User user = hostMapper.getHostingListByUserNo(userNo);
+	 * 
+	 * 
+	 * int no = hostMapper.getUserNoByUserId(user.getId());
+	 * 
+	 * }
+	 */
 	
   // 성하민
 	public Host getHostByNo(int no) {
