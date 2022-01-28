@@ -58,6 +58,9 @@
 			<div class="today-list-box">
 				<div class="row">
 					<div class="col-12">
+						결제 내역
+					</div>
+					<div class="col-12">
 						신규 결제
 						<span class="count" id="todayOrder">0</span>
 						건

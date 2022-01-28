@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.hoge.dto.AdminUserQnADto;
+import com.hoge.form.CriteriaAdminQnA;
 import com.hoge.form.CriteriaAdminUser;
 import com.hoge.pagination.Pagination;
+import com.hoge.service.QnAService;
 import com.hoge.service.UserService;
 import com.hoge.vo.other.User;
 
@@ -32,6 +35,9 @@ public class AdminController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private QnAService qnAService;
 	
 	//성하민
 	@GetMapping("/user-list")
@@ -60,6 +66,36 @@ public class AdminController {
 		
 		return "adminpage/user-list.admintiles";
 	}
+	
+	@GetMapping("/user-qna")
+	public String list(@RequestParam(name = "page", required = false, defaultValue = "1") String page, 
+			CriteriaAdminQnA criteriaAdminQnA, Model model) {
+	
+		if (criteriaAdminQnA.getAnswered() == null) {
+			criteriaAdminQnA.setAnswered("N");
+		}
+		
+		// 검색조건에 해당하는 총 데이터 갯수 조회
+		int totalRecords = qnAService.getUserQnAsTotalRows(criteriaAdminQnA);
+		// 현재 페이지번호와 총 데이터 갯수를 전달해서 페이징 처리에 필요한 정보를 제공하는 Pagination객체 생성
+		Pagination pagination = new Pagination(page, totalRecords);
+		
+		// 요청한 페이지에 대한 조회범위를 criteria에 저장
+		criteriaAdminQnA.setBeginIndex(pagination.getBegin());
+		criteriaAdminQnA.setEndIndex(pagination.getEnd());
+		logger.info("검색조건 및 값 :" + criteriaAdminQnA);
+
+		
+		
+		// 검색조건(opt, value)과 조회범위(beginIndex, endIndex)가 포함된 Criteria를 서비스에 전달해서 데이터 조회
+		List<AdminUserQnADto> userQnaList = qnAService.searchQnAs(criteriaAdminQnA);
+		
+		model.addAttribute("userQnaList", userQnaList);
+		model.addAttribute("pagination", pagination);
+		
+		return "adminpage/user-qna.admintiles";
+	}
+	
 	
 	@GetMapping("/main")
 	public String adminMainInit() {

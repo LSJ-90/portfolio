@@ -49,4 +49,27 @@ public class ChatRoomService {
 	}
 	// //호스트 번호로 chatroom 조회, 호스프 페이지 채팅 구현
 	
+	
+	//성하민
+	public List<ChattingListDto> getChattingListDtobyUserNo(int no) {
+		return chatRoomMapper.getChattingListDtobyUserNo(no);
+	}
+	// //호스트 번호로 chatroom 조회, 마이 페이지 채팅 구현
+	
+	
+	public void insertMessage(Message message) {
+		chatRoomMapper.insertMessage(message);
+	}
+	
+	
+	
+	public void updateChatRoom(ChatRoom chatRoom) {
+		chatRoomMapper.updateChatRoom(chatRoom);
+	}
+	
+	public ChatRoom getChatRoomByChatRoomNo(int no) {
+		return chatRoomMapper.getChatRoomByChatRoomNo(no);
+		
+	}
+	
 }

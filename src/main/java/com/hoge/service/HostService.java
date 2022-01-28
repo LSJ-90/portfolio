@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartRequest;
 
+import com.hoge.dto.HostingListDto;
 import com.hoge.mapper.HostMapper;
 import com.hoge.util.SessionUtils;
 import com.hoge.vo.accommo.AccommoImage;
@@ -59,13 +60,18 @@ public class HostService {
 	    }
 	}
 	
-	// 유상효 숙소 등록
-	public void insertAcc(Accommodation acc) {
-		User user = (User) SessionUtils.getAttribute("LOGIN_USER"); // 로그인 세션으로 유저정보 불러오기
-	    int getHostNo = hostMapper.getHostNoByUserId(user.getId());
-	    acc.setHostNo(getHostNo);
+	// 유저번호에 해당하는 호스팅리스트를 반환
+	public HostingListDto getHostingList(int userNo) {
+		HostingListDto dto = new HostingListDto();
 		
-		hostMapper.insertAcc(acc);
+		User user = hostMapper.getHostingListByUserNo(userNo);
+		
+		
+	    int no = hostMapper.getUserNoByUserId(user.getId());
+	    
+	    
+	    a
+		
 	}
 	
   // 성하민

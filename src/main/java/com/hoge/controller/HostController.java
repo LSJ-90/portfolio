@@ -27,11 +27,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.ChattingMessageDto;
+import com.hoge.dto.HostingListDto;
 import com.hoge.form.HostApplyForm;
 import com.hoge.pagination.Pagination;
 import com.hoge.pagination.PaginationQnA;
 import com.hoge.service.ChatRoomService;
-import com.hoge.service.HostQnAService;
+import com.hoge.service.QnAService;
 import com.hoge.service.HostService;
 import com.hoge.util.SessionUtils;
 import com.hoge.vo.accommo.AccommoImage;
@@ -52,7 +53,7 @@ public class HostController {
 	private ChatRoomService chatRoomService;
 	
 	@Autowired
-	private HostQnAService hostQnAService;
+	private QnAService hostQnAService;
 	
 	// 유상효 hostApplyForm 호출
 	@GetMapping("/host/applyForm")
@@ -132,7 +133,10 @@ public class HostController {
 	
 	// 유상효 호스팅리스트페이지(호스트마이페이지) 호출
 	@GetMapping("/mypage/hostingList")
-	public String Main() {
+	public String hostingList(int no, Model model) {
+	    HostingListDto dto = hostService.getHostingList(no);
+	    model.addAttribute("hostingDto", dto);
+	    
 		return "mypage/hostingList.tiles";
 	}
 	

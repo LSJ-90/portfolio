@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.ChattingMessageDto;
 import com.hoge.vo.other.ChatRoom;
+import com.hoge.vo.other.Message;
 
 //성하민
 @Mapper
@@ -25,6 +26,14 @@ public interface ChatRoomMapper {
 	//성하민
 	List<ChattingListDto> getChattingListDtobyHostNo(int no); // //호스트 번호로 chatroom 조회, 호스프 페이지 채팅 구현
 	
+	
+	List<ChattingListDto> getChattingListDtobyUserNo(int no); // 호스트 번호로 chatroom 조회, 마이페이지 채팅 구현
+
+	void insertMessage(Message message);
+	
+	void updateChatRoom(ChatRoom chatRoom);
+	
+	ChatRoom getChatRoomByChatRoomNo(int no);
 	
 	
 }

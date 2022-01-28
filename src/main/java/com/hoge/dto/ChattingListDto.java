@@ -30,7 +30,9 @@ public class ChattingListDto {
 	private String name; //유저이름 or 호스트이름
 	private String image; //유저 or 호스트 이미지
 	
+	private int lastMessageSenderNo;
 	private String lastMessage;
+	private String lastMessageChecked;
 	private Date updatedDate;
 	
 
