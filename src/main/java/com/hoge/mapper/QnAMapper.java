@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.hoge.dto.AdminHostQnADto;
 import com.hoge.dto.AdminUserQnADto;
 import com.hoge.form.CriteriaAdminQnA;
 import com.hoge.form.CriteriaAdminUser;
@@ -41,13 +42,32 @@ public interface QnAMapper {
 	
 	//여기서부터 adminpage관련
 	
+	//user-qna
 	// 성하민
 	int getUserQnAsTotalRows(CriteriaAdminQnA criteriaAdminQnA);
 		
 	// 성하민
-	List<AdminUserQnADto> searchQnAs(CriteriaAdminQnA criteriaAdminQnA);
 	
+	List<AdminUserQnADto> getUserQnAsByCriteria(CriteriaAdminQnA criteriaAdminQnA);
 	
+	AdminUserQnADto getUserQnADtobyQnANo(int no);
 	
-
+	UserQnA getUserQnAbyQnANo(int no);
+	
+	void updateUserQnA(UserQnA userQnA); 
+	
+	//user-qna 끝
+	
+	//host-qna 시작
+	// 성하민
+	int getHostQnAsTotalRows(CriteriaAdminQnA criteriaAdminQnA);
+		
+	// 성하민
+	List<AdminHostQnADto> getHostQnAsByCriteria(CriteriaAdminQnA criteriaAdminQnA);
+	
+	AdminHostQnADto getHostQnADtobyQnANo(int no);
+	
+	HostQnA getHostQnAbyQnANo(int no);
+	
+	void updateHostQnA(HostQnA hostQnA); 
 }

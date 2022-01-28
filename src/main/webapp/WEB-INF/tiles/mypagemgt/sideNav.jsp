@@ -127,7 +127,7 @@ div.chat-list {
 </div> <!-- modal fade -->
 	
   
-  
+  <!--채팅 리스트 -->
    <div class="chat-list format">
         <ul>
             <li>
@@ -156,7 +156,7 @@ div.chat-list {
  
 		
 
-
+  <!--대화-->
  <div class="chat format">
         <ul>
             <li>
