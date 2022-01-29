@@ -28,7 +28,7 @@ public class AdminHostQnADto {
 	private int questionNo;
 	private int userNo;
 	private int hostNo;
-	private int hostName;
+	private String hostName;
 	private String hostType;
 	private String hostStatus;
 	private String statusDetail;
