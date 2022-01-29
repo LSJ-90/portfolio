@@ -16,9 +16,6 @@
 	  	WHERE USER_ID = #{VALUE}
 	</select>
 
-<!-- 
- -->
- 
 	<!-- 유상효 호스트 등록하기 -->
 	<insert id="insertHostApply" parameterType="com.hoge.vo.other.Host">
 		<selectKey keyProperty="no" resultType="int" order="BEFORE">
@@ -34,7 +31,8 @@
 		BANK_NAME,
 		HOST_NAME,
 		HOSTING_TYPE,
-		HOST_TEL
+		HOST_TEL,
+		HOST_MAIN_IMAGE
 		)
 		VALUES
 			(
@@ -45,7 +43,8 @@
 			#{bankName},
 			#{name},
 			#{hostingType},
-			#{tel}
+			#{tel},
+			#{mainImage}
 			)
 	</insert>
 	
@@ -142,25 +141,55 @@
 	</insert>
 	
 	<!-- 유상효 accNo로 숙소사진 불러오기 -->
-	<select id="getAccImagesByHostNo" parameterType="int" resultType="com.hoge.vo.accommo.AccommoImage">
-		SELECT
-			ACCOMMO_IMAGE	image,
-			ACCOMMO_NO		accommoNo
-		FROM
-			TB_FINAL_ACCOMMO_IMAGES
-		WHERE
-			ACCOMMO_NO = #{VALUE}
+	<select id="getAccImagesByAccNo" parameterType="int" resultType="com.hoge.vo.accommo.AccommoImage">
+		select
+			accommo_image as image,
+			accommo_no as accommoNo
+		from
+			tb_final_accommo_images
+		where
+			accommo_no = #{value}
 	</select>
 	
-	<!-- 유상효 accNo로 체험 불러오기 -->
-	<select id="getActImagesByHostNo" parameterType="int" resultType="com.hoge.vo.activities.ActivityImage">
-		SELECT
-			ACTIVITY_IMAGE	image,
-			ACTIVITY_NO		activityNo
-		FROM
-			TB_FINAL_ACTIVITY_IMAGES
-		WHERE
-			ACCOMMO_NO = #{VALUE}
+	<!-- 유상효 accNo로 체험사진 불러오기 -->
+	<select id="getActImagesByActNo" parameterType="int" resultType="com.hoge.vo.activities.ActivityImage">
+		select
+			activity_image as image,
+			activity_no as activityNo
+		from
+			tb_final_activity_images
+		where
+			activity_no = #{value}
+	</select>
+	
+	<!-- 유상효 유저넘버로 숙소리스트 가져오기 -->
+	<select id="getAccListByUserNo" parameterType="int" resultType="com.hoge.dto.AccListDto">
+		select
+			a.accommo_name as accName,
+			a.accommo_No as accNo,
+			h.host_main_image as mainImage,
+			h.hosting_type as hostingType
+		from
+			tb_final_accommodations a, tb_final_hosts h, tb_final_users u 
+		where
+			u.user_no = h.host_user_no
+		and h.host_no = a.host_no
+		and u.user_no = #{value}
+	</select>
+	
+	<!-- 유상효 유저넘버로 체험리스트 가져오기 -->
+	<select id="getActListByUserNo" parameterType="int" resultType="com.hoge.dto.ActListDto">
+		select
+			a.activity_name as actName,
+			a.activity_no as actNo,
+			h.host_main_image as mainImage,
+			h.hosting_type as hostingType
+		from
+			tb_final_activities a, tb_final_hosts h, tb_final_users u 
+		where
+			u.user_no = h.host_user_no
+		and h.host_no = a.host_no
+		and u.user_no = #{value}
 	</select>
 	
 

@@ -26,6 +26,7 @@ public class HostApplyForm {
 	private String accountHolderName;
 	private String bankName;
 	private int accountNumber;
+	private MultipartFile hostMainImage;
 	
 	// second 숙소
 	private String accType;
