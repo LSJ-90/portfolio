@@ -111,4 +111,48 @@
             a.average_accuracy_star, a.average_location_star, a.accommo_region_depth1, a.accommo_region_depth2, 
             a.accommo_region_depth3, a.accommo_xce, a.accommo_yce
 	</select>
+	
+	<select id="getReserveAccommoDto" resultType="com.hoge.dto.ReserveAccommoDto">
+		select 
+			a.accommo_no as no,
+			a.host_no as hostNo,
+			a.accommo_name as accommoName,
+			r.room_no as roomNo,
+			r.room_name as roomName,
+			r.standard_number as standardNumber,
+			r.maximum_number as maximumNumber
+		from 
+			tb_final_accommodations a,
+			tb_final_rooms r
+		where 
+			a.accommo_no = r.accommo_no
+			and a.accommo_no = #{accommoNo}
+			and r.room_no = #{roomNo}
+	</select>
+
+	<select id="getRoomBookingNoSeq" resultType="int">
+		select final_room_booking_no_seq.nextval
+		from dual
+	</select>
+	
+	<insert id="insertRoomBooking" parameterType="com.hoge.vo.accommo.RoomBooking">
+		insert into tb_final_room_bookings
+			(room_booking_no, room_no, user_no, check_in_date, check_out_date, room_booking_status, 
+			room_payment, room_tax_included_price, room_used_pnt, room_paid_price, room_booking_name,
+			room_booking_tel, room_extra_people)
+		values
+			(#{no}, #{roomBooking.roomNo}, #{userNo}, #{roomBooking.checkInDate}, #{roomBooking.checkOutDate}, 1, #{roomBooking.payment}, #{roomBooking.taxIncludedPrice}, #{roomBooking.usedPnt},
+			#{roomBooking.paidPrice}, #{roomBooking.roomUserName}, #{roomBooking.roomUserTel}, #{roomBooking.extraPeople})
+	</insert>
+	
+	<insert id="insertRoomAvailability">
+		insert into tb_final_room_availability
+			(booked_date, room_booking_no)
+		values
+			(#{no}, #{date})
+	</insert>
+	
+	
+	
+	
 </mapper>
