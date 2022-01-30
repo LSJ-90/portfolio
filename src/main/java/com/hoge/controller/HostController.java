@@ -25,7 +25,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.hoge.annotation.LoginedUser;
 import com.hoge.dto.AccListDto;
 import com.hoge.dto.ActListDto;
 import com.hoge.dto.ChattingListDto;
@@ -47,6 +46,7 @@ import com.hoge.vo.other.HostQnA;
 import com.hoge.vo.other.User;
 
 @Controller
+@RequestMapping("/host")
 public class HostController {
 	
 	@Autowired
@@ -59,14 +59,14 @@ public class HostController {
 	private QnAService hostQnAService;
 	
 	// 유상효 hostApplyForm 호출
-	@GetMapping("/host/applyForm")
+	@GetMapping("/applyForm")
 	public String ApplyForm() {
 		//SessionUtils.addAttribute("세션아이디", "세션값");
 		return "hostpage/applyForm.tiles";
 	}
 	
 	// 유상효 hostApply 입력
-	@PostMapping(value = "/host/insertHostApply")
+	@PostMapping(value = "/insertHostApply")
 	public String insertHostApply(HostApplyForm form) throws IOException {
 		
 		// 숙소 사진 저장
@@ -143,21 +143,7 @@ public class HostController {
 		return "redirect:../mypage/hostingList";
 	}
 	
-	// 유상효 호스팅리스트페이지(호스트마이페이지) 호출
-	@GetMapping("/mypage/hostingList")
-	public String hostingList(Model model) {
-		User user = (User) SessionUtils.getAttribute("LOGIN_USER"); // 로그인 세션으로 유저정보 불러오기
-	    //int userNo = hostService.getUserNoByUserId(user.getId());
-		
-		List<AccListDto> accDto = hostService.getAccListByUserNo(user.getNo());
-		model.addAttribute("accListDto", accDto);
-		
-		List<ActListDto> actDto = hostService.getActListByUserNo( user.getNo());
-		model.addAttribute("actListDto", actDto);
-		
-		
-		return "/mypage/hostingList.tiles";
-	}
+	
 
 	
 	
@@ -167,7 +153,7 @@ public class HostController {
 	}
 	
 	//성하민
-	@GetMapping("/host/qna")
+	@GetMapping("/qna")
 	public ModelAndView qna(@RequestParam(name = "page", required = false, defaultValue = "1") String page, ModelAndView mv) {
 		mv.setViewName("hostpage/qna.hosttiles");
 		
@@ -191,7 +177,7 @@ public class HostController {
 	}
 	
 	//성하민
-	@GetMapping("/host/sales")
+	@GetMapping("/sales")
 	public ModelAndView sales (ModelAndView mv) {
 		mv.setViewName("hostpage/sales.hosttiles");
 		
@@ -199,7 +185,7 @@ public class HostController {
 	}
 	
 	
-	@GetMapping("/host/chat")
+	@GetMapping("/chat")
 	public ModelAndView chat(ModelAndView mv) {
 		mv.setViewName("hostpage/chat.hosttiles");
 		List<ChattingListDto> chatList = chatRoomService.getChattingListDtobyHostNo(100);
@@ -209,7 +195,7 @@ public class HostController {
 	}
 
 	//성하민
-	@GetMapping("/host/chat-enter.do")							// 요청핸들러 메소드에 @ResponseBody를 붙인다.
+	@GetMapping("/chat-enter.do")							// 요청핸들러 메소드에 @ResponseBody를 붙인다.
 	public @ResponseBody List<ChattingMessageDto> enter(@RequestParam(name = "no",required = false) int no) {
 		
 		List<ChattingMessageDto> msgList = chatRoomService.getMessagesByChatRoomNo(no);
@@ -217,7 +203,7 @@ public class HostController {
 	}
 	
 	
-	@PostMapping("/host/qna-insert.do")
+	@PostMapping("/qna-insert.do")
 	public String save(HostQnA hostQnA) throws IOException {
 		
 		hostQnAService.insertHostQnA(hostQnA);

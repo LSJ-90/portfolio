@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hoge.dto.AdminAccommoReviewDto;
+import com.hoge.dto.AdminActivityReviewDto;
 import com.hoge.dto.AdminHostQnADto;
 import com.hoge.dto.AdminUserQnADto;
 import com.hoge.dto.ChattingListDto;
@@ -57,6 +58,44 @@ public class AdminController {
 	public String adminreviewInit() {
 		
 		return "adminpage/review.admintiles";
+	}
+	
+	//성하민
+	@PostMapping(value = "/getActList.do", produces = "application/json")
+	public @ResponseBody HashMap<String, Object> getActList(@RequestParam(name = "page", required = false, defaultValue="1") String page, String opt, String value) throws Exception {
+		
+		
+		logger.info("페이지 :" + page);
+		HashMap<String, Object> result = new HashMap<>();
+		Criteria criteria = new Criteria();
+		criteria.setOpt(opt);
+		criteria.setValue(value);
+		// 검색조건에 해당하는 총 데이터 갯수 조회
+		int totalRecords = reviewService.getActivityReviewsTotalRows(criteria);
+		logger.info("토탈레코드 :" + totalRecords);
+		// 현재 페이지번호와 총 데이터 갯수를 전달해서 페이징 처리에 필요한 정보를 제공하는 Pagination객체 생성
+		Pagination pagination = new Pagination(page, totalRecords);
+		
+		// 요청한 페이지에 대한 조회범위를 criteria에 저장
+		criteria.setBeginIndex(pagination.getBegin());
+		criteria.setEndIndex(pagination.getEnd());
+		logger.info("검색조건 및 값 :" + criteria);
+		
+		
+		// 검색조건(opt, value)과 조회범위(beginIndex, endIndex)가 포함된 Criteria를 서비스에 전달해서 데이터 조회
+		List<AdminActivityReviewDto> list = reviewService.getActivityReviewsByCriteria(criteria);
+		logger.info("디티오 :" + list);
+		logger.info("페이지네이션 :" + pagination);
+		
+		// 페이징
+		result.put("pagination", pagination);
+		
+		result.put("criteria", criteria);
+		
+		// 게시글 화면 출력
+		result.put("list", list);
+		
+		return result;
 	}
 	
 	//성하민
@@ -197,6 +236,11 @@ public class AdminController {
 	public String adminMainInit() {
 		
 		return "adminpage/main.admintiles";
+	}
+	@GetMapping("/statistics")
+	public String adminstatisticsInit() {
+		
+		return "adminpage/statistics.admintiles";
 	}
 	
 	//관리자페이지에서 답변을 하거나 답변을 수정하는 메소드

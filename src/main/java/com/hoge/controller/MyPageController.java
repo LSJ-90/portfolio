@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,10 +14,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.hoge.dto.AccListDto;
+import com.hoge.dto.ActListDto;
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.ChattingMessageDto;
 import com.hoge.pagination.PaginationQnA;
 import com.hoge.service.ChatRoomService;
+import com.hoge.service.HostService;
 import com.hoge.service.QnAService;
 import com.hoge.vo.other.ChatRoom;
 import com.hoge.vo.other.HostQnA;
@@ -28,7 +32,7 @@ import com.hoge.vo.other.User;
 
 /**
  * 마이페이지 컨트롤러
- * @author 이승준, 성하민
+ * @author 이승준, 성하민, 유상효
  *
  */
 @Controller
@@ -40,6 +44,9 @@ public class MyPageController {
 	
 	@Autowired
 	private QnAService qnAService;
+	
+	@Autowired
+	private HostService hostService;
 	
 	// 이승준: 마이페이지 메인 페이지로 리턴
 	@GetMapping("/myrevlist")
@@ -119,6 +126,22 @@ public class MyPageController {
 			chatRoom.setLastMessageChecked(message.getChecked());
 			
 			chatRoomService.updateChatRoom(chatRoom); //채팅방 업데이트
+		}
+		
+		// 유상효 호스팅리스트페이지(호스트마이페이지) 호출
+		@GetMapping("/hostingList")
+		public String hostingList(Model model) {
+			User user = (User) SessionUtils.getAttribute("LOGIN_USER"); // 로그인 세션으로 유저정보 불러오기
+		    //int userNo = hostService.getUserNoByUserId(user.getId());
+			
+			List<AccListDto> accDto = hostService.getAccListByUserNo(user.getNo());
+			model.addAttribute("accListDto", accDto);
+			
+			List<ActListDto> actDto = hostService.getActListByUserNo( user.getNo());
+			model.addAttribute("actListDto", actDto);
+			
+			
+			return "/mypage/hostingList.tiles";
 		}
 		
 		
