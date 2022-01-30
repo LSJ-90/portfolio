@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.hoge.annotation.LoginedUser;
+import com.hoge.config.auth.LoginedUser;
 import com.hoge.dto.HogeUserDto;
 import com.hoge.dto.HogeUserUpdateDto;
 import com.hoge.dto.KakaoUserDto;

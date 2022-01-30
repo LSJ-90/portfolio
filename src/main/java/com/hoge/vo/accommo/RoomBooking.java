@@ -2,6 +2,8 @@ package com.hoge.vo.accommo;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,7 +21,9 @@ public class RoomBooking {
 	private int no;
 	private int roomNo;
 	private int userNo;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date checkInDate; 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date checkOutDate;
 	private String status;
 	private Date bookingMadeDate; 
