@@ -30,10 +30,10 @@
 						<label class="form-label">등록 유형 선택</label>
 					</div>
 					<a href="#">
-       					<img onclick="first()" src="../../resources/images/main/host_apply_acc.jpg" id="img1"/>
+       					<img onclick="first()" src="../../resources/images/apply/host_apply_acc.jpg" id="img1"/>
        				</a>
        				<a href="#">
-       					<img onclick="second()" src="../../resources/images/main/host_apply_act.jpg" id="img2"/>
+       					<img onclick="second()" src="../../resources/images/apply/host_apply_act.jpg" id="img2"/>
        				</a>
 					<div class="mb-3">
 					<!--
@@ -181,6 +181,10 @@
 						<textarea rows="15" cols="76" id="accIntroContent" name="accIntroContent"></textarea>
 					</div>
 					<div class="mb-3">
+						<label class="form-label">메인 사진 첨부</label>
+						<input type="file" class="form-control" name="hostMainImage" />
+					</div>
+					<div class="mb-3">
 						<label class="form-label">사진 첨부</label>
 						<input type="file" class="form-control" name="accImages" />
 						<input type="file" class="form-control" name="accImages" />
@@ -238,6 +242,10 @@
 						<input type="text" class="form-control" id="actPricePerPerson" name="actPricePerPerson" />
 					</div>
 					<div class="mb-3">
+						<label class="form-label">메인 사진 첨부</label>
+						<input type="file" class="form-control" name="hostMainImage" />
+					</div>
+					<div class="mb-3">
 						<label class="form-label">사진 첨부</label>
 						<input type="file" class="form-control" name="actImages" />
 						<input type="file" class="form-control" name="actImages" />
@@ -268,11 +276,11 @@ function second() {
 	$("#applyType").val(2)
 }
 $("#img1").click(function() {
-	$("#img1").css({"width":"180"});
+	$("#img1").css({"width":"170"});
 	$("#img2").css({"width":"90"});
 })
 $("#img2").click(function(b) {
-	$("#img2").css({"width":"180"});
+	$("#img2").css({"width":"170"});
 	$("#img1").css({"width":"90"});
 })
 

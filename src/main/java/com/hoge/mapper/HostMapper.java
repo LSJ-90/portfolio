@@ -5,11 +5,14 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.hoge.dto.AccListDto;
+import com.hoge.dto.ActListDto;
 import com.hoge.vo.accommo.AccommoImage;
 import com.hoge.vo.accommo.Accommodation;
 import com.hoge.vo.activities.Activity;
 import com.hoge.vo.activities.ActivityImage;
 import com.hoge.vo.other.Host;
+import com.hoge.vo.other.User;
 
 /**
  * 유저 기능에 관한 메서드명을 정의하였다.
@@ -33,10 +36,12 @@ public interface HostMapper {
 	// 유상효 이미지 저장 & 이미지 불러오기
 	void insertAccImage(AccommoImage accommoImage);
 	void insertActImage(ActivityImage activityImage);
-	List<AccommoImage> getAccImagesByHostNo(int hostNo);
-	List<ActivityImage> getActImagesByHostNo(int hostNo);
+	List<AccommoImage> getAccImagesByAccNo(int accNo);
+	List<ActivityImage> getActImagesByActNo(int actNo);
 	
-	
+	// 유상효 유저넘버로 호스팅리스트 찾기
+	List<AccListDto> getAccListByUserNo(int userNo);
+	List<ActListDto> getActListByUserNo(int userNo);
 	
 	
 	// 호스트 번호로 호스트객체 반환

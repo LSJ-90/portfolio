@@ -25,10 +25,13 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.hoge.annotation.LoginedUser;
+import com.hoge.dto.AccListDto;
+import com.hoge.dto.ActListDto;
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.ChattingMessageDto;
-import com.hoge.dto.HostingListDto;
 import com.hoge.form.HostApplyForm;
+import com.hoge.mapper.HostMapper;
 import com.hoge.pagination.Pagination;
 import com.hoge.pagination.PaginationQnA;
 import com.hoge.service.ChatRoomService;
@@ -106,6 +109,15 @@ public class HostController {
 		host.setAccountHolderName(form.getAccountHolderName());
 		host.setBankName(form.getBankName());
 		host.setAccountNumber(form.getAccountNumber());
+		String hostImageSave = "C:\\final-workspace\\finalproject-chanel5\\src\\main\\webapp\\resources\\images\\hostMainImage";
+		MultipartFile hostfile = form.getHostMainImage(); // 메인사진
+		if (!hostfile.isEmpty()) {
+			String fileName = hostfile.getOriginalFilename();
+			host.setMainImage(fileName);
+			InputStream in = hostfile.getInputStream();
+			FileOutputStream out = new FileOutputStream(new File(hostImageSave, fileName));
+			FileCopyUtils.copy(in, out);
+		}
 		
 		// 숙소 정보 담기
 		Accommodation acc = new Accommodation();
@@ -132,13 +144,23 @@ public class HostController {
 	}
 	
 	// 유상효 호스팅리스트페이지(호스트마이페이지) 호출
-	/*
-	 * @GetMapping("/mypage/hostingList") public String hostingList(int no, Model
-	 * model) { HostingListDto dto = hostService.getHostingList(no);
-	 * model.addAttribute("hostingDto", dto);
-	 * 
-	 * return "mypage/hostingList.tiles"; }
-	 */
+	@GetMapping("/mypage/hostingList")
+	public String hostingList(Model model) {
+		User user = (User) SessionUtils.getAttribute("LOGIN_USER"); // 로그인 세션으로 유저정보 불러오기
+	    //int userNo = hostService.getUserNoByUserId(user.getId());
+		
+		List<AccListDto> accDto = hostService.getAccListByUserNo(user.getNo());
+		model.addAttribute("accListDto", accDto);
+		
+		List<ActListDto> actDto = hostService.getActListByUserNo( user.getNo());
+		model.addAttribute("actListDto", actDto);
+		
+		
+		return "/mypage/hostingList.tiles";
+	}
+
+	
+	
 	
 	public ModelAndView MainReq() {
 		return null;	
