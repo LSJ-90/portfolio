@@ -20,9 +20,18 @@ public class ReviewActivity {
 	private int no;
 	private int userNo;
 	private int activityNo;
+	
 	private double star;
+	
+	private String content;
 	private Date createdDate;
 	private String deleted;
 	private Date updatedDate;
+	
+	private String answered;
+	private String answerContent;
+	private String answerDeleted;
+	private String answerCreatedDate;
+	
 	
 }

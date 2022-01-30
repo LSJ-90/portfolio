@@ -9,8 +9,12 @@
 </head>
 <body>
 <div class="container ">
-	<form method="post" action="" >
+	<form id="frm" method="post" action="insert" >
 		<input type="hidden" name="roomNo" value="${accommo.roomNo }">
+		<input type="hidden" name="no" value="${accommo.no }">
+		<input type="hidden" name="taxIncludedPrice" value="">
+		<input type="hidden" name="paidPrice" value="">
+		<input type="hidden" name="extraPeople" value="">
 		<div class="row mb-3">
 			<div class="col">
 				<div class="d-flex justify-content-between">
@@ -19,8 +23,8 @@
 					</div>
    					<div>
    						<div></div>
-	   					<input type="date" name="checkIn" class="form-control" value="<fmt:formatDate value="${checkIn }" pattern="yyyy-MM-dd"/>"/>
-	   					<input type="date" name="checkOut" class="form-control" value="<fmt:formatDate value="${checkOut }" pattern="yyyy-MM-dd"/>"/>
+	   					<input type="date" name="checkInDate" class="form-control" value="<fmt:formatDate value="${checkIn }" pattern="yyyy-MM-dd"/>"/>
+	   					<input type="date" name="checkOutDate" class="form-control" value="<fmt:formatDate value="${checkOut }" pattern="yyyy-MM-dd"/>"/>
    					</div>
    					<div>
    						<span id="top-price"></span>원
@@ -44,19 +48,19 @@
 					<tr>
 						<th>이름</th>
 						<td>
-							
+							${user.name }
 						</td>
 					</tr>
 					<tr>
 						<th>휴대전화</th>
 						<td>
-						
+							${user.tel }
 						</td>
 					</tr>
 					<tr>
 						<th>이메일</th>
 						<td>
-						
+							${user.email }
 						</td>
 					</tr>
 					<tr>
@@ -111,11 +115,14 @@
 								<table class="table">
 									<tr>
 										<th>성명</th>
-										<td><input type="text"></td>
+										<td><input type="text" name="roomUserName"></td>
 									</tr>
 									<tr>
 										<th>휴대폰 번호</th>
-										<td><input type="text"></td>
+										<td><input type="text" name="roomUserTel"></td>
+									</tr>
+									<tr id="real-user-error" style="display: none">
+										<td>이용자 정보를 입력해주세요.</td>
 									</tr>
 								</table>
 							</div>
@@ -142,8 +149,17 @@
 									<th>할인금액</th>
 									<td><span id="discount-amount"></span></td>
 								</tr>
+								<tr>
+									<th>포인트 사용(보유 point: <span id="user-point" data-point="${user.pnt }"><fmt:formatNumber value="${user.pnt }" /></span>)</th>
+									<td>
+										<input name="usedPnt" type="number" value="0" max="${user.pnt }" min="0">
+										<div id="point-error" style="display: none">
+											<h5>보유 포인트를 초과 하실수 없습니다.</h5>
+										</div>
+									</td>
+								</tr>
 							</table>
-							<span id="bottom-price"></span>원
+							<span id="bottom-price" data-total-price=""></span>원
 						</td>
 					</tr>
 					<tr>
@@ -151,11 +167,11 @@
 						<td>
 							<div class="d-flex justify-content-start">
 								<div class="form-check">
-									<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+									<input class="form-check-input" type="radio" name="payment" value="신용카드" id="flexRadioDefault1">
 									<label class="form-check-label" for="flexRadioDefault1">신용카드 결제</label>
 								</div>
 								<div class="form-check">
-									<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+									<input class="form-check-input" type="radio" name="payment" value="카카오" id="flexRadioDefault2" checked>
 									<img alt="kakaopay" src="/resources/images/reservation/payment_icon_yellow_small.png">
 								</div>
 							</div>
@@ -175,7 +191,7 @@
 					<div class="d-flex flex-column bd-highlight mb-3">
 						<div class="d-flex justify-content-between">
 							<div>
-								<input class="form-check-input" type="checkbox" id="terms">
+								<input class="form-check-input-necessary" type="checkbox" id="terms">
 								<label class="form-check-label" for="flexCheckDefault">서비스 이용 약관 동의 (필수)</label>
 							</div>
 							<div>
@@ -193,7 +209,7 @@
 					<div class="d-flex flex-column bd-highlight mb-3">
 						<div class="d-flex justify-content-between">
 							<div>
-								<input class="form-check-input" type="checkbox" id="terms">
+								<input class="form-check-input-necessary" type="checkbox" id="terms">
 								<label class="form-check-label" for="flexCheckDefault">개인정보 취급방침 동의 (필수)</label>
 							</div>
 							<div>
@@ -210,8 +226,8 @@
 					<div class="d-flex flex-column bd-highlight mb-3">
 						<div class="d-flex justify-content-between">
 							<div>
-								<input class="form-check-input" type="checkbox" id="terms">
-								<label class="form-check-label" for="flexCheckDefault">사용자 약관 전체 동의</label>
+								<input class="form-check-input-necessary" type="checkbox" id="terms">
+								<label class="form-check-label" for="flexCheckDefault">환불규정에 대한 동의(필수)</label>
 							</div>
 							<div>
 								<button class="btn-terms" style="width: 500px;" data-content=3>약관 모두 보기</button>
@@ -305,7 +321,7 @@
 								</div>
 							</div>
 							<div id="terms-content-4" style="display: none">
-								1. 개인정보를 제공받는 자 : 캉프맨숀</br>
+								1. 개인정보를 제공받는 자 : ${accommo.accommoName }</br>
 								2. 제공하는 개인정보 항목 : [필수] 스테이폴리오 아이디,이름, 연락처, 이메일주소, 인원정보
 							</div>
 						</div>
@@ -315,7 +331,7 @@
 		</div>
 		<div class="row mb-3">
 			<div class="col">
-				<button type="submit" id="payment" class="btn btn-dark">결제하기</button>
+				<button id="payment" type="submit" class="btn btn-dark">결제하기</button>
 			</div>
 		</div>
 	</form>
@@ -326,7 +342,7 @@ $(function() {
 		updateForm();
 	}
 	// 날짜 변경시 실행
-	$(":input[name=checkIn], :input[name=checkOut]").change(function() {
+	$(":input[name=checkInDate], :input[name=checkOutDate]").change(function() {
 		updateForm();
 	});
 	
@@ -370,16 +386,21 @@ $(function() {
     
     function updateForm() {
     	// price를 위한 date
-    	var checkIn = $(":input[name=checkIn]").val().replace(/-/g, '');
-		var checkOut = $(":input[name=checkOut]").val().replace(/-/g, '');
+    	var checkIn = $(":input[name=checkInDate]").val().replace(/-/g, '');
+		var checkOut = $(":input[name=checkOutDate]").val().replace(/-/g, '');
 		var number = parseInt($("#adult-number option:selected").val()) + parseInt($("#child-number option:selected").val()) + parseInt($("#infant-number option:selected").val())
 		var roomNo = $(":input[name=roomNo]").val();
+		var point = $("input[name=usedPnt]").val();
 		
 		$.getJSON("/getPrice",
-				{checkIn: checkIn, checkOut: checkOut, roomNo: roomNo, number: number},
+				{checkIn: checkIn, checkOut: checkOut, roomNo: roomNo, number: number, point: point},
 				function(priceDto) {
 			$("#top-price, #bottom-price").text("￦"+priceDto.totalPrice.toLocaleString());
+			$("#bottom-price").attr("data-total-price", priceDto.totalPrice);
 			$("#room-price").text("￦" + priceDto.roomPrice.toLocaleString());
+			$("input[name=taxIncludedPrice]").val(priceDto.totalPrice+priceDto.usePoint);
+			$("input[name=paidPrice]").val(priceDto.totalPrice);
+			$("input[name=extraPeople]").val(priceDto.extraPeople);
 			console.log(priceDto.surcharge);
 			if (priceDto.surcharge > 0) {
 				$("#room-surcharge").text("(+ ￦" + priceDto.surcharge.toLocaleString() + ")");
@@ -394,10 +415,10 @@ $(function() {
 			
 		})
 		// 예약일을 상단 날짜에서 가져오기
-		$("#span-checkIn").text($(":input[name=checkIn]").val());
-		$("#span-checkOut").text($(":input[name=checkOut]").val());
-		const date1 = new Date(Date.parse($(":input[name=checkIn]").val()));
-		const date2 = new Date(Date.parse($(":input[name=checkOut]").val()));
+		$("#span-checkIn").text($(":input[name=checkInDate]").val());
+		$("#span-checkOut").text($(":input[name=checkOutDate]").val());
+		const date1 = new Date(Date.parse($(":input[name=checkInDate]").val()));
+		const date2 = new Date(Date.parse($(":input[name=checkOutDate]").val()));
 		const night = (date2.getTime() - date1.getTime()) / 1000 / 60 / 60 / 24; 
 		$("#span-night").text(night);
     }
@@ -410,12 +431,13 @@ $(function() {
 			/*  focus를 가진 상태에서 여러번 값을 바꿀 때를 방지 */
 			$('#'+idAge+'-number').trigger("blur");
 			$('#'+idAge+'-number').val(age).prop("selected", true);
+		} else {
+			$("#maximum-error").hide();
 		}
 	}
     
     // 전체 동의
     $("#terms-all").click(function() {
-    	console.log("클릭");
 		if($("#terms-all").is(":checked")) $("input[id=terms]").prop("checked", true);
 		else $("input[id=terms]").prop("checked", false);
 	});
@@ -440,20 +462,81 @@ $(function() {
 		}
 	});
     
-    $("#payment").click(function(event) {
-    	event.preventDefault();
+    // 결제하기
+	$("#payment").click(function(event) {
+		event.preventDefault();
+		var frm = $("#frm");
+		if ($("input:checkbox[id='flexCheckChecked-real-user']").is(":checked") == false &&
+			($("input[name=roomUserName]").val() == '' || $("input[name=roomUserTel]").val() == '')) {
+				$("#real-user-error").show();
+		} else {
+			$("#real-user-error").hide();
+			if ($("input[class=form-check-input-necessary]:checked").length!=3) {
+				alert("동의사항을 모두 확인해 주세요.");
+			} else {
+				/* if ($("input[name=payment]").val()=="카카오") {
+					$("#payment").click(function(event) {
+				    	var checkIn = $(":input[name=checkInDate]").val().replace(/-/g, '');
+						var checkOut = $(":input[name=checkOutDate]").val().replace(/-/g, '');
+				    	var price = parseInt($("#bottom-price").attr("data-total-price"));
+				    	var roomNo = $(":input[name=roomNo]").val();
+				    	var no = $(":input[name=no]").val();
+				   		$.ajax({
+				   			url:'/kakaopay',
+				  			dataType: 'json',
+				  			data: {price: price, checkIn: checkIn, checkOut: checkOut, roomNo: roomNo, no: no},
+				   			success:function(data) {
+				   				console.log(data.tid);
+				   				var box = data.next_redirect_pc_url;
+				   				window.open(box);
+				   			},
+				   			error:function(error) {
+				   				alert(error);
+				   			}
+				   		})
+				    });
+				} */
+				frm.submit();
+			}
+		}
+	});
+    
+    
+    // 카카오페이
+    /* $("#payment").click(function(event) {
+    	var checkIn = $(":input[name=checkInDate]").val().replace(/-/g, '');
+		var checkOut = $(":input[name=checkOutDate]").val().replace(/-/g, '');
+    	var price = parseInt($("#bottom-price").attr("data-total-price"));
+    	var roomNo = $(":input[name=roomNo]").val();
+    	var no = $(":input[name=no]").val();
    		$.ajax({
-   			url:'/kakaopay'
-   			dataType:'json',
+   			url:'/kakaopay',
+  			dataType: 'json',
+  			data: {price: price, checkIn: checkIn, checkOut: checkOut, roomNo: roomNo, no: no},
    			success:function(data) {
-   				alert(data);
+   				console.log(data.tid);
+   				var box = data.next_redirect_pc_url;
+   				window.open(box);
    			},
    			error:function(error) {
    				alert(error);
    			}
    		})
-    })
-})
+    }); */
+    
+    // 포인트 사용
+    $("input[name=usedPnt]").change(function() {
+    	var point = parseInt($("#user-point").attr("data-point"));
+    	if (point < parseInt($(this).val())){
+    		$("#point-error").show();
+			$(this).val(point);
+			updateForm();
+		} else {
+			$("#point-error").hide();
+			updateForm();
+		}
+    });
+});
 	
 </script>
 </body>

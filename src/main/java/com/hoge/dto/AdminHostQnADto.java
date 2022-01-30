@@ -13,7 +13,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * sender와 reciever의 정보를 반환하는 dto
+ * 
  * @author 성하민
  *
  */
@@ -23,12 +23,16 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AdminUserQnADto {
+public class AdminHostQnADto {
 	
 	private int questionNo;
 	private int userNo;
-	private String userName;
-	private String userId;
+	private int hostNo;
+	private String hostName;
+	private String hostType;
+	private String hostStatus;
+	private String statusDetail;
+	private String gradeName;
 	private String category;
 	private String title;
 	private String content;

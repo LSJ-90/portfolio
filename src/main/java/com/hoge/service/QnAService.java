@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hoge.dto.AdminHostQnADto;
 import com.hoge.dto.AdminUserQnADto;
 import com.hoge.form.CriteriaAdminQnA;
 import com.hoge.form.CriteriaAdminUser;
@@ -63,8 +64,45 @@ public class QnAService {
 	}
 		
 	// 성하민
-	public List<AdminUserQnADto> searchQnAs(CriteriaAdminQnA criteriaAdminQnA) {
-		return qnAMapper.searchQnAs(criteriaAdminQnA);
+	public List<AdminUserQnADto> getUserQnAsByCriteria(CriteriaAdminQnA criteriaAdminQnA) {
+		return qnAMapper.getUserQnAsByCriteria(criteriaAdminQnA);
 	}
+	
+	public UserQnA getUserQnAbyQnANo(int no) {
+		return qnAMapper.getUserQnAbyQnANo(no);
+	}
+	public AdminUserQnADto getUserQnADtobyQnANo(int no) {
+		return qnAMapper.getUserQnADtobyQnANo(no);
+	}
+	
+	public void updateUserQnA(UserQnA userQnA) {
+		qnAMapper.updateUserQnA(userQnA);
+	}
+	
+	
+	public int getHostQnAsTotalRows(CriteriaAdminQnA criteriaAdminQnA) {
+		return qnAMapper.getHostQnAsTotalRows(criteriaAdminQnA);
+	}
+	
+	// 성하민
+	public List<AdminHostQnADto> getHostQnAsByCriteria(CriteriaAdminQnA criteriaAdminQnA){
+		return qnAMapper.getHostQnAsByCriteria(criteriaAdminQnA);
+	}
+	
+	public AdminHostQnADto getHostQnADtobyQnANo(int no) {
+		return qnAMapper.getHostQnADtobyQnANo(no);
+	}
+	
+	//답변쓰기
+	public HostQnA getHostQnAbyQnANo(int no) {
+		return qnAMapper.getHostQnAbyQnANo(no);
+	}
+	//업데이트
+	public void updateHostQnA(HostQnA hostQnA) {
+		qnAMapper.updateHostQnA(hostQnA);
+	}
+	
+	
+	
 	
 }

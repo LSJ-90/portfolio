@@ -1,6 +1,11 @@
 package com.hoge.restcontroller;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -16,6 +21,8 @@ import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hoge.dto.PriceDto;
@@ -33,35 +40,37 @@ public class ReserveRestController {
 	@Autowired
 	private PromotionService promotionService;
 	
-	@GetMapping("/holidays")
-	public List<String> getHolidays(String year, String month) throws Exception {
-		JSONParser parser = new JSONParser(new URL("http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear="+year+"&solMonth="+month+"&ServiceKey=1irZIYQbfl88iS1EiVAwaM7fW30u69nAf7PYWisL91H/f8lNcpcbqX5lO38L0mL1jhD8yRBduof7dNNoz6joiA==&_type=json").openStream());
-		
-		Map<String, Object> object = parser.parseObject();
-		
-		System.out.println(object);
-		
-		Map<String, Object> response = (Map<String, Object>) object.get("response");
-		Map<String, Object> body = (Map<String, Object>) response.get("body");
-		Map<String, Object> items = (Map<String, Object>) body.get("items");
-		List<Map<String, Object>>itemList = (List<Map<String, Object> >) items.get("item");
-		
-		
-		List<String> result = new ArrayList<String>();
-		for (Map<String, Object> item : itemList) {
-			String isHoliday = (String) item.get("isHoliday");
-			String locdate = String.valueOf(item.get("locdate"));
-			
-			if ("Y".equals(isHoliday)) {
-				result.add(locdate);
-			}
-		}
-
-		return result;
-	}
+	/*
+	 * @GetMapping("/holidays") public List<String> getHolidays(String year, String
+	 * month) throws Exception { JSONParser parser = new JSONParser(new URL(
+	 * "http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear="
+	 * +year+"&solMonth="+month+
+	 * "&ServiceKey=1irZIYQbfl88iS1EiVAwaM7fW30u69nAf7PYWisL91H/f8lNcpcbqX5lO38L0mL1jhD8yRBduof7dNNoz6joiA==&_type=json"
+	 * ).openStream());
+	 * 
+	 * Map<String, Object> object = parser.parseObject();
+	 * 
+	 * System.out.println(object);
+	 * 
+	 * Map<String, Object> response = (Map<String, Object>) object.get("response");
+	 * Map<String, Object> body = (Map<String, Object>) response.get("body");
+	 * Map<String, Object> items = (Map<String, Object>) body.get("items");
+	 * List<Map<String, Object>>itemList = (List<Map<String, Object> >)
+	 * items.get("item");
+	 * 
+	 * 
+	 * List<String> result = new ArrayList<String>(); for (Map<String, Object> item
+	 * : itemList) { String isHoliday = (String) item.get("isHoliday"); String
+	 * locdate = String.valueOf(item.get("locdate"));
+	 * 
+	 * if ("Y".equals(isHoliday)) { result.add(locdate); } }
+	 * 
+	 * return result; }
+	 */
 	
+	// 염주환
 	@GetMapping("/getPrice")
-	public PriceDto getPrice(String checkIn, String checkOut, int roomNo, int number) throws Exception {
+	public PriceDto getPrice(String checkIn, String checkOut, int roomNo, int number, int point) throws Exception {
 		// 두 날짜 사이의 날짜list 생성
 		List<Date> dateList = new ArrayList<>();
 		DateFormat df = new SimpleDateFormat("yyyyMMdd");
@@ -74,6 +83,8 @@ public class ReserveRestController {
 		c1.setTime(d1);
 		c1.add(Calendar.DATE, +1);
 		c2.setTime(d2);
+		System.out.println(c1);
+		System.out.println(c2);
 		
 		int inYear = c1.get(Calendar.YEAR);
 		int outYear = c2.get(Calendar.YEAR);
@@ -140,67 +151,95 @@ public class ReserveRestController {
 		PriceDto priceDto = new PriceDto();
 
 		// 주말, 공휴일, 평일 구분하기, 진행중인 프로모션 요일별 며칠이나 있는지
-		for (PromotionDiscount promotion : promotionDiscounts) {
-			PromotionDiscountDto promotionDiscountDto = new PromotionDiscountDto();
-			for (Date date : dateList) {
-				if ((date.equals(promotion.getStartingDate()) || date.after(promotion.getStartingDate())) &&
-						(date.equals(promotion.getEndingDate()) || date.before(promotion.getEndingDate()))) {
-					if ((date.equals(peakStart) || date.after(peakStart)) && (date.equals(peakStart) || date.before(peakEnd))) {
-						// System.out.println("peak" + date.getDate());
-						priceDto.setPeakSeasonNumber(priceDto.getPeakSeasonNumber()+1);
-						promotionDiscountDto.setPeakSeasonDiscountRate(promotionDiscountDto.getPeakSeasonDiscountRate()+1);
-					} else {
-						calendar.setTime(date);
-						dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-						if (dayOfWeek == 7 || dayOfWeek == 1) {
-							// System.out.println("weekend" + date.getDate());
-							priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
-							promotionDiscountDto.setDiscountWeekendNumber(promotionDiscountDto.getDiscountWeekendNumber()+1);
+		if (!promotionDiscounts.isEmpty()) {
+			for (PromotionDiscount promotion : promotionDiscounts) {
+				PromotionDiscountDto promotionDiscountDto = new PromotionDiscountDto();
+				for (Date date : dateList) {
+					if ((date.equals(promotion.getStartingDate()) || date.after(promotion.getStartingDate())) &&
+							(date.equals(promotion.getEndingDate()) || date.before(promotion.getEndingDate()))) {
+						if ((date.equals(peakStart) || date.after(peakStart)) && (date.equals(peakStart) || date.before(peakEnd))) {
+							System.out.println("peak" + date.getDate());
+							priceDto.setPeakSeasonNumber(priceDto.getPeakSeasonNumber()+1);
+							promotionDiscountDto.setPeakSeasonDiscountRate(promotionDiscountDto.getPeakSeasonDiscountRate()+1);
 						} else {
-							for (Date holiday : holidayList) {
-								if (date.compareTo(holiday) == 0) {
-									// System.out.println("holiday" + date.getDate());
-									priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
-									promotionDiscountDto.setDiscountWeekendNumber(promotionDiscountDto.getDiscountWeekendNumber()+1);
-									break;
-								} else {
-									// System.out.println("weekday" + date.getDate());
-									priceDto.setWeekdayNumber(priceDto.getWeekdayNumber()+1);
-									promotionDiscountDto.setDiscountWeekdayNumber(promotionDiscountDto.getDiscountWeekdayNumber()+1);
-									break;
+							calendar.setTime(date);
+							dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+							if (dayOfWeek == 7 || dayOfWeek == 1) {
+								// System.out.println("weekend" + date.getDate());
+								priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
+								promotionDiscountDto.setDiscountWeekendNumber(promotionDiscountDto.getDiscountWeekendNumber()+1);
+							} else {
+								for (Date holiday : holidayList) {
+									if (date.compareTo(holiday) == 0) {
+										// System.out.println("holiday" + date.getDate());
+										priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
+										promotionDiscountDto.setDiscountWeekendNumber(promotionDiscountDto.getDiscountWeekendNumber()+1);
+										break;
+									} else {
+										// System.out.println("weekday" + date.getDate());
+										priceDto.setWeekdayNumber(priceDto.getWeekdayNumber()+1);
+										promotionDiscountDto.setDiscountWeekdayNumber(promotionDiscountDto.getDiscountWeekdayNumber()+1);
+										break;
+									}
 								}
 							}
 						}
-					}
-				} else {
-					if ((date.equals(peakStart) || date.after(peakStart)) && (date.equals(peakStart) || date.before(peakEnd))) {
-						// System.out.println("peak" + date.getDate());
-						priceDto.setPeakSeasonNumber(priceDto.getPeakSeasonNumber()+1);
 					} else {
-						calendar.setTime(date);
-						dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-						if (dayOfWeek == 7 || dayOfWeek == 1) {
-							// System.out.println("weekend" + date.getDate());
-							priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
+						if ((date.equals(peakStart) || date.after(peakStart)) && (date.equals(peakStart) || date.before(peakEnd))) {
+							// System.out.println("peak" + date.getDate());
+							priceDto.setPeakSeasonNumber(priceDto.getPeakSeasonNumber()+1);
 						} else {
-							for (Date holiday : holidayList) {
-								if (date.compareTo(holiday) == 0) {
-									// System.out.println("holiday" + date.getDate());
-									priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
-									break;
-								} else {
-									// System.out.println("weekday" + date.getDate());
-									priceDto.setWeekdayNumber(priceDto.getWeekdayNumber()+1);
-									break;
+							calendar.setTime(date);
+							dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+							if (dayOfWeek == 7 || dayOfWeek == 1) {
+								// System.out.println("weekend" + date.getDate());
+								priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
+							} else {
+								for (Date holiday : holidayList) {
+									if (date.compareTo(holiday) == 0) {
+										// System.out.println("holiday" + date.getDate());
+										priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
+										break;
+									} else {
+										// System.out.println("weekday" + date.getDate());
+										priceDto.setWeekdayNumber(priceDto.getWeekdayNumber()+1);
+										break;
+									}
 								}
 							}
 						}
 					}
 				}
+				BeanUtils.copyProperties(promotion, promotionDiscountDto);
+				promotionDiscountDtos.add(promotionDiscountDto);
+				priceDto.setPromotionDiscounts(promotionDiscountDtos);
 			}
-			BeanUtils.copyProperties(promotion, promotionDiscountDto);
-			promotionDiscountDtos.add(promotionDiscountDto);
-			priceDto.setPromotionDiscounts(promotionDiscountDtos);
+		} else {
+			for (Date date : dateList) {
+				if ((date.equals(peakStart) || date.after(peakStart)) && (date.equals(peakStart) || date.before(peakEnd))) {
+					// System.out.println("peak" + date.getDate());
+					priceDto.setPeakSeasonNumber(priceDto.getPeakSeasonNumber()+1);
+				} else {
+					calendar.setTime(date);
+					dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+					if (dayOfWeek == 7 || dayOfWeek == 1) {
+						// System.out.println("weekend" + date.getDate());
+						priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
+					} else {
+						for (Date holiday : holidayList) {
+							if (date.compareTo(holiday) == 0) {
+								// System.out.println("holiday" + date.getDate());
+								priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
+								break;
+							} else {
+								// System.out.println("weekday" + date.getDate());
+								priceDto.setWeekdayNumber(priceDto.getWeekdayNumber()+1);
+								break;
+							}
+						}
+					}
+				}
+			}
 		}
 		
 		long roomPrice = (room.getWeekdaysPrice() * priceDto.getWeekdayNumber()) +
@@ -222,35 +261,56 @@ public class ReserveRestController {
 		number -= room.getStandardNumber();
 		if (number < 0) { number = 0; }
 		totalPrice += (number * room.getPricePerPerson());
+		totalPrice -= point;
 		
-		
+		priceDto.setUsePoint(point);
 		priceDto.setRoomPrice(roomPrice);
 		priceDto.setSurcharge(number * room.getPricePerPerson());
 		priceDto.setTotalPrice(totalPrice);
-		priceDto.setPricePerPerson(room.getPricePerPerson());
 		priceDto.setDiscountAmount(discountAmount);
+		priceDto.setExtraPeople(number);
 		
-		System.out.println(priceDto);
+		// System.out.println(priceDto);
 		
 		return priceDto;
 	}
 	
-	@GetMapping("/kakaopay")
-	public String kakaopay() {
+	@RequestMapping("/kakaopay")
+	@ResponseBody
+	public String kakaopay(long price, String checkIn, String checkOut, int roomNo, int no) {
 		try {
+			
+			
 			URL url = new URL("https://kapi.kakao.com/v1/payment/ready");
+			
 			HttpURLConnection httpUrlConnection = (HttpURLConnection) url.openConnection();
 			httpUrlConnection.setRequestMethod("POST");
 			httpUrlConnection.setRequestProperty("Authorization", "KakaoAK c277cac726afbf7195ddff52bb03e946");
 			httpUrlConnection.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 			httpUrlConnection.setDoOutput(true);
-			// String data = "" 
+			String parameter = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id&item_name=HOGE&quantity=1&total_amount="+price+"&vat_amount=200&tax_free_amount=0&approval_url=http://localhost/reserve/insert&fail_url=http://localhost/reserve/accommo?no="+no+"&roomNo="+roomNo+"&checkIn="+checkIn+"&checkOut="+checkOut+"&cancel_url=http://localhost/reserve/accommo?no="+no+"&roomNo="+roomNo+"&checkIn="+checkIn+"&checkOut="+checkOut;
+			OutputStream outputStream = httpUrlConnection.getOutputStream();
+			DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
+			dataOutputStream.writeBytes(parameter);
+			dataOutputStream.close();
+			
+			int resultCode = httpUrlConnection.getResponseCode();
+			
+			InputStream inputStream;
+			if (resultCode == 200) {
+				inputStream = httpUrlConnection.getInputStream();
+			} else {
+				inputStream = httpUrlConnection.getErrorStream();
+			}
+			InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+			return bufferedReader.readLine();
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		return null;
+		return "{\"result\":\"NO\"}";
 	}
 }

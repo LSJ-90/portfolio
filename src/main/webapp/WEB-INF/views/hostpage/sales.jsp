@@ -79,7 +79,7 @@
 	</div> <!-- row -->
 	
 	
-	<div class="modal fade" id="modal-createing-withdrawal" tabindex="-1" aria-labelledby="출금신청" aria-hidden="true">
+	<div class="modal fade" id="modal-creating-withdrawal" tabindex="-1" aria-labelledby="출금신청" aria-hidden="true">
   		<div class="modal-dialog modal-lg">
     		<div class="modal-content">
       			<div class="modal-header">
@@ -206,7 +206,7 @@ new Chart(document.getElementById("line-chart-monthly"), {
 
 function creatingModal() {
 	
-	let withdrawalModal = new bootstrap.Modal(document.getElementById('modal-createing-withdrawal'), {
+	let withdrawalModal = new bootstrap.Modal(document.getElementById('modal-creating-withdrawal'), {
 		keyboard: false
 	
 	});

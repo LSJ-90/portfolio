@@ -13,9 +13,9 @@
 				<li class="nav__item"><a href="">프로모션</a></li>
 				<li class="nav__item"><a href="">리뷰관리</a></li>
 				<li class="nav__item"><a href="">예약관리</a></li>
-				<li class="nav__item"><a href="/host/sales">매출관리</a></li>
-				<li class="nav__item"><a href="/host/chat">게스트문의</a></li>
-				<li class="nav__item"><a href="/host/qna">관리자문의</a></li>
+				<li class="nav__item"><a href="/host/sales?hostNo=${hostNo }&hostType=${hostType }">매출관리</a></li>
+				<li class="nav__item"><a href="/host/chat?hostNo=${hostNo }&hostType=${hostType }">게스트문의</a></li>
+				<li class="nav__item"><a href="/host/qna?hostNo=${hostNo }&hostType=${hostType }">관리자문의</a></li>
 			</ul>
 			<div class="nav__dropdown">
 				<button class="btn__dropdown">

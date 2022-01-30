@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hoge.mapper.ReviewMapper">
+  
+  
+  <!-- 성하민
+		int getAccommoReviewsTotalRows(Criteria criteria);
+	 -->
+	 <select id="getAccommoReviewsTotalRows" parameterType="com.hoge.form.Criteria" resultType="int">
+		select count(*)
+		from TB_FINAL_ACCOMMO_REVIEWS R, TB_FINAL_ACCOMMODATIONS A
+		where R.ACCOMMO_NO = A.ACCOMMO_NO
+			<if test="opt != null and value != null">
+				<choose>
+					<when test="opt == '호스트번호'">
+						and A.host_NO = #{value} 
+					</when>
+					<when test="opt == '시설번호'">
+						and A.ACCOMMO_NO = #{value}
+					</when>
+					<when test="opt == '시설이름'">
+						and A.ACCOMMO_NAME like '%' || #{value} || '%'
+					</when>
+					<when test="opt == '내용'">
+						and R.REVIEW_CONTENT like '%' || #{value} || '%'
+					</when>
+				</choose>
+			</if>
+	</select>
+  
+  
+  
+  <!-- // 성하민
+  List<AdminAccommoReviewDto> getAccommoReviewsByCriteria(Criteria criteria);
+		
+	 -->
+	<select id="getAccommoReviewsByCriteria" parameterType="com.hoge.form.Criteria" resultType="com.hoge.dto.AdminAccommoReviewDto">
+		select 	
+			ACCOMMO_REVIEW_NO as no,
+			USER_NO	as userNo,
+			HOST_NO	as hostNo,
+			
+			ACCOMMO_NO as accommoNo,
+			ACCOMMO_NAME as accommoName,
+				
+			REVIEW_CLEANLINESS_STAR	as cleanlinessStar,
+			REVIEW_COMMUNICATION_STAR as communicationStar,
+			REVIEW_ACCURACY_STAR as accuracyStar,
+			REVIEW_LOCATION_STAR as locationStar,
+				
+			REVIEW_CONTENT as content,
+			REVIEW_CREATED_DATE	as createdDate,
+			REVIEW_DELETED as deleted,
+			REVIEW_UPDATED_DATE	as updatedDate,
+				
+			REVIEW_ANSWERED	as answered,
+			ANSWER_CONTENT as answerContent,
+			ANSWER_DELETED as answerDeleted,
+			ANSWER_CREATED_DATE as answerCreatedDate
+		from (
+			select 	
+			R.ACCOMMO_REVIEW_NO,
+			R.USER_NO,
+			A.HOST_NO,
+			
+			R.ACCOMMO_NO,
+			A.ACCOMMO_NAME,
+				
+			R.REVIEW_CLEANLINESS_STAR,
+			R.REVIEW_COMMUNICATION_STAR,
+			R.REVIEW_ACCURACY_STAR,
+			R.REVIEW_LOCATION_STAR,
+				
+			R.REVIEW_CONTENT,
+			R.REVIEW_CREATED_DATE,
+			R.REVIEW_DELETED,
+			R.REVIEW_UPDATED_DATE,
+				
+			R.REVIEW_ANSWERED,
+			R.ANSWER_CONTENT,
+			R.ANSWER_DELETED,
+			R.ANSWER_CREATED_DATE,
+	 		row_number() over (order by R.REVIEW_CREATED_DATE desc) rn
+		from TB_FINAL_ACCOMMO_REVIEWS R, TB_FINAL_ACCOMMODATIONS A
+		where R.ACCOMMO_NO = A.ACCOMMO_NO
+			<if test="opt != null and value != null">
+				<choose>
+					<when test="opt == '호스트번호'">
+						and A.host_NO = #{value} 
+					</when>
+					<when test="opt == '시설번호'">
+						and A.ACCOMMO_NO = #{value}
+					</when>
+					<when test="opt == '시설이름'">
+						and A.ACCOMMO_NAME like '%' || #{value} || '%'
+					</when>
+					<when test="opt == '내용'">
+						and R.REVIEW_CONTENT like '%' || #{value} || '%'
+					</when>
+				</choose>
+			</if>
+		)
+		where rn between #{beginIndex} and #{endIndex}
+	</select> 
+	 
+
+</mapper>
