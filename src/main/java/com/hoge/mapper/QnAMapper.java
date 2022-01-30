@@ -1,6 +1,5 @@
 package com.hoge.mapper;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -9,9 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import com.hoge.dto.AdminHostQnADto;
 import com.hoge.dto.AdminUserQnADto;
 import com.hoge.form.CriteriaAdminQnA;
-import com.hoge.form.CriteriaAdminUser;
 import com.hoge.vo.other.HostQnA;
-import com.hoge.vo.other.User;
 import com.hoge.vo.other.UserQnA;
 
 
@@ -67,7 +64,8 @@ public interface QnAMapper {
 	
 	AdminHostQnADto getHostQnADtobyQnANo(int no);
 	
+	//답변쓰기
 	HostQnA getHostQnAbyQnANo(int no);
-	
+	//업데이트
 	void updateHostQnA(HostQnA hostQnA); 
 }

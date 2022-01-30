@@ -30,6 +30,16 @@ table {font-size: 10pt; text-align:center;}
 				<input type="radio" name="answered" value="Y" ${'Y' eq param.answered ? 'checked' : ''}>답변 완료된 질문
 					</div>
 					<div class="col-3">
+						<select class="form-select" name="category" onchange="searchQnAs()">
+								<option value="" selected disabled="disabled">카테고리</option>
+								<option value="로그인" ${'로그인' eq param.category ? 'selected' : ''}> 로그인</option>
+								<option value="회원정보변경" ${'회원정보변경' eq param.category ? 'selected' : ''}> 회원정보변경</option>
+								<option value="결제취소" ${'결제취소' eq param.opt ? 'selected' : ''}> 결제취소</option>
+								<option value="호스트신고" ${'호스트신고' eq param.category ? 'selected' : ''}> 호스트신고</option>
+								<option value="불편사항" ${'불편사항' eq param.category ? 'selected' : ''}> 불편사항</option>
+								<option value="기타" ${'기타' eq param.category ? 'selected' : ''}> 기타</option>
+							</select>
+					
 						<select class="form-select" name="opt">
 							<option value="" selected disabled="disabled">검색조건을 선택하세요</option>
 							<option value="회원번호" ${'회원번호' eq param.opt ? 'selected' : ''}> 회원번호</option>
@@ -284,7 +294,9 @@ console.log(value);
 	
 });
 
-
+function searchQnAs() {
+	$("#form-search-userQnA").trigger("submit");
+}
 
 // 검색버튼을 클릭했을 때 실행될 이벤트핸들러 함수를 등록한다.
 $("#btn-search-userQnA").click(function() {

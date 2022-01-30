@@ -1,63 +1,34 @@
 package com.hoge.form;
 
+import java.util.Date;
+
+import com.hoge.vo.accommo.Accommodation;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class CriteriaAdminQnA {
 
 	private String answered;
+	private String category;
+	private String grade;
+	private String approval;
+	private int hostType;
 	private String opt;
 	private String value;
 	private int beginIndex;
 	private int endIndex;
 	
-	public CriteriaAdminQnA() {}
-
-
-	public String getAnswered() {
-		return answered;
-	}
-
-
-	public void setAnswered(String answered) {
-		this.answered = answered;
-	}
-
-
-	public String getOpt() {
-		return opt;
-	}
-
-	public void setOpt(String opt) {
-		this.opt = opt;
-	}
-
-	public String getValue() {
-		return value;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
-	}
-	
-	public int getBeginIndex() {
-		return beginIndex;
-	}
-	
-	public void setBeginIndex(int beginIndex) {
-		this.beginIndex = beginIndex;
-	}
-	
-	public int getEndIndex() {
-		return endIndex;
-	}
-	
-	public void setEndIndex(int endIndex) {
-		this.endIndex = endIndex;
-	}
-
-	@Override
-	public String toString() {
-		return "Criteria [opt=" + opt + ", value=" + value + ", beginIndex=" + beginIndex + ", endIndex=" + endIndex
-				+ "]";
-	}
 
 	
 }
