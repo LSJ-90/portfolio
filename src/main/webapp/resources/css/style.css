@@ -384,7 +384,14 @@ details[open] summary::after {
   height: 60px;
 }
 
-/* Main-Join */
+/* Main-Find id, fw */
+.find__text {
+  font-size: 14px;
+  font-weight: var(--weight-light);
+  line-height: 1.8;
+  padding: 65px 0;
+  text-align: center;
+}
 
 /* Footer */
 
