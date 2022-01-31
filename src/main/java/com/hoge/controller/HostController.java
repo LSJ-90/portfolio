@@ -25,7 +25,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.hoge.annotation.LoginedUser;
 import com.hoge.dto.AccListDto;
 import com.hoge.dto.ActListDto;
 import com.hoge.dto.ChattingListDto;
