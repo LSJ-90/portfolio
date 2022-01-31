@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.hoge.dto.AdminAccommoReviewDto;
+import com.hoge.dto.AdminActivityReviewDto;
 import com.hoge.form.Criteria;
 
 
@@ -16,5 +17,10 @@ public interface ReviewMapper {
 	List<AdminAccommoReviewDto> getAccommoReviewsByCriteria(Criteria criteria);
 	
 	int getAccommoReviewsTotalRows(Criteria criteria);
+	
+	
+	List<AdminActivityReviewDto> getActivityReviewsByCriteria(Criteria criteria);
+	
+	int getActivityReviewsTotalRows(Criteria criteria);
 	
 }

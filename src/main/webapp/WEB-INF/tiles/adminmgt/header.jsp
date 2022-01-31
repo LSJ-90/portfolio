@@ -24,18 +24,36 @@
   </div>
 	<nav id="nav">
 			<ul class="nav__menu">
-				<li class="nav__item"><a href="/admin/main" class="active">관리자페이지</a></li>
-				<li class="nav__item"><a href="/admin/user-list">회원관리</a></li>
-				<li class="nav__item"><a href="/admin/host-accommo-list">숙소관리</a></li>
-				<li class="nav__item"><a href="/admin/host-activity-list">체험관리</a></li>
-				<li class="nav__item"><a href="/admin/promotion-list">프로모션관리</a></li>
-				<li class="nav__item"><a href="">리뷰관리</a></li>
+				<li class="nav__item"><a href="/admin/main" class="active">관리자페이지 메인</a></li>
+				<li class="nav__item"><a href="/admin/withdrawal">송금신청내역</a></li>
+				<li class="nav__item"><a href="/admin/sales">매출내역</a></li>
+				<li class="nav__item"><a href="/admin/statistics">통계</a></li>
+				
+			</ul>
+			<ul class="nav__menu">
+				<li class="nav__item">회원관리</a></li>
+				<li class="nav__item"><a href="/admin/user-list">회원리스트</a></li>
 				<li class="nav__item"><a href="/admin/host-qna">호스트문의</a></li>
 				<li class="nav__item"><a href="/admin/user-qna">회원문의</a></li>
-				<li class="nav__item"><a href="">송금신청내역</a></li>
-				<li class="nav__item"><a href="">매출내역</a></li>
-				<li class="nav__item"><a href="">통계</a></li>
-				
+				<li class="nav__item"><a href="/admin/review">리뷰관리</a></li>
+			</ul>
+			<ul class="nav__menu">
+				<li class="nav__item">숙소관리</a></li>
+				<li class="nav__item"><a href="/admin/host-accommo-list">숙소리스트</a></li>
+				<li class="nav__item"><a href="">숙소 승인 대기</a></li>
+				<li class="nav__item"><a href="">숙소 승인 반려/종료</a></li>
+			</ul>
+			<ul class="nav__menu">
+				<li class="nav__item">체험관리</a></li>
+				<li class="nav__item"><a href="/admin/host-activity-list">체험리스트</a></li>
+				<li class="nav__item"><a href="">체험 승인 대기</a></li>
+				<li class="nav__item"><a href="">체험 승인 반려/종료</a></li>
+			</ul>
+			<ul class="nav__menu">
+				<li class="nav__item">프로모션관리</a></li>
+				<li class="nav__item"><a href="/admin/promotion-list">프로모션리스트</a></li>
+				<li class="nav__item"><a href="">프로모션 승인 대기</a></li>
+				<li class="nav__item"><a href="">프로모션 승인 반려/종료</a></li>
 			</ul>
 			<div class="nav__dropdown">
 				<button class="btn__dropdown">
