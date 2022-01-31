@@ -12,6 +12,8 @@
 </div>
 
 <div class="host">
+	<a href="/mypage/hostingList" class="host__registration"> 호스트 전환
+	</a>
 	<a href="/host/applyForm" class="host__registration"> <img
 		src="../../resources/images/main/login_icon.png" alt=""
 		class="host__icon" /> 호스트 등록

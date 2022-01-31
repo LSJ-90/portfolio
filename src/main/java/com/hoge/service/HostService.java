@@ -16,7 +16,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartRequest;
 
 import com.hoge.dto.AccListDto;
+import com.hoge.dto.AccMainDto;
 import com.hoge.dto.ActListDto;
+import com.hoge.dto.ActMainDto;
 import com.hoge.mapper.HostMapper;
 import com.hoge.util.SessionUtils;
 import com.hoge.vo.accommo.AccommoImage;
@@ -80,6 +82,15 @@ public class HostService {
 		return hostMapper.getActListByUserNo(userNo);
 	}
 	
+	// 숙소 정보 가져오기
+	public AccMainDto getAccMainByHostNo(int hostNo) {
+		return hostMapper.getAccMainByHostNo(hostNo);
+	}
+	
+	// 체험 정보 가져오기
+	public ActMainDto getActMainByHostNo(int hostNo) {
+		return hostMapper.getActMainByHostNo(hostNo);
+	}
 	
 	
   // 성하민

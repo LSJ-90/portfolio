@@ -64,7 +64,7 @@
 		 c.host_no as hostNo, 
 		 c.user_no as userNo,
     	h.host_name as name, 
-    	u.user_image as image
+    	h.HOST_MAIN_IMAGE as image
     from TB_FINAL_CHATROOMS c, TB_FINAL_USERS u, TB_FINAL_hosts h
     where c.host_no = h.host_no
     and h.host_user_no = u.user_no

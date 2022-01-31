@@ -25,8 +25,11 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.hoge.config.auth.LoginedUser;
 import com.hoge.dto.AccListDto;
+import com.hoge.dto.AccMainDto;
 import com.hoge.dto.ActListDto;
+import com.hoge.dto.ActMainDto;
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.ChattingMessageDto;
 import com.hoge.form.HostApplyForm;
@@ -36,6 +39,7 @@ import com.hoge.pagination.PaginationQnA;
 import com.hoge.service.ChatRoomService;
 import com.hoge.service.QnAService;
 import com.hoge.service.HostService;
+import com.hoge.service.HostTransactionService;
 import com.hoge.util.SessionUtils;
 import com.hoge.vo.accommo.AccommoImage;
 import com.hoge.vo.accommo.Accommodation;
@@ -43,9 +47,11 @@ import com.hoge.vo.activities.Activity;
 import com.hoge.vo.activities.ActivityImage;
 import com.hoge.vo.other.Host;
 import com.hoge.vo.other.HostQnA;
+import com.hoge.vo.other.HostTransaction;
 import com.hoge.vo.other.User;
 
 @Controller
+@RequestMapping("/host")
 public class HostController {
 	
 	@Autowired
@@ -57,15 +63,18 @@ public class HostController {
 	@Autowired
 	private QnAService hostQnAService;
 	
+	@Autowired
+	private HostTransactionService hostTransactionService;
+	
 	// 유상효 hostApplyForm 호출
-	@GetMapping("/host/applyForm")
+	@GetMapping("/applyForm")
 	public String ApplyForm() {
 		//SessionUtils.addAttribute("세션아이디", "세션값");
 		return "hostpage/applyForm.tiles";
 	}
 	
 	// 유상효 hostApply 입력
-	@PostMapping(value = "/host/insertHostApply")
+	@PostMapping(value = "/insertHostApply")
 	public String insertHostApply(HostApplyForm form) throws IOException {
 		
 		// 숙소 사진 저장
@@ -142,31 +151,40 @@ public class HostController {
 		return "redirect:../mypage/hostingList";
 	}
 	
-	// 유상효 호스팅리스트페이지(호스트마이페이지) 호출
-	@GetMapping("/mypage/hostingList")
-	public String hostingList(Model model) {
-		User user = (User) SessionUtils.getAttribute("LOGIN_USER"); // 로그인 세션으로 유저정보 불러오기
-	    //int userNo = hostService.getUserNoByUserId(user.getId());
-		
-		List<AccListDto> accDto = hostService.getAccListByUserNo(user.getNo());
-		model.addAttribute("accListDto", accDto);
-		
-		List<ActListDto> actDto = hostService.getActListByUserNo( user.getNo());
-		model.addAttribute("actListDto", actDto);
-		
-		
-		return "/mypage/hostingList.tiles";
+	// 유상효 호스트 메인페이지
+	@GetMapping("/main")
+	public String hostMain(@RequestParam(name = "hostNo") int hostNo, @RequestParam(name = "hostingType") int hostingType, Model model) {
+		if (hostingType == 1) {
+			AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
+			model.addAttribute("accMainDto", accMainDto);
+		return "hostpage/accMain.hosttiles";
+		} else {
+			ActMainDto actMainDto = hostService.getActMainByHostNo(hostNo);
+			model.addAttribute("actMaintDto", actMainDto);
+		return "hostpage/actMain.hosttiles";
+		}
 	}
-
 	
-	
+	// 유상효 호스트 수정페이지
+	@GetMapping("/modify")
+	public String hostModify(@RequestParam(name = "hostNo") int hostNo, @RequestParam(name = "hostingType") int hostingType, Model model) {
+		if (hostingType == 1) {
+			AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
+			model.addAttribute("accMainDto", accMainDto);
+		return "hostpage/accModifyForm.hosttiles";
+		} else {
+			ActMainDto actMainDto = hostService.getActMainByHostNo(hostNo);
+			model.addAttribute("actMaintDto", actMainDto);
+		return "hostpage/actModifyForm.hosttiles";
+		}
+	}
 	
 	public ModelAndView MainReq() {
 		return null;	
 	}
 	
 	//성하민
-	@GetMapping("/host/qna")
+	@GetMapping("/qna")
 	public ModelAndView qna(@RequestParam(name = "page", required = false, defaultValue = "1") String page, ModelAndView mv) {
 		mv.setViewName("hostpage/qna.hosttiles");
 		
@@ -190,25 +208,31 @@ public class HostController {
 	}
 	
 	//성하민
-	@GetMapping("/host/sales")
-	public ModelAndView sales (ModelAndView mv) {
-		mv.setViewName("hostpage/sales.hosttiles");
+	@GetMapping("/sales")
+	public ModelAndView sales (ModelAndView mv, int hostNo) {
 		
+		System.out.println(hostNo);
+		
+		List<HostTransaction> transactionList = hostTransactionService.getHostTransactionByHostNo(hostNo);
+		System.out.println(transactionList);
+		mv.addObject("transactionList", transactionList);
+		mv.setViewName("hostpage/sales.hosttiles");
+	
 		return mv;
 	}
 	
 	
-	@GetMapping("/host/chat")
+	@GetMapping("/chat")
 	public ModelAndView chat(ModelAndView mv) {
 		mv.setViewName("hostpage/chat.hosttiles");
-		List<ChattingListDto> chatList = chatRoomService.getChattingListDtobyHostNo(100);
+		List<ChattingListDto> chatList = chatRoomService.getChattingListDtobyHostNo(210);
 		mv.addObject("chatList", chatList);
 		
 		return mv;
 	}
 
 	//성하민
-	@GetMapping("/host/chat-enter.do")							// 요청핸들러 메소드에 @ResponseBody를 붙인다.
+	@GetMapping("/chat-enter.do")							// 요청핸들러 메소드에 @ResponseBody를 붙인다.
 	public @ResponseBody List<ChattingMessageDto> enter(@RequestParam(name = "no",required = false) int no) {
 		
 		List<ChattingMessageDto> msgList = chatRoomService.getMessagesByChatRoomNo(no);
@@ -216,7 +240,7 @@ public class HostController {
 	}
 	
 	
-	@PostMapping("/host/qna-insert.do")
+	@PostMapping("/qna-insert.do")
 	public String save(HostQnA hostQnA) throws IOException {
 		
 		hostQnAService.insertHostQnA(hostQnA);

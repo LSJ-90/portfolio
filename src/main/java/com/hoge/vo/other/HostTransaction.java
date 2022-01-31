@@ -1,6 +1,10 @@
-package com.hoge.dto;
+package com.hoge.vo.other;
 
 
+
+
+
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,21 +13,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-
-
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AccListDto {
-	
-	private String accName;
-	private int accNo;
-	private int hostingType;
-	private String mainImage;
+public class HostTransaction {
+	private int type;
+	private long amount;
+	private Date createdDate;
 	private int hostNo;
-	private String accType;
+	
 
 }
