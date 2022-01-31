@@ -30,7 +30,7 @@ public class Host {
 	private String statusDetail; // 상태 상세 사유
 	private int request; //1(첫 요청인 경우) 2(승인 반려 후 내용 보강해서 재요청) 3(호스팅 자의로 종료후 재시작요청)
 	private String mainImage; // 유상효-메인사진
-
+	private long accumulatedMoney;
 	
 
 }

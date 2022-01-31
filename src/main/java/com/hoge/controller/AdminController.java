@@ -75,6 +75,7 @@ public class AdminController {
 		return "adminpage/review.admintiles";
 	}
 	
+	
 	//성하민
 	@PostMapping(value = "/getActList.do", produces = "application/json")
 	public @ResponseBody HashMap<String, Object> getActList(@RequestParam(name = "page", required = false, defaultValue="1") String page, String opt, String value) throws Exception {

@@ -245,12 +245,13 @@ public class HostController {
 	}
 	
 	//성하민
-	@GetMapping("/host/qna")
-	public ModelAndView qna(@RequestParam(name = "page", required = false, defaultValue = "1") String page, ModelAndView mv) {
+	@GetMapping("/qna")
+	public ModelAndView qna(@RequestParam(name = "page", required = false, defaultValue = "1") String page, 
+			ModelAndView mv, int hostNo, int hostingType) {
 		mv.setViewName("hostpage/qna.hosttiles");
 		
 		
-		int totalRecords = hostQnAService.getHostQnACountByHostNo(100);
+		int totalRecords = hostQnAService.getHostQnACountByHostNo(hostNo);
 				// 현재 페이지번호와 총 데이터 갯수를 전달해서 페이징 처리에 필요한 정보를 제공하는 Pagination객체 생성
 		
 		
@@ -260,7 +261,7 @@ public class HostController {
 		int end = pagination.getEnd();
 
 		
-		List<HostQnA> qnaList = hostQnAService.getHostQnAListByHostNo(100, begin, end);
+		List<HostQnA> qnaList = hostQnAService.getHostQnAListByHostNo(hostNo, begin, end);
 		mv.addObject("qnaList", qnaList);
 		mv.addObject("pagination", pagination);
 		mv.addObject("totalRecords", totalRecords);
@@ -273,7 +274,8 @@ public class HostController {
 	public ModelAndView sales (ModelAndView mv, int hostNo) {
 		
 		System.out.println(hostNo);
-		
+		Host savedHost = hostService.getHostByNo(hostNo);
+		mv.addObject("savedHost", savedHost);
 		List<HostTransaction> transactionList = hostTransactionService.getHostTransactionByHostNo(hostNo);
 		System.out.println(transactionList);
 		mv.addObject("transactionList", transactionList);
@@ -283,17 +285,29 @@ public class HostController {
 	}
 	
 	
-	@GetMapping("/host/chat")
-	public ModelAndView chat(ModelAndView mv) {
+	@GetMapping("/chat")
+	public ModelAndView chat(ModelAndView mv, int hostNo, int hostingType) {
 		mv.setViewName("hostpage/chat.hosttiles");
-		List<ChattingListDto> chatList = chatRoomService.getChattingListDtobyHostNo(210);
+		List<ChattingListDto> chatList = chatRoomService.getChattingListDtobyHostNo(hostNo);
+		
+		Host savedHost = hostService.getHostByNo(hostNo);
 		mv.addObject("chatList", chatList);
+		mv.addObject("savedHost", savedHost);
+		
+		if (hostingType == 1) {
+			AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
+			mv.addObject("accMainDto", accMainDto);
+		} else {
+			ActMainDto actMainDto = hostService.getActMainByHostNo(hostNo);
+			mv.addObject("actMaintDto", actMainDto);
+		}
+		
 		
 		return mv;
 	}
 
 	//성하민
-	@GetMapping("/host/chat-enter.do")							// 요청핸들러 메소드에 @ResponseBody를 붙인다.
+	@GetMapping("/chat-enter.do")							// 요청핸들러 메소드에 @ResponseBody를 붙인다.
 	public @ResponseBody List<ChattingMessageDto> enter(@RequestParam(name = "no",required = false) int no) {
 		
 		List<ChattingMessageDto> msgList = chatRoomService.getMessagesByChatRoomNo(no);
@@ -301,7 +315,7 @@ public class HostController {
 	}
 	
 	
-	@PostMapping("/host/qna-insert.do")
+	@PostMapping("/qna-insert.do")
 	public String save(HostQnA hostQnA) throws IOException {
 		
 		hostQnAService.insertHostQnA(hostQnA);
