@@ -215,10 +215,11 @@ function getFullYmdStr(){
     //년월일시분초 문자열 생성
     var d = new Date();
     return d.getFullYear() + ". " + ('0' + (d.getMonth() + 1)).slice(-2) + ". "
-+ ('0' + d.getDate()).slice(-2) + "   " + ('0' + d.getHours()).slice(-2) + " : " + ('0' + d.getMinutes()).slice(-2);
++ ('0' + d.getDate()).slice(-2) + "    " + ('0' + d.getHours()).slice(-2) + ":" + ('0' + d.getMinutes()).slice(-2);
 }
 
-	const userName = "홍길동";
+	const hostName = "${savedHost.name }";
+	const hostImg = "${savedHost.mainImage }";
 	let ws;
 
 	
@@ -281,10 +282,10 @@ function getFullYmdStr(){
 			    type: "message", 
 			    roomNumber: $("#roomNumber").val(),
 				sessionId : $("#sessionId").val(),
-			    senderName: userName, 
+			    senderName: hostName, 
 			    message: $("#chatting").val(), 
 			    sendingTime: getFullYmdStr(),
-			    senderImg: "hilton1.png"
+			    senderImg: hostImg
 			    
 			  };
 		console.log($("#sessionId").val());
@@ -371,7 +372,7 @@ function getFullYmdStr(){
 			
 	    	console.log('여기까지 오키');
 			
-			$.getJSON('/host/chat-enter.do', {no:ChatRoomNo}, function(messageDtos) {
+			$.getJSON('/chat-enter.do', {no:ChatRoomNo}, function(messageDtos) {
 				console.log('가져오는 거 오키');
 				$.each(messageDtos, function(index, value) {
 					
