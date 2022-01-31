@@ -202,102 +202,92 @@
 </body>
 <script type="text/javascript">
 
+$(document).ready(function(){
+	getUserNumberGraph();
+});
 
-new Chart(document.getElementById("myChart"), {
-	type: 'bar', 
-	data: { labels: ['2','3','4','5','6','7','8','9','10','11','12','1','2'], 
-		datasets: [{ label: '월별 순이익', 
-			backgroundColor: ['rgba(255, 99, 132, 0.2)',  'rgba(255, 159, 64, 0.2)',  'rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)',
-			      'rgba(255, 159, 64, 0.2)',
-			      'rgba(255, 205, 86, 0.2)',
-			      'rgba(75, 192, 192, 0.2)',
-			      'rgba(255, 159, 64, 0.2)',
-			      'rgba(255, 205, 86, 0.2)',
-			      'rgba(75, 192, 192, 0.2)',
-			      'rgba(54, 162, 235, 0.2)',
-			      'rgba(153, 102, 255, 0.2)',
-			      'rgba(201, 203, 207, 0.2)'],
-			borderColor: ['rgb(255, 99, 132)',
-				'rgb(255, 99, 132)',
-		      'rgb(255, 205, 86)'],
-			data: [4 ,10, 5, 4 ,10, 5, 4 ,10, 5, 7,8] }] },
-			options: {
-				scales: {
-					yAxes: [{
-						ticks: {
-							beginAtZero: true,
-							stepSize : 2,
-							fontSize : 14,
-						}
-					}]
-				},
-				 legend: {
-				      display: false
-				   },
-
+function getUserNumberGraph() {
+	let dateList = [];
+	let userNumberList = [];
+	
+	
+	$.ajax({
+		url:"user-number-graph",
+		type:"get",
+		dataType:"json",
+		success:function(data) {
+			console.log(data);
+			for (let  i = 0; i<data.length; i++) {
+				dateList.push(data[i].registerDate);
+				userNumberList.push(data[i].count);
 			}
+			
+			new Chart(document.getElementById('lineChart'), {
+				 type: 'line',
+				 data: {
+					 labels: dateList,
+					 datasets: [{
+						 data: userNumberList,
+						 label: "가입자 수",
+						 backgroundColor: [
+								'rgba(0, 0, 0, 0)'
+							],
+						 borderColor: [
+								'rgba(75, 192, 192, 1)',
+								'rgba(54, 162, 235, 1)',
+								'rgba(255, 99, 132, 1)',
+								'rgba(255, 206, 86, 1)',
+								'rgba(153, 102, 255, 1)',
+								'rgba(255, 159, 64, 1)',
+								'rgba(153, 102, 255, 1)'
+							],
+						 borderWidth: 2
+					 }]
+				 },
+				 options: {
+						responsive: false,
+						animation: {
+							onComplete: function () {
+								var chartInstance = this.chart,
+									ctx = chartInstance.ctx;
+								ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+								ctx.fillStyle = 'black';
+								ctx.textAlign = 'center';
+								ctx.textBaseline = 'bottom';
+
+								this.data.datasets.forEach(function (dataset, i) {
+									var meta = chartInstance.controller.getDatasetMeta(i);
+									meta.data.forEach(function (bar, index) {
+										var data = dataset.data[index];							
+										ctx.fillText(data, bar._model.x, bar._model.y - 5);
+									});
+								});
+							}
+						},
+						scales: {
+							yAxes: [{
+								ticks: {
+									beginAtZero: true,
+									stepSize : 2,
+									fontSize : 14,
+								}
+							}]
+						},
+						 legend: {
+						      display: false
+						   }
+					}
 			});
-			
-			
-			
-var ctx = document.getElementById('lineChart');
-var myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-		labels: ['1', '2', '3', '4', '5', '6', '오늘'],
-		datasets: [{
-			label: '일별 가입자수',
-			data: [12, 19, 3, 5, 2, 3, 9],
-			backgroundColor: [
-					'rgba(0, 0, 0, 0)'
-			],
-			borderColor: [
-					'rgba(75, 192, 192, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(255, 99, 132, 1)',
-					'rgba(255, 206, 86, 1)',
-					'rgba(153, 102, 255, 1)',
-					'rgba(255, 159, 64, 1)',
-					'rgba(153, 102, 255, 1)'
-			],
-			borderWidth: 2
-		}]
-	},
-	options: {
-		responsive: false,
-		animation: {
-			onComplete: function () {
-				var chartInstance = this.chart,
-					ctx = chartInstance.ctx;
-				ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
-				ctx.fillStyle = 'black';
-				ctx.textAlign = 'center';
-				ctx.textBaseline = 'bottom';
-
-				this.data.datasets.forEach(function (dataset, i) {
-					var meta = chartInstance.controller.getDatasetMeta(i);
-					meta.data.forEach(function (bar, index) {
-						var data = dataset.data[index];							
-						ctx.fillText(data, bar._model.x, bar._model.y - 5);
-					});
-				});
-			}
 		},
-		scales: {
-			yAxes: [{
-				ticks: {
-					beginAtZero: true,
-					stepSize : 2,
-					fontSize : 14,
-				}
-			}]
-		},
-		 legend: {
-		      display: false
-		   }
+		error:function(){
+			alert("실패");
+		}
+		
+		
+	})//ajax
+}//그래프 가져오기
 
-	}
-});			
+
 var ctx1 = document.getElementById('lineChart1');
 var myChart = new Chart(ctx1, {
     type: 'line',
@@ -357,86 +347,44 @@ var myChart = new Chart(ctx1, {
 	}
 });			
 
-var data = {
-	    labels: [
-	        "1", "2", "3", "4", "5"
-	    ],
-	    datasets: [
-	        {
-	            label: 'Your Score',
-	            data: [
-	                0, 0, 0, 0, 0
-	            ],
-	            backgroundColor: [
-	                'rgba(255, 99, 132, 0.2)',
-	                'rgba(54, 162, 235, 0.2)',
-	                'rgba(255, 206, 86, 0.2)',
-	                'rgba(75, 192, 192, 0.2)',
-	                'rgba(153, 102, 255, 0.2)',
-	                'rgba(255, 159, 64, 0.2)'
-	            ],
-	            borderColor: [
-	                'rgba(255,99,132,1)',
-	                'rgba(54, 162, 235, 1)',
-	                'rgba(255, 206, 86, 1)',
-	                'rgba(75, 192, 192, 1)',
-	                'rgba(153, 102, 255, 1)',
-	                'rgba(255, 159, 64, 1)'
-	            ],
-	            borderWidth: 1
-	        }
-	    ]
-	};
 
-	var options = {
-	    animation: {
-	        animateScale: true
-	    },
-	    responsive: false,
-	    scales: {
-	        yAxes: [
-	            {
-	                ticks: {
-	                    beginAtZero: true
-	                }
-	            }
-	        ]
-	    }
-	};
+new Chart(document.getElementById("myChart"), {
+	type: 'bar', 
+	data: { labels: ['2','3','4','5','6','7','8','9','10','11','12','1','2'], 
+		datasets: [{ label: '월별 순이익', 
+			backgroundColor: ['rgba(255, 99, 132, 0.2)',  'rgba(255, 159, 64, 0.2)',  'rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)',
+			      'rgba(255, 159, 64, 0.2)',
+			      'rgba(255, 205, 86, 0.2)',
+			      'rgba(75, 192, 192, 0.2)',
+			      'rgba(255, 159, 64, 0.2)',
+			      'rgba(255, 205, 86, 0.2)',
+			      'rgba(75, 192, 192, 0.2)',
+			      'rgba(54, 162, 235, 0.2)',
+			      'rgba(153, 102, 255, 0.2)',
+			      'rgba(201, 203, 207, 0.2)'],
+			borderColor: ['rgb(255, 99, 132)',
+				'rgb(255, 99, 132)',
+		      'rgb(255, 205, 86)'],
+			data: [4 ,10, 5, 4 ,10, 5, 4 ,10, 5, 7,8] }] },
+			options: {
+				scales: {
+					yAxes: [{
+						ticks: {
+							beginAtZero: true,
+							stepSize : 2,
+							fontSize : 14,
+						}
+					}]
+				},
+				 legend: {
+				      display: false
+				   },
 
-	var ctx = document.getElementById("myChart2").getContext('2d');
-	var myBarChart = new Chart(ctx, {
-	    type: 'bar',
-	    data: data,
-	    options: options
-	});
+			}
+			});
 
-	var button = document.getElementById("sendAjax")
 
-	button.addEventListener("click", function() {
-	    sendAjax('http://localhost:3000/');
-	})
 
-	function sendAjax(url) {
-	    var oReq = new XMLHttpRequest();
-
-	    oReq.open('POST', url);
-	    oReq.setRequestHeader('Content-Type', "application/json") // json 형태로 보낸다
-	    oReq.send();
-
-	    oReq.addEventListener('load', function() {
-	        var result = JSON.parse(oReq.responseText);
-	        var score = result.score;
-	        var comp_data = data.datasets[0].data;
-
-	        for (var i = 0; i < comp_data.length; i++) {
-	            comp_data[i] = score[i];
-	        }
-
-	        data.datasets[0].data = comp_data;
-	        myBarChart.update();
-	    })
-	}
 
 </script>
 </html>

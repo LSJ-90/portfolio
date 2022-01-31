@@ -27,7 +27,7 @@ public interface ChatRoomMapper {
 	List<ChattingListDto> getChattingListDtobyHostNo(int no); // //호스트 번호로 chatroom 조회, 호스프 페이지 채팅 구현
 	
 	
-	List<ChattingListDto> getChattingListDtobyUserNo(int no); // 호스트 번호로 chatroom 조회, 마이페이지 채팅 구현
+	List<ChattingListDto> getChattingListDtobyUserNo(int no); // 유저 번호로 chatroom 조회, 마이페이지 채팅 구현
 
 	void insertMessage(Message message);
 	

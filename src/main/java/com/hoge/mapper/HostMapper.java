@@ -6,7 +6,9 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.hoge.dto.AccListDto;
+import com.hoge.dto.AccMainDto;
 import com.hoge.dto.ActListDto;
+import com.hoge.dto.ActMainDto;
 import com.hoge.vo.accommo.AccommoImage;
 import com.hoge.vo.accommo.Accommodation;
 import com.hoge.vo.activities.Activity;
@@ -43,6 +45,10 @@ public interface HostMapper {
 	List<AccListDto> getAccListByUserNo(int userNo);
 	List<ActListDto> getActListByUserNo(int userNo);
 	
+	// 유상효 호스트넘버로 정보 찾기
+	AccMainDto getAccMainByHostNo(int hostNo);
+	ActMainDto getActMainByHostNo(int hostNo);
+	
 	
 	// 호스트 번호로 호스트객체 반환
 	Host getHostByNo(int no);
@@ -55,7 +61,6 @@ public interface HostMapper {
 	void insertAccomadation(Accommodation acc);
 
 	void insertActivity(Activity act);
-	
 	
 
 

@@ -157,14 +157,31 @@ div.chat-list {
 		
 
   <!--대화-->
+ 
  <div class="chat format">
         <ul>
-            <li>
-                <div class="sender pt-3">
-                    <span></span>
-                </div>
-                <div class="message">
-                    <span></span>
+            <li>	
+            	<div class="row message-box">
+	           		<div class="col-1 m-1">
+						<img src="" id="senderImg" class="senderImg rounded-circle" alt="">
+					</div>
+					<div class="col">
+						<div class="row">
+			                <div class="sender">
+			                    <span></span>
+			                </div>
+		                </div>
+		                <div class="row">
+			                <div class="message col">
+			                    <span></span>
+			                </div>
+		                </div>
+		                <div class="row">
+			                <div class="sendingTime col">
+			                    <small></small>
+			                </div>
+		                </div>
+	                </div>
                 </div>
             </li>
         </ul>
@@ -230,7 +247,7 @@ function listopen() {
 			chatList.find('.name span').text(value.name);
 			chatList.find('.lastmessage span').text(value.lastMessage);
 			chatList.find("input[name='roomNumber']").val(value.chatRoomNo);
-			var src = "../../resources/images/userprofiles/" + value.image;
+			var src = "../../resources/images/hostMainImage/" + value.image;
 			chatList.find(".userImg").attr("src", src);
 
 			$('div.chat-list:not(.format) ul').append(chatList);
