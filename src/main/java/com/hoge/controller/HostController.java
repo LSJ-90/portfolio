@@ -27,7 +27,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.hoge.config.auth.LoginedUser;
 import com.hoge.dto.AccListDto;
+import com.hoge.dto.AccMainDto;
 import com.hoge.dto.ActListDto;
+import com.hoge.dto.ActMainDto;
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.ChattingMessageDto;
 import com.hoge.form.HostApplyForm;
@@ -149,10 +151,33 @@ public class HostController {
 		return "redirect:../mypage/hostingList";
 	}
 	
+	// 유상효 호스트 메인페이지
+	@GetMapping("/main")
+	public String hostMain(@RequestParam(name = "hostNo") int hostNo, @RequestParam(name = "hostingType") int hostingType, Model model) {
+		if (hostingType == 1) {
+			AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
+			model.addAttribute("accMainDto", accMainDto);
+		return "hostpage/accMain.hosttiles";
+		} else {
+			ActMainDto actMainDto = hostService.getActMainByHostNo(hostNo);
+			model.addAttribute("actMaintDto", actMainDto);
+		return "hostpage/actMain.hosttiles";
+		}
+	}
 	
-
-	
-	
+	// 유상효 호스트 수정페이지
+	@GetMapping("/modify")
+	public String hostModify(@RequestParam(name = "hostNo") int hostNo, @RequestParam(name = "hostingType") int hostingType, Model model) {
+		if (hostingType == 1) {
+			AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
+			model.addAttribute("accMainDto", accMainDto);
+		return "hostpage/accModifyForm.hosttiles";
+		} else {
+			ActMainDto actMainDto = hostService.getActMainByHostNo(hostNo);
+			model.addAttribute("actMaintDto", actMainDto);
+		return "hostpage/actModifyForm.hosttiles";
+		}
+	}
 	
 	public ModelAndView MainReq() {
 		return null;	
@@ -187,8 +212,6 @@ public class HostController {
 	public ModelAndView sales (ModelAndView mv, int hostNo) {
 		
 		System.out.println(hostNo);
-		
-		
 		
 		List<HostTransaction> transactionList = hostTransactionService.getHostTransactionByHostNo(hostNo);
 		System.out.println(transactionList);
