@@ -37,14 +37,11 @@ public class ReservationController {
 	public String form(@RequestParam("no") int no, @RequestParam("roomNo") int roomNo,
 			@RequestParam("checkIn") @DateTimeFormat(pattern = "yyyyMMdd") Date checkIn,
 			@RequestParam("checkOut") @DateTimeFormat(pattern = "yyyyMMdd") Date checkOut,
-			@LoginedUser User user,	Model model) {
+			@LoginedUser User user, Model model) {
 		
 		ReserveAccommoDto reserveAccommoDto = accommodationService.getReserveAccommoDto(no, roomNo);
 		
-		System.out.println(user.getName());
-		
 		model.addAttribute("accommo", reserveAccommoDto);
-		model.addAttribute("user", user);
 		model.addAttribute("checkIn", checkIn);
 		model.addAttribute("checkOut", checkOut);
 		model.addAttribute("user", user);
@@ -55,11 +52,8 @@ public class ReservationController {
 	@PostMapping("/insert")
 	public String save(ReservationInsertForm form, @LoginedUser User user) throws IOException {
 		if (form.getRoomUserName() == "" && form.getRoomUserTel() == "") {
-			form.setRoomUserName(user.getName());
-			form.setRoomUserTel(user.getTel());
+			form.setRoomUserName(user.getName()); form.setRoomUserTel(user.getTel());
 		}
-		System.out.println(form);
-		
 		RoomBooking roomBooking = new RoomBooking();
 		BeanUtils.copyProperties(form, roomBooking);
 		accommodationService.addNewBooking(roomBooking, user.getNo());

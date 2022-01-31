@@ -149,10 +149,26 @@
 		insert into tb_final_room_availability
 			(booked_date, room_booking_no)
 		values
-			(#{no}, #{date})
+			(#{sqlDate}, #{no})
 	</insert>
 	
+	<select id="getAccumulatedMoney" resultType="long">
+		select accumulated_money
+		from (
+    		select rownum, accumulated_money
+			from tb_final_transactions
+        	order by transaction_no desc)
+		where rownum=1
+	</select>
 	
-	
-	
+	<insert id="insertTransactions">
+		<selectKey keyProperty="transactionNo" resultType="int" order="BEFORE">
+			select final_transaction_no_seq.nextval
+			from dual
+		</selectKey>
+		insert into tb_final_transactions
+			(transaction_no, transaction_type, transaction_amount, transaction_to_user_no, room_booking_no, accumulated_money)
+		values
+			(#{transactionNo}, 1, #{amount}, #{userNo}, #{no}, #{accumulated})
+	</insert>
 </mapper>

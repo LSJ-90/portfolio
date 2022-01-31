@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,6 +72,7 @@ public class AccommodationService {
 		
 		Calendar c1 = Calendar.getInstance();
 		Calendar c2 = Calendar.getInstance();
+		
 		c1.setTime(roomBooking.getCheckInDate());
 		c2.setTime(roomBooking.getCheckOutDate());
 		c2.add(Calendar.DATE, -1);
@@ -79,15 +81,19 @@ public class AccommodationService {
 			dateList.add(c1.getTime());
 			c1.add(Calendar.DATE, 1);
 		}
-		
+	
 		accommoMapper.insertRoomBooking(roomBooking, userNo, no);
+		java.sql.Date sqlDate = null;
 		
-//		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//		String strDate = null;
-//		for (Date date : dateList) {
-//			strDate = transFormat.format(date);
-//			accommoMapper.insertRoomAvailability(no, strDate);
-//		}
+		for (Date date : dateList) {
+			sqlDate = new java.sql.Date(date.getTime());
+			accommoMapper.insertRoomAvailability(no, sqlDate);
+		}
+		
+		long amount = roomBooking.getPaidPrice();
+		long accumulatedMoney = accommoMapper.getAccumulatedMoney();
+		accumulatedMoney += roomBooking.getPaidPrice();
+		accommoMapper.insertTransactions(amount, accumulatedMoney, userNo, no);
 		
 	}
 	
