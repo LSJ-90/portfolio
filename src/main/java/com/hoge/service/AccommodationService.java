@@ -14,12 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hoge.dto.AccommoListDto;
 import com.hoge.dto.AccommoPositionDto;
 import com.hoge.dto.ReserveAccommoDto;
+import com.hoge.dto.RoomListDto;
 import com.hoge.form.Criteria;
 import com.hoge.mapper.AccommodationMapper;
 import com.hoge.vo.accommo.AccommoImage;
 import com.hoge.vo.accommo.Accommodation;
 import com.hoge.vo.accommo.Room;
 import com.hoge.vo.accommo.RoomBooking;
+import com.hoge.vo.accommo.RoomImage;
 
 @Service
 public class AccommodationService {
@@ -95,6 +97,27 @@ public class AccommodationService {
 		accumulatedMoney += roomBooking.getPaidPrice();
 		accommoMapper.insertTransactions(amount, accumulatedMoney, userNo, no);
 		
+	}
+
+	
+	
+	// 유상효 객실 등록
+	public void insertRoom(Room room, List<RoomImage> roomImages) {
+		accommoMapper.insertRoom(room);
+		for (RoomImage roomImage : roomImages) {
+			roomImage.setRoomNo(room.getNo());
+			accommoMapper.insertRoomImage(roomImage);
+		}
+	}
+	
+	// 유상효 AccNo로 객실 정보 가져오기
+	public List<RoomListDto> getRoomListByAccNo(int accNo) {
+		List<RoomListDto> roomDtos = accommoMapper.getRoomListByAccNo(accNo);
+		for (RoomListDto roomDto : roomDtos) {
+			List<RoomImage> roomImages = accommoMapper.getRoomImagesByRoomNo(roomDto.getNo());
+			roomDto.setRoomImages(roomImages);
+		}
+		return roomDtos;
 	}
 	
 }

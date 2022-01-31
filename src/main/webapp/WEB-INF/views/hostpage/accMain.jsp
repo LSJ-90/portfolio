@@ -15,7 +15,9 @@
 <title>메인페이지-숙소</title>
 </head>
 <body>
-<h1>숙소</h1>
-<img src="/resources/images/hostMainImage/${accMainDto.mainImage}" class="img-thumbnail">
+<div class="text-center">
+	<h1>숙소</h1>
+	<img src="/resources/images/hostMainImage/${accMainDto.mainImage}" width="800">
+</div>
 </body>
 </html>

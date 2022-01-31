@@ -32,10 +32,13 @@ import com.hoge.dto.ActListDto;
 import com.hoge.dto.ActMainDto;
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.ChattingMessageDto;
+import com.hoge.dto.RoomListDto;
 import com.hoge.form.HostApplyForm;
+import com.hoge.form.InsertRoomForm;
 import com.hoge.mapper.HostMapper;
 import com.hoge.pagination.Pagination;
 import com.hoge.pagination.PaginationQnA;
+import com.hoge.service.AccommodationService;
 import com.hoge.service.ChatRoomService;
 import com.hoge.service.QnAService;
 import com.hoge.service.HostService;
@@ -43,6 +46,8 @@ import com.hoge.service.HostTransactionService;
 import com.hoge.util.SessionUtils;
 import com.hoge.vo.accommo.AccommoImage;
 import com.hoge.vo.accommo.Accommodation;
+import com.hoge.vo.accommo.Room;
+import com.hoge.vo.accommo.RoomImage;
 import com.hoge.vo.activities.Activity;
 import com.hoge.vo.activities.ActivityImage;
 import com.hoge.vo.other.Host;
@@ -66,7 +71,10 @@ public class HostController {
 	@Autowired
 	private HostTransactionService hostTransactionService;
 	
-	// 유상효 hostApplyForm 호출
+	@Autowired
+	private AccommodationService accommodationService;
+	
+	// 유상효 호스트등록폼 호출
 	@GetMapping("/applyForm")
 	public String ApplyForm() {
 		//SessionUtils.addAttribute("세션아이디", "세션값");
@@ -117,8 +125,9 @@ public class HostController {
 		host.setAccountHolderName(form.getAccountHolderName());
 		host.setBankName(form.getBankName());
 		host.setAccountNumber(form.getAccountNumber());
+		// 메인사진 저장
 		String hostImageSave = "C:\\final-workspace\\finalproject-chanel5\\src\\main\\webapp\\resources\\images\\hostMainImage";
-		MultipartFile hostfile = form.getHostMainImage(); // 메인사진
+		MultipartFile hostfile = form.getHostMainImage();
 		if (!hostfile.isEmpty()) {
 			String fileName = hostfile.getOriginalFilename();
 			host.setMainImage(fileName);
@@ -178,6 +187,58 @@ public class HostController {
 		return "hostpage/actModifyForm.hosttiles";
 		}
 	}
+	
+	// 유상효 객실 관리페이지
+	@GetMapping("/mainRoom")
+	public String mainRoom(@RequestParam(name = "hostNo") int hostNo, @RequestParam(name = "hostingType") int hostingType, Model model) {
+			AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
+			model.addAttribute("accMainDto", accMainDto);
+			
+			List<RoomListDto> roomDto = accommodationService.getRoomListByAccNo(accMainDto.getAccNo());
+			model.addAttribute("roomListDto", roomDto);
+			
+		return "accommo/mainRoom.hosttiles";
+	}
+	
+	// 유상효 객실등록폼 호출
+	@GetMapping("insertRoom")
+	public String roomInsertForm(@RequestParam(name = "hostNo") int hostNo, Model model) {
+			AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
+			model.addAttribute("accMainDto", accMainDto);
+		return "accommo/insertRoomForm.hosttiles";
+	}
+	
+	// 유상효 객실등록
+	@PostMapping(value = "/insertRooms")
+	public String insertRooms(InsertRoomForm form) throws IOException {
+		// 객실 사진 저장
+		String saveDirectory = "C:\\final-workspace\\finalproject-chanel5\\src\\main\\webapp\\resources\\images\\room";
+		List<RoomImage> roomImages = new ArrayList<RoomImage>();
+		List<MultipartFile> roomFiles = form.getRoomImages();
+		for (MultipartFile multipartFile : roomFiles) {
+			if (!multipartFile.isEmpty()) {
+				String fileName = multipartFile.getOriginalFilename();
+				RoomImage roomImage = new RoomImage();
+				roomImage.setImage(fileName);
+				roomImages.add(roomImage);
+				InputStream in = multipartFile.getInputStream();
+				FileOutputStream out = new FileOutputStream(new File(saveDirectory, fileName));
+				FileCopyUtils.copy(in, out);
+			}
+		}
+		// 객실 정보 담기
+		Room room = new Room();
+		BeanUtils.copyProperties(form, room);
+		accommodationService.insertRoom(room, roomImages);
+		// 객실 등록후 객실메인페이지로 리다이렉트
+		return "redirect:mainRoom?hostNo="+form.getHostNo()+"&hostingType="+form.getHostingType();
+	}
+	
+	
+	
+	
+	
+	
 	
 	public ModelAndView MainReq() {
 		return null;	

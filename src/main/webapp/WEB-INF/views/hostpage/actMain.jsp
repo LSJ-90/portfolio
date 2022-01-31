@@ -16,6 +16,10 @@
 </head>
 <body>
 <h1>체험</h1>
-<img src="/resources/images/hostMainImage/${actMainDto.mainImage}" class="img-thumbnail">
+
+<div class="text-center">
+	<h1>체험</h1>
+	<img src="/resources/images/hostMainImage/${actMainDto.mainImage}" width="800">
+</div>
 </body>
 </html>
