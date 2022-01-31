@@ -13,12 +13,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class HogeUserDto {
-
-	private String id;
-	private String name;
-	private String pwd;
-	private String email;
-	private String tel;
-	private String gender;
+public class MailDto {
+    private String address;
+    private String title;
+    private String message;
 }

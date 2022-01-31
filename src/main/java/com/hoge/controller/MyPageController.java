@@ -77,23 +77,22 @@ public class MyPageController {
 	// 이승준: 회원 기본정보 업데이트
 	@PostMapping("/userupdate")
 	public String userUpdate(UserUpdateForm form) throws IOException {
-		String saveDirectory = "C:\\projects\\spring-workspace\\finalproject-chanel5\\src\\main\\webapp\\resources\\images\\userprofiles";
 		
 		User savedUser = (User) SessionUtils.getAttribute("LOGIN_USER");
 		savedUser.setName(form.getName());
 		savedUser.setEmail(form.getEmail());
 		savedUser.setTel(form.getTel());
-		MultipartFile myProfile = form.getMyProfile();
-		if (!myProfile.isEmpty()) {		
-			String filename = System.currentTimeMillis() + System.currentTimeMillis() + myProfile.getOriginalFilename();
-			savedUser.setImage(filename);
-			
-			InputStream in = myProfile.getInputStream();
-			FileOutputStream out = new FileOutputStream(new File(saveDirectory, filename));
-			FileCopyUtils.copy(in, out);
-		}
 		
-		BeanUtils.copyProperties(form, savedUser);
+		String saveDirectory = "C:\\final-workspace\\finalproject-chanel5\\src\\main\\webapp\\resources\\images\\userprofiles";
+		MultipartFile myProfile = form.getMyProfile();
+		// System.out.println(myProfile);
+		if (!myProfile.isEmpty()) {		
+			String fileName = myProfile.getOriginalFilename();
+			savedUser.setImage(fileName);
+			InputStream in = myProfile.getInputStream();
+			FileOutputStream out = new FileOutputStream(new File(saveDirectory, fileName));
+			FileCopyUtils.copy(in, out);
+		} 
 		
 		userService.updateUser(savedUser);
 		

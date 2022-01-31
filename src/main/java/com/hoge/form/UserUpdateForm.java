@@ -14,6 +14,5 @@ public class UserUpdateForm {
 	private String name;
 	private String email;
 	private String tel;
-	private String image;
 	private MultipartFile myProfile;
 }
