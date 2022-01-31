@@ -1,34 +1,41 @@
 package com.hoge.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
+import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.hoge.dto.AccListDto;
 import com.hoge.dto.ActListDto;
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.ChattingMessageDto;
+import com.hoge.form.UserUpdateForm;
 import com.hoge.pagination.PaginationQnA;
 import com.hoge.service.ChatRoomService;
 import com.hoge.service.HostService;
 import com.hoge.service.QnAService;
-import com.hoge.vo.other.ChatRoom;
-import com.hoge.vo.other.HostQnA;
-import com.hoge.vo.other.Message;
-import com.hoge.vo.other.UserQnA;
-
+import com.hoge.service.UserService;
 import com.hoge.util.SessionUtils;
+import com.hoge.vo.other.ChatRoom;
+import com.hoge.vo.other.Message;
 import com.hoge.vo.other.User;
+import com.hoge.vo.other.UserQnA;
 
 /**
  * 마이페이지 컨트롤러
@@ -48,6 +55,9 @@ public class MyPageController {
 	@Autowired
 	private HostService hostService;
 	
+	@Autowired
+	private UserService userService;
+	
 	// 이승준: 마이페이지 메인 페이지로 리턴
 	@GetMapping("/myrevlist")
 	public String myRevListInit() { 
@@ -55,6 +65,64 @@ public class MyPageController {
 		//TODO: 리스트 불러오기 주환님이랑 협의
 		
 		return "mypage/myRevList.mytiles";
+	}
+	
+	// 이승준: 회원정보 업데이트 페이지 리턴
+	@GetMapping("/userupdate")
+	public String userUpdateInit() {
+		
+		return "mypage/userUpdate.mytiles";
+	}
+	
+	// 이승준: 회원 기본정보 업데이트
+	@PostMapping("/userupdate")
+	public String userUpdate(UserUpdateForm form) throws IOException {
+		String saveDirectory = "C:\\projects\\spring-workspace\\finalproject-chanel5\\src\\main\\webapp\\resources\\images\\userprofiles";
+		
+		User savedUser = (User) SessionUtils.getAttribute("LOGIN_USER");
+		savedUser.setName(form.getName());
+		savedUser.setEmail(form.getEmail());
+		savedUser.setTel(form.getTel());
+		MultipartFile myProfile = form.getMyProfile();
+		if (!myProfile.isEmpty()) {		
+			String filename = System.currentTimeMillis() + System.currentTimeMillis() + myProfile.getOriginalFilename();
+			savedUser.setImage(filename);
+			
+			InputStream in = myProfile.getInputStream();
+			FileOutputStream out = new FileOutputStream(new File(saveDirectory, filename));
+			FileCopyUtils.copy(in, out);
+		}
+		
+		BeanUtils.copyProperties(form, savedUser);
+		
+		userService.updateUser(savedUser);
+		
+		return "mypage/userUpdate.mytiles";
+	}
+	
+	// 이승준: 회원탈퇴
+	@PostMapping("/userdelete")
+	public String deleteUser(String pwd) {
+		
+		userService.deleteUser(pwd);
+		
+		SessionUtils.sessionInvlidate();
+		
+		return "redirect:../home";
+	}
+	
+	// 이승준: 회원 비밀번호 업데이트
+	@PostMapping("/userpwdupdate")
+	public String userPwdUpdate(String changePwd) {
+		
+		User savedUser = (User) SessionUtils.getAttribute("LOGIN_USER");
+		String authPwd = DigestUtils.sha512Hex(changePwd);
+		savedUser.setPwd(authPwd);
+		userService.userPwdUpdate(savedUser);
+		
+		SessionUtils.sessionInvlidate();
+		
+		return "redirect:../login";
 	}
 	
 	//성하민

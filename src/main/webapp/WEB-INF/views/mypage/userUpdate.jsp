@@ -2,8 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../common/tags.jsp" %>
 <head>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 		
@@ -19,34 +17,32 @@
 	<article class="login">
 		<div class="form__wrap">
 			<!-- 회원 기본정보 수정폼 -->
-			<form action="/mypage/userupdate" class="" method="post">
+			<form action="/mypage/userupdate" class="" method="post" enctype="multipart/form-data">
 				<!--  자리를 어디에 둬야 할까... -->
-				<div class="">profile photo(파일첨부기능 추가예정1/29)
-					<input type="file" class="" id="" name="" title=""  accept="">
+				<div class="">profile photo작업중
+					<input type="file" class="form__id" id="" name="image" title=""  accept="">
 				</div>
+					<!-- <div>
+						<img src="../../resources/images/3287250505288logofake"/>
+					</div> -->
 				<!--  제목들은 왼쪽으로 정렬되어야할까... -->
-				<div class="login__id">이름
-					<input type="text" class="form__id" name="name" value=<c:out value="${LOGIN_USER.name}"/> />
+				<div class="login__id">이름::
+					<input type="text" class="form__id" id="userName" name="name" value=<c:out value="${LOGIN_USER.name}"/> />
 				</div>
-				<div class="login__id">아이디
+				<div class="login__id">아이디::
 					<c:out value="${LOGIN_USER.id}"/>
 				</div>
-				<div class="login__id">전화번호
-					<input type="text" class="form__id" name="tel" value=<c:out value="${LOGIN_USER.tel}"/> />
+				<div class="login__id">전화번호::
+					<input type="text" class="form__id" id="userTel" name="tel" value=<c:out value="${LOGIN_USER.tel}"/> />
 				</div>
-				<div class="login__id">이메일
+				<div class="login__id">이메일::
 					<!-- type을 email로 줘야 할까...? -->
-					<input type="text" class="form__id" name="email" value=<c:out value="${LOGIN_USER.email}"/> />
+					<input type="text" class="form__id" id="userEmail" name="email" value=<c:out value="${LOGIN_USER.email}"/> />
 				</div>
-				<div class="login__id">포인트:
+				<div class="login__id">포인트::
 					<!-- type을 email로 줘야 할까...? -->
 					<c:out value="${LOGIN_USER.pnt}"/>
 				</div>
-				
-				<!-- 모달버튼 -->
-				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-			 			저장
-				</button>
 				<!-- 모달창 -->
 				<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				  <div class="modal-dialog">
@@ -57,7 +53,6 @@
 				      </div>
 				      <div class="modal-body">
 				      	<p>수정하신 기본정보가 변경됩니다. 진행하시겠습니까?</p>
-				      	<p>***진행이 완료되면 로그인 페이지로 이동합니다.***</p>
 				      </div>
 				      <div class="modal-footer">
 				        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -105,12 +100,21 @@
 			</form>
 		</div>
 		
-		<!-- 회원 탈퇴 폼 -->
-		<form action="/mypage/userdelete" class="" method="post">
+		
+		<div>
+			<!-- 회원정보 저장 모달버튼 -->
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+		 			회원정보 저장
+			</button>
 			<!-- 회원탈퇴 모달버튼 버튼 디자인을 작게 할까..? 색을 다르게 입힐까? -->
 			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleDeleteModal">
 		 			회원탈퇴
 			</button>
+		</div>
+		
+		<!-- 회원 탈퇴 폼 -->
+		<form action="/mypage/userdelete" class="" method="post">
+			
 			<!-- 모달창 -->
 			<div class="modal fade" id="exampleDeleteModal" tabindex="-1" aria-labelledby="exampleDeleteModal" aria-hidden="true">
 			  <div class="modal-dialog">

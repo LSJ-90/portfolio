@@ -76,7 +76,7 @@ div.chat-list {
     </ul>
     <ul class="menu__my-info">
       <li class="my-info__item title">내 계정</li>
-      <li class="my-info__item"><a href="/userUpdate">회원 정보 수정</a></li>
+      <li class="my-info__item"><a href="/mypage/userupdate">회원 정보 수정</a></li>
       <li class="my-info__item"><a href="/mypage/qna">1:1 문의</a></li>
     </ul>
   </div>
