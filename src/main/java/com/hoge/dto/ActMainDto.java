@@ -1,7 +1,5 @@
 package com.hoge.dto;
 
-
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,21 +7,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-
-
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AccListDto {
+public class ActMainDto {
 	
-	private String accName;
-	private int accNo;
+	private String actName;
+	private int actNo;
 	private int hostingType;
 	private String mainImage;
 	private int hostNo;
-	private String accType;
 
 }

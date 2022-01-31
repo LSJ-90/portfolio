@@ -26,7 +26,7 @@
 						<label class="form-label">${accListDto.accName }</label>
 					</div>
 					<div>
-						<a href="/host/detail?hostNo=${accListDto.accNo}?hostingType=${accListDto.hostingType }">
+						<a href="/host/main?hostNo=${accListDto.hostNo}&hostingType=${accListDto.hostingType }">
 							<img src="/resources/images/hostMainImage/${accListDto.mainImage}" class="img-thumbnail">
 						</a>
 					</div>
@@ -36,7 +36,7 @@
 						<label class="form-label">${actListDto.actName }</label>
 					</div>
 					<div>
-						<a href="/host/detail?hostNo=${actListDto.actNo}?hostingType=${actListDto.hostingType }">
+						<a href="/host/main?hostNo=${actListDto.hostNo}&hostingType=${actListDto.hostingType }">
 							<img src="/resources/images/hostMainImage/${actListDto.mainImage}" class="img-thumbnail">
 						</a>
 					</div>
