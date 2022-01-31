@@ -174,7 +174,15 @@ div.chat-list {
 
 <script type="text/javascript">
 
+function getFullYmdStr(){
+    //년월일시분초 문자열 생성
+    var d = new Date();
+    return d.getFullYear() + ". " + ('0' + (d.getMonth() + 1)).slice(-2) + ". "
++ ('0' + d.getDate()).slice(-2) + "   " + ('0' + d.getHours()).slice(-2) + " : " + ('0' + d.getMinutes()).slice(-2);
+}
+
 const userName = "${LOGIN_USER.name }";
+const userImage = "${LOGIN_USER.image }";
 let ws;
 
 $(document).ready(function () {
@@ -264,11 +272,11 @@ function wsEvt() {
 			if(msg.sessionId == $("#sessionId").val()){
 				console.log('2');
 				let LR = "right";
-			    appendMessageTag(LR, msg.senderName, msg.message);
+				 appendMessageTag(LR, msg.senderName, msg.message, msg.sendingTime, msg.senderImg);
 			}else{
 				console.log('3');
 				let LR = "left";
-				appendMessageTag(LR, msg.senderName, msg.message);
+				 appendMessageTag(LR, msg.senderName, msg.message, msg.sendingTime, msg.senderImg);
 			}
 			$("#lastmessage").html(msg.message);
 			
@@ -294,6 +302,8 @@ function send() {
 			sessionId : $("#sessionId").val(),
 		    senderName: userName, 
 		    message: $("#chatting").val(), 
+		    sendingTime: getFullYmdStr(),
+		    senderImg: userImage
 		    
 		  };
 	console.log($("#sessionId").val());
@@ -322,7 +332,7 @@ function send() {
 	
 	
 	// 메세지 태그 생성
-    function createMessageTag(LR, senderName, message) {
+   function createMessageTag(LR, senderName, message, sendingTime, senderImg) {
         // 형식 가져오기
         let chatLi = $('div.chat.format ul li').clone();
  
@@ -330,14 +340,17 @@ function send() {
         chatLi.addClass(LR);
         chatLi.find('.sender span').text(senderName);
         chatLi.find('.message span').text(message);
+        chatLi.find('.sendingTime span').text(sendingTime);
+        var src = "../../resources/images/userprofiles/" + senderImg;
+		chatLi.find(".senderImg").attr("src", src);
  
         return chatLi;
     }
  
 
     // 메세지 태그 append
-    function appendMessageTag(LR, senderName, message) {
-        const chatLi = createMessageTag(LR, senderName, message);
+   function appendMessageTag(LR, senderName, message, sendingTime, senderImg) {
+        const chatLi = createMessageTag(LR, senderName, message, sendingTime, senderImg);
  
         $('div.chat:not(.format) ul').append(chatLi);
  
@@ -365,7 +378,7 @@ function send() {
 				$.each(ChattingMessageDto, function(index, value) {
 					
 					let LR = (value.sendingUserNo == ${LOGIN_USER.no })? "right" : "left";
-			      appendMessageTag(LR, value.sendingUserName, value.content);
+					   appendMessageTag(LR, value.sendingUserName, value.content, value.sendingDate, value.sendingUserImage);
 			     
 			      $("input[name='hostUserNo']").val(value.hostingUserNo);
 				})

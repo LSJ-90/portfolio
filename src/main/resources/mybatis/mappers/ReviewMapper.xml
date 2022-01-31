@@ -3,6 +3,8 @@
 <mapper namespace="com.hoge.mapper.ReviewMapper">
   
   
+	
+  
   <!-- 성하민
 		int getAccommoReviewsTotalRows(Criteria criteria);
 	 -->
@@ -29,6 +31,97 @@
 	</select>
   
   
+  <!-- 성하민
+		int getActivityReviewsTotalRows(Criteria criteria);
+  
+	 -->
+	 <select id="getActivityReviewsTotalRows" parameterType="com.hoge.form.Criteria" resultType="int">
+		select count(*)
+		from TB_FINAL_ACTIVITY_REVIEWS R, TB_FINAL_ACTIVITIES A
+		where R.ACTIVITY_NO = A.ACTIVITY_NO
+			<if test="opt != null and value != null">
+				<choose>
+					<when test="opt == '호스트번호'">
+						and A.host_NO = #{value} 
+					</when>
+					<when test="opt == '체험번호'">
+						and A.ACTIVITY_NO = #{value}
+					</when>
+					<when test="opt == '체험이름'">
+						and A.ACTIVITY_NAME like '%' || #{value} || '%'
+					</when>
+					<when test="opt == '내용'">
+						and R.REVIEW_CONTENT like '%' || #{value} || '%'
+					</when>
+				</choose>
+			</if>
+	</select>
+  
+   <!-- // 성하민
+  List<AdminActivityReviewDto> getActivityReviewsByCriteria(Criteria criteria);
+	 -->
+	<select id="getActivityReviewsByCriteria" parameterType="com.hoge.form.Criteria" resultType="com.hoge.dto.AdminActivityReviewDto">
+		select 	
+			ACTIVITY_REVIEW_NO as no,
+			USER_NO	as userNo,
+			HOST_NO	as hostNo,
+			
+			ACTIVITY_NO as activityNo,
+			ACTIVITY_NAME as activityName,
+				
+			REVIEW_STAR	as star,
+			
+			REVIEW_CONTENT as content,
+			REVIEW_CREATED_DATE	as createdDate,
+			REVIEW_DELETED as deleted,
+			REVIEW_UPDATED_DATE	as updatedDate,
+				
+			REVIEW_ANSWERED	as answered,
+			ANSWER_CONTENT as answerContent,
+			ANSWER_DELETED as answerDeleted,
+			ANSWER_CREATED_DATE as answerCreatedDate
+		from (
+			select 	
+			R.ACTIVITY_REVIEW_NO,
+			R.USER_NO,
+			A.HOST_NO,
+			
+			R.ACTIVITY_NO,
+			A.ACTIVITY_NAME,
+				
+			R.REVIEW_STAR,
+				
+			R.REVIEW_CONTENT,
+			R.REVIEW_CREATED_DATE,
+			R.REVIEW_DELETED,
+			R.REVIEW_UPDATED_DATE,
+				
+			R.REVIEW_ANSWERED,
+			R.ANSWER_CONTENT,
+			R.ANSWER_DELETED,
+			R.ANSWER_CREATED_DATE,
+	 		row_number() over (order by R.REVIEW_CREATED_DATE desc) rn
+		from TB_FINAL_ACTIVITY_REVIEWS R, TB_FINAL_ACTIVITIES A
+		where R.ACTIVITY_NO = A.ACTIVITY_NO
+			<if test="opt != null and value != null">
+				<choose>
+					<when test="opt == '호스트번호'">
+						and A.host_NO = #{value} 
+					</when>
+					<when test="opt == '체험번호'">
+						and A.ACTIVITY_NO = #{value}
+					</when>
+					<when test="opt == '체험이름'">
+						and A.ACTIVITY_NAME like '%' || #{value} || '%'
+					</when>
+					<when test="opt == '내용'">
+						and R.REVIEW_CONTENT like '%' || #{value} || '%'
+					</when>
+				</choose>
+			</if>
+		)
+		where rn between #{beginIndex} and #{endIndex}
+	</select> 
   
   <!-- // 성하민
   List<AdminAccommoReviewDto> getAccommoReviewsByCriteria(Criteria criteria);

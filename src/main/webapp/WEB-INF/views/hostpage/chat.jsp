@@ -14,7 +14,6 @@
 		
 
  
-.header { font-size: 14px; padding: 15px 0; background: #888; color: white; text-align: center;  }
  
 .chat_wrap {height: 550px; overflow-y:auto;} 
 .chat_wrap .chat { padding-bottom: 80px; height:85% }
@@ -22,24 +21,36 @@
 .chat_wrap .chat ul li { width: 100%; }
 .chat_wrap .chat ul li.left { text-align: left; }
 .chat_wrap .chat ul li.right { text-align: right; }
-.chat_wrap .chat ul li.right > div.message { text-align: right;}
+.chat_wrap .chat ul li.right > div.myMessage-box { text-align: right;}
+.chat_wrap .chat ul li.left > div.message-box { text-align: left;}
  
 .chat_wrap .chat ul li > div { font-size: 15px;  }
-.chat_wrap .chat ul li > div.sender { margin: 10px 20px 0 20px; font-weight: bold; }
-.chat_wrap .chat ul li > div.message { display: inline-block; word-break:break-all; margin: 5px 20px; max-width: 75%; border: 1px solid #888; padding: 10px; border-radius: 5px; background-color: #FCFCFC; color: #555; text-align: left; }
+.sender { margin: 10px 20px 0 20px; font-weight: bold; }
+.message { display: inline-block; word-break:break-all; margin: 5px 20px; max-width: 40%; 
+border: 1px solid #888; padding: 10px; border-radius: 5px; background-color: white; color: #555; text-align: left; }
+.myMessage {text-align: right; display: inline-block; 
+word-break:break-all; margin: 5px 20px; max-width: 40%; border: 1px solid #888; padding: 10px;
+ border-radius: 5px; background-color: white; color: #555;  }
+.myMessage-box { text-align: right;}
+
+.input-div { bottom: 0; height: 80px; width: 100%; background-color: transparent; text-align: center;  }
+.input-div > textarea { width: 90%; height: 50px; border: 1px solid rgba(75, 192, 192, 0.2); padding: 5px; margin: 5px 0 0 0; border-radius:16px;}
  
-.input-div { bottom: 0; height: 80px; width: 100%; background-color: #FFF; text-align: center; border-top: 1px solid #F18C7E; }
-.input-div > textarea { width: 90%; height: 50px; border: none; padding: 10px; margin: 5px 0 0 0;}
+#chat-left  {border: 1px solid rgba(201, 203, 207, 0.5); height: 700px; border-radius:16px; background-color: rgba(201, 203, 207, 0.1);}
+#chat-middle  {border: 1px solid rgba(201, 203, 207, 0.5); height: 700px; border-radius:16px; background-color: rgba(201, 203, 207, 0.1);}
+#chat-right  {border: 1px solid rgba(201, 203, 207, 0.5); height: 700px; border-radius:16px; background-color: rgba(201, 203, 207, 0.1);}
+#left-header  {font-size: 14px; border: 1px solid rgba(75, 192, 192); height: 45px; border-radius:16px; background-color: rgba(75, 192, 192, 0.2); text-align: center;}
+#middle-header  {font-size: 14px; border: 1px solid rgba(75, 192, 192); height: 45px; border-radius:16px; background-color: rgba(75, 192, 192, 0.2); text-align: center;}
+#right-header  {font-size: 14px; border: 1px solid rgba(75, 192, 192); height: 45px; border-radius:16px; background-color: rgba(75, 192, 192, 0.2); text-align: center;}
  
-.chat-list  {border: 1px solid #888; height: 700px;}
-.chat-detail  {border: 1px solid #888; height: 700px;}
  
-.chat-list-label { font-size: 14px; padding: 15px 0; background: #888; color: white; text-align: center;  }
- 
-.chatting-list-box {cursor: pointer; font-size: 13px; height: 70px; border: 1px solid #888; padding: 1px; border-radius: 5px; background-color: #FCFCFC; color: #555;  }
+#chatting-list-box {cursor: pointer; font-size: 13px; height: 70px; margin:4px; 
+ border: 1px solid rgba(255, 205, 86, 1); padding: 4px; border-radius: 5px; 
+background-color: rgba(255, 205, 86, 0.1); color: #555;  }
 
 .userImg {width: 60px; height: 60px; padding:2px;}
-#chatting-detail {display: none;}
+#senderImg {width: 45px; height: 45px; padding:2px;}
+#chatting-detail {display: none; }
 
 		
 	</style>
@@ -51,8 +62,8 @@
 	
 <div class="container">
 	<div class="row mb-3">
-		<div class="chat-list m-2 col-3 ">
-			<div class="chat-list-label">
+		<div class="m-2 col-3" id="chat-left">
+			<div class="m-2 p-2" id="left-header">
 			예약 문의 리스트
 			</div>	
 			<c:choose>
@@ -61,7 +72,7 @@
 				</c:when>
 				<c:otherwise>
 					<c:forEach var="chatRoom" items="${chatList }" varStatus="loop">
-						<div id="chatting-list-box" class="chatting-list-box m-1" onclick="enter(${chatRoom.chatRoomNo })">
+						<div id="chatting-list-box" class="m-1" onclick="enter(${chatRoom.chatRoomNo })">
 							<div class="row">
 								<div class="col-4">
 									<img src="../../resources/images/userprofiles/${chatRoom.image }" id="userImg" class="userImg rounded-circle" alt="">
@@ -76,50 +87,47 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
-		<div id="chat-middle" class="col-5">
-		<div id="chatting-waiting" class="chat-list m-2 ">
-			<div class="header">
-		        예약 문의 
+		<div id="chat-middle" class="col-5 m-2">
+				<div class="m-2 p-2" id="middle-header">
+			        예약 문의 
+				</div>
+			<div id="chatting-waiting" class="m-2">
+				<c:choose>
+				<c:when test="${empty chatList }">
+				<div>
+					예약상담이 없습니다.
+				</div>>
+				</c:when>
+				<c:otherwise>
+				<div>
+					예약상담을 시작하기 위해 왼쪽의 리스트에서 게스트를 선택하세요
+				</div>
+				</c:otherwise>
+				</c:choose>
+				 
 			</div>
-			<c:choose>
-			<c:when test="${empty chatList }">
-			<div>
-				예약상담이 없습니다.
-			</div>>
-			</c:when>
-			<c:otherwise>
-			<div>
-				예약상담을 시작하기 위해 왼쪽의 리스트에서 게스트를 선택하세요
-			</div>
-			</c:otherwise>
-			</c:choose>
-			
-		</div>
-		<div id="chatting-detail" class="chat-detail m-2">
-			<div class="header">
-		        예약 문의 
-			</div>
-			<h1></h1>
-			<input type="hidden" id="sessionId" value="">
-			<input type="hidden" id="roomNumber" value="">
-			<div id="chatting-content" class="chat_wrap" data-bs-spy="scroll">	
-				<div class="chat">
-					<ul>
-					
-					</ul>
-				</div>	
-			</div>
-			<div>
-			    <div id="yourMsg" class="input-div">
-			        <textarea class="chatting" id="chatting" placeholder="Press Enter for send message."></textarea>
+			<div id="chatting-detail" class=" m-2">
+				<input type="hidden" id="sessionId" value="">
+				<input type="hidden" id="roomNumber" value="">
+				<div id="chatting-content" class="chat_wrap" data-bs-spy="scroll">	
+					<div class="chat">
+						<ul>
+						
+						</ul>
+					</div>	
+				</div>
+				<div>
+				    <div id="yourMsg" class="input-div">
+				        <textarea class="chatting" id="chatting" placeholder="Press Enter for send message."></textarea>
+				    </div>
 			    </div>
-		    </div>
+			</div>
 		</div>
-		</div>
 		
-		
-		<div class="chat-list m-2 col-3">
-		
+		<div class="m-2 col-3" id="chat-right">
+			<div class="m-2 p-2" id="right-header">
+			        예약 정보
+			</div>
 		
 	
 		
@@ -142,18 +150,57 @@
 	</div>
 </div>
 	
-
+ <div class="myChat format">
+        <ul>
+            <li>
+            	<div class="row myMessage-box">
+            		<div class="col-7">
+            		</div>
+	           		<div class="col-5">
+		                <div class="row">
+		                	<div class="col-3">
+		                	</div>
+			                <div class="myMessage col-7">
+			                    <span></span>
+			                </div>
+		                </div>
+		                <div class="row">
+			                <div class="sendingTime">
+			                    <small></small>
+			                </div>
+		                </div>
+              	   </div>
+                </div>
+            </li>
+        </ul>
+    </div>
 		
 
 
  <div class="chat format">
         <ul>
-            <li>
-                <div class="sender">
-                    <span></span>
-                </div>
-                <div class="message">
-                    <span></span>
+            <li>	
+            	<div class="row message-box">
+	           		<div class="col-1 m-1">
+						<img src="" id="senderImg" class="senderImg rounded-circle" alt="">
+					</div>
+					<div class="col">
+						<div class="row">
+			                <div class="sender">
+			                    <span></span>
+			                </div>
+		                </div>
+		                <div class="row">
+			                <div class="message col">
+			                    <span></span>
+			                </div>
+		                </div>
+		                <div class="row">
+			                <div class="sendingTime col">
+			                    <small></small>
+			                </div>
+		                </div>
+	                </div>
                 </div>
             </li>
         </ul>
@@ -162,6 +209,13 @@
 </body>
 
 <script type="text/javascript">
+
+function getFullYmdStr(){
+    //년월일시분초 문자열 생성
+    var d = new Date();
+    return d.getFullYear() + ". " + ('0' + (d.getMonth() + 1)).slice(-2) + ". "
++ ('0' + d.getDate()).slice(-2) + "   " + ('0' + d.getHours()).slice(-2) + " : " + ('0' + d.getMinutes()).slice(-2);
+}
 
 	const userName = "홍길동";
 	let ws;
@@ -198,11 +252,11 @@
 				if(msg.sessionId == $("#sessionId").val()){
 					console.log('2');
 					let LR = "right";
-				    appendMessageTag(LR, msg.senderName, msg.message);
+				    appendMyMessageTag(LR, msg.message, msg.sendingTime);
 				}else{
 					console.log('3');
 					let LR = "left";
-					appendMessageTag(LR, msg.senderName, msg.message);
+				    appendMessageTag(LR, msg.senderName, msg.message, msg.sendingTime, msg.senderImg);
 				}	
 			}else{
 				console.warn("unknown type!")
@@ -228,6 +282,7 @@
 				sessionId : $("#sessionId").val(),
 			    senderName: userName, 
 			    message: $("#chatting").val(), 
+			    sendingTime: getFullYmdStr()
 			    
 			  };
 		console.log($("#sessionId").val());
@@ -240,7 +295,7 @@
 	
 	
 	// 메세지 태그 생성
-    function createMessageTag(LR, senderName, message) {
+    function createMessageTag(LR, senderName, message, sendingTime, senderImg) {
         // 형식 가져오기
         let chatLi = $('div.chat.format ul li').clone();
  
@@ -248,14 +303,42 @@
         chatLi.addClass(LR);
         chatLi.find('.sender span').text(senderName);
         chatLi.find('.message span').text(message);
+        chatLi.find('.sendingTime small').text(sendingTime);
+        var src = "../../resources/images/userprofiles/" + senderImg;
+		chatLi.find(".senderImg").attr("src", src);
+        
  
         return chatLi;
     }
  
 
     // 메세지 태그 append
-    function appendMessageTag(LR, senderName, message) {
-        const chatLi = createMessageTag(LR, senderName, message);
+    function appendMyMessageTag(LR, myMessage, sendingTime)  {
+        const myChatLi = createMyMessageTag(LR, myMessage, sendingTime) ;
+ 
+        $('div.chat:not(.format) ul').append(myChatLi);
+ 
+        // 스크롤바 아래 고정
+        $("#chatting-content").scrollTop($("#chatting-content")[0].scrollHeight);
+   
+    }
+	// 메세지 태그 생성
+    function createMyMessageTag(LR, myMessage, sendingTime) {
+        // 형식 가져오기
+        let myChatLi = $('div.myChat.format ul li').clone();
+ 
+        // 값 채우기
+        myChatLi.addClass(LR);
+        myChatLi.find('.myMessage span').text(myMessage);
+        myChatLi.find('.sendingTime small').text(sendingTime);
+ 
+        return myChatLi;
+    }
+ 
+
+    // 메세지 태그 append
+    function appendMessageTag(LR, senderName, message, sendingTime, senderImg) {
+        const chatLi = createMessageTag(LR, senderName, message, sendingTime, senderImg);
  
         $('div.chat:not(.format) ul').append(chatLi);
  
@@ -283,7 +366,6 @@
 			console.log(Myelement.value);
 			
 			 
-	
 			
 	    	console.log('여기까지 오키');
 			
@@ -292,7 +374,7 @@
 				$.each(messageDtos, function(index, value) {
 					
 					let LR = (messageDto.sendingUserNo == ${LOGIN_USER.no })? "right" : "left";
-			      appendMessageTag(LR, value.sendingUserName, value.content);
+			      appendMessageTag(LR, value.sendingUserName, value.content, value.sendingDate, value.sendingUserImage);
 				})
 	    });
 		
