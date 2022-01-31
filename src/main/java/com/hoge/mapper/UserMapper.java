@@ -4,10 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.hoge.dto.HogeUserDto;
-import com.hoge.dto.HogeUserUpdateDto;
 import com.hoge.dto.KakaoUserDto;
-import com.hoge.dto.UpdatePwdDto;
 import com.hoge.form.CriteriaAdminUser;
 import com.hoge.vo.other.User;
 
@@ -32,17 +29,11 @@ public interface UserMapper {
 	// 이승준: 이메일에 맞는 유저정보를 가져온다.
 	User getUserByEmail(String email);
 	
-	// 이승준: 유저의 기본정보를 업데이트한다.
-	void updateUser(HogeUserUpdateDto user);
-	
-	// 이승준: 유저의 비밀번호를 업데이트한다.
-	void updatePwd(UpdatePwdDto pwd);
+	// 이승준: 유저정보를 업데이트한다.
+	void updateUser(User user);
 	
 	// 이승준: 회원가입을 위한 메소드이다.
 	void insertUser(User user);
-	
-	// 이승준: 회원탈퇴를 위한 메소드이다.
-	void deleteUser(int no);
 	
 	// (성하민 수정) 카카오 로그인을 통해 회원가입
 	void insertUserKaKao(KakaoUserDto user);

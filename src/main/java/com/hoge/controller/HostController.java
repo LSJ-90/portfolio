@@ -184,7 +184,7 @@ public class HostController {
 	}
 	
 	//성하민
-	@GetMapping("/qna")
+	@GetMapping("/host/qna")
 	public ModelAndView qna(@RequestParam(name = "page", required = false, defaultValue = "1") String page, ModelAndView mv) {
 		mv.setViewName("hostpage/qna.hosttiles");
 		
@@ -222,7 +222,7 @@ public class HostController {
 	}
 	
 	
-	@GetMapping("/chat")
+	@GetMapping("/host/chat")
 	public ModelAndView chat(ModelAndView mv) {
 		mv.setViewName("hostpage/chat.hosttiles");
 		List<ChattingListDto> chatList = chatRoomService.getChattingListDtobyHostNo(210);
@@ -232,7 +232,7 @@ public class HostController {
 	}
 
 	//성하민
-	@GetMapping("/chat-enter.do")							// 요청핸들러 메소드에 @ResponseBody를 붙인다.
+	@GetMapping("/host/chat-enter.do")							// 요청핸들러 메소드에 @ResponseBody를 붙인다.
 	public @ResponseBody List<ChattingMessageDto> enter(@RequestParam(name = "no",required = false) int no) {
 		
 		List<ChattingMessageDto> msgList = chatRoomService.getMessagesByChatRoomNo(no);
@@ -240,7 +240,7 @@ public class HostController {
 	}
 	
 	
-	@PostMapping("/qna-insert.do")
+	@PostMapping("/host/qna-insert.do")
 	public String save(HostQnA hostQnA) throws IOException {
 		
 		hostQnAService.insertHostQnA(hostQnA);
