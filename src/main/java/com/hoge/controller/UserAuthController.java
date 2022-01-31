@@ -106,6 +106,13 @@ public class UserAuthController {
 		return "form/findIdForm.tiles";
 	}
 	
+	// 이승준: 패스워드 찾기 페이지 리턴
+	@GetMapping("/findpwd")
+	public String findPwdInit() {
+		
+		return "form/findPwdForm.tiles";
+	}
+	
 	// 이승준: 로그아웃 시 홈 페이지로 리다이렉트
 	@GetMapping("/logout")
 	public String logout() {

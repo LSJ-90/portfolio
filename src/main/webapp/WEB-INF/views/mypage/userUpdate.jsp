@@ -19,25 +19,25 @@
 			<!-- 회원 기본정보 수정폼 -->
 			<form action="/mypage/userupdate" class="" method="post" enctype="multipart/form-data">
 				<!--  자리를 어디에 둬야 할까... -->
-				<div class="">profile photo작업중
-					<input type="file" class="form__id" id="" name="image" title=""  accept="">
+				<div>
+					<img src="../../resources/images/userprofiles/<c:out value='${LOGIN_USER.image}'/>"/>
 				</div>
-					<!-- <div>
-						<img src="../../resources/images/3287250505288logofake"/>
-					</div> -->
+				<div class="">
+					<input type="file" class="form__id" id="" name="myProfile" accept=".png, .jpg, .jpeg"/>
+				</div>
 				<!--  제목들은 왼쪽으로 정렬되어야할까... -->
 				<div class="login__id">이름::
-					<input type="text" class="form__id" id="userName" name="name" value=<c:out value="${LOGIN_USER.name}"/> />
+					<input type="text" class="form__id" id="userName" name="name" value="<c:out value='${LOGIN_USER.name}'/>" />
 				</div>
 				<div class="login__id">아이디::
 					<c:out value="${LOGIN_USER.id}"/>
 				</div>
 				<div class="login__id">전화번호::
-					<input type="text" class="form__id" id="userTel" name="tel" value=<c:out value="${LOGIN_USER.tel}"/> />
+					<input type="text" class="form__id" id="userTel" name="tel" value="<c:out value='${LOGIN_USER.tel}'/>" />
 				</div>
 				<div class="login__id">이메일::
 					<!-- type을 email로 줘야 할까...? -->
-					<input type="text" class="form__id" id="userEmail" name="email" value=<c:out value="${LOGIN_USER.email}"/> />
+					<input type="text" class="form__id" id="userEmail" name="email" value="<c:out value='${LOGIN_USER.email}'/>" />
 				</div>
 				<div class="login__id">포인트::
 					<!-- type을 email로 줘야 할까...? -->

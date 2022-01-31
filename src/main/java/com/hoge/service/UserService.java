@@ -67,6 +67,7 @@ public class UserService {
 		return savedUser;
 	}
 	
+	
 	// 이승준: 유저 기본정보 업데이트 트랜젝션
 	public void updateUser(User user) {
 		
