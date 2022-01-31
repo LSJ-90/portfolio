@@ -52,6 +52,7 @@ background-color: rgba(255, 205, 86, 0.1); color: #555;  }
 #senderImg {width: 45px; height: 45px; padding:2px;}
 #chatting-detail {display: none; }
 
+	.format {display: none;}
 		
 	</style>
 </head>
@@ -282,7 +283,8 @@ function getFullYmdStr(){
 				sessionId : $("#sessionId").val(),
 			    senderName: userName, 
 			    message: $("#chatting").val(), 
-			    sendingTime: getFullYmdStr()
+			    sendingTime: getFullYmdStr(),
+			    senderImg: "hilton1.png"
 			    
 			  };
 		console.log($("#sessionId").val());
