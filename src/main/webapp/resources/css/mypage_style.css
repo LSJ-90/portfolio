@@ -335,6 +335,217 @@ input::placeholder {
   border: 1px solid var(--color-text-black);
 }
 
+/* Host-apply */
+.host-registration {
+  width: 1200px;
+  border: 1px solid var(--color-header-gray);
+  margin: 0 auto;
+}
+
+.registration__btn {
+  display: flex;
+  justify-content: center;
+   padding: 100px 0 50px 0;
+}
+
+.btn__accommo,
+.btn__activity,
+.img__accommo,
+.img__activity {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 18px;
+  width: 130px;
+  height: 45px;
+  border: 1px solid var(--color-black);
+  padding: 0 20px;
+  margin: 0 15px;
+}
+
+.registration__btn i {
+  font-size: 22px;
+}
+
+.btn__accommo.active,
+.btn__activity.active,
+.img__accommo.active,
+.img__activity.active {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 18px;
+  width: 130px;
+  height: 45px;
+  color: var(--color-white);
+  background-color: var(--color-black);
+  padding: 0 20px;
+  margin: 0 15px;
+}
+
+.registration__img {
+  width: 30px;
+  height: 30px;
+}
+
+.registration-box {
+  width: 850px;
+  border-top: 3px solid var(--color-black);
+  margin: 0 auto;
+}
+
+.registration__item {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  border-bottom: 1px solid var(--color-input-gray);
+  padding: 10px 0;
+}
+
+.registration__item.account {
+  position: relative;
+}
+
+.registration__item.textarea {
+  padding: 10px 0;
+  height: 100%;
+}
+
+.registration__title {
+  flex-basis: 300px;
+  font-size: 12px;
+  font-weight: var(--weight-light);
+}
+
+.registration__value {
+  height: 40px;
+  border: 1px solid var(--color-input-gray);
+  padding: 0 10px;
+  font-size: 14px;
+  width: 350px;
+  border-radius: 5px;
+}
+
+.file__value {
+  height: 40px;
+  border: 1px solid var(--color-input-gray);
+  padding: 0 10px;
+  font-size: 14px;
+  width: 423px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.registration__textarea {
+  width: 550px;
+  height: 200px;
+  border: 1px solid var(--color-input-gray);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.registration__check-time {
+  height: 40px;
+  border: 1px solid var(--color-input-gray);
+  padding: 0 10px;
+  font-size: 14px;
+  width: 165px;
+  border-radius: 5px;
+  margin-right: 20px;
+}
+
+.registration__item.file {
+  height: 100%;
+  padding: 10px 0;
+}
+
+.registration__file-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 240px;
+}
+
+.registration__file {
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+}
+
+.btn__file {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  width: 117px;
+  height: 40px;
+  border: 1px solid var(--color-black);
+}
+
+.file__wrap {
+  display: flex;
+}
+
+.btn__check-account {
+  position: absolute;
+  right: 0;
+  color: var(--color-white);
+  background-color: var(--color-black);
+  font-size: 14px;
+  height: 40px;
+  padding: 0 30px;
+}
+
+.agree__title {
+  font-size: 20px;
+  font-weight: var(--weight-medium);
+  text-align: center;
+  margin: 80px 0 20px 0;
+}
+
+.agree__checkbox-registration {
+  margin: 30px 0;
+}
+
+.agree__checkbox-registration label {
+  position: relative;
+  top: -2.5px;
+}
+
+.agree__checkbox-registration input {
+  margin-right: 5px;
+}
+
+.agree__all-registration {
+  display: table;
+  width: 100%;
+  height: 55px;
+  color: var(--color-text-black);
+  background-color: var(--color-background-gray);
+  padding-left: 20px;
+}
+
+.agree__all-registration label {
+  font-size: 14px;
+}
+
+.registration__agree {
+  height: 55px;
+  border-bottom: 1px solid var(--color-input-gray);
+  padding-left: 20px;
+}
+
+.btn__next {
+  color: var(--color-white);
+  font-size: 14px;
+  background-color: var(--color-black);
+  width: 400px;
+  height: 55px;
+}
+
 /* Footer */
 
 #footer {
