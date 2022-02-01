@@ -8,27 +8,27 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script> 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <style>
-.header { font-size: 14px; padding: 5px 0; background: #F18C7E; color: white; text-align: center;  }
  
 #chatting-content {height: 500px; overflow-y:auto;} 
-#chatting-content .chat { padding-bottom: 80px; height:85% }
+#chatting-content .chat { padding-bottom: 80px; height:85%; }
 #chatting-content .chat ul { width: 100%; list-style: none; }
 #chatting-content .chat ul li { width: 100%; }
 #chatting-content .chat ul li.left { text-align: left; }
 #chatting-content .chat ul li.right { text-align: right; }
 #chatting-content .chat ul li.right > div.message { text-align: right; }
 
-.sender { margin: 10px 20px 0 20px; font-weight: bold; }
-.message { word-break:break-all; margin: 5px 20px; max-width: 40%; 
-border: 1px solid #888; padding: 10px; border-radius: 5px; background-color: white; color: #555; text-align: left; }
+.message-box {margin:20px;}
+.myMessage-box {margin:20px;}
  
 #chatting-content.chat ul li > div { font-size: 15px;  }
-#chatting-content .chat ul li > div.sender { margin: 10px 20px 0 20px; font-weight: bold; }
-#chatting-content .chat ul li > div.message { display: inline-block; word-break:break-all; margin: 5px 20px; max-width: 75%; border: 1px solid #888; padding: 10px; border-radius: 5px; background-color: #FCFCFC; color: #555; text-align: left; }
+.sender { margin: 10px 20px 0 20px; font-weight: bold; }
+.message { display: inline-block; word-break:break-all; margin: 5px 20px; max-width: 75%; 
+border: 1px solid #888; padding: 10px; border-radius: 5px; background-color: #FCFCFC; color: #555; text-align: left; }
  
-#yourMsg { bottom: 0; height: 80px; width: 100%; background-color: #FFF; text-align: center; border-top: 1px solid #F18C7E; }
-#yourMsg > textarea { width: 90%; height: 50px; border: none; padding: 10px; margin: 5px 0 0 0;}
-  
+#yourMsg {  bottom: 0; height: 80px; width: 100%; background-color: transparent; text-align: center;  }
+#yourMsg > textarea { width: 90%; height: 50px; border: 1px solid rgba(75, 192, 192, 0.2); padding: 5px; margin: 5px 0 0 0; border-radius:16px;}
+   
+   
 .chatting-list-box {cursor: pointer; font-size: 20px; height: 80px; border: 1px solid #888; padding: 10px; border-radius: 5px; background-color: #FCFCFC; color: #555;  }
 
 .userImg {width: 60px; height: 60px;}
@@ -57,13 +57,18 @@ div.chat-list {
 
 .format {display: none;}
 
-.userImg {width: 60px; height: 60px; padding:2px;}
+.userImg {width: 70px; height: 70px; padding:2px;}
 #senderImg {width: 45px; height: 45px; padding:2px;}
 
 .myMessage {text-align: right; display: inline-block; 
 word-break:break-all; margin: 5px 20px; max-width: 40%; border: 1px solid #888; padding: 10px;
  border-radius: 5px; background-color: white; color: #555;  }
 .myMessage-box { text-align: right;}
+
+
+.box  {cursor: pointer; font-size: 13px; height: 100px; margin:4px; 
+ border: 1px solid rgba(255, 205, 86, 1); padding: 4px; border-radius: 5px; 
+background-color: rgba(255, 205, 86, 0.1); color: #555;  }
 
 </style>
 
@@ -398,7 +403,7 @@ function send() {
     $.ajax({
 		type: 'POST',								// 요청방식
 		url: '/mypage/message.do',										// 요청URL
-		data: JSON.stringify({chatRoomNo: $("#roomNumber").val(), sendingUserNo:"${LOGIN_USER.no }", receivingUserNo:$("#hostUserNo").val() , content:sendingMessage}),			// 서버로 보내는 데이터
+		data: JSON.stringify({chatRoomNo: $("#roomNumber").val(), sendingUserNo:"${LOGIN_USER.no }", content:sendingMessage}),			// 서버로 보내는 데이터
 		contentType: 'application/json',		// 서버로 보내는 데이터의 컨텐츠 타입, 기본값은 "application/x-www-form-urlencoded" 다
 		dataType: 'json'		// 서버로부터 응답으로 받을 것으로 예상되는 컨텐츠 타입을 지정한다.
 		//success: function(responseData) {					// 서버로부터 성공적인 응답이 왔을 때 실행되는 함수다.
@@ -468,7 +473,7 @@ function send() {
 					}else{
 						console.log('3');
 						let LR = "left";
-						 appendMessageTag(LR, value.sendingUserName, value.content, value.sendingDate, value.sendingUserImage);
+						 appendMessageTag(LR, value.hostName, value.content, value.sendingDate, value.hostImage);
 					}
 					
 			     

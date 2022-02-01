@@ -83,6 +83,7 @@
 	 		h.host_name as hostName,
 	 		h.host_user_no as hostingUserNo,
 	 		h.hosting_type as hostingType,
+	 		h.host_main_image as hostImage,
 	 		h.host_tel as tel,
 	 		h.grade_name as gradeName,
 	 		m.SENDER_NO as sendingUserNo,

@@ -52,7 +52,7 @@ background-color: rgba(255, 205, 86, 0.1); color: #555;  }
 #senderImg {width: 45px; height: 45px; padding:2px;}
 #chatting-detail {display: none; }
 
-	.format {display: none;}
+.format {display: none;}
 		
 	</style>
 </head>
@@ -80,7 +80,7 @@ background-color: rgba(255, 205, 86, 0.1); color: #555;  }
 								</div>
 								<div class="col-8">
 									<p>${chatRoom.name }</p> <!-- 여기서는 유저네임 -->
-									<p>${chatRoom.lastMessage }</p>
+									<p id="lastmessage">${chatRoom.lastMessage }</p>
 								</div>
 							</div>
 						</div>
@@ -217,7 +217,7 @@ function getFullYmdStr(){
     return d.getFullYear() + ". " + ('0' + (d.getMonth() + 1)).slice(-2) + ". "
 + ('0' + d.getDate()).slice(-2) + "    " + ('0' + d.getHours()).slice(-2) + ":" + ('0' + d.getMinutes()).slice(-2);
 }
-
+	const userNo = "${LOGIN_USER.no }";
 	const hostName = "${savedHost.name }";
 	const hostImg = "${savedHost.mainImage }";
 	let ws;
@@ -251,6 +251,7 @@ function getFullYmdStr(){
 					console.log('1');
 				}
 			}else if(msg.type == "message"){
+				$("#lastmessage").html(msg.message);
 				if(msg.sessionId == $("#sessionId").val()){
 					console.log('2');
 					let LR = "right";
@@ -290,8 +291,25 @@ function getFullYmdStr(){
 			  };
 		console.log($("#sessionId").val());
 		console.log($("#chatting").val());
+		console.log($("#roomNumber").val());
 		console.log('메세지 보냈음');
 		ws.send(JSON.stringify(msg));
+		
+		   
+	    $.ajax({
+			type: 'POST',								// 요청방식
+			url: '/host/message.do',										// 요청URL
+			data: JSON.stringify({chatRoomNo: $("#roomNumber").val(), sendingUserNo:userNo, content:$("#chatting").val()}),			// 서버로 보내는 데이터
+			contentType: 'application/json',		// 서버로 보내는 데이터의 컨텐츠 타입, 기본값은 "application/x-www-form-urlencoded" 다
+			dataType: 'json'		// 서버로부터 응답으로 받을 것으로 예상되는 컨텐츠 타입을 지정한다.
+			//success: function(responseData) {					// 서버로부터 성공적인 응답이 왔을 때 실행되는 함수다.
+				
+			//},
+			//error: function() {									// 서버로 보낸 요청이 실패했을 때 실행되는 함수다.
+			
+			//}
+		})
+		
 	    $('div.input-div textarea').val('');
 
 	}
@@ -372,12 +390,20 @@ function getFullYmdStr(){
 			
 	    	console.log('여기까지 오키');
 			
-			$.getJSON('/chat-enter.do', {no:ChatRoomNo}, function(messageDtos) {
+			$.getJSON('/host/chat-enter.do', {no:ChatRoomNo}, function(messageDtos) {
 				console.log('가져오는 거 오키');
 				$.each(messageDtos, function(index, value) {
 					
-					let LR = (messageDto.sendingUserNo == ${LOGIN_USER.no })? "right" : "left";
-			      appendMessageTag(LR, value.sendingUserName, value.content, value.sendingDate, value.sendingUserImage);
+					if(value.sendingUserNo == userNo){
+						console.log('2');
+						let LR = "right";
+						 appendMyMessageTag(LR, value.content, value.sendingDate);
+					}else{
+						console.log('3');
+						let LR = "left";
+						 appendMessageTag(LR, value.sendingUserName, value.content, value.sendingDate, value.sendingUserImage);
+					}
+					
 				})
 	    });
 		

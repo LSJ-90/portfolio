@@ -21,16 +21,16 @@
 <body>
 <div class="container">
 	<div class="row mt-3">
-		<div class="col-6">
+		<div class="col-5">
 			<div class="row mt-3">
-				<div class="col-6">
+				<div class="col-12">
 					<div class=chart>
-						<canvas id="line-chart-daily" width="200" height="150"></canvas>
+						<canvas id="line-chart-daily" width="200" height="110"></canvas>
 					</div>
 				</div>
-				<div class="col-6">
+				<div class="col-12">
 					<div class=chart>
-						<canvas id="line-chart-monthly" width="200" height="150"></canvas>
+						<canvas id="line-chart-monthly" width="200" height="110"></canvas>
 					</div>
 				</div>
 			</div>
@@ -39,7 +39,7 @@
 				<canvas id="bar-chart-horizontal" width="200" height="40"></canvas>
 			</div>
 		</div> 
-		<div class="col-6">
+		<div class="col-7">
 				<div class="row mt-3">
 					<div class="withdrawal">
 						<div class="mt-3 text-end">
@@ -47,50 +47,91 @@
 						</div>
 					</div>
 				</div>
-			<div class= "sales-table">
-				<table class="table caption-top border-dark table-bordered">
-			  <caption>매출 테이블</caption>
-				 <colgroup>
-					<col width="35%">
-					<col width="30%">
-					<col width="35%">
-				</colgroup>
-				<thead>
-					<tr>
-						<th class="style">거래일</th>
-						<th class="style">거래유형</th>
-						<th class="style">거래액</th>
-					</tr>
-				</thead>
-			  <tbody>
-			   <c:choose>
-						<c:when test="${empty transactionList }">
-							<tr>
-								<td class="text-center" colspan="6">거래정보없음.</td>
-							</tr>
-						</c:when>
-						<c:otherwise>
-							<c:forEach var="transaction" items="${transactionList }" varStatus="loop">
-								<tr class="text-middle">
-								<td><fmt:formatDate value="${transaction.createdDate }" pattern="yyyy.MM.dd"/></td>
-									<td>${transaction.type eq '1' ? '입금' : '출금'}</td>
-									<c:choose>
-									<c:when test="${transaction.type eq '1'}">
-										<td style="color:red;">+ ${transaction.amount }</td>
-									</c:when>
-									<c:otherwise>
-										<td style="color:blue;">- ${transaction.amount }</td>
-									</c:otherwise>
-								</c:choose>
-								</tr>
-							</c:forEach>
-						</c:otherwise>
-					 </c:choose>	
-			  </tbody>
-			</table>
+				<div class="row mb-3 mt-3">
+					<div class="col">
+						<div class="row mb-3">
+							<div class="col">
+								<strong>출금신청내역</strong>
+						 			<table class="table table-bordered border-dark">
+									 <colgroup>
+										<col width="20%">
+										<col width="20%">
+										<col width="20%">
+										<col width="20%">
+										<col width="20%">
+									</colgroup>
+									<thead>
+										<tr>
+											<th class="style">출금신청일</th>
+											<th class="style">금액</th>
+											<th class="style">상태</th>
+											<th class="style">예금주</th>
+											<th class="style">은행</th>
+										</tr>
+									</thead>
+									<tbody id="dataSection1">
+										
+									</tbody>
+								</table>
+							</div>
+						</div>
+					
+						<!-- 페이지 내비게이션 표시 -->
+						<div class="row mb-3">
+							<div class="col">
+								<div class="pagination1">
+									<ul id="paginationBox1" class="pagination">
+						
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div> <!-- 출금신청내역 리스트 -->
+				
+				
+				<div class="row mb-3 mt-3">
+					<div class="col">
+						<div class="row mb-3">
+							<div class="col">
+							<strong>매출테이블</strong>
+						 		<table class="table caption-top border-dark table-bordered">
+									 <colgroup>
+										<col width="35%">
+										<col width="30%">
+										<col width="35%">
+									</colgroup>
+									<thead>
+										<tr>
+											<th class="style">거래일</th>
+											<th class="style">거래유형</th>
+											<th class="style">거래액</th>
+										</tr>
+									</thead>
+								  <tbody id="dataSection2">
+								   
+								  </tbody>
+								</table>
+							</div>
+						</div>
+					
+						<!-- 페이지 내비게이션 표시 -->
+						<div class="row mb-3">
+							<div class="col">
+								<div class="pagination2">
+									<ul id="paginationBox2" class="pagination">
+						
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div> <!-- 매출 리스트 -->
+		
+		
 			
-			</div>			
-				</div>
+				
+			</div>
 				
 	</div> <!-- row -->
 	
@@ -103,8 +144,9 @@
       			</div>
         			<strong class="p-3">최소 출금가능액은 50,000원 입니다.</strong>
       			<div class="modal-body">
-					<form id="qna-form" method="post" action="/host/withdrawal">
-					<input type="hidden" name="orderNo" value="">
+					<form id="withdrawal-form" method="post" action="/host/withdrawal">
+						<input type="hidden" name="hostNo" id="hostNo" value="0">
+						<input type="hidden" name="hostingType" id="hostingType" value="0">
 					<div class="row mb-3 mt-2 order-font">
 					
 					<div class="mb-3">
@@ -136,13 +178,13 @@
 					</div>
 						<div class="title-box mb-3">
 							<label class="form-label mb-3" for="title"><span>출금액(출금액은 현재 보유액 이하로만 입력하실 수 있습니다.) 현재 보유액 : <strong id="accumulatedMoney"></strong>원</span></label>
-							<input type="text" class="form-control" name="title" id="title" maxlength="30">
+							<input type="text" class="form-control" name="amount" id="amount" maxlength="30">
 						</div>
 					 </div>
 				</form>
       			</div>
       			<div class="modal-footer">
-        			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">신청</button>
+        			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="withFormsubmit">신청</button>
         			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
       			</div>
     		</div>
@@ -150,10 +192,196 @@
 	</div>
 	
 	
-	
 </div> <!-- 컨테이너 -->
   </body>
 <script type="text/javascript">
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+
+
+const hostNo = "${savedHost.no }";
+
+$('#withFormsubmit').click(function() {
+	var amount = $.trim($(":input[name=amount]").val());
+	if (amount) {
+		$("#withdrawal-form").trigger("submit");
+	} else {
+		alert("출금액을 입력하세요");					
+	}
+	
+});
+
+
+$(document).ready(function() {
+	getWithdrawalList();
+	getTransactionList();
+});
+
+function getWithdrawalList(page) {
+	
+			$.ajax({
+				type: 'POST',
+				url : "/host/withdrawalList.do", //서비스 주소 
+				data : { //서비스 처리에 필요한 인자값
+					page : page,
+					hostNo : hostNo
+				},
+				success : function(result) {
+					const list = result['list'];
+					const pagination = result['pagination'];
+					var data = "";
+					var block = "";
+
+					
+					console.log(pagination);
+					console.log(JSON.stringify(list));
+					// 테이블의 row를 삽입하는 부분
+					for (var i = 0; i < list.length; i++) {
+						data += "<tr>";
+						data += "<td>" + list[i].createdDate + "</td>";
+						data += "<td>" + numberWithCommas(list[i].amount) + "원</td>";
+						
+						if (list[i]['status']== 'N') {
+							data += "<td>승인대기</td>";
+							} else {
+								data += "<td>승인완료</td>";
+							}
+						data += "<td>" + list[i].accountHolderName + "</td>";
+						data += "<td>" + list[i].bankName + "</td>";
+						data += "</tr>";
+					}
+					$("#dataSection1").html(data);
+
+					// 이전버튼 활성화 여부를 결정하는 부분
+					if (pagination['prevPage']) {
+						block += "<li class='page-item'><a class='page-link' href='javascript:getWithdrawalList("
+								+ (pagination['beginPage'] - 1)
+								+ ")'> < </a></li>";
+					} else {
+						block += "<li class='page-item disabled'><a class='page-link'> < </a></li>";
+					}
+
+					// 번호를 표시하는 부분
+					for (var i = pagination['beginPage']; i <= pagination['endPage']; i++) {
+						if (page !== i) {
+							block += "<li class='page-item'><a class='page-link' href='javascript:getWithdrawalList("
+									+ i + ")'>" + (i) + "</a></li>";
+						} else {
+							block += "<li class='page-item disabled'><a class='page-link'>"
+									+ (i) + "</a></li>";
+						}
+					}
+
+					if (pagination['nextPage']) {
+						block += "<li class='page-item'><a class='page-link' href='javascript:getWithdrawalList("
+								+ (pagination['endPage'] + 1)
+								+ ")'>  > </a></li>";
+					} else {
+						block += "<li class='page-item disabled'><a class='page-link'> > </a></li>";
+					}
+					
+					$("#paginationBox1").html(block);
+				}
+			})
+}
+
+
+
+
+
+function getTransactionList(page) {
+	
+	$.ajax({
+		type: 'POST',
+		url : "/host/transactionList.do", //서비스 주소 
+		data : { //서비스 처리에 필요한 인자값
+			page : page,
+			hostNo : hostNo
+		},
+		success : function(result) {
+			const list = result['list'];
+			const pagination = result['pagination'];
+			var data = "";
+			var block = "";
+
+			
+			console.log(pagination);
+			console.log(list);
+			// 테이블의 row를 삽입하는 부분
+			for (var i = 0; i < list.length; i++) {
+				data += "<tr>";
+				data += "<td>" + list[i].createdDate + "</td>";
+				
+				if (list[i]['type'] == '1') {
+					data += "<td>입금</td>";
+				data += "<td style='color:red'> +" + numberWithCommas(list[i].amount) + "원</td>";
+					} else {
+						data += "<td>출금</td>";
+				data += "<td style='color:blue'> -" + numberWithCommas(list[i].amount) + "</td>";
+					}
+				data += "</tr>";
+			}
+			$("#dataSection2").html(data);
+
+			// 이전버튼 활성화 여부를 결정하는 부분
+			if (pagination['prevPage']) {
+				block += "<li class='page-item'><a class='page-link' href='javascript:getTransactionList("
+						+ (pagination['beginPage'] - 1)
+						+ ")'> < </a></li>";
+			} else {
+				block += "<li class='page-item disabled'><a class='page-link'> < </a></li>";
+			}
+
+			// 번호를 표시하는 부분
+			for (var i = pagination['beginPage']; i <= pagination['endPage']; i++) {
+				if (page !== i) {
+					block += "<li class='page-item'><a class='page-link' href='javascript:getTransactionList("
+							+ i + ")'>" + (i) + "</a></li>";
+				} else {
+					block += "<li class='page-item disabled'><a class='page-link'>"
+							+ (i) + "</a></li>";
+				}
+			}
+
+			if (pagination['nextPage']) {
+				block += "<li class='page-item'><a class='page-link' href='javascript:getTransactionList("
+						+ (pagination['endPage'] + 1)
+						+ ")'>  > </a></li>";
+			} else {
+				block += "<li class='page-item disabled'><a class='page-link'> > </a></li>";
+			}
+			
+			$("#paginationBox2").html(block);
+		}
+	})
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 new Chart(document.getElementById("bar-chart-horizontal"), {
     type: 'horizontalBar',
     data: {
@@ -229,6 +457,8 @@ function creatingModal() {
 		$('#accName').val("${savedHost.accountHolderName}");
 		$('#bankName').val("${savedHost.bankName}");
 		$('#hostAcc').val("${savedHost.accountNumber}");
+		$('#hostNo').val("${savedHost.no}");
+		$('#hostingType').val("${savedHost.hostingType}");
 		console.log("${savedHost.accumulatedMoney}");
 		$('#accumulatedMoney').text("${savedHost.accumulatedMoney}");
 		withdrawalModal.show();

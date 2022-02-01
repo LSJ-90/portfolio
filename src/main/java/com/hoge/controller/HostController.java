@@ -5,8 +5,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -30,14 +33,16 @@ import com.hoge.dto.AccListDto;
 import com.hoge.dto.AccMainDto;
 import com.hoge.dto.ActListDto;
 import com.hoge.dto.ActMainDto;
+import com.hoge.dto.AdminActivityReviewDto;
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.ChattingMessageDto;
 import com.hoge.dto.RoomListDto;
+import com.hoge.form.Criteria;
 import com.hoge.form.HostApplyForm;
 import com.hoge.form.InsertRoomForm;
 import com.hoge.mapper.HostMapper;
 import com.hoge.pagination.Pagination;
-import com.hoge.pagination.PaginationQnA;
+import com.hoge.pagination.PaginationPerPage5;
 import com.hoge.service.AccommodationService;
 import com.hoge.service.ChatRoomService;
 import com.hoge.service.QnAService;
@@ -50,10 +55,13 @@ import com.hoge.vo.accommo.Room;
 import com.hoge.vo.accommo.RoomImage;
 import com.hoge.vo.activities.Activity;
 import com.hoge.vo.activities.ActivityImage;
+import com.hoge.vo.other.ChatRoom;
 import com.hoge.vo.other.Host;
 import com.hoge.vo.other.HostQnA;
 import com.hoge.vo.other.HostTransaction;
+import com.hoge.vo.other.Message;
 import com.hoge.vo.other.User;
+import com.hoge.vo.other.Withdrawal;
 
 @Controller
 @RequestMapping("/host")
@@ -73,6 +81,95 @@ public class HostController {
 	
 	@Autowired
 	private AccommodationService accommodationService;
+	
+	static final Logger logger = LogManager.getLogger(HostController.class);
+	
+	//성하민
+		@PostMapping(value = "/transactionList.do", produces = "application/json")
+		public @ResponseBody HashMap<String, Object> getwithdrawalList(@RequestParam(name = "page", required = false, defaultValue="1") String page, String hostNo) throws Exception {
+			
+			
+			logger.info("페이지 :" + page);
+			HashMap<String, Object> result = new HashMap<>();
+			// 검색조건에 해당하는 총 데이터 갯수 조회
+			int currentHostNo = Integer.parseInt(hostNo);
+			int totalRecords = hostTransactionService.getHostTransactionCountByHostNo(currentHostNo);
+			logger.info("토탈레코드 :" + totalRecords);
+			// 현재 페이지번호와 총 데이터 갯수를 전달해서 페이징 처리에 필요한 정보를 제공하는 Pagination객체 생성
+			Pagination pagination = new Pagination(page, totalRecords);
+			
+			int begin = pagination.getBegin();
+			int end = pagination.getEnd();
+
+			// 요청한 페이지에 대한 조회범위를 criteria에 저장
+			
+		
+			List<HostTransaction> list = hostTransactionService.getHostTransactionByHostNo(currentHostNo, begin, end);
+			
+			logger.info("디티오 :" + list);
+			logger.info("페이지네이션 :" + pagination);
+			
+			// 페이징
+			result.put("pagination", pagination);
+			
+			// 게시글 화면 출력
+			result.put("list", list);
+			
+			return result;
+		}
+	
+		@PostMapping(value = "/withdrawalList.do", produces = "application/json")
+		public @ResponseBody HashMap<String, Object> TransactionList(@RequestParam(name = "page", required = false, defaultValue="1") String page, String hostNo) throws Exception {
+			
+			
+			logger.info("페이지 :" + page);
+			HashMap<String, Object> result = new HashMap<>();
+			// 검색조건에 해당하는 총 데이터 갯수 조회
+			int currentHostNo = Integer.parseInt(hostNo);
+			int totalRecords = hostService.getWithdrawalCountByHostNo(currentHostNo);
+			logger.info("토탈레코드 :" + totalRecords);
+			// 현재 페이지번호와 총 데이터 갯수를 전달해서 페이징 처리에 필요한 정보를 제공하는 Pagination객체 생성
+			PaginationPerPage5 pagination = new PaginationPerPage5(page, totalRecords);
+			
+			int begin = pagination.getBegin();
+			int end = pagination.getEnd();
+			
+			// 요청한 페이지에 대한 조회범위를 criteria에 저장
+			List<Withdrawal> list = hostService.getHostWithdrawalListByHostNo(currentHostNo, begin, end);
+			
+			logger.info("디티오 :" + list);
+			logger.info("페이지네이션 :" + pagination);
+			
+			// 페이징
+			result.put("pagination", pagination);
+			
+			// 게시글 화면 출력
+			result.put("list", list);
+			
+			return result;
+		}
+		
+	
+	
+	
+
+	@PostMapping("/message.do")
+	public void save(@RequestBody Message message) throws IOException {
+		
+		System.out.println("프론트에서 넘어온 메시지:" +message);
+		
+		chatRoomService.insertMessage(message); //새로운 메시지 삽입
+		
+		ChatRoom chatRoom = chatRoomService.getChatRoomByChatRoomNo(message.getChatRoomNo()); //방번호로 채팅방 가져옴
+		
+		chatRoom.setLastMessage(message.getContent()); //채팅방의 마지막 메시지를 새로운 메시지로 삽입
+		chatRoom.setLastMessageSenderNo(message.getSendingUserNo());
+		chatRoom.setLastMessageChecked(message.getChecked());
+		
+		chatRoomService.updateChatRoom(chatRoom); //채팅방 업데이트
+	}
+	
+	
 	
 	// 유상효 호스트등록폼 호출
 	@GetMapping("/applyForm")
@@ -248,6 +345,15 @@ public class HostController {
 	@GetMapping("/qna")
 	public ModelAndView qna(@RequestParam(name = "page", required = false, defaultValue = "1") String page, 
 			ModelAndView mv, int hostNo, int hostingType) {
+		if (hostingType == 1) {
+			AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
+			mv.addObject("accMainDto", accMainDto);
+		} else {
+			ActMainDto actMainDto = hostService.getActMainByHostNo(hostNo);
+			mv.addObject("actMaintDto", actMainDto);
+		}
+		
+		
 		mv.setViewName("hostpage/qna.hosttiles");
 		
 		
@@ -255,7 +361,7 @@ public class HostController {
 				// 현재 페이지번호와 총 데이터 갯수를 전달해서 페이징 처리에 필요한 정보를 제공하는 Pagination객체 생성
 		
 		
-		PaginationQnA pagination = new PaginationQnA(page, totalRecords);
+		PaginationPerPage5 pagination = new PaginationPerPage5(page, totalRecords);
 				
 		int begin = pagination.getBegin();
 		int end = pagination.getEnd();
@@ -271,14 +377,20 @@ public class HostController {
 	
 	//성하민
 	@GetMapping("/sales")
-	public ModelAndView sales (ModelAndView mv, int hostNo) {
+	public ModelAndView sales (ModelAndView mv, int hostNo, int hostingType) {
+		if (hostingType == 1) {
+			AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
+			mv.addObject("accMainDto", accMainDto);
+		} else {
+			ActMainDto actMainDto = hostService.getActMainByHostNo(hostNo);
+			mv.addObject("actMaintDto", actMainDto);
+		}
+		
 		
 		System.out.println(hostNo);
 		Host savedHost = hostService.getHostByNo(hostNo);
 		mv.addObject("savedHost", savedHost);
-		List<HostTransaction> transactionList = hostTransactionService.getHostTransactionByHostNo(hostNo);
-		System.out.println(transactionList);
-		mv.addObject("transactionList", transactionList);
+		
 		mv.setViewName("hostpage/sales.hosttiles");
 	
 		return mv;
@@ -309,18 +421,27 @@ public class HostController {
 	//성하민
 	@GetMapping("/chat-enter.do")							// 요청핸들러 메소드에 @ResponseBody를 붙인다.
 	public @ResponseBody List<ChattingMessageDto> enter(@RequestParam(name = "no",required = false) int no) {
-		
+		System.out.println("호스트 컨트롤러 서버로 들어온 채팅방번호:"+no);
 		List<ChattingMessageDto> msgList = chatRoomService.getMessagesByChatRoomNo(no);
+		System.out.println("호스트 컨트롤러 서버로 들어온 번호로 찾은 메시지:"+msgList);
 		return msgList;
 	}
 	
 	
 	@PostMapping("/qna-insert.do")
 	public String save(HostQnA hostQnA) throws IOException {
-		
 		hostQnAService.insertHostQnA(hostQnA);
 		
 		return "redirect:qna";
+	}
+	
+	@PostMapping("/withdrawal")
+	public String saveWithdrawal(Withdrawal withdrawal, int hostingType) throws IOException {
+		System.out.println(withdrawal.getHostNo());
+		System.out.println("넘어온 값:" +withdrawal);
+		
+		hostService.insertWithdrawal(withdrawal);
+		return "redirect:sales?hostNo="+withdrawal.getHostNo()+"&hostingType="+hostingType;
 	}
 	
 	

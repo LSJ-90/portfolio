@@ -26,7 +26,7 @@ import com.hoge.dto.ActListDto;
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.ChattingMessageDto;
 import com.hoge.form.UserUpdateForm;
-import com.hoge.pagination.PaginationQnA;
+import com.hoge.pagination.PaginationPerPage5;
 import com.hoge.service.ChatRoomService;
 import com.hoge.service.HostService;
 import com.hoge.service.QnAService;
@@ -155,7 +155,7 @@ public class MyPageController {
 					// 현재 페이지번호와 총 데이터 갯수를 전달해서 페이징 처리에 필요한 정보를 제공하는 Pagination객체 생성
 			
 			
-			PaginationQnA pagination = new PaginationQnA(page, totalRecords);
+			PaginationPerPage5 pagination = new PaginationPerPage5(page, totalRecords);
 					
 			int begin = pagination.getBegin();
 			int end = pagination.getEnd();
