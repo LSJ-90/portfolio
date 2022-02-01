@@ -22,7 +22,7 @@
             <img src="../../resources/images/main/login_icon_active.png" alt="mypage-icon" class="mypage-icon">
           </a>
         </li>
-        <li class="nav__item"><a href="/logout">LOOUT</a></li>
+        <li class="nav__item"><a href="/logout">LOGOUT</a></li>
         </c:if>
         <li class="nav__item"><i class="fas fa-globe"></i></li>
       </ul>

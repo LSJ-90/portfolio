@@ -24,20 +24,25 @@ public class SendEmailService {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
 	private JavaMailSender mailSender;
-    private static final String FROM_ADDRESS = "lsj90223@gmail.com";
-    
+	
     // 이승준: 임시비밀번호를 포함한 이메일생성
     public MailDto createMailAndChangePassword(String id, String email){
     	User savedUser = userService.getUserByEmail(email);
     	String str = getTempPassword();
         MailDto mailDto = new MailDto();
-        mailDto.setAddress(email);
+        mailDto.setAddress(savedUser.getEmail());
         mailDto.setTitle(savedUser.getName() + "님의 임시패스워드 안내.. :)");
         mailDto.setMessage("안녕하세요. 임시패스워드 안내 관련 이메일 입니다." 
         				+ "[" + savedUser.getName() + "]" +"님의 임시 비밀번호는 " + str + " 입니다."
         				+ "로그인 하신 후 패스워드를 수정해주시기 바랍니다.");
-        updatePassword(str,email);
+        
+        // 임시비번 암호화
+        String authPwd = DigestUtils.sha512Hex(str);
+    	savedUser.setPwd(authPwd);
+        userMapper.updateUser(savedUser);
+        
         return mailDto;
     }
     
@@ -45,22 +50,12 @@ public class SendEmailService {
     public void mailSend(MailDto mailDto){
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(mailDto.getAddress());
-        message.setFrom(SendEmailService.FROM_ADDRESS);
         message.setSubject(mailDto.getTitle());
         message.setText(mailDto.getMessage());
 
         mailSender.send(message);
         System.out.println("이멜 전송 완료!");
     }
-    
-    // 이승쭌: 업데이트 패스워드
-    public void updatePassword(String str,String email){
-    	String authPwd = DigestUtils.sha512Hex(str);
-    	User savedUser = userService.getUserByEmail(email);
-    	savedUser.setPwd(authPwd);
-        userMapper.updateUser(savedUser);
-    }
-
     
     // 이승준: 난수 생성
     public String getTempPassword(){

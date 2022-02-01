@@ -29,12 +29,10 @@ public class UserAuthRestController {
 	// 이승준: 이메일로 패스워드 찾기
 	@PostMapping("/findpwd")
 	public String findPwd(@RequestParam("userId") String id, @RequestParam("userEmail") String email, Model model) {
-		System.out.println(id);
-		System.out.println(email);
 		MailDto mailDto = sendEmailService.createMailAndChangePassword(id, email);
 	
 		sendEmailService.mailSend(mailDto);
 		
-		return  "redirect:form/loginForm.tiles";
+		return  "TEST SUCCESS >> 이메일 확인 후 http://localhost/login 페이지 전환 예정";
 	}
 }
