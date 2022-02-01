@@ -14,7 +14,7 @@
       <form action="/findpwd" class="login-form" method="post">
         <div class="form__wrap">
           <p class="find__text">
-            입력된 정보로 임시 비밀번호가 전송됩니다.(진행중..)
+            입력된 정보로 임시 비밀번호가 전송됩니다.
           </p>
           <div class="join__box">
             <input

@@ -232,5 +232,31 @@
 		)
 		where rn between #{beginIndex} and #{endIndex}
 	</select> 
-	 
+	
+	<!-- 1056 >> #{no} , parameterType="int"-->
+	<select id="getMyRevListByNo" resultType="com.hoge.dto.UserRevInfoDto" parameterType="int">
+		select 
+			accommos.accommo_name as accommoName,
+			rooms.room_name as roomName,
+			rooms.room_no as roomNo,
+			accommos.accommo_region_depth1 as accommoRegionDepth1,
+			accommos.accommo_region_depth2 as accommoRegionDepth2,
+			bookings.check_in_date as checkInDate,
+			bookings.check_out_date as checkOutDate,
+			bookings.room_tax_included_price as roomTaxIncludedPrice,
+			bookings.user_no as no
+		from 
+			tb_final_room_bookings bookings, tb_final_rooms rooms, tb_final_accommodations accommos 
+		where 
+			rooms.accommo_no = accommos.accommo_no
+		and 
+			rooms.room_no = bookings.room_no
+		and 
+			bookings.user_no = 1056
+		and 
+			bookings.room_booking_status = 1
+		order by 
+			bookings.check_in_date
+	</select>
+	
 </mapper>
