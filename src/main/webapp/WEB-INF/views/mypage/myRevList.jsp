@@ -39,21 +39,20 @@
 					</div>					
 					
 					<div class="row-2 d-flex">
-						<button type="button" class="btn btn-dark me-3">예약변경</button>
 						<button type="button" class="btn btn-dark">예약취소</button>
 					</div>
 				</div>
 			</div>
 			<div class="col-4 me-0 border-top border-bottom border-end bg-light">
-				<div id="carouselExampleIndicators${myRevInfo.roomNo }" class="carousel slide"
+				<div id="carouselExampleIndicators${myRevInfo.roomBookingNo }" class="carousel slide"
 					data-bs-ride="carousel">
 					<div class="carousel-indicators">
-						<button type="button" data-bs-target="#carouselExampleIndicators${myRevInfo.roomNo }"
+						<button type="button" data-bs-target="#carouselExampleIndicators${myRevInfo.roomBookingNo }"
 							data-bs-slide-to="0" class="active" aria-current="true"
 							aria-label="Slide 1"></button>
-						<button type="button" data-bs-target="#ccarouselExampleIndicators${myRevInfo.roomNo }"
+						<button type="button" data-bs-target="#ccarouselExampleIndicators${myRevInfo.roomBookingNo }"
 							data-bs-slide-to="1" aria-label="Slide 2"></button>
-						<button type="button" data-bs-target="#carouselExampleIndicators${myRevInfo.roomNo }"
+						<button type="button" data-bs-target="#carouselExampleIndicators${myRevInfo.roomBookingNo }"
 							data-bs-slide-to="2" aria-label="Slide 3"></button>
 					</div>
 					<div class="carousel-inner">
@@ -68,12 +67,12 @@
 						</div>
 					</div>
 					<button class="carousel-control-prev" type="button"
-						data-bs-target="#carouselExampleIndicators${myRevInfo.roomNo }" data-bs-slide="prev">
+						data-bs-target="#carouselExampleIndicators${myRevInfo.roomBookingNo }" data-bs-slide="prev">
 						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 						<span class="visually-hidden">Previous</span>
 					</button>
 					<button class="carousel-control-next" type="button"
-						data-bs-target="#carouselExampleIndicators${myRevInfo.roomNo }" data-bs-slide="next">
+						data-bs-target="#carouselExampleIndicators${myRevInfo.roomBookingNo }" data-bs-slide="next">
 						<span class="carousel-control-next-icon" aria-hidden="true"></span>
 						<span class="visually-hidden">Next</span>
 					</button>
