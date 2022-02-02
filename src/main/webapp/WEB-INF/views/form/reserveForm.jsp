@@ -475,10 +475,20 @@ $(function() {
 				alert("동의사항을 모두 확인해 주세요.");
 			} else {
 				if($('input[name="payment"]:checked').val() == "카드") {
-					alert("카드");
-					// frm.submit();
+					// alert("카드");
+					frm.submit();
 				} else {
-					var checkIn = $(":input[name=checkInDate]").val().replace(/-/g, '');
+					frm.attr("action", "/reserve/kakaoPay");
+					frm.submit();
+				}
+			}
+		}
+	});
+    
+    
+    // 카카오페이
+    /* 
+    				var checkIn = $(":input[name=checkInDate]").val().replace(/-/g, '');
 					var checkOut = $(":input[name=checkOutDate]").val().replace(/-/g, '');
 			    	var price = parseInt($("#bottom-price").attr("data-total-price"));
 			    	var roomNo = $(":input[name=roomNo]").val();
@@ -489,40 +499,16 @@ $(function() {
 			  			data: {price: price, checkIn: checkIn, checkOut: checkOut, roomNo: roomNo, no: no},
 			   			success:function(data) {
 			   				var box = data.next_redirect_pc_url;
-			   				window.open(box);
+			   				var name = "kakaoPay";
+				            var option = "width = 500, height = 500, top = 100, left = 200, location = no"
+			   				window.open(box, name, option);
 			   				// frm.submit();
 			   			},
 			   			error:function(error) {
 			   				alert(error);
 			   			}
 			   		})
-				}
-			}
-		}
-	});
-    
-    
-    // 카카오페이
-    /* $("#payment").click(function(event) {
-    	var checkIn = $(":input[name=checkInDate]").val().replace(/-/g, '');
-		var checkOut = $(":input[name=checkOutDate]").val().replace(/-/g, '');
-    	var price = parseInt($("#bottom-price").attr("data-total-price"));
-    	var roomNo = $(":input[name=roomNo]").val();
-    	var no = $(":input[name=no]").val();
-   		$.ajax({
-   			url:'/kakaopay',
-  			dataType: 'json',
-  			data: {price: price, checkIn: checkIn, checkOut: checkOut, roomNo: roomNo, no: no},
-   			success:function(data) {
-   				console.log(data.tid);
-   				var box = data.next_redirect_pc_url;
-   				window.open(box);
-   			},
-   			error:function(error) {
-   				alert(error);
-   			}
-   		})
-    }); */
+    */
     
     // 포인트 사용
     $("input[name=usedPnt]").change(function() {

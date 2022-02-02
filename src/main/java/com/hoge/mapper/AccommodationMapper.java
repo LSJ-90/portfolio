@@ -19,19 +19,30 @@ import com.hoge.vo.accommo.RoomImage;
 @Mapper
 public interface AccommodationMapper {
 	
-	List<AccommoPositionDto> getAllAccommoPosition();				// 보류
+	// list페이지
+	// 염주환 listDtos
+	List<AccommoListDto> searchAccommoListDtos(Criteria criteria);
+	// 염주환 페이지네이션을 위함
+	int getAccommodationsTotalRows(Criteria criteria);				// list
+	
+	
 	Accommodation getAccommodationByNo(int no);						// 예약페이지
 	Room getRoomByNo(int no);										// 예약페이지
 
-	int getAccommodationsTotalRows(Criteria criteria);				// list(검색 기능 추가 해야함)
-	List<AccommoListDto> searchAccommoListDtos(Criteria criteria);	// list(검색 기능 추가 해야함)
 	List<AccommoImage> getAccommoImagesByAccommoNo(int no);			// list
 	
+	// 예약페이지
+	// 염주환 예약페이지 숙소 관련 정보
 	ReserveAccommoDto getReserveAccommoDto(@Param("accommoNo") int accommoNo, @Param("roomNo") int roomNo);
+	// 염주환 roombooking insert
 	void insertRoomBooking(@Param("roomBooking") RoomBooking roomBooking, @Param("userNo") int userNo, @Param("no") int no);
+	// 염주환 roombooking, availability, transactions에 같은 no 넣기 위함
 	int getRoomBookingNoSeq();
+	// 염주환 availability insert
 	void insertRoomAvailability(@Param("no") int no, @Param("sqlDate") java.sql.Date sqlDate);
+	// 염주환 AccumulatedMoney 금액 추가하기 위함
 	long getAccumulatedMoney();
+	// 염주환 transactions insert
 	void insertTransactions(@Param("amount") long amount, @Param("accumulated") long accumulated, @Param("userNo") int userNo, @Param("no") int no);
 	
 	// 유상효 객실 등록

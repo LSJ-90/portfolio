@@ -43,6 +43,7 @@ public class AccommodationController {
 		
 		model.addAttribute("accommos", accommoListDtos);
 		model.addAttribute("pagination", pagination);
+		model.addAttribute("address", address);
 		
 		return "accommo/list";
 	}

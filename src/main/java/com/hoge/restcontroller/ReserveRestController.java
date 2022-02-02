@@ -44,34 +44,6 @@ public class ReserveRestController {
 	@Autowired
 	private PromotionService promotionService;
 	
-	/*
-	 * @GetMapping("/holidays") public List<String> getHolidays(String year, String
-	 * month) throws Exception { JSONParser parser = new JSONParser(new URL(
-	 * "http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear="
-	 * +year+"&solMonth="+month+
-	 * "&ServiceKey=1irZIYQbfl88iS1EiVAwaM7fW30u69nAf7PYWisL91H/f8lNcpcbqX5lO38L0mL1jhD8yRBduof7dNNoz6joiA==&_type=json"
-	 * ).openStream());
-	 * 
-	 * Map<String, Object> object = parser.parseObject();
-	 * 
-	 * System.out.println(object);
-	 * 
-	 * Map<String, Object> response = (Map<String, Object>) object.get("response");
-	 * Map<String, Object> body = (Map<String, Object>) response.get("body");
-	 * Map<String, Object> items = (Map<String, Object>) body.get("items");
-	 * List<Map<String, Object>>itemList = (List<Map<String, Object> >)
-	 * items.get("item");
-	 * 
-	 * 
-	 * List<String> result = new ArrayList<String>(); for (Map<String, Object> item
-	 * : itemList) { String isHoliday = (String) item.get("isHoliday"); String
-	 * locdate = String.valueOf(item.get("locdate"));
-	 * 
-	 * if ("Y".equals(isHoliday)) { result.add(locdate); } }
-	 * 
-	 * return result; }
-	 */
-	
 	// 염주환
 	@GetMapping("/getPrice")
 	public PriceDto getPrice(String checkIn, String checkOut, int roomNo, int number, int point) throws Exception {
@@ -277,9 +249,6 @@ public class ReserveRestController {
 				}
 			}
 		}
-//		System.out.println("weekday" + priceDto.getWeekdayNumber());
-//		System.out.println("weekend" + priceDto.getWeekendNumber());
-//		System.out.println("peak" + priceDto.getPeakSeasonNumber());
 		
 		long roomPrice = (room.getWeekdaysPrice() * priceDto.getWeekdayNumber()) +
 				(room.getWeekendPrice() * priceDto.getWeekendNumber()) +
@@ -289,9 +258,6 @@ public class ReserveRestController {
 		long discountAmount = 0;
 		
 		for (PromotionDiscountDto promotion : promotionDiscountDtos) {
-//			System.out.println("Pweekday" + promotion.getDiscountWeekdayNumber());
-//			System.out.println("Pweekend" + promotion.getDiscountWeekendNumber());
-//			System.out.println("Ppeak" + promotion.getDiscountPeakSeasonsNumber());
 			discountAmount +=
 					(long) ((room.getWeekdaysPrice() * promotion.getDiscountWeekdayNumber() * (promotion.getWeekdaysDiscountRate())) +
 					(room.getWeekendPrice() * promotion.getDiscountWeekendNumber() * (promotion.getWeekendDiscountRate())) +
@@ -313,83 +279,8 @@ public class ReserveRestController {
 		priceDto.setExtraPeople(number);
 		priceDto.setPromotionDiscounts(promotionDiscountDtos);
 		
-		// System.out.println(priceDto);
 		
 		return priceDto;
 	}
 	
-	
-	@RequestMapping("/kakaopay/ready")
-	@ResponseBody
-	public String kakaopay(long price, String checkIn, String checkOut, int roomNo, int no) {
-		try {
-			URL url = new URL("https://kapi.kakao.com/v1/payment/ready");
-			
-			HttpURLConnection httpUrlConnection = (HttpURLConnection) url.openConnection();
-			httpUrlConnection.setRequestMethod("POST");
-			httpUrlConnection.setRequestProperty("Authorization", "KakaoAK c277cac726afbf7195ddff52bb03e946");
-			httpUrlConnection.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-			httpUrlConnection.setDoOutput(true);
-			String parameter = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id&item_name=HOGE&quantity=1&total_amount="+price+"&tax_free_amount="+price+"&approval_url=http://localhost/kakaopay/approve&fail_url=http://localhost/reserve/accommo?no="+no+"&roomNo="+roomNo+"&checkIn="+checkIn+"&checkOut="+checkOut+"&cancel_url=http://localhost/reserve/accommo?no="+no+"&roomNo="+roomNo+"&checkIn="+checkIn+"&checkOut="+checkOut;
-			OutputStream outputStream = httpUrlConnection.getOutputStream();
-			DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
-			dataOutputStream.writeBytes(parameter);
-			dataOutputStream.close();
-			
-			int resultCode = httpUrlConnection.getResponseCode();
-			
-			InputStream inputStream;
-			if (resultCode == 200) {
-				inputStream = httpUrlConnection.getInputStream();
-			} else {
-				inputStream = httpUrlConnection.getErrorStream();
-			}
-			InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-			return bufferedReader.readLine();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return "{\"result\":\"NO\"}";
-	}
-	
-	@RequestMapping("/kakaopay/approve")
-	@ResponseBody
-	public String kakaopay(@RequestParam("tid") String tid, @RequestParam("pg_token") String pg_token) {
-		try {
-			URL url = new URL("https://kapi.kakao.com/v1/payment/approve");
-			
-			HttpURLConnection httpUrlConnection = (HttpURLConnection) url.openConnection();
-			httpUrlConnection.setRequestMethod("POST");
-			httpUrlConnection.setRequestProperty("Authorization", "KakaoAK c277cac726afbf7195ddff52bb03e946");
-			httpUrlConnection.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-			httpUrlConnection.setDoOutput(true);
-			String parameter = "cid=TC0ONETIME&tid="+tid+"&partner_order_id=partner_order_id&partner_user_id=partner_user_id&pg_token="+pg_token;
-			OutputStream outputStream = httpUrlConnection.getOutputStream();
-			DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
-			dataOutputStream.writeBytes(parameter);
-			dataOutputStream.close();
-			
-			int resultCode = httpUrlConnection.getResponseCode();
-			
-			InputStream inputStream;
-			if (resultCode == 200) {
-				inputStream = httpUrlConnection.getInputStream();
-			} else {
-				inputStream = httpUrlConnection.getErrorStream();
-			}
-			InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-			return bufferedReader.readLine();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return "{\"result\":\"NO\"}";
-	}
 }
