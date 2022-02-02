@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hoge.mapper.WithdrawalMapper">
+  
+  <!--  성하민
+  	int getWithdrawalCountByHostNo(int no); -->
+  <select id="getWithdrawalCountByHostNo" parameterType="int" resultType="int">
+	 	select
+	 		count(*)
+	 	from
+	 		TB_FINAL_WITHDRAWALS
+	 	where 
+	 		host_no = #{no} 
+	 </select>
+  
+  
+
+
+
+  <!-- List<Withdrawal> getHostWithdrawalListByHostNo(@Param("no") int no, @Param("begin") int begin, @Param("end") int end);-->
+   <select id="getHostWithdrawalListByHostNo" parameterType="int" resultType="com.hoge.vo.other.Withdrawal">
+	 	select
+	 			HOST_NO as hostNo,
+				ACCOUNT_NUMBER as accountNumber,
+				BANK_NAME as bankName,
+				ACCOUT_HOLDER_NAME as accountHolderName,
+				MONEY_AMOUNT as amount,
+		 		WITHDRAWAL_STATUS as status,
+		 		WITHDRAWAL_CREATED_DATE as createdDate
+	 	from 
+	 		(select 
+		 		HOST_NO,
+				ACCOUNT_NUMBER,
+				BANK_NAME,
+				ACCOUT_HOLDER_NAME,
+				MONEY_AMOUNT,
+		 		WITHDRAWAL_STATUS,
+		 		WITHDRAWAL_CREATED_DATE,
+		 		row_number() over (order by WITHDRAWAL_CREATED_DATE desc) rn
+	 		from	
+	 			TB_FINAL_WITHDRAWALS
+	 		where 
+	 			HOST_NO = #{no} )
+	 		where rn between #{begin} and #{end}
+	 </select>
+
+
+
+   	<!-- 성하민
+  void insertWithdrawal(Withdrawal withdrawal); 
+  	-->
+  	<insert id="insertWithdrawal" parameterType="com.hoge.vo.other.Withdrawal">
+		INSERT into TB_FINAL_WITHDRAWALS
+		(
+		HOST_NO,
+		ACCOUNT_NUMBER,
+		BANK_NAME,
+		ACCOUT_HOLDER_NAME,
+		MONEY_AMOUNT
+		)
+		VALUES
+			(
+			#{hostNo},
+			#{accountNumber},
+			#{bankName},
+			#{accountHolderName},
+			#{amount}
+			)
+	</insert>
+  
+
+</mapper>

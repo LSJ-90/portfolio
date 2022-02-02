@@ -29,6 +29,7 @@ public class ChattingMessageDto {
 	private int hostNo;
 	private int hostingUserNo;
 	private String hostName;
+	private String hostImage;
 	
 	private int hostingType; // 1. 시설 2.체험
 	private String tel;

@@ -21,9 +21,13 @@ public class HostTransactionService {
 	
 	@Autowired
 	private HostTransactionMapper hostTransactionMapper;
-	
-	public List<HostTransaction> getHostTransactionByHostNo(int no){
-		return hostTransactionMapper.getHostTransactionByHostNo(no);
+	//성하민
+	public List<HostTransaction> getHostTransactionByHostNo(int no, int begin, int end){
+		return hostTransactionMapper.getHostTransactionByHostNo(no, begin, end);
+	}
+	//성하민
+	public int getHostTransactionCountByHostNo(int no) {
+		return hostTransactionMapper.getHostTransactionCountByHostNo(no);
 	}
 	
 

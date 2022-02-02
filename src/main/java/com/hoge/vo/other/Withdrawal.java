@@ -2,6 +2,8 @@ package com.hoge.vo.other;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,8 +22,9 @@ public class Withdrawal {
 	private int hostNo;
 	private String accountHolderName;
 	private int accountNumber;
-	private String BankName;
-	private long Amount;
+	private String bankName;
+	private long amount;
 	private String status;
+	@JsonFormat(pattern = "yyyy년 M월 d일")
 	private Date createdDate;
 }

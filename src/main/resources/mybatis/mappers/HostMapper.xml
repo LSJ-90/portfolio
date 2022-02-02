@@ -178,7 +178,7 @@
 		and h.host_no = a.host_no
 		and u.user_no = #{value}
 	</select>
-	
+
 	<!-- 유상효 유저넘버로 체험리스트 가져오기 -->
 	<select id="getActListByUserNo" parameterType="int" resultType="com.hoge.dto.ActListDto">
 		select

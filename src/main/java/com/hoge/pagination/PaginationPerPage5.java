@@ -18,7 +18,7 @@ package com.hoge.pagination;
  * @author 성하민 사용중
  *
  */
-public class PaginationQnA {
+public class PaginationPerPage5 {
 
 	private int rowsPerPage = 5;			// 한 페이지당 표시할 데이터의 갯수
 	private int pagesPerBlock = 5;			// 한 블록당 표시할 페이지번호 숫자
@@ -41,7 +41,7 @@ public class PaginationQnA {
 	 * @param pageNo 요청한 페이지 번호
 	 * @param totalRecords 총 데이터 갯수
 	 */
-	public PaginationQnA(String pageNo, int totalRecords) {
+	public PaginationPerPage5(String pageNo, int totalRecords) {
 		init(pageNo, totalRecords, rowsPerPage);
 	}
 	
@@ -52,7 +52,7 @@ public class PaginationQnA {
 	 * @param totalRecords 총 데이터 갯수
 	 * @param 한 화면당 표시할 행의 갯수
 	 */
-	public PaginationQnA(String pageNo, int totalRecords, int rows) {
+	public PaginationPerPage5(String pageNo, int totalRecords, int rows) {
 		init(pageNo, totalRecords, rows);
 	}
 	

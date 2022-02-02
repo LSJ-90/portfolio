@@ -1,5 +1,9 @@
 package com.hoge.pagination;
 
+import java.util.Date;
+
+import lombok.Setter;
+
 /**
  * 페이징처리를 지원하는 클래스다.<p>
  * <ul>
@@ -18,6 +22,7 @@ package com.hoge.pagination;
  * @author 성하민 사용중
  *
  */
+@Setter
 public class Pagination {
 
 	private int rowsPerPage = 15;			// 한 페이지당 표시할 데이터의 갯수
