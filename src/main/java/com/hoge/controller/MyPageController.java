@@ -60,34 +60,17 @@ public class MyPageController {
 	@Autowired
 	private UserService userService;
 	
-	// 이승준: 마이페이지 나의 예약정보 페이지로 리턴
+	// 이승준: 마이페이지 메인 페이지로 리턴
 	@GetMapping("/myrevlist")
 	public String myRevListInit(@LoginedUser User savedUser, Model model) { 
 		
 		List<UserRevInfoDto> myRevList = userService.getMyRevListByNo(savedUser.getNo());
-		// TODO: 객실 사진정보 가져와야함 
 		
 		if (!(myRevList.isEmpty())) {
 			model.addAttribute("myRevList", myRevList);
 		}
 		
 		return "mypage/myRevList.mytiles";
-	}
-	
-	// 이승준: 마이페이지 나의 관심스테이 보여주는 페이지
-	@GetMapping("/mylovelist")
-	public String myLoveListInit(@LoginedUser User savedUser, Model model) { 
-		// TODO: accommo,activity 리스트에서 하트를 누를 시 관심등록이 insert,delete되는 기능 구현해야함  
-		
-		return "mypage/myLoveList.mytiles";
-	}
-	
-	// 이승준: 내가 다녀온 투어리스트를 보여주는 페이지
-	@GetMapping("/mytourlist")
-	public String myTourListInit(@LoginedUser User savedUser, Model model) { 
-		// TODO: 예약한 고객이 정상적으로 숙박,체험을 마쳤을 때 최근 다녀온 곳순으로 보여지거나, 지도로 보여주는 기능 
-		
-		return "mypage/myTourList.mytiles";
 	}
 	
 	// 이승준: 회원정보 업데이트 페이지 리턴
