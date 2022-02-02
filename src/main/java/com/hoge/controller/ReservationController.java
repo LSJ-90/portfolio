@@ -21,8 +21,9 @@ import com.hoge.service.ActivityService;
 import com.hoge.vo.accommo.RoomBooking;
 import com.hoge.vo.other.User;
 
-import ch.qos.logback.core.joran.util.beans.BeanUtil;
+import lombok.extern.java.Log;
 
+@Log
 @Controller
 @RequestMapping("/reserve")
 public class ReservationController {
@@ -58,6 +59,26 @@ public class ReservationController {
 		BeanUtils.copyProperties(form, roomBooking);
 		accommodationService.addNewBooking(roomBooking, user.getNo());
 		
+		return complete();
+	}
+	
+	@GetMapping("/complete")
+	public String complete() {
 		return "accommo/completePayment";
 	}
+	
+	@PostMapping("/kakaoPay")
+	public String kakaoPay(ReservationInsertForm form, @LoginedUser User user) throws IOException {
+		save(form, user);
+		return "redirect:" + accommodationService.kakaoPayReady(form);
+	}
+	
+	@GetMapping("/kakaoPaySuccess")
+    public void kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model) {
+        log.info("kakaoPaySuccess get............................................");
+        log.info("kakaoPaySuccess pg_token : " + pg_token);
+        
+        model.addAttribute("info", accommodationService.kakaoPayInfo(pg_token));
+        
+    }
 }

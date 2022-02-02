@@ -15,8 +15,8 @@ import lombok.ToString;
 @Builder
 public class AccommoPositionDto {
 	
-	private int no;
-	private double xce;
-	private double yce;
+	private String title;
+	private Double xce;
+	private Double yce;
 
 }

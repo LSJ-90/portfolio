@@ -2,6 +2,51 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hoge.mapper.AccommodationMapper">
 	<!-- 염주환 -->
+	<select id="searchAccommoListDtos" parameterType="com.hoge.form.Criteria" resultType="com.hoge.dto.AccommoListDto">
+		select *
+		from
+			(select
+		    		row_number() over (order by a.accommo_no) rn,
+					a.accommo_no as no, 
+					a.host_no as hostNo, 
+					a.accommo_type as type, 
+					a.accommo_name as name, 
+					a.average_cleanliness_star as cleanlinessStar,
+					a.average_communication_star as communicationStar, 
+					a.average_accuracy_star as accuracyStar, 
+					a.average_location_star as locationStar, 
+					a.accommo_region_depth1 as regionDepth1, 
+					a.accommo_region_depth2 as regionDepth2, 
+					a.accommo_region_depth3 as regionDepth3, 
+					a.accommo_xce as xce, 
+					a.accommo_yce as yce,
+		            min(r.weekdays_price) as minWeekdaysPrice,
+					max(r.weekdays_price) as maxWeekdaysPrice,
+		            min(r.weekend_price) as minWeekendPrice,
+					max(r.weekend_price) as maxWeekendPrice,
+		            min(r.peak_season_price) as minPeakSeasonPrice,
+					max(r.peak_season_price) as maxPeakSeasonPrice,
+		            min(r.standard_number) as minStandardNumber,
+					max(r.standard_number) as maxStandardNumber
+				from
+		            tb_final_accommodations a,
+		            tb_final_rooms r
+		        where
+		            a.accommo_no = r.accommo_no 
+		        group by 
+		            a.accommo_no, a.host_no, a.accommo_type, a.accommo_name, a.average_cleanliness_star, a.average_communication_star, 
+		            a.average_accuracy_star, a.average_location_star, a.accommo_region_depth1, a.accommo_region_depth2, 
+		            a.accommo_region_depth3, a.accommo_xce, a.accommo_yce)
+		where rn between #{beginIndex} and #{endIndex}
+	</select>
+	
+	<!-- 염주환(검색 기능 추가 해야함) -->
+	<select id="getAccommodationsTotalRows" parameterType="com.hoge.form.Criteria" resultType="int">
+		select count(*)
+		from tb_final_accommodations
+	</select>
+
+	<!-- 염주환 -->
 	<select id="getAccommoImagesByAccommoNo" parameterType="int" resultType="com.hoge.vo.accommo.AccommoImage">
 		select
 			accommo_image as image,
@@ -10,16 +55,6 @@
 			tb_final_accommo_images
 		where
 			accommo_no = #{value}
-	</select>
-	
-	<!-- 염주환 -->
-	<select id="getAllAccommoPosition" resultType="com.hoge.dto.AccommoPositionDto">
-		select
-			accommo_no as no,
-			accommo_xce as xce, 
-			accommo_yce as yce,
-		from
-        	tb_final_rooms
 	</select>
 	
 	<!-- 염주환 -->
@@ -69,47 +104,6 @@
 			tb_final_rooms
 		where
 			room_no = #{value}
-	</select>
-	
-	<!-- 염주환(검색 기능 추가 해야함) -->
-	<select id="getAccommodationsTotalRows" parameterType="com.hoge.form.Criteria" resultType="int">
-		select count(*)
-		from tb_final_accommodations
-	</select>
-	
-	<!-- 염주환(검색 기능 추가 해야함) -->
-	<select id="searchAccommoListDtos" parameterType="com.hoge.form.Criteria" resultType="com.hoge.dto.AccommoListDto">
-		select
-			a.accommo_no as no, 
-			a.host_no as hostNo, 
-			a.accommo_type as type, 
-			a.accommo_name as name, 
-			a.average_cleanliness_star as cleanlinessStar,
-			a.average_communication_star as communicationStar, 
-			a.average_accuracy_star as accuracyStar, 
-			a.average_location_star as locationStar, 
-			a.accommo_region_depth1 as regionDepth1, 
-			a.accommo_region_depth2 as regionDepth2, 
-			a.accommo_region_depth3 as regionDepth3, 
-			a.accommo_xce as xce, 
-			a.accommo_yce as yce,
-            min(r.weekdays_price) as minWeekdaysPrice,
-			max(r.weekdays_price) as maxWeekdaysPrice,
-            min(r.weekend_price) as minWeekendPrice,
-			max(r.weekend_price) as maxWeekendPrice,
-            min(r.peak_season_price) as minPeakSeasonPrice,
-			max(r.peak_season_price) as maxPeakSeasonPrice,
-            min(r.standard_number) as minStandardNumber,
-			max(r.standard_number) as maxStandardNumber
-		from
-            tb_final_accommodations a,
-            tb_final_rooms r
-        where
-            a.accommo_no = r.accommo_no 
-        group by 
-            a.accommo_no, a.host_no, a.accommo_type, a.accommo_name, a.average_cleanliness_star, a.average_communication_star, 
-            a.average_accuracy_star, a.average_location_star, a.accommo_region_depth1, a.accommo_region_depth2, 
-            a.accommo_region_depth3, a.accommo_xce, a.accommo_yce
 	</select>
 	
 	<select id="getReserveAccommoDto" resultType="com.hoge.dto.ReserveAccommoDto">
