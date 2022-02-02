@@ -236,6 +236,7 @@
 	<!-- 1056 >> #{no} , parameterType="int"-->
 	<select id="getMyRevListByNo" resultType="com.hoge.dto.UserRevInfoDto" parameterType="int">
 		select 
+			bookings.room_booking_no as roomBookingNo,
 			accommos.accommo_name as accommoName,
 			rooms.room_name as roomName,
 			rooms.room_no as roomNo,

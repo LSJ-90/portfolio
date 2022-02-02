@@ -78,8 +78,8 @@ background-color: rgba(255, 205, 86, 0.1); color: #555;  }
       <li class="my-stay__item">
         <a href="/mypage/myrevlist" class="active">예약정보</a>
       </li>
-      <li class="my-stay__item"><a href="">관심 스테이</a></li>
-      <li class="my-stay__item"><a href="">다녀온 스테이</a></li>
+      <li class="my-stay__item"><a href="/mypage/mylovelist">관심 스테이</a></li>
+      <li class="my-stay__item"><a href="/mypage/mytourlist">다녀온 스테이</a></li>
       <li class="my-stay__item" id="guest-chat" onclick="chatopen()">
       <span>호스트 문의</span>
          <img
