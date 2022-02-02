@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="../../resources/css/style.css" />
     <link rel="stylesheet" href="../../resources/css/mypage_style.css" />
     <!-- script -->
-    <script src="main.js" defer></script>
+    <script src="../../resources/javascript/main.js" defer></script>
     <!-- ajax -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   	<!-- 카카오 api -->

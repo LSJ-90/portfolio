@@ -2,6 +2,8 @@
 
 // Join
 
+// ---------------- Check-box ----------------
+
 function selectAll(selectAll) {
   const checkboxes = document.getElementsByName("agreecheck");
 
@@ -18,5 +20,46 @@ function checkSelectAll() {
   } else {
     selectAll.checked = false;
   }
-  // selectAll.checked = checkboxes.length === checked.length;
 }
+
+// Admin
+
+// ---------------- Tab ----------------
+{
+  const tabList = document.querySelectorAll(".sub-nav__item");
+
+  Array.prototype.forEach.call(tabList, function (list) {
+    list.children[0].addEventListener("click", function (e) {
+      e.preventDefault();
+
+      const tabContents = document.querySelectorAll(".tab__content");
+      const tabNum = this.parentElement.getAttribute("data-tabNum");
+
+      Array.prototype.forEach.call(tabContents, function (cont, i) {
+        cont.style.display = "none";
+        tabList[i].className = "sub-nav__item";
+      });
+
+      tabContents[tabNum].style.display = "block";
+
+      if (list.className.indexOf("active") == -1) {
+        list.className = "sub-nav__item active";
+      }
+    });
+  });
+}
+
+// ---------------- Tab-active ----------------
+
+{
+  const tabItem = document.querySelector(".sub-nav__content");
+  tabItem.addEventListener("click", (e) => {
+    const active = document.querySelector(".tab__item a.active");
+    if (active != null) {
+      active.classList.remove("active");
+    }
+    e.target.classList.add("active");
+  });
+}
+
+
