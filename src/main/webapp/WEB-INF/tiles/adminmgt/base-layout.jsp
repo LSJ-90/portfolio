@@ -19,11 +19,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Abel&display=swap" rel="stylesheet">  
     <!-- css -->
-    <link rel="stylesheet" href="../../resources/css/style.css" />   
+    <link rel="stylesheet" href="../../resources/css/admin_style.css" />   
     <!-- ajax -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- script -->
-    <script src="main.js" defer></script>
+    <script src="../../resources/javascript/main.js" defer></script>
   </head>
    <body>
       <tiles:insertAttribute name="header"/> 
