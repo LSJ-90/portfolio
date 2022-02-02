@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.hoge.dto.KakaoUserDto;
+import com.hoge.dto.UserRevInfoDto;
 import com.hoge.exception.FindException;
 import com.hoge.exception.LoginException;
 import com.hoge.form.CriteriaAdminUser;
@@ -163,5 +164,11 @@ public class UserService {
 	// 성하민 관리자페이지
 	public List<User> searchUsers(CriteriaAdminUser CAU) {
 		return userMapper.searchUsers(CAU);
+	}
+	
+	// 이승준: 나의예약정보
+	public List<UserRevInfoDto> getMyRevListByNo(int no) {
+		
+		return userMapper.getMyRevListByNo(no);
 	}
 }

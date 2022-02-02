@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.hoge.dto.KakaoUserDto;
+import com.hoge.dto.UserRevInfoDto;
 import com.hoge.form.CriteriaAdminUser;
 import com.hoge.vo.other.User;
 
@@ -47,7 +48,8 @@ public interface UserMapper {
 	// 성하민
 	List<User> searchUsers(CriteriaAdminUser CAU);
 
-	
+	// 이승준: 해당 유저가 예약한 간단한 예약정보를 가져오는 메소드.
+	List<UserRevInfoDto> getMyRevListByNo(int no);
 
 	
 

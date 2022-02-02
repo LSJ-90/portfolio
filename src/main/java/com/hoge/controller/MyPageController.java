@@ -21,10 +21,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.hoge.config.auth.LoginedUser;
 import com.hoge.dto.AccListDto;
 import com.hoge.dto.ActListDto;
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.ChattingMessageDto;
+import com.hoge.dto.UserRevInfoDto;
 import com.hoge.form.UserUpdateForm;
 import com.hoge.pagination.PaginationQnA;
 import com.hoge.service.ChatRoomService;
@@ -60,9 +62,13 @@ public class MyPageController {
 	
 	// 이승준: 마이페이지 메인 페이지로 리턴
 	@GetMapping("/myrevlist")
-	public String myRevListInit() { 
+	public String myRevListInit(@LoginedUser User savedUser, Model model) { 
 		
-		//TODO: 리스트 불러오기 주환님이랑 협의
+		List<UserRevInfoDto> myRevList = userService.getMyRevListByNo(savedUser.getNo());
+		
+		if (!(myRevList.isEmpty())) {
+			model.addAttribute("myRevList", myRevList);
+		}
 		
 		return "mypage/myRevList.mytiles";
 	}
