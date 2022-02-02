@@ -1,8 +1,6 @@
 package com.hoge.dto;
 
-import java.util.List;
 
-import com.hoge.vo.accommo.AccommoImage;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,5 +23,7 @@ public class AccListDto {
 	private int accNo;
 	private int hostingType;
 	private String mainImage;
+	private int hostNo;
+	private String accType;
 
 }

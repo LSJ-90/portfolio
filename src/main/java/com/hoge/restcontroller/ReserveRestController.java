@@ -14,14 +14,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -83,14 +87,12 @@ public class ReserveRestController {
 		c1.setTime(d1);
 		c1.add(Calendar.DATE, +1);
 		c2.setTime(d2);
-		System.out.println(c1);
-		System.out.println(c2);
 		
 		int inYear = c1.get(Calendar.YEAR);
 		int outYear = c2.get(Calendar.YEAR);
 		
 		while (c1.compareTo(c2) != 1) {
-			// System.out.println(c1.get(Calendar.DATE));
+			// System.out.println("c1" + c1.get(Calendar.DATE));
 			dateList.add(c1.getTime());
 			c1.add(Calendar.DATE, 1);
 		}
@@ -150,97 +152,134 @@ public class ReserveRestController {
 		List<PromotionDiscountDto> promotionDiscountDtos = new ArrayList<>();
 		PriceDto priceDto = new PriceDto();
 
+		ListIterator<Date> iter = dateList.listIterator();
 		// 주말, 공휴일, 평일 구분하기, 진행중인 프로모션 요일별 며칠이나 있는지
 		if (!promotionDiscounts.isEmpty()) {
 			for (PromotionDiscount promotion : promotionDiscounts) {
 				PromotionDiscountDto promotionDiscountDto = new PromotionDiscountDto();
-				for (Date date : dateList) {
-					if ((date.equals(promotion.getStartingDate()) || date.after(promotion.getStartingDate())) &&
-							(date.equals(promotion.getEndingDate()) || date.before(promotion.getEndingDate()))) {
-						if ((date.equals(peakStart) || date.after(peakStart)) && (date.equals(peakStart) || date.before(peakEnd))) {
-							System.out.println("peak" + date.getDate());
-							priceDto.setPeakSeasonNumber(priceDto.getPeakSeasonNumber()+1);
-							promotionDiscountDto.setPeakSeasonDiscountRate(promotionDiscountDto.getPeakSeasonDiscountRate()+1);
-						} else {
-							calendar.setTime(date);
-							dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-							if (dayOfWeek == 7 || dayOfWeek == 1) {
-								// System.out.println("weekend" + date.getDate());
-								priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
-								promotionDiscountDto.setDiscountWeekendNumber(promotionDiscountDto.getDiscountWeekendNumber()+1);
+				// System.out.println(iter.hasNext());
+				if (iter.hasNext()) {
+					while(iter.hasNext()) {
+						Date date = iter.next();
+						// System.out.println(date);
+						// 프로모션 진행중
+						if ((date.equals(promotion.getStartingDate()) || date.after(promotion.getStartingDate())) &&
+								(date.equals(promotion.getEndingDate()) || date.before(promotion.getEndingDate()))) {
+							if ((date.equals(peakStart) || date.after(peakStart)) && (date.equals(peakStart) || (date.before(peakEnd)))) {
+								// System.out.println("peak" + date.getDate());
+								priceDto.setPeakSeasonNumber(priceDto.getPeakSeasonNumber()+1);
+								promotionDiscountDto.setPeakSeasonDiscountRate(promotionDiscountDto.getPeakSeasonDiscountRate()+1);
+								iter.remove();
 							} else {
-								for (Date holiday : holidayList) {
-									if (date.compareTo(holiday) == 0) {
-										// System.out.println("holiday" + date.getDate());
-										priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
-										promotionDiscountDto.setDiscountWeekendNumber(promotionDiscountDto.getDiscountWeekendNumber()+1);
-										break;
-									} else {
+								calendar.setTime(date);
+								dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+								if (dayOfWeek == 7 || dayOfWeek == 1) {
+									// System.out.println("weekend" + date.getDate());
+									priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
+									promotionDiscountDto.setDiscountWeekendNumber(promotionDiscountDto.getDiscountWeekendNumber()+1);
+									iter.remove();
+								} else {
+									boolean isHoliday = false;
+									for (Date holiday : holidayList) {
+										if (date.compareTo(holiday) == 0) {
+											// System.out.println("holiday" + date.getDate());
+											priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
+											promotionDiscountDto.setDiscountWeekendNumber(promotionDiscountDto.getDiscountWeekendNumber()+1);
+											isHoliday = true;
+											iter.remove();
+											break;
+										}
+									}
+									if (isHoliday == false) {
 										// System.out.println("weekday" + date.getDate());
 										priceDto.setWeekdayNumber(priceDto.getWeekdayNumber()+1);
 										promotionDiscountDto.setDiscountWeekdayNumber(promotionDiscountDto.getDiscountWeekdayNumber()+1);
-										break;
-									}
-								}
-							}
-						}
-					} else {
-						if ((date.equals(peakStart) || date.after(peakStart)) && (date.equals(peakStart) || date.before(peakEnd))) {
-							// System.out.println("peak" + date.getDate());
-							priceDto.setPeakSeasonNumber(priceDto.getPeakSeasonNumber()+1);
-						} else {
-							calendar.setTime(date);
-							dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-							if (dayOfWeek == 7 || dayOfWeek == 1) {
-								// System.out.println("weekend" + date.getDate());
-								priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
-							} else {
-								for (Date holiday : holidayList) {
-									if (date.compareTo(holiday) == 0) {
-										// System.out.println("holiday" + date.getDate());
-										priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
-										break;
-									} else {
-										// System.out.println("weekday" + date.getDate());
-										priceDto.setWeekdayNumber(priceDto.getWeekdayNumber()+1);
-										break;
+										iter.remove();
 									}
 								}
 							}
 						}
 					}
-				}
-				BeanUtils.copyProperties(promotion, promotionDiscountDto);
-				promotionDiscountDtos.add(promotionDiscountDto);
-				priceDto.setPromotionDiscounts(promotionDiscountDtos);
-			}
-		} else {
-			for (Date date : dateList) {
-				if ((date.equals(peakStart) || date.after(peakStart)) && (date.equals(peakStart) || date.before(peakEnd))) {
-					// System.out.println("peak" + date.getDate());
-					priceDto.setPeakSeasonNumber(priceDto.getPeakSeasonNumber()+1);
+					BeanUtils.copyProperties(promotion, promotionDiscountDto);
+					promotionDiscountDtos.add(promotionDiscountDto);
 				} else {
-					calendar.setTime(date);
-					dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-					if (dayOfWeek == 7 || dayOfWeek == 1) {
-						// System.out.println("weekend" + date.getDate());
-						priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
-					} else {
-						for (Date holiday : holidayList) {
-							if (date.compareTo(holiday) == 0) {
-								// System.out.println("holiday" + date.getDate());
-								priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
-								break;
+					while(iter.hasPrevious()) {
+						Date date = iter.previous();
+						// System.out.println(date);
+						// 프로모션 진행중
+						if ((date.equals(promotion.getStartingDate()) || date.after(promotion.getStartingDate())) &&
+								(date.equals(promotion.getEndingDate()) || date.before(promotion.getEndingDate()))) {
+							if ((date.equals(peakStart) || date.after(peakStart)) && (date.equals(peakStart) || (date.before(peakEnd)))) {
+								// System.out.println("peak" + date.getDate());
+								priceDto.setPeakSeasonNumber(priceDto.getPeakSeasonNumber()+1);
+								promotionDiscountDto.setPeakSeasonDiscountRate(promotionDiscountDto.getPeakSeasonDiscountRate()+1);
+								iter.remove();
 							} else {
-								// System.out.println("weekday" + date.getDate());
-								priceDto.setWeekdayNumber(priceDto.getWeekdayNumber()+1);
-								break;
+								calendar.setTime(date);
+								dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+								if (dayOfWeek == 7 || dayOfWeek == 1) {
+									// System.out.println("weekend" + date.getDate());
+									priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
+									promotionDiscountDto.setDiscountWeekendNumber(promotionDiscountDto.getDiscountWeekendNumber()+1);
+									iter.remove();
+								} else {
+									boolean isHoliday = false;
+									for (Date holiday : holidayList) {
+										if (date.compareTo(holiday) == 0) {
+											// System.out.println("holiday" + date.getDate());
+											priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
+											promotionDiscountDto.setDiscountWeekendNumber(promotionDiscountDto.getDiscountWeekendNumber()+1);
+											isHoliday = true;
+											iter.remove();
+											break;
+										}
+									}
+									if (isHoliday == false) {
+										// System.out.println("weekday" + date.getDate());
+										priceDto.setWeekdayNumber(priceDto.getWeekdayNumber()+1);
+										promotionDiscountDto.setDiscountWeekdayNumber(promotionDiscountDto.getDiscountWeekdayNumber()+1);
+										iter.remove();
+									}
+								}
 							}
 						}
+					}
+					BeanUtils.copyProperties(promotion, promotionDiscountDto);
+					promotionDiscountDtos.add(promotionDiscountDto);
+				}
+			}
+		}
+		while(iter.hasNext()) {
+			Date date = iter.next();
+			if ((date.equals(peakStart) || date.after(peakStart)) && (date.equals(peakStart) || date.before(peakEnd))) {
+				// System.out.println("peak" + date.getDate());
+				priceDto.setPeakSeasonNumber(priceDto.getPeakSeasonNumber()+1);
+			} else {
+				calendar.setTime(date);
+				dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+				if (dayOfWeek == 7 || dayOfWeek == 1) {
+					// System.out.println("weekend" + date.getDate());
+					priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
+				} else {
+					boolean isHoliday = false; 
+					for (Date holiday : holidayList) {
+						if (date.compareTo(holiday) == 0) {
+							// System.out.println("holiday" + date.getDate());
+							priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
+							isHoliday = true;
+							break;
+						}
+					}
+					if (isHoliday == false) {
+					// System.out.println("weekday" + date.getDate());
+					priceDto.setWeekdayNumber(priceDto.getWeekdayNumber()+1);
 					}
 				}
 			}
 		}
+//		System.out.println("weekday" + priceDto.getWeekdayNumber());
+//		System.out.println("weekend" + priceDto.getWeekendNumber());
+//		System.out.println("peak" + priceDto.getPeakSeasonNumber());
 		
 		long roomPrice = (room.getWeekdaysPrice() * priceDto.getWeekdayNumber()) +
 				(room.getWeekendPrice() * priceDto.getWeekendNumber()) +
@@ -250,6 +289,9 @@ public class ReserveRestController {
 		long discountAmount = 0;
 		
 		for (PromotionDiscountDto promotion : promotionDiscountDtos) {
+//			System.out.println("Pweekday" + promotion.getDiscountWeekdayNumber());
+//			System.out.println("Pweekend" + promotion.getDiscountWeekendNumber());
+//			System.out.println("Ppeak" + promotion.getDiscountPeakSeasonsNumber());
 			discountAmount +=
 					(long) ((room.getWeekdaysPrice() * promotion.getDiscountWeekdayNumber() * (promotion.getWeekdaysDiscountRate())) +
 					(room.getWeekendPrice() * promotion.getDiscountWeekendNumber() * (promotion.getWeekendDiscountRate())) +
@@ -269,18 +311,18 @@ public class ReserveRestController {
 		priceDto.setTotalPrice(totalPrice);
 		priceDto.setDiscountAmount(discountAmount);
 		priceDto.setExtraPeople(number);
+		priceDto.setPromotionDiscounts(promotionDiscountDtos);
 		
 		// System.out.println(priceDto);
 		
 		return priceDto;
 	}
 	
-	@RequestMapping("/kakaopay")
+	
+	@RequestMapping("/kakaopay/ready")
 	@ResponseBody
 	public String kakaopay(long price, String checkIn, String checkOut, int roomNo, int no) {
 		try {
-			
-			
 			URL url = new URL("https://kapi.kakao.com/v1/payment/ready");
 			
 			HttpURLConnection httpUrlConnection = (HttpURLConnection) url.openConnection();
@@ -288,7 +330,44 @@ public class ReserveRestController {
 			httpUrlConnection.setRequestProperty("Authorization", "KakaoAK c277cac726afbf7195ddff52bb03e946");
 			httpUrlConnection.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 			httpUrlConnection.setDoOutput(true);
-			String parameter = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id&item_name=HOGE&quantity=1&total_amount="+price+"&vat_amount=200&tax_free_amount=0&approval_url=http://localhost/reserve/insert&fail_url=http://localhost/reserve/accommo?no="+no+"&roomNo="+roomNo+"&checkIn="+checkIn+"&checkOut="+checkOut+"&cancel_url=http://localhost/reserve/accommo?no="+no+"&roomNo="+roomNo+"&checkIn="+checkIn+"&checkOut="+checkOut;
+			String parameter = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id&item_name=HOGE&quantity=1&total_amount="+price+"&tax_free_amount="+price+"&approval_url=http://localhost/kakaopay/approve&fail_url=http://localhost/reserve/accommo?no="+no+"&roomNo="+roomNo+"&checkIn="+checkIn+"&checkOut="+checkOut+"&cancel_url=http://localhost/reserve/accommo?no="+no+"&roomNo="+roomNo+"&checkIn="+checkIn+"&checkOut="+checkOut;
+			OutputStream outputStream = httpUrlConnection.getOutputStream();
+			DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
+			dataOutputStream.writeBytes(parameter);
+			dataOutputStream.close();
+			
+			int resultCode = httpUrlConnection.getResponseCode();
+			
+			InputStream inputStream;
+			if (resultCode == 200) {
+				inputStream = httpUrlConnection.getInputStream();
+			} else {
+				inputStream = httpUrlConnection.getErrorStream();
+			}
+			InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+			return bufferedReader.readLine();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return "{\"result\":\"NO\"}";
+	}
+	
+	@RequestMapping("/kakaopay/approve")
+	@ResponseBody
+	public String kakaopay(@RequestParam("tid") String tid, @RequestParam("pg_token") String pg_token) {
+		try {
+			URL url = new URL("https://kapi.kakao.com/v1/payment/approve");
+			
+			HttpURLConnection httpUrlConnection = (HttpURLConnection) url.openConnection();
+			httpUrlConnection.setRequestMethod("POST");
+			httpUrlConnection.setRequestProperty("Authorization", "KakaoAK c277cac726afbf7195ddff52bb03e946");
+			httpUrlConnection.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+			httpUrlConnection.setDoOutput(true);
+			String parameter = "cid=TC0ONETIME&tid="+tid+"&partner_order_id=partner_order_id&partner_user_id=partner_user_id&pg_token="+pg_token;
 			OutputStream outputStream = httpUrlConnection.getOutputStream();
 			DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
 			dataOutputStream.writeBytes(parameter);

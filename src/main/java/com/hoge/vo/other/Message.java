@@ -20,7 +20,6 @@ public class Message {
 
 	private int chatRoomNo;
 	private int sendingUserNo;
-	private int receivingUserNo;
 	private String content;
 	private String checked; //확인 여부
 	private Date sendingDate;

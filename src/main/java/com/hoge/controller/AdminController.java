@@ -20,12 +20,14 @@ import com.hoge.dto.AdminActivityReviewDto;
 import com.hoge.dto.AdminHostQnADto;
 import com.hoge.dto.AdminUserQnADto;
 import com.hoge.dto.ChattingListDto;
+import com.hoge.dto.RegisterCountPerDayDto;
 import com.hoge.form.Criteria;
 import com.hoge.form.CriteriaAdminQnA;
 import com.hoge.form.CriteriaAdminUser;
 import com.hoge.pagination.Pagination;
 import com.hoge.service.QnAService;
 import com.hoge.service.ReviewService;
+import com.hoge.service.StatisticsService;
 import com.hoge.service.UserService;
 import com.hoge.vo.other.HostQnA;
 import com.hoge.vo.other.User;
@@ -53,12 +55,26 @@ public class AdminController {
 	@Autowired
 	private ReviewService reviewService;
 	
+	@Autowired
+	private StatisticsService statisticsService;
+	
+	
+
+	@GetMapping("/user-number-graph")							// 요청핸들러 메소드에 @ResponseBody를 붙인다.
+	public @ResponseBody List<RegisterCountPerDayDto> getUserNumberGraph() {
+		List<RegisterCountPerDayDto> result = statisticsService.getRegisterCountPerDayDto();
+		logger.info("결과값:" + result);
+		return result;
+	}
+	
+	
 	
 	@GetMapping("/review")
 	public String adminreviewInit() {
 		
 		return "adminpage/review.admintiles";
 	}
+	
 	
 	//성하민
 	@PostMapping(value = "/getActList.do", produces = "application/json")
@@ -230,6 +246,7 @@ public class AdminController {
 				AdminHostQnADto qnaDto = qnAService.getHostQnADtobyQnANo(no);
 				return qnaDto;
 			}
+		
 			
 	
 	@GetMapping("/main")

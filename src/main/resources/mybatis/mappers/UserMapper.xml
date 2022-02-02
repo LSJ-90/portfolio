@@ -111,49 +111,26 @@
 	<!-- 이승준 
 		User updateUser(User user);
 	 -->
-	<update id="updateUser" parameterType="com.hoge.dto.HogeUserUpdateDto">
+	<update id="updateUser" parameterType="com.hoge.vo.other.User">
 		update 
 			tb_final_users
-		<set>	
-	 		<if test="name != null">
+		<set>
+		 		user_is_host = #{isHost},
 		 		user_name = #{name},
-	 		</if>
-	 		<if test="email != null">
+		 		user_pwd = #{pwd},
 		 		user_email = #{email},
-	 		</if>
-	 		<if test="tel != null">
 		 		user_tel = #{tel},
-	 		</if>
+	 			user_deleted = #{deleted},
+	 			user_pnt = #{pnt},
 	 		<if test="image != null">
 	 			user_image = #{image},
 	 		</if>
+	 			user_gender = #{gender},
+	 			user_reported_count = #{reportedCount}
 	 	</set>
 		where
 			user_no = #{no}
 	</update>
-	
-	<!-- 이승준 
-		User updateUser(User user);
-	 -->
-	<update id="updatePwd" parameterType="com.hoge.dto.UpdatePwdDto">
-		update 
-			tb_final_users
-		<set>	
-	 		<if test="changePwd != null">
-		 		user_pwd = #{changePwd}
-	 		</if>
-	 	</set>
-		where
-			user_no = #{no}
-	</update>
-	
-	<!-- 이승준 
-		User deleteUser(int no);
-	 -->
-	<delete id="deleteUser" parameterType="int">
-		delete from tb_final_users
-		where user_no = #{value}
-	</delete>
 	
 	<!-- 성하민 void insertUserKaKao(User user); -->
 	 <insert id="insertUserKaKao" parameterType="com.hoge.dto.KakaoUserDto">
@@ -255,5 +232,31 @@
 		)
 		where rn between #{beginIndex} and #{endIndex}
 	</select> 
-	 
+	
+	<!-- 1056 >> #{no} , parameterType="int"-->
+	<select id="getMyRevListByNo" resultType="com.hoge.dto.UserRevInfoDto" parameterType="int">
+		select 
+			accommos.accommo_name as accommoName,
+			rooms.room_name as roomName,
+			rooms.room_no as roomNo,
+			accommos.accommo_region_depth1 as accommoRegionDepth1,
+			accommos.accommo_region_depth2 as accommoRegionDepth2,
+			bookings.check_in_date as checkInDate,
+			bookings.check_out_date as checkOutDate,
+			bookings.room_tax_included_price as roomTaxIncludedPrice,
+			bookings.user_no as no
+		from 
+			tb_final_room_bookings bookings, tb_final_rooms rooms, tb_final_accommodations accommos 
+		where 
+			rooms.accommo_no = accommos.accommo_no
+		and 
+			rooms.room_no = bookings.room_no
+		and 
+			bookings.user_no = 1056
+		and 
+			bookings.room_booking_status = 1
+		order by 
+			bookings.check_in_date
+	</select>
+	
 </mapper>

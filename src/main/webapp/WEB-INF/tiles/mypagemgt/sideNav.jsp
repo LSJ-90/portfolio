@@ -17,6 +17,10 @@
 #chatting-content .chat ul li.left { text-align: left; }
 #chatting-content .chat ul li.right { text-align: right; }
 #chatting-content .chat ul li.right > div.message { text-align: right; }
+
+.sender { margin: 10px 20px 0 20px; font-weight: bold; }
+.message { word-break:break-all; margin: 5px 20px; max-width: 40%; 
+border: 1px solid #888; padding: 10px; border-radius: 5px; background-color: white; color: #555; text-align: left; }
  
 #chatting-content.chat ul li > div { font-size: 15px;  }
 #chatting-content .chat ul li > div.sender { margin: 10px 20px 0 20px; font-weight: bold; }
@@ -53,7 +57,13 @@ div.chat-list {
 
 .format {display: none;}
 
+.userImg {width: 60px; height: 60px; padding:2px;}
+#senderImg {width: 45px; height: 45px; padding:2px;}
 
+.myMessage {text-align: right; display: inline-block; 
+word-break:break-all; margin: 5px 20px; max-width: 40%; border: 1px solid #888; padding: 10px;
+ border-radius: 5px; background-color: white; color: #555;  }
+.myMessage-box { text-align: right;}
 
 </style>
 
@@ -76,7 +86,7 @@ div.chat-list {
     </ul>
     <ul class="menu__my-info">
       <li class="my-info__item title">내 계정</li>
-      <li class="my-info__item"><a href="/userUpdate">회원 정보 수정</a></li>
+      <li class="my-info__item"><a href="/mypage/userupdate">회원 정보 수정</a></li>
       <li class="my-info__item"><a href="/mypage/qna">1:1 문의</a></li>
     </ul>
   </div>
@@ -101,8 +111,8 @@ div.chat-list {
 							</div>
 							<div class="col-7" id="right-chat-message">
 								<div id="chatting-detail" class="chat-detail m-2">
-									<input type="hidden" id="sessionId" value="">
-									<input type="hidden" id="roomNumber" value="">
+									<input type="hidden" id="sessionId" name="sessionId" value="">
+									<input type="hidden" id="roomNumber" name="roomNumber" value="">
 									<input type="hidden" id="hostUserNo" name="hostUserNo" value="">
 									<div id="chatting-content" class="chat_wrap" data-bs-spy="scroll">	
 										<div class="chat">
@@ -131,11 +141,11 @@ div.chat-list {
    <div class="chat-list format">
         <ul>
             <li>
-            	<div class="box p-1 mb-1" onclick="enter()">
+            	<div class="box p-1 mb-1" onclick="enter(this)">
             		<div class="row">
             			<div class="col-3 p-3">
 							   <input type="hidden" id="hostNo" name="hostNo" value="">
-							   <input type="hidden" id="roomNumber" name="roomNumber" value="">
+							   <input type="hidden" id="chatRoomNumber" name="chatRoomNumber" value="">
 			                <img src="../../resources/images/" id="userImg" class="userImg rounded-circle" alt="">
 			             </div>   
 			             <div class="col-9">
@@ -153,18 +163,61 @@ div.chat-list {
     </div>
 
  
+ <div class="myChat format">
+        <ul>
+            <li>
+            	<div class="row myMessage-box">
+            		<div class="col-7">
+            		</div>
+	           		<div class="col-5">
+		                <div class="row">
+		                	<div class="col-3">
+		                	</div>
+			                <div class="myMessage col-7">
+			                    <span></span>
+			                </div>
+		                </div>
+		                <div class="row">
+			                <div class="sendingTime">
+			                    <small></small>
+			                </div>
+		                </div>
+              	   </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+		
+ 
  
 		
 
   <!--대화-->
+ 
  <div class="chat format">
         <ul>
-            <li>
-                <div class="sender pt-3">
-                    <span></span>
-                </div>
-                <div class="message">
-                    <span></span>
+            <li>	
+            	<div class="row message-box">
+	           		<div class="col-1 m-1">
+						<img src="" id="senderImg" class="senderImg rounded-circle" alt="">
+					</div>
+					<div class="col">
+						<div class="row">
+			                <div class="sender">
+			                    <span></span>
+			                </div>
+		                </div>
+		                <div class="row">
+			                <div class="message col-4">
+			                    <span></span>
+			                </div>
+		                </div>
+		                <div class="row">
+			                <div class="sendingTime col">
+			                    <small></small>
+			                </div>
+		                </div>
+	                </div>
                 </div>
             </li>
         </ul>
@@ -178,9 +231,10 @@ function getFullYmdStr(){
     //년월일시분초 문자열 생성
     var d = new Date();
     return d.getFullYear() + ". " + ('0' + (d.getMonth() + 1)).slice(-2) + ". "
-+ ('0' + d.getDate()).slice(-2) + "   " + ('0' + d.getHours()).slice(-2) + " : " + ('0' + d.getMinutes()).slice(-2);
++ ('0' + d.getDate()).slice(-2) + "   " + ('0' + d.getHours()).slice(-2) + ":" + ('0' + d.getMinutes()).slice(-2);
 }
 
+const userNo = "${LOGIN_USER.no }";
 const userName = "${LOGIN_USER.name }";
 const userImage = "${LOGIN_USER.image }";
 let ws;
@@ -224,14 +278,16 @@ function listopen() {
 	
 		$.getJSON('/mypage/chat', {no:userNo}, function(chatList) {
 		$.each(chatList, function(index, value) {
-			
+		
 			let chatList = $('div.chat-list.format ul li').clone();
-	
+			
 			chatList.find('.name span').text(value.name);
 			chatList.find('.lastmessage span').text(value.lastMessage);
-			chatList.find("input[name='roomNumber']").val(value.chatRoomNo);
-			var src = "../../resources/images/userprofiles/" + value.image;
+			chatList.find("input[name='chatRoomNumber']").val(value.chatRoomNo);
+			console.log(value.chatRoomNo);
+			var src = "../../resources/images/hostMainImage/" + value.image;
 			chatList.find(".userImg").attr("src", src);
+			chatList.find(".box").attr("id", value.chatRoomNo);
 
 			$('div.chat-list:not(.format) ul').append(chatList);
 			
@@ -241,13 +297,13 @@ function listopen() {
 }
 
 
-function wsOpen(){
+function wsOpen(ChatRoomNo){
 	if (ws) {
 		ws.close();
 	}
-	var num = $("#roomNumber").val();
-	console.log(num);
-	ws = new WebSocket("ws://localhost/chatting/"+$("#roomNumber").val());
+	//var num = $("#roomNumber").val();
+	console.log(ChatRoomNo);
+	ws = new WebSocket("ws://localhost/chatting/"+ChatRoomNo);
 	console.log('웹소켓 열림');
 	wsEvt();
 }
@@ -272,11 +328,12 @@ function wsEvt() {
 			if(msg.sessionId == $("#sessionId").val()){
 				console.log('2');
 				let LR = "right";
-				 appendMessageTag(LR, msg.senderName, msg.message, msg.sendingTime, msg.senderImg);
+				 appendMyMessageTag(LR, msg.message, msg.sendingTime);
 			}else{
 				console.log('3');
 				let LR = "left";
 				 appendMessageTag(LR, msg.senderName, msg.message, msg.sendingTime, msg.senderImg);
+				 console.log(msg.sendingTime);
 			}
 			$("#lastmessage").html(msg.message);
 			
@@ -295,6 +352,31 @@ function wsEvt() {
 	});
 
   
+	 // 메세지 태그 append
+    function appendMyMessageTag(LR, myMessage, sendingTime)  {
+        const myChatLi = createMyMessageTag(LR, myMessage, sendingTime) ;
+ 
+        $('div.chat:not(.format) ul').append(myChatLi);
+ 
+        // 스크롤바 아래 고정
+        $("#chatting-content").scrollTop($("#chatting-content")[0].scrollHeight);
+   
+    }
+	// 메세지 태그 생성
+    function createMyMessageTag(LR, myMessage, sendingTime) {
+        // 형식 가져오기
+        let myChatLi = $('div.myChat.format ul li').clone();
+ 
+        // 값 채우기
+        myChatLi.addClass(LR);
+        myChatLi.find('.myMessage span').text(myMessage);
+        myChatLi.find('.sendingTime small').text(sendingTime);
+ 
+        return myChatLi;
+    }	
+	
+	
+	
 function send() {
 	var msg = {
 		    type: "message", 
@@ -335,13 +417,13 @@ function send() {
    function createMessageTag(LR, senderName, message, sendingTime, senderImg) {
         // 형식 가져오기
         let chatLi = $('div.chat.format ul li').clone();
- 
+ 		console.log("여기까지 왓나?"+sendingTime);
         // 값 채우기
         chatLi.addClass(LR);
         chatLi.find('.sender span').text(senderName);
         chatLi.find('.message span').text(message);
-        chatLi.find('.sendingTime span').text(sendingTime);
-        var src = "../../resources/images/userprofiles/" + senderImg;
+        chatLi.find('.sendingTime small').text(sendingTime);
+        var src = "../../resources/images/hostMainImage/" + senderImg;
 		chatLi.find(".senderImg").attr("src", src);
  
         return chatLi;
@@ -359,17 +441,18 @@ function send() {
    
     }
     
-    function enter() {
+    function enter(e) {
     		
     	//var ChatRoomNo = $('div.chat-list:not(.format) div.input[name="roomNumber"]').val();
-    	var ChatRoomNo = $("#roomNumber").val();
+    	//var ChatRoomNo = $("input[name='roomNumber']").val();
+    	var ChatRoomNo = e.getAttribute('id');
     	
 	    	console.log('함수버튼 눌렀을 때 받아온 룸넘버');
 	    	console.log(ChatRoomNo);
 	    	//$('div.chat-list:not(.format)').hide();
 	    	$('div.chat:not(.format) ul').empty();
 			$("#chat-middle").show();
-			
+			$("#roomNumber").val(ChatRoomNo);
 			
 	    	console.log('여기까지 오키');
 			
@@ -377,14 +460,23 @@ function send() {
 				console.log('가져오는 거 오키');
 				$.each(ChattingMessageDto, function(index, value) {
 					
-					let LR = (value.sendingUserNo == ${LOGIN_USER.no })? "right" : "left";
-					   appendMessageTag(LR, value.sendingUserName, value.content, value.sendingDate, value.sendingUserImage);
+					
+					if(value.sendingUserNo == userNo){
+						console.log('2');
+						let LR = "right";
+						 appendMyMessageTag(LR, value.content, value.sendingDate);
+					}else{
+						console.log('3');
+						let LR = "left";
+						 appendMessageTag(LR, value.sendingUserName, value.content, value.sendingDate, value.sendingUserImage);
+					}
+					
 			     
 			      $("input[name='hostUserNo']").val(value.hostingUserNo);
 				})
 	    });
 		
-			wsOpen();
+			wsOpen(ChatRoomNo);
 			
 	    } 
 			

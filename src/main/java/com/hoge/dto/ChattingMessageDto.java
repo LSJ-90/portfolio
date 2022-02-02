@@ -2,6 +2,8 @@ package com.hoge.dto;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,12 +38,9 @@ public class ChattingMessageDto {
 	private String sendingUserName;
 	private String sendingUserImage;
 	
-	private int receivingUserNo;
-	private String receivingUserImage;
-	private String receivingUserName;
-	
 	private String content;
 	private String checked; //확인 여부
+	@JsonFormat(pattern = "yyyy. MM. dd. hh:mm")
 	private Date sendingDate;
 
 }

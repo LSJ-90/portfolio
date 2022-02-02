@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hoge.mapper.HostTransactionMapper">
+  
+
+	
+  <!-- List<HostTransaction> getHostTransactionByHostNo(int no); -->
+  <select id="getHostTransactionByHostNo" parameterType="int" resultType="com.hoge.vo.other.HostTransaction">
+		 select 
+		 	TRANSACTION_TYPE AS type,
+		 	TRANSACTION_AMOUNT AS amount,
+		 	TRANSACTION_DATE AS createdDate,
+		 	HOST_NO AS hostNo
+		  from TB_FINAL_HOST_TRANSACTIONS
+		  where HOST_NO = #{no}
+		  ORDER BY TRANSACTION_DATE DESC
+  </select>
+  
+  
+
+</mapper>

@@ -4,8 +4,6 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.hoge.vo.accommo.Accommodation;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,10 +20,12 @@ import lombok.ToString;
 public class ReservationInsertForm {
 	
 	private int roomNo;
-	private String checkInDate;
-	private String checkOutDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date checkInDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date checkOutDate;
 	private String payment;
-	private long taxIncludedPrice;
+	private long taxIncludedPrice; 
 	private long usedPnt;
 	private long paidPrice;
 	private String roomUserName;

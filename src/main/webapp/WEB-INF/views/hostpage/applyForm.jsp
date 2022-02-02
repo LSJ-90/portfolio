@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- 
+
  <main id="main">
   <header class="section__header">
     <h1 class="section__title">HOST REGISTRATION</h1>

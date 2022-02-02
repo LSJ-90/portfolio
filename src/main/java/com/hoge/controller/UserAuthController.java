@@ -6,20 +6,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.hoge.config.auth.LoginedUser;
 import com.hoge.dto.HogeUserDto;
-import com.hoge.dto.HogeUserUpdateDto;
 import com.hoge.dto.KakaoUserDto;
-import com.hoge.dto.UpdatePwdDto;
 import com.hoge.service.UserService;
 import com.hoge.util.SessionUtils;
 import com.hoge.vo.other.User;
 
-import ch.qos.logback.classic.Logger;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -112,50 +106,11 @@ public class UserAuthController {
 		return "form/findIdForm.tiles";
 	}
 	
-	// 이승준: 회원정보 업데이트 페이지 리턴
-	@GetMapping("/mypage/userupdate")
-	public String userUpdateInit() {
+	// 이승준: 패스워드 찾기 페이지 리턴
+	@GetMapping("/findpwd")
+	public String findPwdInit() {
 		
-		return "mypage/userUpdate.mytiles";
-	}
-	
-	// 이승준: 회원 기본정보 업데이트
-	@PostMapping("/mypage/userupdate")
-	public String userUpdate(HogeUserUpdateDto user) {
-
-		User savedUser = (User) SessionUtils.getAttribute("LOGIN_USER");
-		user.setNo(savedUser.getNo());
-		
-		userService.updateUser(user);
-		
-		SessionUtils.sessionInvlidate();
-		
-		return "redirect:../login";
-	}
-	
-	// 이승준: 회원 비밀번호 업데이트
-	@PostMapping("/mypage/userpwdupdate")
-	public String userUpdate(UpdatePwdDto pwd) {
-		
-		User savedUser = (User) SessionUtils.getAttribute("LOGIN_USER");
-		pwd.setNo(savedUser.getNo());
-		
-		userService.updatePwd(pwd);
-		
-		SessionUtils.sessionInvlidate();
-		
-		return "redirect:../login";
-	}
-	
-	// 이승준: 회원탈퇴
-	@PostMapping("/mypage/userdelete")
-	public String deleteUser(String pwd) {
-		
-		userService.deleteUser(pwd);
-		
-		SessionUtils.sessionInvlidate();
-		
-		return "redirect:../home";
+		return "form/findPwdForm.tiles";
 	}
 	
 	// 이승준: 로그아웃 시 홈 페이지로 리다이렉트

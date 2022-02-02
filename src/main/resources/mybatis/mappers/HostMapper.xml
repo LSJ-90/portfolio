@@ -168,7 +168,9 @@
 			a.accommo_name as accName,
 			a.accommo_No as accNo,
 			h.host_main_image as mainImage,
-			h.hosting_type as hostingType
+			h.hosting_type as hostingType,
+			h.host_no as hostNo,
+			a.accommo_type as accType
 		from
 			tb_final_accommodations a, tb_final_hosts h, tb_final_users u 
 		where
@@ -183,13 +185,45 @@
 			a.activity_name as actName,
 			a.activity_no as actNo,
 			h.host_main_image as mainImage,
-			h.hosting_type as hostingType
+			h.hosting_type as hostingType,
+			h.host_no as hostNo
 		from
 			tb_final_activities a, tb_final_hosts h, tb_final_users u 
 		where
 			u.user_no = h.host_user_no
 		and h.host_no = a.host_no
 		and u.user_no = #{value}
+	</select>
+	
+	<!-- 유상효 호스트넘버로 숙소정보 가져오기 -->
+	<select id="getAccMainByHostNo" parameterType="int" resultType="com.hoge.dto.AccMainDto">
+		select
+			a.accommo_name as accName,
+			a.accommo_No as accNo,
+			h.host_main_image as mainImage,
+			h.hosting_type as hostingType,
+			h.host_no as hostNo,
+			a.accommo_type as accType
+		from
+			tb_final_accommodations a, tb_final_hosts h
+		where
+			a.host_no = h.host_no
+		and h.host_no = #{value}
+	</select>
+	
+	<!-- 유상효 호스트넘버로 체험정보 가져오기 -->
+	<select id="getActMainByHostNo" parameterType="int" resultType="com.hoge.dto.ActMainDto">
+		select
+			a.activity_name as actName,
+			a.activity_no as actNo,
+			h.host_main_image as mainImage,
+			h.hosting_type as hostingType,
+			h.host_no as hostNo
+		from
+			tb_final_activities a, tb_final_hosts h
+		where
+			a.host_no = h.host_no
+		and h.host_no = #{value}
 	</select>
 	
 
@@ -206,7 +240,9 @@
 	 		bank_name as bankName,
 	 		hosting_type as hostingType,
 	 		host_tel as tel,
-	 		grade_name as gradeName
+	 		grade_name as gradeName,
+	 		host_main_image as mainImage,
+	 		ACCUMULATED_MONEY as accumulatedMoney
 	 	from
 	 		tb_final_hosts
 	 	where 

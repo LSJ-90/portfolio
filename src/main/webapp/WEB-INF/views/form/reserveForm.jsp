@@ -167,11 +167,11 @@
 						<td>
 							<div class="d-flex justify-content-start">
 								<div class="form-check">
-									<input class="form-check-input" type="radio" name="payment" value="신용카드" id="flexRadioDefault1">
+									<input class="form-check-input" type="radio" name="payment" value="카드" id="flexRadioDefault1" checked>
 									<label class="form-check-label" for="flexRadioDefault1">신용카드 결제</label>
 								</div>
 								<div class="form-check">
-									<input class="form-check-input" type="radio" name="payment" value="카카오" id="flexRadioDefault2" checked>
+									<input class="form-check-input" type="radio" name="payment" value="카카오" id="flexRadioDefault2">
 									<img alt="kakaopay" src="/resources/images/reservation/payment_icon_yellow_small.png">
 								</div>
 							</div>
@@ -474,29 +474,29 @@ $(function() {
 			if ($("input[class=form-check-input-necessary]:checked").length!=3) {
 				alert("동의사항을 모두 확인해 주세요.");
 			} else {
-				/* if ($("input[name=payment]").val()=="카카오") {
-					$("#payment").click(function(event) {
-				    	var checkIn = $(":input[name=checkInDate]").val().replace(/-/g, '');
-						var checkOut = $(":input[name=checkOutDate]").val().replace(/-/g, '');
-				    	var price = parseInt($("#bottom-price").attr("data-total-price"));
-				    	var roomNo = $(":input[name=roomNo]").val();
-				    	var no = $(":input[name=no]").val();
-				   		$.ajax({
-				   			url:'/kakaopay',
-				  			dataType: 'json',
-				  			data: {price: price, checkIn: checkIn, checkOut: checkOut, roomNo: roomNo, no: no},
-				   			success:function(data) {
-				   				console.log(data.tid);
-				   				var box = data.next_redirect_pc_url;
-				   				window.open(box);
-				   			},
-				   			error:function(error) {
-				   				alert(error);
-				   			}
-				   		})
-				    });
-				} */
-				frm.submit();
+				if($('input[name="payment"]:checked').val() == "카드") {
+					alert("카드");
+					// frm.submit();
+				} else {
+					var checkIn = $(":input[name=checkInDate]").val().replace(/-/g, '');
+					var checkOut = $(":input[name=checkOutDate]").val().replace(/-/g, '');
+			    	var price = parseInt($("#bottom-price").attr("data-total-price"));
+			    	var roomNo = $(":input[name=roomNo]").val();
+			    	var no = $(":input[name=no]").val();
+			   		$.ajax({
+			   			url:'/kakaopay/ready',
+			  			dataType: 'json',
+			  			data: {price: price, checkIn: checkIn, checkOut: checkOut, roomNo: roomNo, no: no},
+			   			success:function(data) {
+			   				var box = data.next_redirect_pc_url;
+			   				window.open(box);
+			   				// frm.submit();
+			   			},
+			   			error:function(error) {
+			   				alert(error);
+			   			}
+			   		})
+				}
 			}
 		}
 	});

@@ -7,9 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import com.hoge.dto.HogeUserUpdateDto;
 import com.hoge.dto.KakaoUserDto;
-import com.hoge.dto.UpdatePwdDto;
+import com.hoge.dto.UserRevInfoDto;
 import com.hoge.exception.FindException;
 import com.hoge.exception.LoginException;
 import com.hoge.form.CriteriaAdminUser;
@@ -69,8 +68,9 @@ public class UserService {
 		return savedUser;
 	}
 	
+	
 	// 이승준: 유저 기본정보 업데이트 트랜젝션
-	public void updateUser(HogeUserUpdateDto user) {
+	public void updateUser(User user) {
 		
 		/* TODO: 비번조회 승인으로 최종 저장
 		 * User savedUser = (User) SessionUtils.getAttribute("LOGIN_USER");
@@ -82,14 +82,27 @@ public class UserService {
 		userMapper.updateUser(user);
 	}
 	
-	// 이승준: 유저 비밀번호 업데이트 트랜젝션
-	public void updatePwd(UpdatePwdDto pwd) {
+	// 이승준: 회원탈퇴 N -> Y
+	public void deleteUser(String pwd) {
 		
-		// 수정된 비밀번호 암호화
-		String authPwd = DigestUtils.sha512Hex(pwd.getChangePwd());
-		pwd.setChangePwd(authPwd);
+		User savedUser = (User) SessionUtils.getAttribute("LOGIN_USER");
+		
+		String authPwd = DigestUtils.sha512Hex(pwd);
+		if (!authPwd.equals(savedUser.getPwd())) {
+			throw new LoginException("비밀번호가 일치하지 않습니다.");
+		}
+		
+		String deletedValue = "Y";
+		
+		savedUser.setDeleted(deletedValue);
+		
+		userMapper.updateUser(savedUser);
+	}
 	
-		userMapper.updatePwd(pwd);
+	// 이승준: 유저 비밀번호 업데이트 트랜젝션
+	public void userPwdUpdate(User user) {
+	
+		userMapper.updateUser(user);
 	}
 	
 	// 이승준 로그인페이지
@@ -143,19 +156,6 @@ public class UserService {
 		return newUser;
 	}
 	
-	// 이승준: 회원탈퇴
-	public void deleteUser(String pwd) {
-		
-		User savedUser = (User) SessionUtils.getAttribute("LOGIN_USER");
-		
-		String authPwd = DigestUtils.sha512Hex(pwd);
-		if (!authPwd.equals(savedUser.getPwd())) {
-			throw new LoginException("비밀번호가 일치하지 않습니다.");
-		}
-		
-		userMapper.deleteUser(savedUser.getNo());
-	}
-	
 	// 성하민 관리자페이지
 	public int getUsersTotalRows(CriteriaAdminUser CAU) {
 		return userMapper.getUsersTotalRows(CAU);
@@ -164,5 +164,11 @@ public class UserService {
 	// 성하민 관리자페이지
 	public List<User> searchUsers(CriteriaAdminUser CAU) {
 		return userMapper.searchUsers(CAU);
+	}
+	
+	// 이승준: 나의예약정보
+	public List<UserRevInfoDto> getMyRevListByNo(int no) {
+		
+		return userMapper.getMyRevListByNo(no);
 	}
 }

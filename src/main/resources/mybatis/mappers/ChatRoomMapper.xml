@@ -26,13 +26,11 @@
 		(
 		CHATROOM_NO,
 		SENDER_NO,
-		RECEIVER_NO,
 		MESSAGE_CONTENT
 		)
 		VALUES
 			(#{chatRoomNo},
 			#{sendingUserNo},
-			#{receivingUserNo},
 			#{content}
 			)
 	</insert>
@@ -64,7 +62,7 @@
 		 c.host_no as hostNo, 
 		 c.user_no as userNo,
     	h.host_name as name, 
-    	u.user_image as image
+    	h.HOST_MAIN_IMAGE as image
     from TB_FINAL_CHATROOMS c, TB_FINAL_USERS u, TB_FINAL_hosts h
     where c.host_no = h.host_no
     and h.host_user_no = u.user_no
@@ -90,19 +88,15 @@
 	 		m.SENDER_NO as sendingUserNo,
 	 		u.user_name as sendingUserName,
 	 		u.USER_IMAGE as sendingUserImage,
-	 		m.RECEIVER_NO as receivingUserNo,
-	 		r.USER_IMAGE as receivingUserImage,
-	 		r.user_name as receivingUserName,
 	 		m.MESSAGE_CONTENT as content,
 	 		m.MESSAGE_CHECKED as checked,
 	 		m.MESSAGE_SENDING_DATE as sendingDate
 	 	from
-	 		tb_final_hosts h, TB_FINAL_CHATROOMS c, TB_FINAL_MESSAGES m, TB_FINAL_USERS u, TB_FINAL_USERS r
+	 		tb_final_hosts h, TB_FINAL_CHATROOMS c, TB_FINAL_MESSAGES m, TB_FINAL_USERS u
 	 	where c.chatroom_no = #{no} 
 	 	and c.chatroom_no = m.chatroom_no
 	 	and c.host_no = h.host_no
 	 	and m.sender_no = u.user_no
-	 	and m.receiver_no = r.user_no
 	 	order by
 	 		m.MESSAGE_SENDING_DATE asc	
 	 </select>
