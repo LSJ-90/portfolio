@@ -100,6 +100,7 @@ background-color: rgba(255, 205, 86, 0.1); color: #555;  }
   
   <div class="modal fade" id="modal-creating-chatting" aria-labelledby="호스트문의" aria-hidden="true">
   	<div class="modal-dialog modal-xl ">
+			<input type="hidden" id="sessionId" name="sessionId" value="">
 	    	<div class="modal-content" id="modal-content-chat">
 	      		<div class="modal-header" id="modal-header-chat">
 	        		<h5 class="modal-title" id="modal-title-chat">호스트 문의 목록</h5>
@@ -116,7 +117,6 @@ background-color: rgba(255, 205, 86, 0.1); color: #555;  }
 							</div>
 							<div class="col-7" id="right-chat-message">
 								<div id="chatting-detail" class="chat-detail m-2">
-									<input type="hidden" id="sessionId" name="sessionId" value="">
 									<input type="hidden" id="roomNumber" name="roomNumber" value="">
 									<input type="hidden" id="hostUserNo" name="hostUserNo" value="">
 									<div id="chatting-content" class="chat_wrap" data-bs-spy="scroll">	
@@ -278,16 +278,32 @@ function chatopen() {
 function listopen() {
 
 	$('div.chat-list:not(.format) ul').empty();
-	var userNo = ${LOGIN_USER.no };
 	console.log(userNo);
 	
-		$.getJSON('/mypage/chat', {no:userNo}, function(chatList) {
+	
+	
+		$.getJSON('/mypage/chat', {no:userNo}, function(result) {
+			
+			
+			const chatList = result['chatList'];
+			const chatListString = result['chatListString'];
+			wsOpen(chatListString);
+			console.log(chatList);
+			console.log(chatListString);
 		$.each(chatList, function(index, value) {
 		
 			let chatList = $('div.chat-list.format ul li').clone();
 			
 			chatList.find('.name span').text(value.name);
 			chatList.find('.lastmessage span').text(value.lastMessage);
+			
+			
+			let lastClass = "lastmessage-"+value.chatRoomNo;
+	    	console.log('클래스지정 바로 전까지 오키');
+	    	console.log(lastClass);
+			chatList.find('#lastmessage').addClass(lastClass);
+			
+			
 			chatList.find("input[name='chatRoomNumber']").val(value.chatRoomNo);
 			console.log(value.chatRoomNo);
 			var src = "../../resources/images/hostMainImage/" + value.image;
@@ -298,6 +314,8 @@ function listopen() {
 			
 		})
 	});
+		
+		
 	
 }
 
@@ -330,17 +348,19 @@ function wsEvt() {
 				console.log('1');
 			}
 		}else if(msg.type == "message"){
-			if(msg.sessionId == $("#sessionId").val()){
+			if(msg.sessionId == $("#sessionId").val() &&  msg.roomNumber == $("#roomNumber").val()){
 				console.log('2');
 				let LR = "right";
 				 appendMyMessageTag(LR, msg.message, msg.sendingTime);
-			}else{
+			} else if(msg.sessionId != $("#sessionId").val() &&  msg.roomNumber == $("#roomNumber").val()) {
 				console.log('3');
 				let LR = "left";
 				 appendMessageTag(LR, msg.senderName, msg.message, msg.sendingTime, msg.senderImg);
 				 console.log(msg.sendingTime);
-			}
-			$("#lastmessage").html(msg.message);
+			} 
+			let lastClass = "lastmessage-"+ msg.roomNumber;
+			console.log(lastClass);
+			$("." + lastClass).html(msg.message);
 			
 		}else{
 			console.warn("unknown type!")
@@ -459,6 +479,8 @@ function send() {
 			$("#chat-middle").show();
 			$("#roomNumber").val(ChatRoomNo);
 			
+		
+			
 	    	console.log('여기까지 오키');
 			
 			$.getJSON('/mypage/chat-enter.do', {no:ChatRoomNo}, function(ChattingMessageDto) {
@@ -481,7 +503,7 @@ function send() {
 				})
 	    });
 		
-			wsOpen(ChatRoomNo);
+			
 			
 	    } 
 			

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -132,12 +133,39 @@ public class MyPageController {
 	
 	//성하민
 	@GetMapping("/chat")
-	public @ResponseBody List<ChattingListDto> chat(@RequestParam(name = "no",required = false) int no) {
-		
+	public @ResponseBody HashMap<String, Object> chat(@RequestParam(name = "no",required = false) int no) {
+		HashMap<String, Object> result = new HashMap<>();
 		System.out.println(no);
 		List<ChattingListDto> chatList = chatRoomService.getChattingListDtobyUserNo(no);
 		
-		return chatList;
+		String chatListString = Integer.toString(chatList.get(0).getChatRoomNo());
+		
+		for (int i = 1; i<chatList.size(); i++) {
+			chatListString += ","+ Integer.toString(chatList.get(i).getChatRoomNo());
+			
+		}
+		System.out.println(chatListString);
+		result.put("chatList", chatList);
+		
+		result.put("chatListString", chatListString);
+		return result;
+	}
+	
+	//성하민
+	@GetMapping("/chatListString.do'")
+	public @ResponseBody String chatListString(@RequestParam(name = "no",required = false) int no) {
+		System.out.println("들어왔음");
+		
+//		List<ChattingListDto> chatList = chatRoomService.getChattingListDtobyUserNo(no);
+//		String chatListString = Integer.toString(chatList.get(0).getChatRoomNo());
+//		
+//		for (int i = 1; i<chatList.size(); i++) {
+//			chatListString += ","+ Integer.toString(chatList.get(i).getChatRoomNo());
+//			
+//		}
+//		System.out.println(chatListString);
+		String result = "헤헤";
+		return result;
 	}
 	
 	//성하민

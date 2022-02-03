@@ -67,28 +67,46 @@ public class SocketHandler extends TextWebSocketHandler {
 		boolean flag = false;
 		String url = session.getUri().toString();
 		System.out.println(url);
-		String roomNumber = url.split("/chatting/")[1];
-		int idx = roomList.size(); //방의 사이즈를 조사한다.
-		if(roomList.size() > 0) {
-			for(int i=0; i<roomList.size(); i++) {
-				String savedRoomNumber = (String) roomList.get(i).get("ChatRoomNo");
-				if(roomNumber.equals(savedRoomNumber)) {
-					flag = true;
-					idx = i;
-					break;
-				}
-			}
-		}
+		String roomNumberList = url.split("/chatting/")[1];
 		
-		if(flag) { //존재하는 방이라면 세션만 추가한다.
-			HashMap<String, Object> map = roomList.get(idx);
-			map.put(session.getId(), session);
-		}else { //최초 생성하는 방이라면 방번호와 세션을 추가한다.
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("ChatRoomNo", roomNumber);
-			map.put(session.getId(), session);
-			roomList.add(map);
+		String[] arrayRoomList = roomNumberList.split(",");
+		System.out.println("채팅방 배열:"+arrayRoomList);
+		String roomNumber=arrayRoomList[0];
+		System.out.println("첫번째 채팅방 번호:"+roomNumber);
+		
+		if (arrayRoomList.length > 0) {
+			for (String roomNo : arrayRoomList) {
+				System.out.println("채팅방 번호:"+roomNo);
+				
+
+				int idx = roomList.size(); //방의 사이즈를 조사한다.
+				if(roomList.size() > 0) {
+					for(int i=0; i<roomList.size(); i++) {
+						String savedRoomNumber = (String) roomList.get(i).get("ChatRoomNo");
+						if(roomNo.equals(savedRoomNumber)) {
+							flag = true;
+							idx = i;
+							break;
+						}
+					}
+				}
+				
+				if(flag) { //존재하는 방이라면 세션만 추가한다.
+					HashMap<String, Object> map = roomList.get(idx);
+					map.put(session.getId(), session);
+				}else { //최초 생성하는 방이라면 방번호와 세션을 추가한다.
+					HashMap<String, Object> map = new HashMap<String, Object>();
+					map.put("ChatRoomNo", roomNo);
+					map.put(session.getId(), session);
+					roomList.add(map);
+				}
+				
+				
+			}
+			
 		}
+		System.out.println(":"+roomList);
+
 		
 		//세션등록이 끝나면 발급받은 세션ID값의 메시지를 발송한다.
 		JSONObject obj = new JSONObject();
