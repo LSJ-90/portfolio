@@ -442,7 +442,7 @@
         <div class="registration-box">
           <ul class="registration__list">
             <li class="registration__item">
-              <label for="actName" class="registration__title">이름</label
+              <label for="actName" class="registration__title">체험 이름</label
               ><input
                 type="text"
                 class="registration__value"

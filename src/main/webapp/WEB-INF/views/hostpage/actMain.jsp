@@ -15,11 +15,11 @@
 <title>메인페이지-체험</title>
 </head>
 <body>
-<h1>체험</h1>
-
-<div class="text-center">
-	<h1>체험</h1>
-	<img src="/resources/images/hostMainImage/${actMainDto.mainImage}" width="800">
-</div>
+	<div class="text-center">
+		<h1>체험</h1>
+		<img src="/resources/images/hostMainImage/${actMainDto.mainImage}" width="800">
+		<button class="btn btn-primary" onclick="location.href='/host/modify?hostNo=${param.hostNo }&hostingType=${param.hostingType }'">호스트 수정</button>
+		<button class="btn btn-primary" onclick="location.href='/mypage/hostingList'">호스팅 리스트</button>
+	</div>
 </body>
 </html>

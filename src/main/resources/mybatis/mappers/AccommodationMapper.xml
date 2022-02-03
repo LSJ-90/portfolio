@@ -244,6 +244,26 @@
 			room_no asc
 	</select>
 	
+	<!--  유상효 roomNo로 객실리스트 가져오기 -->
+	<select id="getRoomByRoomNo" parameterType="int" resultType="com.hoge.dto.RoomDto">
+		select 
+			room_no as no,
+			accommo_no as accommoNo,
+			room_name as name,
+			weekdays_price as weekdaysPrice,
+			weekend_price as weekendPrice,
+			peak_season_price as peakSeasonPrice,
+			standard_number as standardNumber,
+			maximum_number as maximumNumber,
+			price_per_person as pricePerPerson,
+			room_amenity as amenity,
+			room_feature as feature
+		from
+			tb_final_rooms
+		where
+			room_no = #{value}
+	</select>
+	
 	<!-- 유상효 accNo로 객실사진 가져오기 -->
 	<select id="getRoomImagesByRoomNo" parameterType="int" resultType="com.hoge.vo.accommo.RoomImage">
 		select
@@ -254,6 +274,26 @@
 		where
 			room_no = #{value}
 	</select>
+	
+	<!-- 유상효 roomNo로 객실 수정하기 -->
+	<update id="roomModify" parameterType="com.hoge.vo.accommo.Room">
+		update tb_final_rooms
+		set
+			room_no = #{no},
+			accommo_no = #{accommoNo},
+			room_name = #{name},
+			weekdays_price = #{weekdaysPrice},
+			weekend_price = #{weekendPrice},
+			peak_season_price = #{peakSeasonPrice},
+			standard_number = #{standardNumber},
+			maximum_number = #{maximumNumber},
+			price_per_person = #{pricePerPerson},
+			room_amenity = #{amenity},
+			room_feature = #{feature}
+			)
+		where
+			room_no = #{no}
+	</update>
 	
 	
 	
