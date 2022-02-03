@@ -10,7 +10,14 @@
 		</div>
 		<nav id="nav">
 			<ul class="nav__menu">
-				<li class="nav__item"><a href="/host/mainRoom?hostNo=${param.hostNo }&hostingType=${param.hostingType }" class="active">객실관리</a></li>
+			<c:choose>
+				<c:when test="${(param.hostingType) == 1 }">
+					<li class="nav__item"><a href="/host/mainRoom?hostNo=${param.hostNo }&hostingType=${param.hostingType }" class="active">객실관리</a></li>
+				</c:when>
+			<c:otherwise>
+					<li class="nav__item"><a href="/host/mainRoom?hostNo=${param.hostNo }&hostingType=${param.hostingType }" class="active">체험관리</a></li>
+			</c:otherwise>
+			</c:choose>
 				<li class="nav__item"><a href="">프로모션</a></li>
 				<li class="nav__item"><a href="">리뷰관리</a></li>
 				<li class="nav__item"><a href="">예약관리</a></li>

@@ -27,7 +27,7 @@
 					</div>
 					<div>
 						<a href="/host/main?hostNo=${accListDto.hostNo}&hostingType=${accListDto.hostingType }">
-							<img src="/resources/images/hostMainImage/${accListDto.mainImage}" class="img-thumbnail">
+							<img src="/resources/images/hostMainImage/${accListDto.mainImage}"  width="800" >
 						</a>
 					</div>
 				</c:forEach>
@@ -37,7 +37,7 @@
 					</div>
 					<div>
 						<a href="/host/main?hostNo=${actListDto.hostNo}&hostingType=${actListDto.hostingType }">
-							<img src="/resources/images/hostMainImage/${actListDto.mainImage}" class="img-thumbnail">
+							<img src="/resources/images/hostMainImage/${actListDto.mainImage}" width="800" >
 						</a>
 					</div>
 				</c:forEach>

@@ -50,6 +50,7 @@ function checkSelectAll() {
 }
 
 // ---------------- Tab-active ----------------
+//수정요망
 
 {
   const tabItem = document.querySelector(".sub-nav__content");
