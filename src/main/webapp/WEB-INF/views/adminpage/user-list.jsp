@@ -1,66 +1,75 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../common/tags.jsp" %>
-<!--  
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
- -->  
 
-<style>
-
-table {font-size: 10pt; text-align:center;}
-</style>
-<body>
-
-
-<div class="container">
-
-
-<form id="form-search-user" class="row row-cols-lg-auto g-3 align-items-center" method="get" action="user-list">
-	<input type="hidden" name="page" value="1" />
-	<div class="row mb-3 mt-3">
-		<div class="col-3">
-	<input type="radio" name="deleted" value="N" checked>현재 이용중인 회원
-	<input type="radio" name="deleted" value="Y" ${'Y' eq param.deleted ? 'checked' : ''}>탈퇴한 회원
-		</div>
-		<div class="col-3">
-			<select class="form-select" name="opt">
-				<option value="" selected disabled="disabled">검색조건을 선택하세요</option>
-				<option value="이름" ${'이름' eq param.opt ? 'selected' : ''}> 이름으로 검색</option>
-				<option value="전화번호" ${'전화번호' eq param.opt ? 'selected' : ''}> 전화번호 검색</option>
-				<option value="아이디" ${'아이디' eq param.opt ? 'selected' : ''}> 아이디로 검색</option>
-				<option value="이메일" ${'이메일' eq param.opt ? 'selected' : ''}> 이메일으로 검색</option>
+ <main id="main">
+      <article id="user-list">
+        <form class="search-user__form" id="form-search-user" method="get" action="user-list">
+          <input type="hidden" name="page" value="1" />
+          <div class="search-radio">
+            <input
+              type="radio"
+              class="user-check"
+              id="deleted-N"
+              name="deleted"
+              value="N"
+              checked
+            />
+            <label for="deleted-N" class="user-check__title"
+              >현재 이용중인 회원</label
+            >
+            <input type="radio" class="user-check" id="deleted-Y" name="deleted"
+            value="Y" ${'Y' eq param.deleted ? 'checked' : ''} />
+            <label for="deleted-Y" class="user-check__title">탈퇴한 회원</label>
+          </div>
+          <div class="search-bar">
+			<select class="search-select" name="opt">
+				<option value="" selected disabled="disabled">검색조건</option>
+				<option value="이름" ${'이름' eq param.opt ? 'selected' : ''}>이름</option>
+				<option value="전화번호" ${'전화번호' eq param.opt ? 'selected' : ''}>전화번호</option>
+				<option value="아이디" ${'아이디' eq param.opt ? 'selected' : ''}>아이디</option>
+				<option value="이메일" ${'이메일' eq param.opt ? 'selected' : ''}>이메일</option>
 			</select>
-		</div>
-	<div class="col-3">
-		<input type="text" class="form-control" name="value" value="${param.value }">
-	</div>
-	<div class="col-3">
-		<button type="button" class="btn btn-outline-primary btn-sm" id="btn-search-user">검색</button>
-	</div>
-	</div>
-</form>
-
-
-
-<table class="table table-bordered border-dark" >
-	<thead>
-		<tr>
-			<th style="width: 7%;">회원번호</th>
-			<th style="width: 8%;">아이디</th>
-			<th style="width: 7%;">이름</th>
-			<th style="width: 10%;">연락처</th>
-			<th style="width: 15%;">이메일</th>
-			<th style="width: 5%;">성별</th>
-			<th style="width: 10%;">포인트</th>
-			<th style="width: 15%;">가입일</th>
-			<th style="width: 7%;">호스팅여부</th>
-			<th style="width: 7%;">탈퇴여부</th>
-			<th style="width: 7%;">신고횟수</th>
-		</tr>
-	</thead>
-	<tbody>
-		<c:choose>
+            <input
+              type="text"
+              class="search-user"
+              name="value"
+              value="${param.value }"
+            />
+            <button type="button" class="btn__search" id="btn-search-user">검색</button>
+          </div>
+        </form>
+		<table class="user-list-table">
+			<colgroup>
+				<col style="width: 8%;">
+				<col style="width: 11%;">
+				<col style="width: 8%;">
+				<col style="width: 13%;">
+				<col style="width: 16%;">
+				<col style="width: 6%;">
+				<col style="width: 7%;">
+				<col style="width: 10%;">
+				<col style="width: 7%;">
+				<col style="width: 7%;">
+				<col style="width: 7%;">
+			</colgroup>
+			<thead>
+				<tr>
+					<th>회원번호</th>
+					<th>아이디</th>
+					<th>이름</th>
+					<th>연락처</th>
+					<th>이메일</th>
+					<th>성별</th>
+					<th>포인트</th>
+					<th>가입일</th>
+					<th>호스팅여부</th>
+					<th>탈퇴여부</th>
+					<th>신고횟수</th>
+				</tr>
+			</thead>
+			<tbody>
+			<c:choose>
 			<c:when test="${empty users }">
 				<tr>
 					<td class="text-center" colspan="6">사용자 없음.</td>
@@ -68,50 +77,70 @@ table {font-size: 10pt; text-align:center;}
 			</c:when>
 			<c:otherwise>
 				<c:forEach var="user" items="${users }" varStatus="loop">
-					<tr class="text-middle">
-						<td>${user.no }</td>
-						<td>${user.id }</td>
-						<td>${user.name }</td>
-						<td>${user.tel }</td>
-						<td>${user.email }</td>
-						<td>${user.gender == 'female' ? '여' : '남'}</td>
-						<td>${user.pnt }</td>
-						<td><fmt:formatDate value="${user.registeredDate }" pattern="yyyy.MM.dd"/></td>
-						<td>${user.isHost == 'N' ?  'X' :'O'}</td>
-						<td>${user.deleted }</td>
-						<td>${user.reportedCount }</td>
-					</tr>
+				<tr>
+					<td>${user.no }</td>
+					<td>${user.id }</td>
+					<td>${user.name }</td>
+					<td>${user.tel }</td>
+					<td>${user.email }</td>
+					<td>${user.gender == 'female' ? '여' : '남'}</td>
+					<td>${user.pnt }</td>
+					<td><fmt:formatDate value="${user.registeredDate }" pattern="yyyy.MM.dd"/></td>
+					<td>${user.isHost == 'N' ?  'X' :'O'}</td>
+					<td>${user.deleted }</td>
+					<td>${user.reportedCount }</td>
+				</tr>
 				</c:forEach>
 			</c:otherwise>
 		</c:choose>
-	</tbody>
-</table>
+			</tbody>
+		</table>
 
-<c:if test="${pagination.totalRecords gt 0 }">
-<!-- 페이지 내비게이션 표시 -->
-<div class="row mb-3">
-	<div class="col">
-		<nav>
-  			<ul class="pagination justify-content-center">
-    			<li class="page-item ${pagination.existPrev ? '' : 'disabled' }">
-      				<a class="page-link" href="user-list?page=${pagination.prevPage }" data-page="${pagination.prevPage }">이전</a>
-    			</li>
+		
+<!-- 페이지 내비게이션 표시 -->		
 
-    			<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
-	    			<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
-	    				<a class="page-link" href="user-list?page=${num }" data-page="${num }">${num }</a>
-	    			</li>	    			
-    			</c:forEach>
+		<c:if test="${pagination.totalRecords gt 0 }">
 
-    			<li class="page-item ${pagination.existNext ? '' : 'disabled' }">
-      				<a class="page-link" href="user-list?page=${pagination.nextPage }" data-page="${pagination.nextPage }">다음</a>
-    			</li>
-  			</ul>
-		</nav>
-	</div>
-</div>
-</c:if>		
-</div>
+		<div id="pagination">
+			<ul class="pagination__list">
+				<li class="page__prev ${pagination.existPrev ? '' : 'disabled' }">
+					<a 
+						class="page-link" 
+						href="user-list?page=${pagination.prevPage }" 
+						data-page="${pagination.prevPage }"
+					>
+						<i class="fas fa-chevron-left"></i>
+					</a>
+				</li>
+
+				<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
+					<li class="page__num ${pagination.pageNo eq num ? 'active' : '' }">
+						<a 
+							class="page-link" 
+							href="user-list?page=${num }" 
+							data-page="${num }"
+						>
+						${num }
+						</a>
+					</li>	    			
+				</c:forEach>
+
+				<li class="page__next ${pagination.existNext ? '' : 'disabled' }">
+					<a 
+						class="page-link" 
+						href="user-list?page=${pagination.nextPage }" 
+						data-page="${pagination.nextPage }"
+					>
+						<i class="fas fa-chevron-right"></i>
+					</a>
+				</li>
+			</ul>
+		</div>
+		
+		</c:if>	
+      
+      </article>
+    </main>
 
 <script type="text/javascript">
 /* 폼에서 onsubmit 이벤트가 발생해서 폼이 제출될 때 실행될 이벤트핸들러 함수를 등록한다.
@@ -166,7 +195,3 @@ $(".pagination a").click(function(event) {
 
 
 </script>
-
-
-</body>
-</html>
