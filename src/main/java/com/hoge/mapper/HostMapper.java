@@ -39,7 +39,9 @@ public interface HostMapper {
 	void insertAccImage(AccommoImage accommoImage);
 	void insertActImage(ActivityImage activityImage);
 	List<AccommoImage> getAccImagesByAccNo(int accNo);
+	List<AccommoImage> getAccImagesByHostNo(int hostNo);
 	List<ActivityImage> getActImagesByActNo(int actNo);
+	List<ActivityImage> getActImagesByHostNo(int hostNo);
 	
 	// 유상효 유저넘버로 호스팅리스트 찾기
 	List<AccListDto> getAccListByUserNo(int userNo);
@@ -48,6 +50,13 @@ public interface HostMapper {
 	// 유상효 호스트넘버로 정보 찾기
 	AccMainDto getAccMainByHostNo(int hostNo);
 	ActMainDto getActMainByHostNo(int hostNo);
+	
+	// 유상효 호스트넘버로 호스트수정
+	void modifyHostByHostNo(Host host);
+	void modifyAccByHostNo(Accommodation acc);
+	void modifyActByHostNo(Activity act);
+	void modifyAccImagesByHostNo(List<AccommoImage> accImages);
+	void modifyActImagesByHostNo(List<ActivityImage> actImages);
 	
 	
 	// 호스트 번호로 호스트객체 반환

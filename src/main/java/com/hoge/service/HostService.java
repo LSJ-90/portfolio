@@ -72,6 +72,18 @@ public class HostService {
 	    }
 	}
 	
+	// 호스트 수정(숙소)
+	public void accHostModify(Host host, Accommodation acc) {
+		hostMapper.modifyHostByHostNo(host);
+		hostMapper.modifyAccByHostNo(acc);
+	}
+	
+	// 호스트 수정(체험)
+	public void actHostModify(Host host, Activity act) {
+		hostMapper.modifyHostByHostNo(host);
+		hostMapper.modifyActByHostNo(act);
+	}
+	
 	// 유저 아이디로 유저번호 반환
 	public int getUserNoByUserId(String userId) {
 		int userNo = hostMapper.getUserNoByUserId(userId);
@@ -92,11 +104,18 @@ public class HostService {
 	public AccMainDto getAccMainByHostNo(int hostNo) {
 		return hostMapper.getAccMainByHostNo(hostNo);
 	}
+	public List<AccommoImage> getAccImagesByHostNo(int hostNo) {
+		return hostMapper.getAccImagesByHostNo(hostNo);
+	}
 	
 	// 체험 정보 가져오기
 	public ActMainDto getActMainByHostNo(int hostNo) {
 		return hostMapper.getActMainByHostNo(hostNo);
 	}
+	public List<ActivityImage> getActImagesByHostNo(int hostNo) {
+		return hostMapper.getActImagesByHostNo(hostNo);
+	}
+	
 	
 	
   // 성하민
@@ -119,6 +138,8 @@ public class HostService {
 	public int getWithdrawalCountByHostNo(int no) {
 		return withdrawalMapper.getWithdrawalCountByHostNo(no);
 	}
+
+
 	
 
 }
