@@ -79,7 +79,7 @@ public class SocketHandler extends TextWebSocketHandler {
 				System.out.println("채팅방 번호:"+roomNo);
 				
 
-				int idx = roomList.size(); //방의 사이즈를 조사한다.
+				int idx = 0; //방의 사이즈를 조사한다.
 				if(roomList.size() > 0) {
 					for(int i=0; i<roomList.size(); i++) {
 						String savedRoomNumber = (String) roomList.get(i).get("ChatRoomNo");

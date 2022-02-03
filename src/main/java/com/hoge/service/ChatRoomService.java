@@ -72,4 +72,31 @@ public class ChatRoomService {
 		
 	}
 	
+	//마이페이지에서 로그인유저가 속한 채팅방에서 유저가 보낸 메시지를 제외하고 메시지를 전부 읽음처리 하는 메소드
+	public void changeMypageUnreadToZero(int chatRoomNo, int userNo) {
+		chatRoomMapper.updateMessages(chatRoomNo, userNo); //메시지 읽음처리
+		
+		ChatRoom chatRoom = chatRoomMapper.getChatRoomByChatRoomNo(chatRoomNo);
+		chatRoom.setUserUnreadCount(0);
+		System.out.println("바뀐카운트:" + chatRoom);
+		chatRoomMapper.updateChatRoomCount(chatRoom);
+		
+	}
+	
+	public void changeHostPageUnreadToZero(int chatRoomNo, int userNo) {
+		System.out.println("읽음처리중..."+chatRoomNo+userNo+"들어옴");
+		chatRoomMapper.updateMessages(chatRoomNo, userNo); //메시지 읽음처리
+		
+		ChatRoom chatRoom = chatRoomMapper.getChatRoomByChatRoomNo(chatRoomNo);
+		chatRoom.setHostUnreadCount(0);
+		System.out.println("바뀐카운트:" + chatRoom);
+		chatRoomMapper.updateChatRoomCount(chatRoom);
+		
+	}
+	
+
+	
+	
+	
+	
 }
