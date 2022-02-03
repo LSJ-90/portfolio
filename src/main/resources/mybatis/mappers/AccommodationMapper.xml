@@ -106,6 +106,7 @@
 			room_no = #{value}
 	</select>
 	
+	<!-- 염주환 -->
 	<select id="getReserveAccommoDto" resultType="com.hoge.dto.ReserveAccommoDto">
 		select 
 			a.accommo_no as no,
@@ -124,11 +125,13 @@
 			and r.room_no = #{roomNo}
 	</select>
 
+	<!-- 염주환 -->
 	<select id="getRoomBookingNoSeq" resultType="int">
 		select final_room_booking_no_seq.nextval
 		from dual
 	</select>
 	
+	<!-- 염주환 -->
 	<insert id="insertRoomBooking" parameterType="com.hoge.vo.accommo.RoomBooking">
 		insert into tb_final_room_bookings
 			(room_booking_no, room_no, user_no, check_in_date, check_out_date, room_booking_status, 
@@ -139,6 +142,7 @@
 			#{roomBooking.paidPrice}, #{roomBooking.roomUserName}, #{roomBooking.roomUserTel}, #{roomBooking.extraPeople})
 	</insert>
 	
+	<!-- 염주환 -->
 	<insert id="insertRoomAvailability">
 		insert into tb_final_room_availability
 			(booked_date, room_booking_no)
@@ -146,6 +150,7 @@
 			(#{sqlDate}, #{no})
 	</insert>
 	
+	<!-- 염주환 -->
 	<select id="getAccumulatedMoney" resultType="long">
 		select accumulated_money
 		from (
@@ -155,6 +160,7 @@
 		where rownum=1
 	</select>
 	
+	<!-- 염주환 -->
 	<insert id="insertTransactions">
 		<selectKey keyProperty="transactionNo" resultType="int" order="BEFORE">
 			select final_transaction_no_seq.nextval

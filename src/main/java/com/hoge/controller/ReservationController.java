@@ -23,7 +23,6 @@ import com.hoge.vo.other.User;
 
 import lombok.extern.java.Log;
 
-@Log
 @Controller
 @RequestMapping("/reserve")
 public class ReservationController {
@@ -46,7 +45,7 @@ public class ReservationController {
 		model.addAttribute("checkIn", checkIn);
 		model.addAttribute("checkOut", checkOut);
 		model.addAttribute("user", user);
-		return "form/reserveForm";
+		return "form/reserveForm.tiles";
 	}
 	
 	// 염주환
@@ -59,11 +58,6 @@ public class ReservationController {
 		BeanUtils.copyProperties(form, roomBooking);
 		accommodationService.addNewBooking(roomBooking, user.getNo());
 		
-		return complete();
-	}
-	
-	@GetMapping("/complete")
-	public String complete() {
 		return "accommo/completePayment";
 	}
 	
@@ -74,11 +68,10 @@ public class ReservationController {
 	}
 	
 	@GetMapping("/kakaoPaySuccess")
-    public void kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model) {
-        log.info("kakaoPaySuccess get............................................");
-        log.info("kakaoPaySuccess pg_token : " + pg_token);
+    public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model) {
         
         model.addAttribute("info", accommodationService.kakaoPayInfo(pg_token));
         
+        return "accommo/completePayment";
     }
 }

@@ -145,14 +145,16 @@ public class AccommodationService {
         // 서버로 요청할 Body
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
         params.add("cid", "TC0ONETIME");
-        params.add("partner_order_id", "100");
-        params.add("partner_user_id", "HUGE");
+        params.add("partner_order_id", "partner_order_id");
+        params.add("partner_user_id", "partner_user_id");
         params.add("item_name", "HUGE");
         params.add("quantity", "1");
         params.add("total_amount", Long.toString(form.getPaidPrice()));
         params.add("tax_free_amount", Long.toString(form.getPaidPrice()));
-        params.add("approval_url", "http://localhost/reserve/complete");
+        params.add("approval_url", "http://localhost/reserve/kakaoPaySuccess");
+        // TODO 염주환
         params.add("cancel_url", "http://localhost/kakaoPayCancel");
+        // TODO 염주환
         params.add("fail_url", "http://localhost/kakaoPaySuccessFail");
  
          HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
@@ -189,15 +191,15 @@ public class AccommodationService {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
         params.add("cid", "TC0ONETIME");
         params.add("tid", kakaoPayReadyVO.getTid());
-        params.add("partner_order_id", "1001");
-        params.add("partner_user_id", "gorany");
+        params.add("partner_order_id", "partner_order_id");
+        params.add("partner_user_id", "partner_user_id");
         params.add("pg_token", pg_token);
         
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
         
         try {
             kakaoPayApprovalVO = restTemplate.postForObject(new URI(HOST + "/v1/payment/approve"), body, KakaoPayApprovalVO.class);
-          
+   
             return kakaoPayApprovalVO;
         
         } catch (RestClientException e) {
