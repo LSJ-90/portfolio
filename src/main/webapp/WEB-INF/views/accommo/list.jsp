@@ -159,102 +159,127 @@ $(function() {
 	// 지도를 생성합니다    
 	var map = new kakao.maps.Map(mapContainer, mapOption); 
 	
-	window.onload = function () {
-		if ($("#span-address").text() != '') {
-			// 장소 검색 객체를 생성합니다
-			var ps = new kakao.maps.services.Places(); 
-			
-			// 키워드로 장소를 검색합니다
-			ps.keywordSearch($("#span-address").text(), placesSearchCB); 
-			
-			// 키워드 검색 완료 시 호출되는 콜백함수 입니다
-			function placesSearchCB (result, status) {
-			    if (status === kakao.maps.services.Status.OK) {
-					
-			        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-			        // LatLngBounds 객체에 좌표를 추가합니다
-			        var bounds = new kakao.maps.LatLngBounds();
-			        
-			        for (var i=0; i<result.length; i++) {
-			            bounds.extend(new kakao.maps.LatLng(result[i].y, result[i].x));
-			        }       
-			
-			        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-			        map.setBounds(bounds);
-			    } 
-			}
-		} else {
-			// HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
-			if (navigator.geolocation) {
-			    
-			    // GeoLocation을 이용해서 접속 위치를 얻어옵니다
-			    navigator.geolocation.getCurrentPosition(function(position) {
-			        
-			    	var coords = new kakao.maps.LatLng(position.coords.latitude, position.coords.longitude); // 위도
-			            
-			        map.setCenter(coords);
-			            
-			      });
-			    
-			} else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
-			    
-			    var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),    
-			        message = 'geolocation을 사용할수 없어요..'
-			        
-			    displayMarker(locPosition, message);
-			}
+	if ($("#span-address").text() != '') {
+		// 장소 검색 객체를 생성합니다
+		var ps = new kakao.maps.services.Places(); 
+		
+		// 키워드로 장소를 검색합니다
+		ps.keywordSearch($("#span-address").text(), placesSearchCB); 
+		
+		// 키워드 검색 완료 시 호출되는 콜백함수 입니다
+		function placesSearchCB (result, status) {
+		    if (status === kakao.maps.services.Status.OK) {
+				
+		        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+		        // LatLngBounds 객체에 좌표를 추가합니다
+		        var bounds = new kakao.maps.LatLngBounds();
+		        
+		        for (var i=0; i<result.length; i++) {
+		            bounds.extend(new kakao.maps.LatLng(result[i].y, result[i].x));
+		        }       
+		
+		        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+		        map.setBounds(bounds);
+		    } 
 		}
-		// 마커
-		var accommoNoArray = [];
-                
-        $(".accommo-no").each(function(i){
-        	accommoNoArray.push($(this).attr("data-no"));
-        });
-		
-        var positionDto;
-		$.ajax({
-			type: 'get',
-			url: '/rest/accommo/marker',
-			data: {accommoNoArray: accommoNoArray},
-			async: false,
-			dataType: 'json',
-			success: function(result) {
-				positionDto = result;
-			},
-			error: function(error) {
-				console.log(error);
-			}
-		});
-        
-		var positions = [];
-		
-		$.each(positionDto, function(key, value) {
-			positions.push({
-				title: value.title,
-				latlng: new kakao.maps.LatLng(value.xce, value.yce)
-			})
-		});
-			
-		// 마커 이미지의 이미지 주소입니다
-		var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+	} else {
+		// HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
+		if (navigator.geolocation) {
 		    
-		for (var i = 0; i < positions.length; i ++) {
+		    // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+		    navigator.geolocation.getCurrentPosition(function(position) {
+		        
+		    	var coords = new kakao.maps.LatLng(position.coords.latitude, position.coords.longitude); // 위도
+		            
+		        map.setCenter(coords);
+		            
+		      });
 		    
-		    // 마커 이미지의 이미지 크기 입니다
-		    var imageSize = new kakao.maps.Size(24, 35); 
+		} else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
 		    
-		    // 마커 이미지를 생성합니다    
-		    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
-		    
-		    // 마커를 생성합니다
-		    var marker = new kakao.maps.Marker({
-		        map: map, // 마커를 표시할 지도
-		        position: positions[i].latlng, // 마커를 표시할 위치
-		        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-		        image : markerImage // 마커 이미지 
-		    });
+		    var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),    
+		        message = 'geolocation을 사용할수 없어요..'
+		        
+		    displayMarker(locPosition, message);
 		}
 	}
+	// 마커
+	var accommoNoArray = [];
+               
+       $(".accommo-no").each(function(i){
+       	accommoNoArray.push($(this).attr("data-no"));
+       });
+	
+       var positionDto;
+	$.ajax({
+		type: 'get',
+		url: '/rest/accommo/marker',
+		data: {accommoNoArray: accommoNoArray},
+		async: false,
+		dataType: 'json',
+		success: function(result) {
+			positionDto = result;
+		},
+		error: function(error) {
+			console.log(error);
+		}
+	});
+       
+	var positions = [];
+	
+	$.each(positionDto, function(key, value) {
+		positions.push({
+			title: value.title,
+			latlng: new kakao.maps.LatLng(value.xce, value.yce)
+		})
+	});
+		
+	// 마커 이미지의 이미지 주소입니다
+	var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+	    
+	for (var i = 0; i < positions.length; i ++) {
+	    
+	    // 마커 이미지의 이미지 크기 입니다
+	    var imageSize = new kakao.maps.Size(24, 35); 
+	    
+	    // 마커 이미지를 생성합니다    
+	    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+	    
+	    // 마커를 생성합니다
+	    var marker = new kakao.maps.Marker({
+	        map: map, // 마커를 표시할 지도
+	        position: positions[i].latlng, // 마커를 표시할 위치
+	        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+	        image : markerImage // 마커 이미지 
+	    });
+	}
+	
+	// 마커에 커서가 오버됐을 때 마커 위에 표시할 인포윈도우를 생성합니다
+	var iwContent = '<div style="padding:5px;">Hello World!</div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+
+	// 인포윈도우를 생성합니다
+	var infowindow = new kakao.maps.InfoWindow({
+	    content : iwContent
+	});
+
+	// 마커에 마우스오버 이벤트를 등록합니다
+	kakao.maps.event.addListener(marker, 'mouseover', function() {
+		console.log("in");
+	  // 마커에 마우스오버 이벤트가 발생하면 인포윈도우를 마커위에 표시합니다
+	    infowindow.open(map, marker);
+	});
+
+	// 마커에 마우스아웃 이벤트를 등록합니다
+	kakao.maps.event.addListener(marker, 'mouseout', function() {
+		console.log("out");
+	    // 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
+	    infowindow.close();
+	});
+	
+	
+	
+	
+	
 	
 	// heart script 이승준
 	const favorites = document.querySelectorAll(".favorite")

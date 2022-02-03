@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.hoge.dto.AccommoListDto;
-import com.hoge.dto.AccommoPositionDto;
 import com.hoge.dto.ReserveAccommoDto;
 import com.hoge.dto.RoomListDto;
 import com.hoge.form.Criteria;
@@ -24,12 +23,12 @@ public interface AccommodationMapper {
 	List<AccommoListDto> searchAccommoListDtos(Criteria criteria);
 	// 염주환 페이지네이션을 위함
 	int getAccommodationsTotalRows(Criteria criteria);				// list
-	
+	// 염주환 숙소list 사진
+	List<AccommoImage> getAccommoImagesByAccommoNo(int no);			// list
 	
 	Accommodation getAccommodationByNo(int no);						// 예약페이지
 	Room getRoomByNo(int no);										// 예약페이지
 
-	List<AccommoImage> getAccommoImagesByAccommoNo(int no);			// list
 	
 	// 예약페이지
 	// 염주환 예약페이지 숙소 관련 정보

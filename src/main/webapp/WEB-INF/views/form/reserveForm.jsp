@@ -485,31 +485,6 @@ $(function() {
 		}
 	});
     
-    
-    // 카카오페이
-    /* 
-    				var checkIn = $(":input[name=checkInDate]").val().replace(/-/g, '');
-					var checkOut = $(":input[name=checkOutDate]").val().replace(/-/g, '');
-			    	var price = parseInt($("#bottom-price").attr("data-total-price"));
-			    	var roomNo = $(":input[name=roomNo]").val();
-			    	var no = $(":input[name=no]").val();
-			   		$.ajax({
-			   			url:'/kakaopay/ready',
-			  			dataType: 'json',
-			  			data: {price: price, checkIn: checkIn, checkOut: checkOut, roomNo: roomNo, no: no},
-			   			success:function(data) {
-			   				var box = data.next_redirect_pc_url;
-			   				var name = "kakaoPay";
-				            var option = "width = 500, height = 500, top = 100, left = 200, location = no"
-			   				window.open(box, name, option);
-			   				// frm.submit();
-			   			},
-			   			error:function(error) {
-			   				alert(error);
-			   			}
-			   		})
-    */
-    
     // 포인트 사용
     $("input[name=usedPnt]").change(function() {
     	var point = parseInt($("#user-point").attr("data-point"));
