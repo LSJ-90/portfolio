@@ -13,7 +13,7 @@
 	<style>
 		
 
- 
+ .unreadcount {background: red; color:yellow; width: 20px; height: 20px;}
  
 .chat_wrap {height: 550px; overflow-y:auto;} 
 .chat_wrap .chat { padding-bottom: 80px; height:85% }
@@ -46,7 +46,7 @@ word-break:break-all; margin: 5px 20px; max-width: 40%; border: 1px solid #888; 
  
 #chatting-list-box {cursor: pointer; font-size: 13px; height: 70px; margin:4px; 
  border: 1px solid rgba(255, 205, 86, 1); padding: 4px; border-radius: 5px; 
-background-color: rgba(255, 205, 86, 0.1); color: #555;  }
+background-color: rgba(255, 205, 86, 1); color: #555;  }
 
 .userImg {width: 60px; height: 60px; padding:2px;}
 #senderImg {width: 45px; height: 45px; padding:2px;}
@@ -59,6 +59,7 @@ background-color: rgba(255, 205, 86, 0.1); color: #555;  }
 
 
 <body>
+	
 	
 	
 <div class="container">
@@ -75,13 +76,23 @@ background-color: rgba(255, 205, 86, 0.1); color: #555;  }
 					<c:forEach var="chatRoom" items="${chatList }" varStatus="loop">
 						<div id="chatting-list-box" class="m-1" onclick="enter(${chatRoom.chatRoomNo })">
 							<div class="row">
-								<div class="col-4">
+								<div class="col-3">
 									<img src="../../resources/images/userprofiles/${chatRoom.image }" id="userImg" class="userImg rounded-circle" alt="">
 								</div>
-								<div class="col-8">
-									<p>${chatRoom.name }</p> <!-- 여기서는 유저네임 -->
-									<p id="lastmessage">${chatRoom.lastMessage }</p>
-								</div>
+								<div class="col-6">
+									<div class="userName">
+					                    <span id="userName">${chatRoom.name }</span>
+					                </div>
+									<div class="lastSendingTime">
+									 	<span id="lastSendingTime-${chatRoom.chatRoomNo }"><fmt:formatDate value="${chatRoom.updatedDate}" pattern="yyyy.MM.dd HH:mm"/></span>
+					                </div>
+										<span id="lastmessage-${chatRoom.chatRoomNo }">${chatRoom.lastMessage }</span>
+									</div>
+								 <div class="col-1 p-3">
+				            	 	<div class="unreadcount">
+				                    	<span id="unreadcount-${chatRoom.chatRoomNo }">${chatRoom.unreadCount }</span>
+				               		</div>
+				             	</div>   
 							</div>
 						</div>
 					</c:forEach>
@@ -169,6 +180,9 @@ background-color: rgba(255, 205, 86, 0.1); color: #555;  }
 			                <div class="sendingTime">
 			                    <small></small>
 			                </div>
+			                <div class="readStatus">
+	            				<small></small>
+			                </div>
 		                </div>
               	   </div>
                 </div>
@@ -211,10 +225,20 @@ background-color: rgba(255, 205, 86, 0.1); color: #555;  }
 
 <script type="text/javascript">
 
+$(document).ready(function () {
+	if (ws) {
+		ws.close();
+	}
+	
+	ws = new WebSocket("ws://localhost/chatting/"+"${chatListString}");
+	console.log('웹소켓 열림');
+	wsEvt();
+});
+
 function getFullYmdStr(){
     //년월일시분초 문자열 생성
     var d = new Date();
-    return d.getFullYear() + ". " + ('0' + (d.getMonth() + 1)).slice(-2) + ". "
+    return d.getFullYear() + "." + ('0' + (d.getMonth() + 1)).slice(-2) + "."
 + ('0' + d.getDate()).slice(-2) + "    " + ('0' + d.getHours()).slice(-2) + ":" + ('0' + d.getMinutes()).slice(-2);
 }
 	const userNo = "${LOGIN_USER.no }";
@@ -223,18 +247,9 @@ function getFullYmdStr(){
 	let ws;
 
 	
-	function wsOpen(){
-		if (ws) {
-			ws.close();
-		}
-		var num = $("#roomNumber").val();
-		console.log(num);
-		ws = new WebSocket("ws://localhost/chatting/"+$("#roomNumber").val());
-		console.log('웹소켓 열림');
-		wsEvt();
-	}
+	
 		
-	function wsEvt() {
+function wsEvt() {
 		ws.onopen = function(data){
 			//소켓이 열리면 초기화 세팅하기
 		}
@@ -251,31 +266,45 @@ function getFullYmdStr(){
 					console.log('1');
 				}
 			}else if(msg.type == "message"){
-				$("#lastmessage").html(msg.message);
-				if(msg.sessionId == $("#sessionId").val()){
+				$("#lastmessage-"+msg.roomNumber).html(msg.message);
+				$("#lastSendingTime-"+msg.roomNumber).html(msg.sendingTime);
+				if(msg.sessionId == $("#sessionId").val() &&  msg.roomNumber == $("#roomNumber").val()){
 					console.log('2');
 					let LR = "right";
-				    appendMyMessageTag(LR, msg.message, msg.sendingTime);
-				}else{
+				    appendMyMessageTagFromDB(LR, msg.message, msg.sendingTime, msg.checked);
+				}else if(msg.sessionId != $("#sessionId").val() &&  msg.roomNumber == $("#roomNumber").val()){
 					console.log('3');
 					let LR = "left";
+					ChangeToZeroChecked($("#roomNumber").val()); //메시지 읽음 확인
 				    appendMessageTag(LR, msg.senderName, msg.message, msg.sendingTime, msg.senderImg);
-				}	
+				}  else {
+					var unreadCount = Number($("#unreadcount-"+msg.roomNumber).html())+1;
+					$("#unreadcount-"+msg.roomNumber).html(unreadCount);
+				}
+			}else if(msg.type = "check" && msg.sessionId != $("#sessionId").val()) {
+				
+				if (msg.roomNumber == $("#roomNumber").val()) {
+					console.log('4');
+					
+				$(".readStatus small").text("(읽음)");
+				}
 			}else{
 				console.warn("unknown type!")
 			}
-	      
-			
 		}
+}
+	
 
-		
+	
+	
+	
+	
+var textarea = document.getElementById('chatting');
+textarea.addEventListener("keydown", function(e){
+	if(e.keyCode == 13){ 
+		send();
 	}
-		var textarea = document.getElementById('chatting');
-		textarea.addEventListener("keydown", function(e){
-			if(e.keyCode == 13){ 
-				send();
-			}
-		});
+});
 
 	  
 	function send() {
@@ -286,7 +315,8 @@ function getFullYmdStr(){
 			    senderName: hostName, 
 			    message: $("#chatting").val(), 
 			    sendingTime: getFullYmdStr(),
-			    senderImg: hostImg
+			    senderImg: hostImg,
+			    checked: "N"
 			    
 			  };
 		console.log($("#sessionId").val());
@@ -332,30 +362,37 @@ function getFullYmdStr(){
         return chatLi;
     }
  
+function ChangeToZeroChecked(ChatRoomNo) {
+	console.log("체크메시지 전송")
+    	var msg = {
+    		    type: "check", 
+    		    roomNumber: $("#roomNumber").val(),
+    			sessionId : $("#sessionId").val()
+    		  };
+    	ws.send(JSON.stringify(msg));
+       
+    	 $.ajax({
+ 			type: 'POST',								// 요청방식
+ 			url: '/host/checkMessage',										// 요청URL
+ 			data: JSON.stringify({"no": ChatRoomNo}),	// 서버로 보내는 데이터
+ 			contentType: 'application/json',		// 서버로 보내는 데이터의 컨텐츠 타입, 기본값은 "application/x-www-form-urlencoded" 다
+ 			dataType: 'json'		// 서버로부터 응답으로 받을 것으로 예상되는 컨텐츠 타입을 지정한다.
+ 				//success: function(responseData) {					// 서버로부터 성공적인 응답이 왔을 때 실행되는 함수다.
+ 					
+ 				//},
+ 				//error: function() {									// 서버로 보낸 요청이 실패했을 때 실행되는 함수다.
+ 				
+ 				//}
+ 		})
+    	
+    	
+    	
+    }
+	
+	
+	
+	
 
-    // 메세지 태그 append
-    function appendMyMessageTag(LR, myMessage, sendingTime)  {
-        const myChatLi = createMyMessageTag(LR, myMessage, sendingTime) ;
- 
-        $('div.chat:not(.format) ul').append(myChatLi);
- 
-        // 스크롤바 아래 고정
-        $("#chatting-content").scrollTop($("#chatting-content")[0].scrollHeight);
-   
-    }
-	// 메세지 태그 생성
-    function createMyMessageTag(LR, myMessage, sendingTime) {
-        // 형식 가져오기
-        let myChatLi = $('div.myChat.format ul li').clone();
- 
-        // 값 채우기
-        myChatLi.addClass(LR);
-        myChatLi.find('.myMessage span').text(myMessage);
-        myChatLi.find('.sendingTime small').text(sendingTime);
- 
-        return myChatLi;
-    }
- 
 
     // 메세지 태그 append
     function appendMessageTag(LR, senderName, message, sendingTime, senderImg) {
@@ -367,6 +404,41 @@ function getFullYmdStr(){
         $("#chatting-content").scrollTop($("#chatting-content")[0].scrollHeight);
    
     }
+    
+    
+    // 메세지 태그 append
+    function appendMyMessageTagFromDB(LR, myMessage, sendingTime, checked)  {
+        const myChatLi = createMyMessageTagFromDB(LR, myMessage, sendingTime, checked) ;
+ 
+        $('div.chat:not(.format) ul').append(myChatLi);
+ 
+        // 스크롤바 아래 고정
+        $("#chatting-content").scrollTop($("#chatting-content")[0].scrollHeight);
+   
+    }
+	// 메세지 태그 생성
+    function createMyMessageTagFromDB(LR, myMessage, sendingTime, checked) {
+        // 형식 가져오기
+        let myChatLi = $('div.myChat.format ul li').clone();
+ 		
+        if(checked == 'N') {
+        	checked = "(읽지않음)";
+        } else {
+        	checked = "(읽음)";
+        	
+        }
+        
+       console.log("태그생성:"+checked)
+        // 값 채우기
+        myChatLi.addClass(LR);
+        myChatLi.find('.myMessage span').text(myMessage);
+        myChatLi.find('.sendingTime small').text(sendingTime);
+        myChatLi.find('.readStatus small').text(checked);
+ 
+        return myChatLi;
+    }
+ 
+    
     
     function enter(ChatRoomNo) {
     	
@@ -385,7 +457,8 @@ function getFullYmdStr(){
 			Myelement.value = ChatRoomNo;
 			console.log('포맷 안바뀐 룸넘버');
 			console.log(Myelement.value);
-			
+			ChangeToZeroChecked(ChatRoomNo); //메시지 읽음 확인
+			$("#unreadcount-"+ChatRoomNo).empty();
 			 
 			
 	    	console.log('여기까지 오키');
@@ -397,7 +470,8 @@ function getFullYmdStr(){
 					if(value.sendingUserNo == userNo){
 						console.log('2');
 						let LR = "right";
-						 appendMyMessageTag(LR, value.content, value.sendingDate);
+						console.log(value.checked);
+						 appendMyMessageTagFromDB(LR, value.content, value.sendingDate, value.checked);
 					}else{
 						console.log('3');
 						let LR = "left";
@@ -407,12 +481,16 @@ function getFullYmdStr(){
 				})
 	    });
 		
-			wsOpen();
+			
 			
 	    } else {
 	    	$("#chatting-detail").show();
 	    }
     }	
+    
+
+  
+	
 			
 </script>
 </html>

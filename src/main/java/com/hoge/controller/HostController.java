@@ -164,10 +164,19 @@ public class HostController {
 		chatRoom.setLastMessage(message.getContent()); //채팅방의 마지막 메시지를 새로운 메시지로 삽입
 		chatRoom.setLastMessageSenderNo(message.getSendingUserNo());
 		chatRoom.setLastMessageChecked(message.getChecked());
+		chatRoom.setUserUnreadCount(chatRoom.getUserUnreadCount()+1);
 		
 		chatRoomService.updateChatRoom(chatRoom); //채팅방 업데이트
 	}
 	
+	@PostMapping("/checkMessage")
+	public void checkMessage(@RequestBody ChatRoom chatRoom) throws IOException {
+		User savedUser = (User) SessionUtils.getAttribute("LOGIN_USER");
+		int chatRoomNo = chatRoom.getNo();
+		System.out.println("읽음처리:"+chatRoomNo);
+		
+		chatRoomService.changeHostPageUnreadToZero(chatRoomNo, savedUser.getNo());
+	}
 	
 	
 	// 유상효 호스트등록폼 호출
@@ -402,6 +411,16 @@ public class HostController {
 		List<ChattingListDto> chatList = chatRoomService.getChattingListDtobyHostNo(hostNo);
 		
 		Host savedHost = hostService.getHostByNo(hostNo);
+		
+		String chatListString = Integer.toString(chatList.get(0).getChatRoomNo());
+		
+		for (int i = 1; i<chatList.size(); i++) {
+			chatListString += ","+ Integer.toString(chatList.get(i).getChatRoomNo());
+			
+		}
+		System.out.println(chatListString);
+		
+		mv.addObject("chatListString", chatListString);
 		mv.addObject("chatList", chatList);
 		mv.addObject("savedHost", savedHost);
 		

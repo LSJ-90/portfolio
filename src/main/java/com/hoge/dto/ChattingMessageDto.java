@@ -41,7 +41,7 @@ public class ChattingMessageDto {
 	
 	private String content;
 	private String checked; //확인 여부
-	@JsonFormat(pattern = "yyyy. MM. dd. hh:mm")
+	@JsonFormat(pattern = "yyyy.MM.dd hh:mm")
 	private Date sendingDate;
 
 }

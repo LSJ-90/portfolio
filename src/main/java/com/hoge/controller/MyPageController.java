@@ -212,6 +212,15 @@ public class MyPageController {
 			return "redirect:qna";
 		}
 			
+	
+		
+		@PostMapping("/checkMessage")
+		public void checkMessage(@RequestBody ChatRoom chatRoom) throws IOException {
+			User savedUser = (User) SessionUtils.getAttribute("LOGIN_USER");
+			int chatRoomNo = chatRoom.getNo();
+			System.out.println("읽음처리:"+chatRoomNo);
+			chatRoomService.changeMypageUnreadToZero(chatRoomNo, savedUser.getNo());
+		}
 		
 		@PostMapping("/message.do")
 		public void save(@RequestBody Message message) throws IOException {
@@ -225,6 +234,7 @@ public class MyPageController {
 			chatRoom.setLastMessage(message.getContent()); //채팅방의 마지막 메시지를 새로운 메시지로 삽입
 			chatRoom.setLastMessageSenderNo(message.getSendingUserNo());
 			chatRoom.setLastMessageChecked(message.getChecked());
+			chatRoom.setHostUnreadCount(chatRoom.getHostUnreadCount()+1);
 			
 			chatRoomService.updateChatRoom(chatRoom); //채팅방 업데이트
 		}

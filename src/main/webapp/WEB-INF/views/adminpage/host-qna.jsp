@@ -12,6 +12,10 @@ table {font-size: 10pt; text-align:center;}
 #creatingmodal, #creatingmodimodal {text-decoration: underline;}
 </style>
 <body>
+
+<c:set var="subnav" value="회원관리"></c:set>
+<c:set var="tab" value="호스트문의"></c:set>
+
 <div class="container">
 
 <div class="row mb-3 mt-3">

@@ -3,6 +3,7 @@ package com.hoge.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.ChattingMessageDto;
@@ -32,8 +33,13 @@ public interface ChatRoomMapper {
 	void insertMessage(Message message);
 	
 	void updateChatRoom(ChatRoom chatRoom);
+	void updateChatRoomCount(ChatRoom chatRoom);
+
 	
 	ChatRoom getChatRoomByChatRoomNo(int no);
+	
+	
+	void updateMessages(@Param("chatRoomNo") int chatRoomNo, @Param("userNo") int userNo);
 	
 	
 }

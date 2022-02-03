@@ -2,6 +2,8 @@ package com.hoge.dto;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,7 +35,10 @@ public class ChattingListDto {
 	private int lastMessageSenderNo;
 	private String lastMessage;
 	private String lastMessageChecked;
+	@JsonFormat(pattern = "yyyy.MM.dd hh:mm")
 	private Date updatedDate;
+	
+	private int unreadCount;
 	
 
 	

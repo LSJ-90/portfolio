@@ -24,5 +24,8 @@ public class ChatRoom {
 	private Date updatedDate;
 	private String lastMessage;
 	private int lastMessageSenderNo;
+	private int userUnreadCount;
+	private int hostUnreadCount;
 	private String lastMessageChecked;
+	
 }
