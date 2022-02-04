@@ -35,10 +35,14 @@ import com.hoge.dto.ActMainDto;
 import com.hoge.dto.AdminActivityReviewDto;
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.ChattingMessageDto;
+import com.hoge.dto.RoomDto;
 import com.hoge.dto.RoomListDto;
+import com.hoge.form.AccHostModifyForm;
+import com.hoge.form.ActHostModifyForm;
 import com.hoge.form.Criteria;
 import com.hoge.form.HostApplyForm;
 import com.hoge.form.InsertRoomForm;
+import com.hoge.form.RoomModifyForm;
 import com.hoge.mapper.HostMapper;
 import com.hoge.pagination.Pagination;
 import com.hoge.pagination.PaginationPerPage5;
@@ -164,17 +168,26 @@ public class HostController {
 		chatRoom.setLastMessage(message.getContent()); //채팅방의 마지막 메시지를 새로운 메시지로 삽입
 		chatRoom.setLastMessageSenderNo(message.getSendingUserNo());
 		chatRoom.setLastMessageChecked(message.getChecked());
+		chatRoom.setUserUnreadCount(chatRoom.getUserUnreadCount()+1);
 		
 		chatRoomService.updateChatRoom(chatRoom); //채팅방 업데이트
 	}
 	
+	@PostMapping("/checkMessage")
+	public void checkMessage(@RequestBody ChatRoom chatRoom) throws IOException {
+		User savedUser = (User) SessionUtils.getAttribute("LOGIN_USER");
+		int chatRoomNo = chatRoom.getNo();
+		System.out.println("읽음처리:"+chatRoomNo);
+		
+		chatRoomService.changeHostPageUnreadToZero(chatRoomNo, savedUser.getNo());
+	}
 	
 	
 	// 유상효 호스트등록폼 호출
 	@GetMapping("/applyForm")
 	public String ApplyForm() {
 		//SessionUtils.addAttribute("세션아이디", "세션값");
-		return "hostpage/applyForm.tiles";
+		return "form/applyForm.tiles";
 	}
 	
 	// 유상효 hostApply 입력
@@ -265,35 +278,113 @@ public class HostController {
 		return "hostpage/accMain.hosttiles";
 		} else {
 			ActMainDto actMainDto = hostService.getActMainByHostNo(hostNo);
-			model.addAttribute("actMaintDto", actMainDto);
+			model.addAttribute("actMainDto", actMainDto);
 		return "hostpage/actMain.hosttiles";
 		}
 	}
 	
-	// 유상효 호스트 수정페이지
+	// 유상효 호스트 수정폼 호출
 	@GetMapping("/modify")
 	public String hostModify(@RequestParam(name = "hostNo") int hostNo, @RequestParam(name = "hostingType") int hostingType, Model model) {
 		if (hostingType == 1) {
 			AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
 			model.addAttribute("accMainDto", accMainDto);
-		return "hostpage/accModifyForm.hosttiles";
+			List<AccommoImage> accImages = hostService.getAccImagesByHostNo(hostNo);
+			model.addAttribute("accImages", accImages);
+		return "form/accModifyForm.hosttiles";
 		} else {
 			ActMainDto actMainDto = hostService.getActMainByHostNo(hostNo);
-			model.addAttribute("actMaintDto", actMainDto);
-		return "hostpage/actModifyForm.hosttiles";
+			model.addAttribute("actMainDto", actMainDto);
+			List<ActivityImage> actImages = hostService.getActImagesByHostNo(hostNo);
+			model.addAttribute("actImages", actImages);
+		return "form/actModifyForm.hosttiles";
 		}
 	}
+	
+	// 유상효 숙소호스트 수정
+	@PostMapping("/accHostModify")
+	public String accHostModify(AccHostModifyForm form) throws IOException {
+		
+		Host host = new Host();
+		host.setNo(form.getHostNo());
+		host.setName(form.getHostName());
+		host.setTel(form.getTel());
+		host.setAccountHolderName(form.getAccountHolderName());
+		host.setBankName(form.getBankName());
+		host.setAccountNumber(form.getAccountNumber());
+		String hostImageSave = "C:\\final-workspace\\finalproject-chanel5\\src\\main\\webapp\\resources\\images\\hostMainImage";
+		MultipartFile hostfile = form.getHostMainImage();
+		if (!hostfile.isEmpty()) {
+			String fileName = hostfile.getOriginalFilename();
+			host.setMainImage(fileName);
+			InputStream in = hostfile.getInputStream();
+			FileOutputStream out = new FileOutputStream(new File(hostImageSave, fileName));
+			FileCopyUtils.copy(in, out);
+		}
+		
+		Accommodation acc = new Accommodation();
+		acc.setHostNo(form.getHostNo());
+		acc.setType(form.getAccType());
+		acc.setName(form.getAccName());
+		acc.setWebAddress(form.getAccWebAddress());
+		acc.setAddress(form.getAccAddress());
+		acc.setCheckInTime(form.getAccCheckInTime());
+		acc.setCheckOutime(form.getAccCheckOutime());
+		acc.setIntroTitle(form.getAccIntroTitle());
+		acc.setIntroContent(form.getAccIntroContent());
+		
+		hostService.accHostModify(host, acc);
+		
+		return "redirect:/host/main?hostNo="+form.getHostNo()+"&hostingType="+form.getHostingType();
+	}
+	
+	// 유상효 체험호스트 수정
+	@PostMapping("/actHostModify")
+	public String actHostModify(ActHostModifyForm form) throws IOException {
+		
+		Host host = new Host();
+		host.setNo(form.getHostNo());
+		host.setName(form.getHostName());
+		host.setTel(form.getTel());
+		host.setAccountHolderName(form.getAccountHolderName());
+		host.setBankName(form.getBankName());
+		host.setAccountNumber(form.getAccountNumber());
+		String hostImageSave = "C:\\final-workspace\\finalproject-chanel5\\src\\main\\webapp\\resources\\images\\hostMainImage";
+		MultipartFile hostfile = form.getHostMainImage();
+		if (!hostfile.isEmpty()) {
+			String fileName = hostfile.getOriginalFilename();
+			host.setMainImage(fileName);
+			InputStream in = hostfile.getInputStream();
+			FileOutputStream out = new FileOutputStream(new File(hostImageSave, fileName));
+			FileCopyUtils.copy(in, out);
+		}
+		
+		Activity act = new Activity();
+		act.setHostNo(form.getHostNo());
+		act.setName(form.getActName());
+		act.setAddress(form.getActAddress());
+		act.setMaximumNumber(form.getActMaximumNumber());
+		act.setPricePerPerson(form.getActPricePerPerson());
+		act.setIntroTitle(form.getActIntroTitle());
+		act.setIntroContent(form.getActIntroContent());
+		
+		hostService.actHostModify(host, act);
+		
+		return "redirect:/host/main?hostNo="+form.getHostNo()+"&hostingType="+form.getHostingType();
+	}
+	
+	
 	
 	// 유상효 객실 관리페이지
 	@GetMapping("/mainRoom")
 	public String mainRoom(@RequestParam(name = "hostNo") int hostNo, @RequestParam(name = "hostingType") int hostingType, Model model) {
-			AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
-			model.addAttribute("accMainDto", accMainDto);
+		AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
+		model.addAttribute("accMainDto", accMainDto);
+		
+		List<RoomListDto> roomDto = accommodationService.getRoomListByAccNo(accMainDto.getAccNo());
+		model.addAttribute("roomListDto", roomDto);
 			
-			List<RoomListDto> roomDto = accommodationService.getRoomListByAccNo(accMainDto.getAccNo());
-			model.addAttribute("roomListDto", roomDto);
-			
-		return "accommo/mainRoom.hosttiles";
+	return "accommo/mainRoom.hosttiles";
 	}
 	
 	// 유상효 객실등록폼 호출
@@ -301,7 +392,7 @@ public class HostController {
 	public String roomInsertForm(@RequestParam(name = "hostNo") int hostNo, Model model) {
 			AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
 			model.addAttribute("accMainDto", accMainDto);
-		return "accommo/insertRoomForm.hosttiles";
+		return "form/insertRoomForm.hosttiles";
 	}
 	
 	// 유상효 객실등록
@@ -330,8 +421,34 @@ public class HostController {
 		return "redirect:mainRoom?hostNo="+form.getHostNo()+"&hostingType="+form.getHostingType();
 	}
 	
+	// 유상효 객실수정폼 호출
+	@GetMapping("roomModify")
+	public String roomModifyForm(@RequestParam(name = "hostNo") int hostNo, @RequestParam(name = "hostingType") int hostingType, @RequestParam(name = "roomNo") int roomNo, Model model) {
+		AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
+		model.addAttribute("accMainDto", accMainDto);
+		
+		RoomDto roomDto = accommodationService.getRoomByRoomNo(roomNo);
+		roomDto.setHostNo(hostNo);
+		roomDto.setHostingType(hostingType);
+		model.addAttribute("roomDto", roomDto);
+		
+		List<RoomImage> roomImages = accommodationService.getRoomImages(roomNo);
+		model.addAttribute("roomImages", roomImages);
+		
+	return "form/roomModifyForm.hosttiles";
+	}
 	
-	
+	// 유상효 객실수정
+	@PostMapping("/roomModify")
+	public String roomModify(RoomModifyForm form) throws IOException {
+		
+		Room room = new Room();
+		BeanUtils.copyProperties(form, room);
+		
+		accommodationService.roomModify(room);
+		
+		return "redirect:mainRoom?hostNo="+form.getHostNo()+"&hostingType="+form.getHostingType();
+	}
 	
 	
 	
@@ -402,6 +519,16 @@ public class HostController {
 		List<ChattingListDto> chatList = chatRoomService.getChattingListDtobyHostNo(hostNo);
 		
 		Host savedHost = hostService.getHostByNo(hostNo);
+		
+		String chatListString = Integer.toString(chatList.get(0).getChatRoomNo());
+		
+		for (int i = 1; i<chatList.size(); i++) {
+			chatListString += ","+ Integer.toString(chatList.get(i).getChatRoomNo());
+			
+		}
+		System.out.println(chatListString);
+		
+		mv.addObject("chatListString", chatListString);
 		mv.addObject("chatList", chatList);
 		mv.addObject("savedHost", savedHost);
 		

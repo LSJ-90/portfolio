@@ -27,6 +27,7 @@ public class AccommoListDto {
 	private double communicationStar;
 	private double accuracyStar;
 	private double locationStar;
+	private String address;
 	private String regionDepth1;
 	private String regionDepth2;
 	private String regionDepth3;
@@ -41,5 +42,4 @@ public class AccommoListDto {
 	private long minStandardNumber;
 	private long maxStandardNumber;
 	private List<AccommoImage> accommoImages;
-
 }

@@ -2,6 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hoge.mapper.ChatRoomMapper">
 	
+	
+	
+	<!-- 성하민
+		void updateMessages(@Param("chatRoomNo") int chatRoomNo, @Param("userNo") int userNo);
+	-->
+	<update id="updateMessages" parameterType="int">
+		update tb_final_messages
+		set message_checked = 'Y'
+		where message_checked = 'N'
+		and chatroom_no = #{chatRoomNo}
+		and sender_no != #{userNo}
+	</update>
+	
 	<!-- 성하민
 		void updateChatRoom(ChatRoom chatRoom);
 	-->
@@ -9,7 +22,18 @@
 		update TB_FINAL_CHATROOMS
 		set
 			UPDATED_DATE = sysdate,
-			LAST_MESSAGE = #{lastMessage}
+			LAST_MESSAGE = #{lastMessage},
+			user_unread_count = #{userUnreadCount},
+			host_unread_count = #{hostUnreadCount}
+		where
+			CHATROOM_NO = #{no}
+	</update>
+	
+		<update id="updateChatRoomCount" parameterType="com.hoge.vo.other.ChatRoom">
+		update TB_FINAL_CHATROOMS
+		set
+			user_unread_count = #{userUnreadCount},
+			host_unread_count = #{hostUnreadCount}
 		where
 			CHATROOM_NO = #{no}
 	</update>
@@ -45,7 +69,8 @@
 		 c.host_no as hostNo, 
 		 c.user_no as userNo,
     	u.user_name as name, 
-    	u.user_image as image
+    	u.user_image as image,
+    	c.host_unread_count as unreadCount
     from TB_FINAL_CHATROOMS c, TB_FINAL_USERS u
     where c.user_no = u.user_no
     and host_no = #{no}
@@ -62,7 +87,8 @@
 		 c.host_no as hostNo, 
 		 c.user_no as userNo,
     	h.host_name as name, 
-    	h.HOST_MAIN_IMAGE as image
+    	h.HOST_MAIN_IMAGE as image,
+    	c.user_unread_count as unreadCount
     from TB_FINAL_CHATROOMS c, TB_FINAL_USERS u, TB_FINAL_hosts h
     where c.host_no = h.host_no
     and h.host_user_no = u.user_no
@@ -111,7 +137,9 @@
 	 		host_no as hostNo,
 	 		user_no as userNo,
 	 		updated_date as updatedDate, 	
-	 		last_message as lastMessage
+	 		last_message as lastMessage,
+	 		user_unread_count as userUnreadCount,
+			host_unread_count as hostUnreadCount
 	 	from
 	 		TB_FINAL_CHATROOMS
 	 	where chatroom_no = #{no} 

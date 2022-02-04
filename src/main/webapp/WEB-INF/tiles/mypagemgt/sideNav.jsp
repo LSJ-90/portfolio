@@ -65,10 +65,11 @@ word-break:break-all; margin: 5px 20px; max-width: 40%; border: 1px solid #888; 
  border-radius: 5px; background-color: white; color: #555;  }
 .myMessage-box { text-align: right;}
 
+.unreadcount {background: red; color:yellow; width: 20px; height: 20px;}
 
 .box  {cursor: pointer; font-size: 13px; height: 100px; margin:4px; 
  border: 1px solid rgba(255, 205, 86, 1); padding: 4px; border-radius: 5px; 
-background-color: rgba(255, 205, 86, 0.1); color: #555;  }
+background-color: rgba(255, 205, 86, 1); color: #555;  }
 
 </style>
 
@@ -114,7 +115,7 @@ background-color: rgba(255, 205, 86, 0.1); color: #555;  }
 										
 									</ul>
 								</div>	
-							</div>
+							</div> <!-- 채팅 목록 -->
 							<div class="col-7" id="right-chat-message">
 								<div id="chatting-detail" class="chat-detail m-2">
 									<input type="hidden" id="roomNumber" name="roomNumber" value="">
@@ -125,12 +126,12 @@ background-color: rgba(255, 205, 86, 0.1); color: #555;  }
 											
 											</ul>
 										</div>	
-									</div>
+									</div><!-- 대화내용 -->
 									<div>
 									    <div id="yourMsg" class="input-div">
 									        <textarea class="chatting" id="chatting" placeholder="메세지 입력 후 엔터키를 누르세요"></textarea>
 									    </div>
-								    </div>
+								    </div><!-- 입력창 -->
 								</div>
 							</div>
 						</div> <!-- row -->
@@ -153,14 +154,22 @@ background-color: rgba(255, 205, 86, 0.1); color: #555;  }
 							   <input type="hidden" id="chatRoomNumber" name="chatRoomNumber" value="">
 			                <img src="../../resources/images/" id="userImg" class="userImg rounded-circle" alt="">
 			             </div>   
-			             <div class="col-9">
+			             <div class="col-7">
 			            	<div class="name">
 			                    <span></span>
+			                </div>
+			                <div class="lastSendingTime">
+			                    <span id="lastSendingTime"></span>
 			                </div>
 			                <div class="lastmessage">
 			                    <span id="lastmessage"></span>
 			                </div>
-			             </div>   
+			             </div> 
+		            	 <div class="col-1 p-3">
+		            	 	<div class="unreadcount">
+		                    	<span id="unreadcount"></span>
+		               		</div>
+		             	</div>   
 			          </div>      
                 </div>
             </li>
@@ -168,7 +177,7 @@ background-color: rgba(255, 205, 86, 0.1); color: #555;  }
     </div>
 
  
- <div class="myChat format">
+ <div class="myChat format"> <!-- 내가 보낸거 -->
         <ul>
             <li>
             	<div class="row myMessage-box">
@@ -186,6 +195,9 @@ background-color: rgba(255, 205, 86, 0.1); color: #555;  }
 			                <div class="sendingTime">
 			                    <small></small>
 			                </div>
+			                <div class="readStatus">
+	            				<small id="readStatus">(읽지않음)</small>
+			                </div>
 		                </div>
               	   </div>
                 </div>
@@ -193,7 +205,9 @@ background-color: rgba(255, 205, 86, 0.1); color: #555;  }
         </ul>
     </div>
 		
- 
+ 	
+			
+		
  
 		
 
@@ -235,7 +249,7 @@ background-color: rgba(255, 205, 86, 0.1); color: #555;  }
 function getFullYmdStr(){
     //년월일시분초 문자열 생성
     var d = new Date();
-    return d.getFullYear() + ". " + ('0' + (d.getMonth() + 1)).slice(-2) + ". "
+    return d.getFullYear() + "." + ('0' + (d.getMonth() + 1)).slice(-2) + "."
 + ('0' + d.getDate()).slice(-2) + "   " + ('0' + d.getHours()).slice(-2) + ":" + ('0' + d.getMinutes()).slice(-2);
 }
 
@@ -256,7 +270,7 @@ $(document).ready(function () {
     $('#modal-creating-chatting').css("height", modalHeight);
     $('#modal-creating-chatting').css("margin", (modalHeight/2)*-1);
     
-});
+});<!--모달창 위치 조절-->
 
 //모달창 마우스 드래그로 움직일 수 있게
 $("#modal-creating-chatting").draggable({
@@ -264,7 +278,7 @@ $("#modal-creating-chatting").draggable({
 });
 
 
-function chatopen() {
+function chatopen() {//모달창 띄우기
 	listopen();
 	
 	let chattingModal = new bootstrap.Modal(document.getElementById('modal-creating-chatting'), {
@@ -296,12 +310,21 @@ function listopen() {
 			
 			chatList.find('.name span').text(value.name);
 			chatList.find('.lastmessage span').text(value.lastMessage);
+			chatList.find('.unreadcount span').text(value.unreadCount);
+			chatList.find('.lastSendingTime span').text(value.updatedDate);
 			
 			
 			let lastClass = "lastmessage-"+value.chatRoomNo;
-	    	console.log('클래스지정 바로 전까지 오키');
 	    	console.log(lastClass);
 			chatList.find('#lastmessage').addClass(lastClass);
+			
+			let lastTimeClass = "lastSendingTime-"+value.chatRoomNo;
+	    	console.log(lastTimeClass);
+			chatList.find('#lastSendingTime').addClass(lastTimeClass);
+			
+			let unreadClass = "unreadcount-"+value.chatRoomNo;
+	    	console.log(unreadClass);
+			chatList.find('#unreadcount').addClass(unreadClass);
 			
 			
 			chatList.find("input[name='chatRoomNumber']").val(value.chatRoomNo);
@@ -351,17 +374,31 @@ function wsEvt() {
 			if(msg.sessionId == $("#sessionId").val() &&  msg.roomNumber == $("#roomNumber").val()){
 				console.log('2');
 				let LR = "right";
-				 appendMyMessageTag(LR, msg.message, msg.sendingTime);
+				 appendMyMessageTagFromDB(LR, msg.message, msg.sendingTime, msg.checked);
 			} else if(msg.sessionId != $("#sessionId").val() &&  msg.roomNumber == $("#roomNumber").val()) {
 				console.log('3');
+				ChangeToZeroChecked($("#roomNumber").val()); //메시지 읽음 확인
 				let LR = "left";
 				 appendMessageTag(LR, msg.senderName, msg.message, msg.sendingTime, msg.senderImg);
 				 console.log(msg.sendingTime);
-			} 
+			} else {
+				var unreadCount = Number($(".unreadcount-"+msg.roomNumber).html())+1;
+				$(".unreadcount-"+msg.roomNumber).html(unreadCount);
+			}
 			let lastClass = "lastmessage-"+ msg.roomNumber;
 			console.log(lastClass);
+			$(".lastSendingTime-"+msg.roomNumber).html(msg.sendingTime);
 			$("." + lastClass).html(msg.message);
 			
+		}else if(msg.type = "check" && msg.sessionId != $("#sessionId").val()) {
+			
+				console.log('체크메시지 받음');
+			
+			if (msg.roomNumber == $("#roomNumber").val()) {
+				console.log('4');
+				
+			$(".readStatus small").text("읽음");
+			}
 		}else{
 			console.warn("unknown type!")
 		}
@@ -378,8 +415,8 @@ function wsEvt() {
 
   
 	 // 메세지 태그 append
-    function appendMyMessageTag(LR, myMessage, sendingTime)  {
-        const myChatLi = createMyMessageTag(LR, myMessage, sendingTime) ;
+    function appendMyMessageTagFromDB(LR, myMessage, sendingTime, checked)  {
+        const myChatLi = createMyMessageTagFromDB(LR, myMessage, sendingTime, checked) ;
  
         $('div.chat:not(.format) ul').append(myChatLi);
  
@@ -388,18 +425,57 @@ function wsEvt() {
    
     }
 	// 메세지 태그 생성
-    function createMyMessageTag(LR, myMessage, sendingTime) {
+    function createMyMessageTagFromDB(LR, myMessage, sendingTime, checked) {
         // 형식 가져오기
         let myChatLi = $('div.myChat.format ul li').clone();
- 
+ 		
+        if(checked == 'N') {
+        	checked = "(읽지않음)";
+        } else {
+        	checked = "(읽음)";
+        	
+        }
+        
+       console.log("태그생성:"+checked)
         // 값 채우기
         myChatLi.addClass(LR);
         myChatLi.find('.myMessage span').text(myMessage);
         myChatLi.find('.sendingTime small').text(sendingTime);
+        myChatLi.find('.readStatus small').text(checked);
  
         return myChatLi;
-    }	
+    }
 	
+
+function ChangeToZeroChecked(ChatRoomNo) {
+	console.log("체크메시지 전송")
+	var msg = {
+		    type: "check", 
+		    roomNumber: $("#roomNumber").val(),
+			sessionId : $("#sessionId").val()
+		  };
+	ws.send(JSON.stringify(msg));
+	
+	 $.ajax({
+			type: 'POST',								// 요청방식
+			url: '/mypage/checkMessage',										// 요청URL
+			data: JSON.stringify({"no": ChatRoomNo}),	// 서버로 보내는 데이터
+			contentType: 'application/json',		// 서버로 보내는 데이터의 컨텐츠 타입, 기본값은 "application/x-www-form-urlencoded" 다
+			dataType: 'json'		// 서버로부터 응답으로 받을 것으로 예상되는 컨텐츠 타입을 지정한다.
+				//success: function(responseData) {					// 서버로부터 성공적인 응답이 왔을 때 실행되는 함수다.
+					
+				//},
+				//error: function() {									// 서버로 보낸 요청이 실패했을 때 실행되는 함수다.
+				
+				//}
+		})
+		
+	
+	
+}
+	
+	
+
 	
 	
 function send() {
@@ -410,7 +486,8 @@ function send() {
 		    senderName: userName, 
 		    message: $("#chatting").val(), 
 		    sendingTime: getFullYmdStr(),
-		    senderImg: userImage
+		    senderImg: userImage,
+		    checked: "N"
 		    
 		  };
 	console.log($("#sessionId").val());
@@ -478,8 +555,8 @@ function send() {
 	    	$('div.chat:not(.format) ul').empty();
 			$("#chat-middle").show();
 			$("#roomNumber").val(ChatRoomNo);
-			
-		
+			ChangeToZeroChecked(ChatRoomNo); //메시지 읽음 확인
+			$(".unreadcount-"+ChatRoomNo).empty();
 			
 	    	console.log('여기까지 오키');
 			
@@ -491,7 +568,7 @@ function send() {
 					if(value.sendingUserNo == userNo){
 						console.log('2');
 						let LR = "right";
-						 appendMyMessageTag(LR, value.content, value.sendingDate);
+						 appendMyMessageTagFromDB(LR, value.content, value.sendingDate, value.checked);
 					}else{
 						console.log('3');
 						let LR = "left";

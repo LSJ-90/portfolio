@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../common/tags.jsp" %>
 
+
  <main id="main">
     <article id="admin-user">
       <form
@@ -54,7 +55,7 @@
               onchange="searchQnAs()"
             >
               	<option value="" selected disabled="disabled">호스트등급</option>
-				<option value="BRONZE" ${'BRONZE' eq param.grade ? 'selected' : ''}> 론즈</option>
+				<option value="BRONZE" ${'BRONZE' eq param.grade ? 'selected' : ''}>브론즈</option>
 				<option value="SILVER" ${'SILVER' eq param.grade ? 'selected' : ''}>실버</option>
 				<option value="GOLD" ${'GOLD' eq param.grade ? 'selected' : ''}>골드</option>
 				<option value="PLATINUM" ${'PLATINUM' eq param.grade ? 'selected' : ''}>플래티넘</option>
@@ -137,6 +138,8 @@
               <th>답변</th>
             </tr>
           </thead>
+
+
 			<tbody>
 				<c:choose>
 					<c:when test="${empty hostQnaList }">

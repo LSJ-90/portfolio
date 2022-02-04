@@ -15,25 +15,26 @@
   <title>객실 정보</title>
 </head>
 <body>
+
 <style>
 .contents {margin-left: 200px; }
 .roomInsert {margin-left: 1200px; }
 </style>
 
-  <div class="roomInsert">
-  	<a href="/host/insertRoom?hostNo=${param.hostNo }&hostingType=${param.hostingType }">객실 등록</a>
-  </div>
+	<div class="roomInsert">
+		<a href="/host/insertRoom?hostNo=${param.hostNo }&hostingType=${param.hostingType }">객실 등록</a>
+	</div>
 
-  <div>
-    <ul>
-      <li>객실 목록</li>
-      <c:forEach var="roomListDto" items="${roomListDto }">
-	      <li>
-	        <a href="#" class="roomNo" id="${roomListDto.no}">${roomListDto.name }</a>
-	      </li>
-      </c:forEach>
-    </ul>
-  </div>
+	<div>
+	  <ul>
+	    <li>객실 목록</li>
+	    <c:forEach var="roomListDto" items="${roomListDto }">
+	     <li>
+	       <a href="#" class="roomNo" id="${roomListDto.no}">${roomListDto.name }</a>
+	     </li>
+	    </c:forEach>
+	  </ul>
+	</div>
   
   
   <div class="contents" id="contents">
@@ -54,7 +55,7 @@
 		        <c:forEach var="image" items="${roomListDto.roomImages}">
 		        	<img src="/resources/images/room/${image.image }" width="200" />
 		        </c:forEach>
-		        <button class="btn btn-primary" onclick="location.href='/host/modifyRoom?hostNo=${param.hostNo }&hostingType=${param.hostingType }&roomNo=${roomListDto.no}'">수정하기</button>
+		        <button class="btn btn-primary" onclick="location.href='/host/roomModify?hostNo=${param.hostNo }&hostingType=${param.hostingType }&roomNo=${roomListDto.no}'">수정하기</button>
   			</li>
   		</c:if>
   		<c:if test="${!status.first}">
@@ -73,7 +74,7 @@
 		        <c:forEach var="image" items="${roomListDto.roomImages}">
 		        	<img src="/resources/images/room/${image.image }" width="200" />
 		        </c:forEach>
-		        <button class="btn btn-primary" onclick="location.href='/host/modifyRoom?hostNo=${param.hostNo }&hostingType=${param.hostingType }&roomNo=${roomListDto.no}'">수정하기</button>
+		        <button class="btn btn-primary" onclick="location.href='/host/roomModify?hostNo=${param.hostNo }&hostingType=${param.hostingType }&roomNo=${roomListDto.no}'">수정하기</button>
   			</li>
   		</c:if>
       </c:forEach>

@@ -20,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.hoge.dto.AccommoListDto;
 import com.hoge.dto.ReserveAccommoDto;
+import com.hoge.dto.RoomDto;
 import com.hoge.dto.RoomListDto;
 import com.hoge.form.Criteria;
 import com.hoge.form.ReservationInsertForm;
@@ -124,6 +125,21 @@ public class AccommodationService {
 		return roomDtos;
 	}
 	
+	// 유상효 roomNo로 객실 정보 가져오기
+	public RoomDto getRoomByRoomNo(int roomNo) {
+		return accommoMapper.getRoomByRoomNo(roomNo);
+	}
+	
+	// 유상효 roomNo로 객실 사진 가져오기
+	public List<RoomImage> getRoomImages(int roomNo) {
+		return accommoMapper.getRoomImagesByRoomNo(roomNo);
+	}
+	
+	// 유상효 객실 수정
+	public void roomModify(Room room) {
+		accommoMapper.roomModify(room);
+	}
+	
 	
 	// 카카오페이 API
 	private static final String HOST = "https://kapi.kakao.com";
@@ -212,5 +228,11 @@ public class AccommodationService {
         
         return null;
     }
+
+
+
+
+
+	
 	
 }
