@@ -15,16 +15,21 @@ import lombok.ToString;
 @Builder
 public class Criteria {
 
-	private String opt;
+	private String opt; 
 	private String value;
 	private String opt1;
+	private String value1;
+	
 	private String addressValue;
 	private String opt2;
+	
 	private String checkInBoxValue;
 	private String opt3;
 	private String checkOutBoxValue;
 	private String opt4;
 	private String maxStandardNumberValue;
+	private String startDate;
+	private String endDate;
 	private int beginIndex;
 	private int endIndex;
 }

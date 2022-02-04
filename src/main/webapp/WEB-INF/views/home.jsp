@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="common/tags.jsp" %>
 <head>
-	<link rel="stylesheet" href="../../resources/css/datepicker.min.css">
+	<link rel="stylesheet" href="../../resources/css/datepickerAdmin.min.css">
     <script src="../../resources/js/datepicker.js"></script>
     <script src="../../resources/js/datepicker.min.js"></script>
     <script src="../../resources/js/datepickerutil/datepicker.ko.js"></script>

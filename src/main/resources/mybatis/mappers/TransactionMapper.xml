@@ -4,6 +4,53 @@
   
 
 	
+    <!-- // 성하민
+int getTransactionListTotalRows(Criteria criteria);
+	 -->
+	<select id="getTransactionListTotalRows" parameterType="com.hoge.form.Criteria" resultType="int">
+		select 	count(*)
+		from TB_FINAL_TRANSACTIONS
+			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+				where TRANSACTION_DATE &gt;= to_date(#{startDate}, 'YYYY-MM-DD' )
+				and TRANSACTION_DATE &lt;= to_date(#{endDate}, 'YYYY-MM-DD' ) + 1
+			</if>
+	</select> 
+	
+	
+    <!-- // 성하민
+  List<Transaction> getTransactionList(Criteria criteria);
+	 -->
+	<select id="getTransactionList" parameterType="com.hoge.form.Criteria" resultType="com.hoge.vo.other.Transaction">
+		select 	
+			TRANSACTION_NO as no,
+			TRANSACTION_TYPE as type,
+			TRANSACTION_AMOUNT as amount,
+			TRANSACTION_TO_HOST_NO as toHostNo,
+			TRANSACTION_TO_USER_NO as toUserNo,
+			TRANSACTION_DATE as createdDate,
+			ACTIVITY_BOOKING_NO as activityBookingNo,
+			ROOM_BOOKING_NO as accommoBookingNo,
+			ACCUMULATED_MONEY as accumulatedMoney
+		from (
+			select 	
+			TRANSACTION_NO,
+			TRANSACTION_TYPE,
+			TRANSACTION_AMOUNT,
+			TRANSACTION_TO_HOST_NO,
+			TRANSACTION_TO_USER_NO,
+			TRANSACTION_DATE,
+			ACTIVITY_BOOKING_NO,
+			ROOM_BOOKING_NO,
+			ACCUMULATED_MONEY,
+	 		row_number() over (order by TRANSACTION_DATE desc) rn
+		from TB_FINAL_TRANSACTIONS
+			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+				where TRANSACTION_DATE &gt;= to_date(#{startDate}, 'YYYY-MM-DD' )
+				and TRANSACTION_DATE &lt;= to_date(#{endDate}, 'YYYY-MM-DD' ) + 1
+			</if>
+		)
+		where rn between #{beginIndex} and #{endIndex}
+	</select> 
   
 
 </mapper>

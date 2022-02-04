@@ -24,7 +24,7 @@ table {font-size: 10pt; text-align:center;}
 				<form id="form-search-accReview" class="row row-cols-lg-auto g-3 align-items-center">
 					<div class="row mb-3 mt-3">
 						<div class="col-3">
-							<select class="form-select" name="opt1">
+							<select class="form-select" name="opt">
 								<option value="" selected disabled="disabled">검색조건을 선택하세요</option>
 								<option value="회원번호"> 회원번호</option>
 								<option value="호스트번호"> 호스트번호</option>
@@ -34,7 +34,7 @@ table {font-size: 10pt; text-align:center;}
 							</select>
 						</div>
 						<div class="col-3">
-							<input type="text" class="form-control" name="value1" value="">
+							<input type="text" class="form-control" name="value" value="">
 						</div>
 						<div class="col-1">
 							<button type="button" class="btn btn-outline-primary btn-sm" id="btn-search-accReview">검색</button>
@@ -160,6 +160,26 @@ table {font-size: 10pt; text-align:center;}
 </div>
 
 <script type="text/javascript">
+$("#btn-search-actReview").click(function() {
+	var opt1 = $("select[name=opt1]").val();
+	var value1 = $.trim($(":input[name=value1]").val());
+	if (opt1 && value1) {
+	getActPage();
+	} else {
+		alert("검색조건 혹은 검색어를 입력하세요");					
+	}
+});
+$("#btn-search-accReview").click(function() {
+	var opt = $("select[name=opt]").val();
+	var value = $.trim($(":input[name=value]").val());
+	if (opt && value) {
+	$(":input[name=page]").val("1");
+	getAccPage();
+	} else {
+		alert("검색조건 혹은 검색어를 입력하세요");					
+	}
+});
+
 $(document).ready(function() {
 	getAccPage();
 	getActPage();
@@ -246,17 +266,17 @@ function getAccPage(page) {
 				}
 			})
 }
-function getActPage(page) {
-	var opt = $("select[name=opt]").val();
-	var value = $.trim($(":input[name=value]").val());
+function getActPage(page1) {
+	var opt1 = $("select[name=opt1]").val();
+	var value1 = $.trim($(":input[name=value1]").val());
 	
 			$.ajax({
 				type: 'POST',
 				url : "/admin/getActList.do", //서비스 주소 
 				data : { //서비스 처리에 필요한 인자값
-					page : page,
-					opt : opt,
-					value : value
+					page1 : page1,
+					opt1 : opt1,
+					value1 : value1
 				},
 				success : function(result) {
 					const list = result['list'];
@@ -302,7 +322,7 @@ function getActPage(page) {
 
 					// 번호를 표시하는 부분
 					for (var i = pagination['beginPage']; i <= pagination['endPage']; i++) {
-						if (page !== i) {
+						if (page1 !== i) {
 							block += "<li class='page-item'><a class='page-link' href='javascript:getActPage("
 									+ i + ")'>" + (i) + "</a></li>";
 						} else {
