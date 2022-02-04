@@ -3,7 +3,7 @@
 <%@ include file="../common/tags.jsp" %>
 
  <main id="main">
-      <article id="user-list">
+      <article id="admin-user">
         <form class="search-user__form" id="form-search-user" method="get" action="user-list">
           <input type="hidden" name="page" value="1" />
           <div class="search-radio">
@@ -22,22 +22,27 @@
             value="Y" ${'Y' eq param.deleted ? 'checked' : ''} />
             <label for="deleted-Y" class="user-check__title">탈퇴한 회원</label>
           </div>
-          <div class="search-bar">
-			<select class="search-select" name="opt">
-				<option value="" selected disabled="disabled">검색조건</option>
-				<option value="이름" ${'이름' eq param.opt ? 'selected' : ''}>이름</option>
-				<option value="전화번호" ${'전화번호' eq param.opt ? 'selected' : ''}>전화번호</option>
-				<option value="아이디" ${'아이디' eq param.opt ? 'selected' : ''}>아이디</option>
-				<option value="이메일" ${'이메일' eq param.opt ? 'selected' : ''}>이메일</option>
-			</select>
-            <input
-              type="text"
-              class="search-user"
-              name="value"
-              value="${param.value }"
-            />
-            <button type="button" class="btn__search" id="btn-search-user">검색</button>
-          </div>
+          
+          <ul class="search-bar">
+	          <li>
+		        <select class="search__select" name="opt">
+					<option value="" selected disabled="disabled">검색조건</option>
+					<option value="이름" ${'이름' eq param.opt ? 'selected' : ''}>이름</option>
+					<option value="전화번호" ${'전화번호' eq param.opt ? 'selected' : ''}>전화번호</option>
+					<option value="아이디" ${'아이디' eq param.opt ? 'selected' : ''}>아이디</option>
+					<option value="이메일" ${'이메일' eq param.opt ? 'selected' : ''}>이메일</option>
+				</select>
+	          </li>
+	          <li>
+		        <input
+		              type="text"
+		              class="search-user"
+		              name="value"
+		              value="${param.value }"
+		          />
+		          <button type="button" class="btn__search" id="btn-search-user">검색</button>
+	          </li>
+          </ul>
         </form>
 		<table class="user-list-table">
 			<colgroup>
