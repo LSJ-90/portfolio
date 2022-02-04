@@ -75,6 +75,12 @@ public class AdminController {
 		return "adminpage/review.admintiles";
 	}
 	
+	@GetMapping("/sales")
+	public String adminsalesInit() {
+		
+		return "adminpage/sales.admintiles";
+	}
+	
 	
 	//성하민
 	@PostMapping(value = "/getActList.do", produces = "application/json")

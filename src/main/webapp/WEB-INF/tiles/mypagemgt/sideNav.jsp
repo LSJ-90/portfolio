@@ -115,7 +115,7 @@ background-color: rgba(255, 205, 86, 1); color: #555;  }
 										
 									</ul>
 								</div>	
-							</div>
+							</div> <!-- 채팅 목록 -->
 							<div class="col-7" id="right-chat-message">
 								<div id="chatting-detail" class="chat-detail m-2">
 									<input type="hidden" id="roomNumber" name="roomNumber" value="">
@@ -126,12 +126,12 @@ background-color: rgba(255, 205, 86, 1); color: #555;  }
 											
 											</ul>
 										</div>	
-									</div>
+									</div><!-- 대화내용 -->
 									<div>
 									    <div id="yourMsg" class="input-div">
 									        <textarea class="chatting" id="chatting" placeholder="메세지 입력 후 엔터키를 누르세요"></textarea>
 									    </div>
-								    </div>
+								    </div><!-- 입력창 -->
 								</div>
 							</div>
 						</div> <!-- row -->
@@ -159,7 +159,7 @@ background-color: rgba(255, 205, 86, 1); color: #555;  }
 			                    <span></span>
 			                </div>
 			                <div class="lastSendingTime">
-			                    <span id="lastSendingTime">ssfs</span>
+			                    <span id="lastSendingTime"></span>
 			                </div>
 			                <div class="lastmessage">
 			                    <span id="lastmessage"></span>
@@ -167,7 +167,7 @@ background-color: rgba(255, 205, 86, 1); color: #555;  }
 			             </div> 
 		            	 <div class="col-1 p-3">
 		            	 	<div class="unreadcount">
-		                    	<span id="unreadcount">sfs</span>
+		                    	<span id="unreadcount"></span>
 		               		</div>
 		             	</div>   
 			          </div>      
@@ -177,7 +177,7 @@ background-color: rgba(255, 205, 86, 1); color: #555;  }
     </div>
 
  
- <div class="myChat format">
+ <div class="myChat format"> <!-- 내가 보낸거 -->
         <ul>
             <li>
             	<div class="row myMessage-box">
@@ -270,7 +270,7 @@ $(document).ready(function () {
     $('#modal-creating-chatting').css("height", modalHeight);
     $('#modal-creating-chatting').css("margin", (modalHeight/2)*-1);
     
-});
+});<!--모달창 위치 조절-->
 
 //모달창 마우스 드래그로 움직일 수 있게
 $("#modal-creating-chatting").draggable({
@@ -278,7 +278,7 @@ $("#modal-creating-chatting").draggable({
 });
 
 
-function chatopen() {
+function chatopen() {//모달창 띄우기
 	listopen();
 	
 	let chattingModal = new bootstrap.Modal(document.getElementById('modal-creating-chatting'), {
@@ -293,7 +293,6 @@ function listopen() {
 
 	$('div.chat-list:not(.format) ul').empty();
 	console.log(userNo);
-	
 	
 	
 	
