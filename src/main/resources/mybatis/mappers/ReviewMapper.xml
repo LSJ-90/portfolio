@@ -12,13 +12,16 @@
 		select count(*)
 		from TB_FINAL_ACCOMMO_REVIEWS R, TB_FINAL_ACCOMMODATIONS A
 		where R.ACCOMMO_NO = A.ACCOMMO_NO
-			<if test="opt != null and value != null">
+			<if test="opt != null and value != null and opt != '' and value != ''">
 				<choose>
 					<when test="opt == '호스트번호'">
 						and A.host_NO = #{value} 
 					</when>
 					<when test="opt == '시설번호'">
 						and A.ACCOMMO_NO = #{value}
+					</when>
+					<when test="opt == '회원번호'">
+						and R.USER_NO = #{value}
 					</when>
 					<when test="opt == '시설이름'">
 						and A.ACCOMMO_NAME like '%' || #{value} || '%'
@@ -39,19 +42,22 @@
 		select count(*)
 		from TB_FINAL_ACTIVITY_REVIEWS R, TB_FINAL_ACTIVITIES A
 		where R.ACTIVITY_NO = A.ACTIVITY_NO
-			<if test="opt != null and value != null">
+			<if test="opt1 != null and value1 != null and opt1 != '' and value1 != ''">
 				<choose>
-					<when test="opt == '호스트번호'">
-						and A.host_NO = #{value} 
+					<when test="opt1 == '호스트번호'">
+						and A.host_NO = #{value1} 
 					</when>
-					<when test="opt == '체험번호'">
-						and A.ACTIVITY_NO = #{value}
+					<when test="opt1 == '체험번호'">
+						and A.ACTIVITY_NO = #{value1}
 					</when>
-					<when test="opt == '체험이름'">
-						and A.ACTIVITY_NAME like '%' || #{value} || '%'
+					<when test="opt1 == '회원번호'">
+						and R.USER_NO = #{value1}
 					</when>
-					<when test="opt == '내용'">
-						and R.REVIEW_CONTENT like '%' || #{value} || '%'
+					<when test="opt1 == '체험이름'">
+						and A.ACTIVITY_NAME like '%' || #{value1} || '%'
+					</when>
+					<when test="opt1 == '내용'">
+						and R.REVIEW_CONTENT like '%' || #{value1} || '%'
 					</when>
 				</choose>
 			</if>
@@ -103,19 +109,22 @@
 	 		row_number() over (order by R.REVIEW_CREATED_DATE desc) rn
 		from TB_FINAL_ACTIVITY_REVIEWS R, TB_FINAL_ACTIVITIES A
 		where R.ACTIVITY_NO = A.ACTIVITY_NO
-			<if test="opt != null and value != null">
+			<if test="opt1 != null and value1 != null and opt1 != '' and value1 != ''">
 				<choose>
-					<when test="opt == '호스트번호'">
-						and A.host_NO = #{value} 
+					<when test="opt1 == '호스트번호'">
+						and A.host_NO = #{value1} 
 					</when>
-					<when test="opt == '체험번호'">
-						and A.ACTIVITY_NO = #{value}
+					<when test="opt1 == '체험번호'">
+						and A.ACTIVITY_NO = #{value1}
 					</when>
-					<when test="opt == '체험이름'">
-						and A.ACTIVITY_NAME like '%' || #{value} || '%'
+					<when test="opt1 == '회원번호'">
+						and R.USER_NO = #{value1}
 					</when>
-					<when test="opt == '내용'">
-						and R.REVIEW_CONTENT like '%' || #{value} || '%'
+					<when test="opt1 == '체험이름'">
+						and A.ACTIVITY_NAME like '%' || #{value1} || '%'
+					</when>
+					<when test="opt1 == '내용'">
+						and R.REVIEW_CONTENT like '%' || #{value1} || '%'
 					</when>
 				</choose>
 			</if>
@@ -176,10 +185,13 @@
 	 		row_number() over (order by R.REVIEW_CREATED_DATE desc) rn
 		from TB_FINAL_ACCOMMO_REVIEWS R, TB_FINAL_ACCOMMODATIONS A
 		where R.ACCOMMO_NO = A.ACCOMMO_NO
-			<if test="opt != null and value != null">
+			<if test="opt != null and value != null and opt != '' and value != ''">
 				<choose>
 					<when test="opt == '호스트번호'">
 						and A.host_NO = #{value} 
+					</when>
+					<when test="opt == '회원번호'">
+						and R.USER_NO = #{value}
 					</when>
 					<when test="opt == '시설번호'">
 						and A.ACCOMMO_NO = #{value}

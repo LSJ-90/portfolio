@@ -20,10 +20,11 @@ public class Transaction {
 	private int no;
 	private String type;
 	private long amount;
-	private int hostNo;
-	private Date createdDate;
-	private int activityBookingNo;
+	private int toHostNo;
+	private int toUserNo;
 	private int accommoBookingNo;
+	private int activityBookingNo;
+	private Date createdDate;
 	private long accumulatedMoney;
 	
 	

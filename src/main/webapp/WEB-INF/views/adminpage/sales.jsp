@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../common/tags.jsp" %>
- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
- <link rel="stylesheet" href="/resources/demos/style.css">
- <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<link rel="stylesheet" href="../../../resources/css/datepickerAdmin.min.css">
+    <script src="../../resources/js/datepicker.js"></script>
+    <script src="../../resources/js/datepicker.min.js"></script>
+    <script src="../../resources/js/datepickerutil/datepicker.ko.js"></script>
 <style>
-.datepicker {border: 1px solid black;}
+.cal-search {border: 1px solid black;}
 </style>
 
 
@@ -15,12 +15,11 @@
         <form class="search-user__form" id="form-search-user" method="get" action="user-list">
           <input type="hidden" name="page" value="1" />
           <h3> 기간 조회하기 </h3>
-          <br/> 시작 날짜 :<input class="datepicker" id="startDate" /> <br/> 
-          <br/> 종료 날짜 : <input class="datepicker" id="endDate" />
-
+              <label class="" for="address">기간별 검색</label>
+	        <input class="cal-search" id="startDate" type="text" name="startDate" value="">-<input class="cal-search" id="endDate" type="text" name="endDate" value="">
            <button type="button" class="btn__search" id="btn-search-user">검색</button>
           <br/><br/><br/> 
-          <div> <button name="filterDate" value="1">일주일</button>
+          <div> <button name="filterDate" value="1">일주일</button> 
            <button name="filterDate" value="2">3개월</button> 
            <button name="filterDate" value="3">6개월</button> 
            <button name="filterDate" value="4">1년</button>
@@ -51,182 +50,173 @@
 					<th>거래일</th>
 				</tr>
 			</thead>
-			<tbody>
-			<c:choose>
-			<c:when test="${empty users }">
-				<tr>
-					<td class="text-center" colspan="6">사용자 없음.</td>
-				</tr>
-			</c:when>
-			<c:otherwise>
-				<c:forEach var="user" items="${users }" varStatus="loop">
-				<tr>
-					<td>${user.no }</td>
-					<td>${user.id }</td>
-					<td>${user.name }</td>
-					<td>${user.tel }</td>
-					<td>${user.email }</td>
-					<td>${user.gender == 'female' ? '여' : '남'}</td>
-					<td>${user.pnt }</td>
-					<td><fmt:formatDate value="${user.registeredDate }" pattern="yyyy.MM.dd"/></td>
-					<td>${user.isHost == 'N' ?  'X' :'O'}</td>
-					<td>${user.deleted }</td>
-					<td>${user.reportedCount }</td>
-				</tr>
-				</c:forEach>
-			</c:otherwise>
-		</c:choose>
+			<tbody id="dataSection">
+		
 			</tbody>
 		</table>
 
 		
 <!-- 페이지 내비게이션 표시 -->		
 
-		<c:if test="${pagination.totalRecords gt 0 }">
-
-		<div id="pagination">
-			<ul class="pagination__list">
-				<li class="page__prev ${pagination.existPrev ? '' : 'disabled' }">
-					<a 
-						class="page-link" 
-						href="user-list?page=${pagination.prevPage }" 
-						data-page="${pagination.prevPage }"
-					>
-						<i class="fas fa-chevron-left"></i>
-					</a>
-				</li>
-
-				<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
-					<li class="page__num ${pagination.pageNo eq num ? 'active' : '' }">
-						<a 
-							class="page-link" 
-							href="user-list?page=${num }" 
-							data-page="${num }"
-						>
-						${num }
-						</a>
-					</li>	    			
-				</c:forEach>
-
-				<li class="page__next ${pagination.existNext ? '' : 'disabled' }">
-					<a 
-						class="page-link" 
-						href="user-list?page=${pagination.nextPage }" 
-						data-page="${pagination.nextPage }"
-					>
-						<i class="fas fa-chevron-right"></i>
-					</a>
-				</li>
-			</ul>
+		<!-- 페이지 내비게이션 표시 -->
+		<div class="row mb-3">
+			<div class="col">
+				<div class="pagination">
+					<ul id="paginationBox" class="pagination">
+		
+					</ul>
+				</div>
+			</div>
 		</div>
 		
-		</c:if>	
       
       </article>
     </main>
 
 <script type="text/javascript">
-$(function() { $('.datepicker').datepicker({dateFormat: 'yy-mm-dd'}); 
-})
 
-// 날짜 포맷("yyyy-MM-dd") 형식으로 반환 
-dateFormatter = function(newDay, today) { 
-	let year = newDay.getFullYear();
-	let month = newDay.getMonth()+1 ;
-	let date = newDay.getDate() ;
-
-	// 기존 날짜와 새로운 날짜가 다를 경우 
-	if(today) { 
-		let todayDate = today.getDate();
-		if(date != todayDate) { 
-			if(month == 0) year-=1 ;
-			month = (month + 11) % 12 ;
-			date = new Date(year, month, 0).getDate() ;// 해당 달의 마지막 날짜를 반환 
-			} 
-		} 
-	
-	month = ("0"+month).slice(-2) ;
-	date = ("0"+date).slice(-2) ;
-	return year+"-"+month+"-"+date ;
-	} 
-	
-document.getElementsByName("filterDate").forEach(e=> { 
-	e.addEventListener('click', function() { 
-		let endDate = new Date($("#endDate").val());
-		let newDate = new Date($("#endDate").val()) ;
-		switch(this.value) { 
-		case '1': 
-			console.log("일주일") ;
-		newDate.setDate(newDate.getDate() - 7) ;
-		newDate = dateFormatter(newDate); 
-		break; 
-		case '2': 
-			newDate.setMonth(newDate.getMonth() - 3) ;
-			newDate = dateFormatter(newDate, endDate) ;
-			console.log("3개월");
-			break; 
-		case '3':
-			newDate.setMonth(newDate.getMonth() - 6) ;
-			newDate = dateFormatter(newDate, endDate) ;
-			console.log("6개월"); break; 
-		case '4': 
-			newDate.setFullYear(newDate.getFullYear() - 1) ;
-			newDate = dateFormatter(newDate, endDate) ;
-			console.log("1년"); break; 
-			} 
-		$("#strtDate").val(newDate);
-		}) 
-	})
+// 검색 폼트리거
 
 
-/* 폼에서 onsubmit 이벤트가 발생해서 폼이 제출될 때 실행될 이벤트핸들러 함수를 등록한다.
-$("#form-search-book").submit(function() {	// form에서 onsubmit이벤트가 발생했을 때, 반환값에 따라서 form 입력값이 서버로 제출되거나 제출되지 않을 수 있다.
-	var opt = $("select[name=opt]").val();
-	var value = $.trim($(":input[name=value]").val());
-	
-	if (opt && value) {
-		return true;		// 이벤트핸들러 함수가 true를 반환하면 form의 입력값이 서버로 제출된다.
-	}
-	
-	alert("검색조건 혹은 검색어를 입력하세요");
-	return false;			// 이벤트핸들러 함수가 false를 반환하면 form의 입력값이 서버로 제출되지 않는다.
-});
-*/
-
-// 검색버튼을 클릭했을 때 실행될 이벤트핸들러 함수를 등록한다.
 $("#btn-search-user").click(function() {
-	// 검색옵션값과 입력값을 조회한다.
-	var opt = $("select[name=opt]").val();
-	var value = $.trim($(":input[name=value]").val());
-	
-	// 검색옵션값과 입력값이 모두 존재하면 페이지번호를 1로 설정하고 폼에서 onsubmit 이벤트를 발생시켜서 폼 입력값이 서버로 제출되게 한다.
-	if (opt && value) {
-		$(":input[name=page]").val("1");
-		$("#form-search-user").trigger("submit");
+	var startDate = $(":input[name=startDate]").val();
+	var endDate = $(":input[name=endDate]").val();
+	if (startDate && endDate) {
+	$(":input[name=page]").val("1");
+	getTransaction();
 	} else {
-		alert("검색조건 혹은 검색어를 입력하세요");					
+		alert("기간을 입력하세요");					
 	}
-	
 });
-
-// 페이지내비게이션의 링크를 클릭했을 때 실행될 이벤트핸들러 함수를 등록한다.
-$(".pagination a").click(function(event) {
-	event.preventDefault();
-	// 클릭한 페이지내비게이션의 페이지번호 조회하기
-	var pageNo = $(this).attr("data-page");
-	// 검색폼의 히든필드에 클릭한 페이지내비게이션의 페이지번호 설정
-	$(":input[name=page]").val(pageNo);
 	
-	// 검색폼에 onsubmit 이벤트 발생시키기
-	$("#form-search-user").trigger("submit");
-})
+$(function () {
+	
+	getTransaction();
+	datePickerSet($("#startDate"), $("#endDate"));
+});
+	
+
+	// 달력생성함수 sDate:시작일 eDate:종료일
+function datePickerSet(sDate, eDate) {
+
+        var sDay = sDate.val();
+        var eDay = eDate.val();
+
+        if (!isValidStr(eDay)) {
+            sDate.datepicker({
+                maxDate: new Date(eDay)
+            });
+        }
+        
+        sDate.datepicker({
+            language: 'ko',
+            autoClose: true,
+            onSelect: function () {
+                datePickerSet(sDate, eDate);
+            }
+        });
+
+        if (!isValidStr(sDay)) {
+            eDate.datepicker({
+                minDate: new Date(sDay)
+            });
+        } 
+        
+        eDate.datepicker({
+            language: 'ko',
+            autoClose: true,
+            onSelect: function () {
+                datePickerSet(sDate, eDate);
+            }
+        });
+	
+    //날짜 생성 여부
+    function isValidStr(str) {
+        if (str == null || str == undefined || str == "")
+            return true;
+        else
+            return false;
+    }
+}
 
 
-   $("input:radio[name=deleted]").click(function()
-    {
-	   $("#form-search-user").trigger("submit");
-    })
+function getTransaction(page) {
+	var startDate = $(":input[name=startDate]").val();
+	var endDate = $(":input[name=endDate]").val();
+	
+			$.ajax({
+				type: 'POST',
+				url : "/admin/getTransaction.do", //서비스 주소 
+				data : { //서비스 처리에 필요한 인자값
+					page : page,
+					startDate : startDate,
+					endDate : endDate
+				},
+				success : function(result) {
+					const list = result['list'];
+					const pagination = result['pagination'];
+					const criteria = result['criteria'];
+					var data = "";
+					var block = "";
 
+					console.log(pagination);
+					console.log(list);
+					console.log(criteria);
+					// 테이블의 row를 삽입하는 부분
+					
+					for (var i = 0; i < list.length; i++) {
+						data += "<tr>";
+						data += "<td>" + list[i].no + "</td>";
+						data += "<td>" + list[i].type + "</td>";
+						data += "<td>" + list[i].amount + "</td>";
+						data += "<td>" + list[i].toHostNo + "</td>";
+						data += "<td>" + list[i].toUserNo + "</td>";
+						data += "<td>" + list[i].accommoBookingNo + "</td>";
+						data += "<td>" + list[i].activityBookingNo + "</td>";
+						data += "<td>" + list[i].accumulatedMoney + "</td>";
+						data += "<td>" + list[i].createdDate + "</td>";
+						
+						//if (list[i]['answerContent']!=null) {
+				//	data += "<td>" + list[i].answerContent + "</td>";
+				//		} else {
+				//			data += "<td>답변없음</td>";
+				//		}
+				//		data += "</tr>";
+					}
+					$("#dataSection").html(data);
+
+					// 이전버튼 활성화 여부를 결정하는 부분
+					if (pagination['prevPage']) {
+						block += "<li class='page-item'><a class='page-link' href='javascript:getTransaction("
+								+ (pagination['beginPage'] - 1)
+								+ ")'> < </a></li>";
+					} else {
+						block += "<li class='page-item disabled'><a class='page-link'> < </a></li>";
+					}
+
+					// 번호를 표시하는 부분
+					for (var i = pagination['beginPage']; i <= pagination['endPage']; i++) {
+						if (page !== i) {
+							block += "<li class='page-item'><a class='page-link' href='javascript:getTransaction("
+									+ i + ")'>" + (i) + "</a></li>";
+						} else {
+							block += "<li class='page-item disabled'><a class='page-link'>"
+									+ (i) + "</a></li>";
+						}
+					}
+
+					if (pagination['nextPage']) {
+						block += "<li class='page-item'><a class='page-link' href='javascript:getTransaction("
+								+ (pagination['endPage'] + 1)
+								+ ")'>  > </a></li>";
+					} else {
+						block += "<li class='page-item disabled'><a class='page-link'> > </a></li>";
+					}
+					
+					$("#paginationBox").html(block);
+				}
+			})
+}
 
 
 
