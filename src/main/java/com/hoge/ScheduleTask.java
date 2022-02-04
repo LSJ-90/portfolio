@@ -11,7 +11,7 @@ public class ScheduleTask {
 
 	// 서비스나 디에이오 매퍼 오토와이어드 해서 실행한다.
 	@Autowired 
-	HostService hostService;
+	//HostService hostService;
 			
 	@Scheduled(cron = "	0 0 0 * * ?")
 	public void sendHostPaidMoney() {
