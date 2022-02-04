@@ -3,53 +3,67 @@
 <%@ include file="common/tags.jsp" %>
 <head>
 	<link rel="stylesheet" href="../../resources/css/datepicker.min.css">
-    <script src="../../resources/js/jquery-3.1.1.min.js"></script>
+    <script src="../../resources/js/datepicker.js"></script>
     <script src="../../resources/js/datepicker.min.js"></script>
     <script src="../../resources/js/datepickerutil/datepicker.ko.js"></script>
 </head>
 <h1>홈페이지</h1>
 <p><c:out value="${message }" /></p>
 <div>
-	<h3>위치inputBox</h3>
-	<label class="" for="location">
-	    <input id="location" type="text" value="">
-	</label>
-	
-	<div class="double">
-        <h3>체크인/체크아웃inputBox</h3>
-        <input id="datepicker1" type="text"> -
-        <input id="datepicker2" type="text">
-    </div>
-	
-	<h3>인원inputBox</h3>
-	<label class="" for="people">
-	    <input id="people" type="text" value="">
-	</label>
+	<form id="form-search-stay" action="/accommo/list" method="get">
+		<label class="" for="address">위치inputBox</label>
+			<input id="type" type="hidden" name="opt1" value="address">
+		    <input id="address" type="text" name="addressValue">
+		
+		
+        <label class="" for="address">체크인/체크아웃inputBox</label>
+	        <input id="type" type="hidden" name="opt2" value="checkInBox">
+	        <input id="checkInBox" type="text" name="checkInBoxValue"> -
+	        <input id="type" type="hidden" name="opt3" value="checkOutBox">
+	        <input id="checkOutBox" type="text" name="checkOutBoxValue">
+		
+		<label class="" for="maxStandardNumber">인원inputBox</label>
+			<input id="type" type="hidden" name="opt4" value="maxStandardNumber">
+		    <input id="maxStandardNumber" type="text" name="maxStandardNumberValue">
+		
+		<button id="serachStay" type="button" class="">검색버튼</button>	
+	</form>
 </div>
-<script>
-    datePickerSet($("#datepicker1"), $("#datepicker2"), true);
+<script type="text/javascript">
+	$(function () {
+		
+		// 검색 폼트리거
+		$("#serachStay").click(function() {
+			var opt1 = $("input[name=opt1]").val();
+			var addressValue = $(":input[name=addressValue]").val();
+			var opt2 = $("input[name=opt2]").val();
+			var checkInBoxValue = $(":input[name=checkInBoxValue]").val();
+			var opt3 = $("input[name=opt3]").val();
+			var checkOutBoxValue = $(":input[name=checkOutBoxValue]").val();
+			var opt4 = $("input[name=opt4]").val();
+			var maxStandardNumberValue = $(":input[name=maxStandardNumberValue]").val();
+			$("#form-search-stay").trigger("submit");
+		});
+	});
+		
 
-    function datePickerSet(sDate, eDate, flag) {
-
-        if (!isValidStr(sDate) && !isValidStr(eDate) && sDate.length > 0 && eDate.length > 0) {
+   	datePickerSet($("#checkInBox"), $("#checkOutBox"));
+	
+   	// 달력생성함수 sDate:시작일 eDate:종료일
+    function datePickerSet(sDate, eDate) {
+	
             var sDay = sDate.val();
             var eDay = eDate.val();
 
-            if (flag && !isValidStr(sDay) && !isValidStr(eDay)) { 		
-                var sdp = sDate.datepicker().data("datepicker");
-                sdp.selectDate(new Date(sDay.replace(/-/g, "/")));  
-
-                var edp = eDate.datepicker().data("datepicker");
-                edp.selectDate(new Date(eDay.replace(/-/g, "/")));
-            }
-
             if (!isValidStr(eDay)) {
                 sDate.datepicker({
-                    maxDate: new Date(eDay.replace(/-/g, "/"))
+                    maxDate: new Date(eDay)
                 });
             }
+            
             sDate.datepicker({
                 language: 'ko',
+                minDate: new Date(),
                 autoClose: true,
                 onSelect: function () {
                     datePickerSet(sDate, eDate);
@@ -58,9 +72,10 @@
 
             if (!isValidStr(sDay)) {
                 eDate.datepicker({
-                    minDate: new Date(sDay.replace(/-/g, "/"))
+                    minDate: new Date(sDay)
                 });
-            }
+            } 
+            
             eDate.datepicker({
                 language: 'ko',
                 autoClose: true,
@@ -68,8 +83,8 @@
                     datePickerSet(sDate, eDate);
                 }
             });
-        } 
-
+		
+        //날짜 생성 여부
         function isValidStr(str) {
             if (str == null || str == undefined || str == "")
                 return true;

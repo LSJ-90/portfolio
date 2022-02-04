@@ -32,6 +32,9 @@ public class AccommodationController {
 			@RequestParam("startDate") @Nullable String startDate, @RequestParam("endDate") @Nullable String endDate,
 			@RequestParam("address") @Nullable String address, Criteria criteria, Model model) {
 		
+		// logger.info("검색조건값:"+criteria);
+		// System.out.println(criteria.getCheckInBoxValue());
+		
 		int totalRecords = accommodationService.getTotalRows(criteria);
 		
 		Pagination pagination = new Pagination(page, totalRecords, 20);
