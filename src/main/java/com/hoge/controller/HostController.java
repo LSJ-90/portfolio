@@ -42,6 +42,8 @@ import com.hoge.form.ActHostModifyForm;
 import com.hoge.form.Criteria;
 import com.hoge.form.HostApplyForm;
 import com.hoge.form.InsertRoomForm;
+import com.hoge.form.PromotionDiscountForm;
+import com.hoge.form.PromotionOfferForm;
 import com.hoge.form.RoomModifyForm;
 import com.hoge.mapper.HostMapper;
 import com.hoge.pagination.Pagination;
@@ -63,6 +65,7 @@ import com.hoge.vo.other.Host;
 import com.hoge.vo.other.HostQnA;
 import com.hoge.vo.other.HostTransaction;
 import com.hoge.vo.other.Message;
+import com.hoge.vo.other.PromotionDiscount;
 import com.hoge.vo.other.User;
 import com.hoge.vo.other.Withdrawal;
 
@@ -334,6 +337,9 @@ public class HostController {
 		acc.setIntroContent(form.getAccIntroContent());
 		
 		hostService.accHostModify(host, acc);
+		logger.info("호스트 :" + host);
+		logger.info("숙소 :" + acc);
+		
 		
 		return "redirect:/host/main?hostNo="+form.getHostNo()+"&hostingType="+form.getHostingType();
 	}
@@ -442,14 +448,76 @@ public class HostController {
 	@PostMapping("/roomModify")
 	public String roomModify(RoomModifyForm form) throws IOException {
 		
+		logger.info("폼입력값 :" + form);
 		Room room = new Room();
-		BeanUtils.copyProperties(form, room);
+		room.setNo(form.getNo());
+		room.setAccommoNo(form.getAccommoNo());
+		room.setName(form.getName());
+		room.setWeekdaysPrice(form.getWeekdaysPrice());
+		room.setWeekendPrice(form.getWeekendPrice());
+		room.setPeakSeasonPrice(form.getPeakSeasonPrice());
+		room.setStandardNumber(form.getStandardNumber());
+		room.setMaximumNumber(form.getMaximumNumber());
+		room.setPricePerPerson(form.getPricePerPerson());
+		room.setAmenity(form.getAmenity());
+		room.setFeature(form.getFeature());
 		
+		logger.info("룸입력값 :" + room);
 		accommodationService.roomModify(room);
 		
 		return "redirect:mainRoom?hostNo="+form.getHostNo()+"&hostingType="+form.getHostingType();
 	}
 	
+	// 유상효 프로모션 관리페이지
+	@GetMapping("/mainPromotion")
+	public String mainPromotion(@RequestParam(name = "hostNo") int hostNo, @RequestParam(name = "hostingType") int hostingType, Model model) {
+		AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
+		model.addAttribute("accMainDto", accMainDto);
+			
+	return "hostpage/promotion.hosttiles";
+	}
+	
+	// 유상효 할인 프로모션폼 호출
+	@GetMapping("/addPromotionDiscount")
+	public String addPromotionDiscountForm(@RequestParam(name = "hostNo") int hostNo, @RequestParam(name = "hostingType") int hostingType, Model model) {
+		AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
+		model.addAttribute("accMainDto", accMainDto);
+		
+		return "form/addPromotionDiscountForm.hosttiles";
+	}
+	
+	// 유상효 할인 프로모션 등록
+	@PostMapping("/addPromotionDiscount")
+	public String addPromotionDiscount(PromotionDiscountForm form) {
+		logger.info("프로모션입력값 :" + form);
+		PromotionDiscount promotionDiscount = new PromotionDiscount();
+		promotionDiscount.setHostNo(form.getHostNo());
+		promotionDiscount.setWeekdaysDiscountRate(form.getWeekdaysDiscountRate());
+		promotionDiscount.setWeekendDiscountRate(form.getWeekendDiscountRate());
+		promotionDiscount.setPeakSeasonDiscountRate(form.getPeakSeasonDiscountRate());
+		promotionDiscount.setStartingDate(form.getStartingDate());
+		promotionDiscount.setEndingDate(form.getEndingDate());
+		promotionDiscount.setIntroContent(form.getIntroContent());
+		
+		hostService.addPromotionDiscount(promotionDiscount);
+		return "redirect:mainPromotion?hostNo="+form.getHostNo()+"&hostingType="+form.getHostingType();
+	}
+	
+	// 유상효 증정 프로모션폼 호출
+	@GetMapping("/addPromotionOffer")
+	public String addPromotionOfferForm(@RequestParam(name = "hostNo") int hostNo, @RequestParam(name = "hostingType") int hostingType, Model model) {
+		AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
+		model.addAttribute("accMainDto", accMainDto);
+		
+		return "form/addPromotionOfferForm.hosttiles";
+	}
+	
+	// 유상효 증정 프로모션 등록
+		@PostMapping("/addPromotionOffer")
+		public String addPromotionOffer(PromotionOfferForm form) {
+			return "redirect:mainPromotion?hostNo="+form.getHostNo()+"&hostingType="+form.getHostingType();
+		}
+		
 	
 	
 	

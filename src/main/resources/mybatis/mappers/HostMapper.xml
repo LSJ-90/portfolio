@@ -4,37 +4,37 @@
 
 	<!-- 유상효 userId로 가장 큰 hostNo 불러오기 -->
 	<select id="getHostNoByUserId" parameterType="String" resultType="int">
-		SELECT MAX(H.HOST_NO)
-		FROM TB_FINAL_HOSTS H, TB_FINAL_USERS U
-		WHERE H.HOST_USER_NO = U.USER_NO
-		AND USER_ID = #{VALUE}
+		select max(h.host_no)
+		from tb_final_hosts h, tb_final_users u
+		where h.host_user_no = u.user_no
+		and user_id = #{value}
 	</select>
 
 	<!-- 유상효 userId로 userNo 불러오기 -->
 	<select id="getUserNoByUserId" parameterType="String" resultType="int">
-	  	SELECT USER_NO FROM TB_FINAL_USERS
-	  	WHERE USER_ID = #{VALUE}
+	  	select user_no from tb_final_users
+	  	where user_id = #{value}
 	</select>
 
 	<!-- 유상효 호스트 등록하기 -->
 	<insert id="insertHostApply" parameterType="com.hoge.vo.other.Host">
 		<selectKey keyProperty="no" resultType="int" order="BEFORE">
-				select FINAL_HOST_NO_SEQ.NEXTVAL
+				select final_host_no_seq.nextval
 				from dual
 		</selectKey>
-		INSERT INTO TB_FINAL_HOSTS
+		insert into tb_final_hosts
 		(
-		HOST_NO,
-		HOST_USER_NO,
-		ACCOUNT_HOLDER_NAME,
-		ACCOUNT_NUMBER,
-		BANK_NAME,
-		HOST_NAME,
-		HOSTING_TYPE,
-		HOST_TEL,
-		HOST_MAIN_IMAGE
+		host_no,
+		host_user_no,
+		account_holder_name,
+		account_number,
+		bank_name,
+		host_name,
+		hosting_type,
+		host_tel,
+		host_main_image
 		)
-		VALUES
+		values
 			(
 			#{no},
 			#{userNo},
@@ -51,23 +51,23 @@
 	<!-- 유상효 숙소 등록하기 -->
 	<insert id="insertAcc" parameterType="com.hoge.vo.accommo.Accommodation">
 		<selectKey keyProperty="no" resultType="int" order="BEFORE">
-				select FINAL_ACCOMMO_NO_SEQ.NEXTVAL
+				select final_accommo_no_seq.nextval
 				from dual
 		</selectKey>
-		INSERT INTO TB_FINAL_ACCOMMODATIONS
+		insert into tb_final_accommodations
 		(
-		ACCOMMO_NO,
-		HOST_NO,
-		ACCOMMO_TYPE,
-		ACCOMMO_NAME,
-		ACCOMMO_INTRO_TITLE,
-		ACCOMMO_INTRO_CONTENT,
-		ACCOMMO_WEB_ADDRESS,
-		ACCOMMO_CHECK_IN_TIME,
-		ACCOMMO_CHECK_OUT_TIME,
-		ACCOMMO_ADDRESS
+		accommo_no,
+		host_no,
+		accommo_type,
+		accommo_name,
+		accommo_intro_title,
+		accommo_intro_content,
+		accommo_web_address,
+		accommo_check_in_time,
+		accommo_check_out_time,
+		accommo_address
 		)
-		VALUES
+		values
 			(
 			#{no},
 			#{hostNo},
@@ -84,12 +84,12 @@
 
 	<!-- 유상효 숙소 사진 저장 -->
 	<insert id="insertAccImage" parameterType="com.hoge.vo.accommo.AccommoImage">
-		INSERT INTO TB_FINAL_ACCOMMO_IMAGES
+		insert into tb_final_accommo_images
 		(
-		ACCOMMO_IMAGE,
-		ACCOMMO_NO
+		accommo_image,
+		accommo_no
 		)
-		VALUES
+		values
 			(
 			#{image},
 			#{accommoNo}
@@ -99,21 +99,21 @@
 	<!-- 유상효 체험 등록하기 -->	
 	<insert id="insertAct" parameterType="com.hoge.vo.activities.Activity">
 		<selectKey keyProperty="no" resultType="int" order="BEFORE">
-				select FINAL_ACTIVITY_NO_SEQ.NEXTVAL
+				select final_activity_no_seq.nextval
 				from dual
 		</selectKey>
-		INSERT INTO TB_FINAL_ACTIVITIES
+		insert into tb_final_activities
 		(
-		ACTIVITY_NO,
-		HOST_NO,
-		MAXIMUM_NUMBER,
-		PRICE_PER_PERSON,
-		ACTIVITY_NAME,
-		ACTIVITY_ADDRESS,
-		ACTIVITY_INTRO_TITLE,
-		ACTIVITY_INTRO_CONTENT
+		activity_no,
+		host_no,
+		maximum_number,
+		price_per_person,
+		activity_name,
+		activity_address,
+		activity_intro_title,
+		activity_intro_content
 		)
-		VALUES
+		values
 			(
 			#{no},
 			#{hostNo},
@@ -128,10 +128,10 @@
 	
 	<!-- 유상효 체험 사진 저장-->
 	<insert id="insertActImage" parameterType="com.hoge.vo.activities.ActivityImage">
-		INSERT INTO TB_FINAL_ACTIVITY_IMAGES
+		insert into tb_final_activity_images
 		(
-		ACTIVITY_IMAGE,
-		ACTIVITY_NO
+		activity_image,
+		activity_no
 		)
 		VALUES
 			(
@@ -315,7 +315,7 @@
 			host_no = #{hostNo}
 	</update>
 	
-	<update id="modifyAccImagesByHostNo" parameterType="com.hoge.vo.accommo.Accommodation">
+	<update id="modifyAccImagesByAccNo" parameterType="com.hoge.vo.accommo.Accommodation">
 		update tb_final_accommo_images
 		set
 			accommo_image #{image},
@@ -323,13 +323,39 @@
 			accommo_no = #{acc_no}
 	</update>
 	
-	<update id="modifyActImagesByHostNo" parameterType="com.hoge.vo.activities.ActivityImage">
+	<update id="modifyActImagesByAccNo" parameterType="com.hoge.vo.activities.ActivityImage">
 		update tb_final_activity_images
 		set
 			activity_image #{image},
 		where
 			activity_no = #{act_no}
 	</update>
+	
+	<!-- 유상효 할인 프로모션 등록 -->
+	<insert id="addPromotionDiscount" parameterType="com.hoge.vo.other.PromotionDiscount">
+		insert into tb_final_discount_promotions
+		(
+		discount_promotion_no,
+		weekdays_discount_rate,
+		weekend_discount_rate,
+		peak_season_discount_rate,
+		promotion_starting_date,
+		promotion_ending_date,
+		promotion_intro_content,
+		host_no
+		)
+		values
+			(
+			final_discount_promotion_no_seq.nextval,
+			#{weekdaysDiscountRate},
+			#{weekendDiscountRate},
+			#{peakSeasonDiscountRate},
+			#to_date({startingDate}),
+			#to_date({endingDate}),
+			#{introContent},
+			#{hostNo}
+			)
+	</insert>
 	
 	
 	

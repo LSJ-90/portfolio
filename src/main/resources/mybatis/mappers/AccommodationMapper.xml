@@ -304,7 +304,6 @@
 			price_per_person = #{pricePerPerson},
 			room_amenity = #{amenity},
 			room_feature = #{feature}
-			)
 		where
 			room_no = #{no}
 	</update>

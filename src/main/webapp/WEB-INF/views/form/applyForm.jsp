@@ -214,8 +214,8 @@
                 id="acctype"
                 name="accType"
               >
-                <option value="호텔">호텔</option>
-                <option value="게스트하우스" selected>게스트하우스</option>
+                <option value="호텔" selected>호텔</option>
+                <option value="게스트하우스">게스트하우스</option>
                 <option value="렌탈하우스">렌탈하우스</option>
                 <option value="펜션">펜션</option>
                 <option value="한옥">한옥</option>
@@ -274,20 +274,43 @@
               <label for="accCheckInTime" class="registration__title"
                 >체크인 · 체크아웃</label
               >
-              <input
-                type="text"
+              <select
                 class="registration__check-time"
                 id="accCheckInTime"
                 name="accCheckInTime"
-                placeholder="체크인 시간"
-              />
-              <input
-                type="text"
+              >
+                <option disabled selected>check-in time</option>
+                <option value="12:00" >12:00</option>
+                <option value="12:30" >12:30</option>
+                <option value="13:00" >13:00</option>
+                <option value="13:30" >13:30</option>
+                <option value="14:00" >14:00</option>
+                <option value="14:30" >14:30</option>
+                <option value="15:00" >15:00</option>
+                <option value="15:30" >15:30</option>
+                <option value="16:00" >16:00</option>
+                <option value="16:30" >16:30</option>
+                <option value="17:00" >17:00</option>
+                <option value="17:30" >17:30</option>
+              </select>
+              <select
                 class="registration__check-time"
                 id="accCheckOutime"
                 name="accCheckOutime"
-                placeholder="체크아웃 시간"
-              />
+              >
+                <option disabled selected>check-out time</option>
+                <option value="09:00" >09:00</option>
+                <option value="09:30" >09:30</option>
+                <option value="10:00" >10:00</option>
+                <option value="10:30" >10:30</option>
+                <option value="11:00" >11:00</option>
+                <option value="11:30" >11:30</option>
+                <option value="12:00" >12:00</option>
+                <option value="12:30" >12:30</option>
+                <option value="13:00" >13:00</option>
+                <option value="13:30" >13:30</option>
+                <option value="14:00" >14:00</option>
+              </select>
             </li>
             <li class="registration__item textarea">
               <label for="accIntroContent" class="registration__title"

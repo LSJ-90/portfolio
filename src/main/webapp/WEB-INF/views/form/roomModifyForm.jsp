@@ -27,7 +27,7 @@
 					<input type="hidden" value="${accMainDto.accNo }" id="accommoNo" name="accommoNo" />
 					<input type="hidden" value="${accMainDto.hostNo }" id="hostNo" name="hostNo" />
 					<input type="hidden" value="${accMainDto.hostingType }" id="hostingType" name="hostingType" />
-					<input type="hidden" value="${roomDto.no }" id="roomNo" name="roomNo" />
+					<input type="hidden" value="${roomDto.no }" id="no" name="no" />
 				</div>
 				<div class="mb-3">
 					<label class="form-label">객실 이름</label>
@@ -103,7 +103,7 @@
 		    		<img src="/resources/images/room/${image.image }" width="200" />
 		    	</c:forEach>
 				<div class="mb-3 text-end">
-					<button class="btn btn-primary" id="submit">객실 수정</button>
+					<button type="submit" class="btn btn-primary" id="submit">객실 수정</button>
 				</div>			
 			</div>
 		</div>
@@ -114,8 +114,5 @@
 $('#standardNumber option[value=${roomDto.standardNumber}]').prop('selected', 'selected').change();
 $('#maximumNumber option[value=${roomDto.maximumNumber}]').prop('selected', 'selected').change();
 
-	$('#submit').click(function(){
-		$("#roomModify").submit
-	})
 </script>
 </html>
