@@ -302,7 +302,6 @@
 		                  class="answer__textarea"
 		                  name="answerContent"
 		                  id="answerContent"
-		                  value=""
 		                ></textarea>
 		              </div>
 		              <div class="answer-btn">
@@ -355,7 +354,7 @@ function creatingModal(no) {
 			
 			
 			if (QnaDto.answerContent!=null) {				
-			$('input[name=answerContent]').attr('value', QnaDto.answerContent);
+			$("#answerContent").text(QnaDto.answerContent);
 			$("#answer-btn").text('답변 수정');
 			} else {
 				$("#answer-btn").text('답변 등록');

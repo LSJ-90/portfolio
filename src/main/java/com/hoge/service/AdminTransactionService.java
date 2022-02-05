@@ -34,6 +34,15 @@ public class AdminTransactionService {
 		return transactionMapper.getTransactionListTotalRows(criteria);
 		
 	}
+	
+	public long getTotalDeposit(Criteria criteria) {
+		return transactionMapper.getTotalDeposit(criteria);
+	}
+	public long getTotalWithdrawal(Criteria criteria) {
+		return transactionMapper.getTotalWithdrawal(criteria);
+		
+	}
+	
 
 	
 }

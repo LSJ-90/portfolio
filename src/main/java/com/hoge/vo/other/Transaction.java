@@ -2,6 +2,8 @@ package com.hoge.vo.other;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,6 +26,7 @@ public class Transaction {
 	private int toUserNo;
 	private int accommoBookingNo;
 	private int activityBookingNo;
+	@JsonFormat(pattern = "yyyy년 M월 d일")
 	private Date createdDate;
 	private long accumulatedMoney;
 	

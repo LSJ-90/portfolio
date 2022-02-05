@@ -21,4 +21,10 @@ public interface TransactionMapper {
 	int getTransactionListTotalRows(Criteria criteria);
 	
 	
+	long getTotalDeposit(Criteria criteria);
+	long getTotalWithdrawal(Criteria criteria);
+	
+	
+	
+	
 }

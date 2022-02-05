@@ -145,6 +145,9 @@ public class AdminController {
 		criteria.setEndIndex(pagination.getEnd());
 		logger.info("검색조건 및 값 :" + criteria);
 		
+		long totalDeposit = adminTransactionService.getTotalDeposit(criteria);
+		long totalWithdrawal = adminTransactionService.getTotalWithdrawal(criteria);
+		long totalsales = totalDeposit - totalWithdrawal;
 		
 		// 검색조건(opt, value)과 조회범위(beginIndex, endIndex)가 포함된 Criteria를 서비스에 전달해서 데이터 조회
 		List<Transaction> list = adminTransactionService.getTransactionList(criteria);
@@ -155,6 +158,10 @@ public class AdminController {
 		result.put("pagination", pagination);
 		
 		result.put("criteria", criteria);
+		
+		result.put("totalDeposit", totalDeposit);
+		result.put("totalWithdrawal", totalWithdrawal);
+		result.put("totalsales", totalsales);
 		
 		// 게시글 화면 출력
 		result.put("list", list);
