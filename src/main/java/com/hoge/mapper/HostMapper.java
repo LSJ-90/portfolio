@@ -72,5 +72,10 @@ public interface HostMapper {
 	void insertActivity(Activity act);
 	
 
+	
+	
+	//성하민
+	void updateHost(Host host);
+	
 
 }

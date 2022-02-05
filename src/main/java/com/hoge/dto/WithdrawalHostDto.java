@@ -1,4 +1,4 @@
-package com.hoge.vo.other;
+package com.hoge.dto;
 
 import java.util.Date;
 
@@ -17,9 +17,11 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Withdrawal {
+public class WithdrawalHostDto {
 
+	private int withdrawalNo;
 	private int hostNo;
+	private String hostName;
 	private String accountHolderName;
 	private long accountNumber;
 	private String bankName;

@@ -15,15 +15,16 @@
       <article id="user-list">
         <form class="search-user__form" id="form-search-user" method="get" action="user-list">
           <input type="hidden" name="page" value="1" />
-          <h3> 기간 조회하기 </h3>
+         	 <h3> 기간 조회하기 </h3>
               <label class="" for="address">기간별 검색</label>
-	        <input class="cal-search" id="startDate" type="text" name="startDate" value="">-<input class="cal-search" id="endDate" type="text" name="endDate" value="">
-           <button type="button" class="btn__search" id="btn-search-user">검색</button>
-          <br/><br/><br/> 
-          <div> <button type="button" name="filterDate" id="oneWeek">일주일</button> 
-           <button type="button" name="filterDate" id="oneMonth">1개월</button> 
-           <button type="button"name="filterDate" id="threeMonths">3개월</button> 
-           <button type="button"name="filterDate" id="sixMonths">6개월</button>
+		      <input class="cal-search" id="startDate" type="text" name="startDate" value="">-<input class="cal-search" id="endDate" type="text" name="endDate" value="">
+	          <button type="button" class="btn__search" id="btn-search-user">검색</button>
+	          <br/><br/><br/> 
+          <div> 
+	           <button type="button" name="filterDate" id="oneWeek">일주일</button> 
+	           <button type="button" name="filterDate" id="oneMonth">1개월</button> 
+	           <button type="button"name="filterDate" id="threeMonths">3개월</button> 
+	           <button type="button"name="filterDate" id="sixMonths">6개월</button>
           </div>
         </form>
         <div class="row mb-3">
@@ -33,8 +34,8 @@
 						<col style="width: 35%;">
 						<col style="width: 35%;">
 						<col style="width: 30%;">
-						</colgroup>
-						<thead>
+					</colgroup>
+					<thead>
 						<tr>
 							<th>총 입금액</th>
 							<th>총 출금액</th>
@@ -47,37 +48,39 @@
 				</table>
 			</div>
 		</div>
-		<table class="user-list-table">
-			<colgroup>
-				<col style="width: 4%;">
-				<col style="width: 12%;">
-				<col style="width: 9%;">
-				<col style="width: 9%;">
-				<col style="width: 9%;">
-				<col style="width: 13%;">
-				<col style="width: 13%;">
-				<col style="width: 13%;">
-				<col style="width: 11%;">
-			</colgroup>
-			<thead>
-				<tr>
-					<th>No</th>
-					<th>종류</th>
-					<th>거래금액</th>
-					<th>(환불)회원번호</th>
-					<th>(출금)호스트번호</th>
-					<th>(입금)숙소예약번호</th>
-					<th>(입금)체험예약번호</th>
-					<th>누적액</th>
-					<th>거래일</th>
-				</tr>
-			</thead>
-			<tbody id="dataSection">
-		
-			</tbody>
-		</table>
-
-		
+		<div class="row mb-3">
+			<div class="col">
+				<table class="user-list-table">
+					<colgroup>
+						<col style="width: 4%;">
+						<col style="width: 12%;">
+						<col style="width: 9%;">
+						<col style="width: 9%;">
+						<col style="width: 9%;">
+						<col style="width: 13%;">
+						<col style="width: 13%;">
+						<col style="width: 13%;">
+						<col style="width: 11%;">
+					</colgroup>
+					<thead>
+						<tr>
+							<th>No</th>
+							<th>종류</th>
+							<th>거래금액</th>
+							<th>(환불)회원번호</th>
+							<th>(출금)호스트번호</th>
+							<th>(입금)숙소예약번호</th>
+							<th>(입금)체험예약번호</th>
+							<th>누적액</th>
+							<th>거래일</th>
+						</tr>
+					</thead>
+					<tbody id="dataSection">
+				
+					</tbody>
+				</table>
+			</div>
+		</div>>
 <!-- 페이지 내비게이션 표시 -->		
 
 		<!-- 페이지 내비게이션 표시 -->
@@ -90,8 +93,6 @@
 				</div>
 			</div>
 		</div>
-		
-      
       </article>
     </main>
 

@@ -271,6 +271,27 @@
 		and h.host_no = #{value}
 	</select>
 	
+	
+
+	<!-- 성하민 -->
+	<update id="updateHost" parameterType="com.hoge.vo.other.Host">
+		update tb_final_hosts
+		set
+			host_name = #{name},
+			host_tel = #{tel},
+			account_holder_name = #{accountHolderName},
+			bank_name = #{bankName},
+			account_number = #{accountNumber},
+			host_main_image = #{mainImage},
+			grade_name = #{gradeName},
+			status = #{status},
+			status_detail = #{statusDetail},
+			request = #{request},
+			accumulated_Money = #{accumulatedMoney}
+		where
+			host_no = #{no}
+	</update>
+	
 	<!-- 호스트 넘버로 호스트 수정하기 -->
 	<update id="modifyHostByHostNo" parameterType="com.hoge.vo.other.Host">
 		update tb_final_hosts

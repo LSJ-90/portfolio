@@ -89,7 +89,7 @@
       </li>
       <li class="tab__content">
         <ul class="tab__menu">
-          <li class="tab__item"><a href="/admin/withdrawal">송금 신청내역</a></li>
+          <li class="tab__item"><a href="/admin/withdrawal-waiting">송금 신청내역</a></li>
           <li class="tab__item"><a href="/admin/sales">매출내역</a></li>
         </ul>
       </li>

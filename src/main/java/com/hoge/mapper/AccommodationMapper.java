@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.hoge.dto.AccommoListDto;
 import com.hoge.dto.ReserveAccommoDto;
+import com.hoge.dto.RoomBookingBatchDto;
 import com.hoge.dto.RoomDto;
 import com.hoge.dto.RoomListDto;
 import com.hoge.form.Criteria;
@@ -58,4 +59,13 @@ public interface AccommodationMapper {
 	// 유상효 객실 수정
 	void roomModify(Room room);
 	
+	
+	//성하민 예약정보 변경
+	void updateRoomBooking(RoomBooking roomBooking);
+	
+	//성하민 방 예약정보 가져오기
+	RoomBooking getRoomBookingByRoomBookingNo(int no);
+	
+	//성하민 방 예약+호스트정보+grade 정보 가져오기
+	List<RoomBookingBatchDto> getRoomBookingBatchDto();
 }

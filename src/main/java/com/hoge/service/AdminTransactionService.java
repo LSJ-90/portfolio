@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hoge.dto.RegisterCountPerDayDto;
+import com.hoge.dto.WithdrawalHostDto;
 import com.hoge.form.Criteria;
 import com.hoge.mapper.HostTransactionMapper;
 import com.hoge.mapper.StatisticsMapper;
 import com.hoge.mapper.TransactionMapper;
+import com.hoge.mapper.WithdrawalMapper;
 import com.hoge.vo.other.HostTransaction;
 import com.hoge.vo.other.Transaction;
 
@@ -24,6 +26,8 @@ public class AdminTransactionService {
 	
 	@Autowired
 	private TransactionMapper transactionMapper;
+	@Autowired
+	private WithdrawalMapper withdrawalMapper;
 	
 	public List<Transaction> getTransactionList(Criteria criteria){
 		List<Transaction> transactionList = transactionMapper.getTransactionList(criteria);
@@ -44,5 +48,26 @@ public class AdminTransactionService {
 	}
 	
 
+
+	  public List<WithdrawalHostDto> getApprovedWithdrawalList(Criteria criteria){
+		  return withdrawalMapper.getApprovedWithdrawalList(criteria);
+	  }
+	  public int getApprovedWithdrawalCount(Criteria criteria) {
+		  return withdrawalMapper.getApprovedWithdrawalCount(criteria);
+	  }
+	
+	  
+	   
+	  
+	  public List<WithdrawalHostDto> getWaitingWithdrawalList(Criteria criteria){
+		  return withdrawalMapper.getWaitingWithdrawalList(criteria);
+	  }
+	  public int getWaitingWithdrawalCount(Criteria criteria) {
+		  return withdrawalMapper.getWaitingWithdrawalCount(criteria);
+	  }
+	  
+	  public void approveWithdrawal(int withdrawalNo) {
+		  withdrawalMapper.approveWithdrawal(withdrawalNo);
+	  }
 	
 }
