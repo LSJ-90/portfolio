@@ -156,10 +156,10 @@
 		insert into tb_final_room_bookings
 			(room_booking_no, room_no, user_no, check_in_date, check_out_date, room_booking_status, 
 			room_payment, room_tax_included_price, room_used_pnt, room_paid_price, room_booking_name,
-			room_booking_tel, room_extra_people)
+			room_booking_tel, room_extra_people, tid)
 		values
 			(#{no}, #{roomBooking.roomNo}, #{userNo}, #{roomBooking.checkInDate}, #{roomBooking.checkOutDate}, 1, #{roomBooking.payment}, #{roomBooking.taxIncludedPrice}, #{roomBooking.usedPnt},
-			#{roomBooking.paidPrice}, #{roomBooking.roomUserName}, #{roomBooking.roomUserTel}, #{roomBooking.extraPeople})
+			#{roomBooking.paidPrice}, #{roomBooking.roomUserName}, #{roomBooking.roomUserTel}, #{roomBooking.extraPeople}, #{tid})
 	</insert>
 	
 	<!-- 염주환 -->
@@ -187,9 +187,9 @@
 			from dual
 		</selectKey>
 		insert into tb_final_transactions
-			(transaction_no, transaction_type, transaction_amount, transaction_to_user_no, room_booking_no, accumulated_money)
+			(transaction_no, transaction_type, transaction_amount, room_booking_no, accumulated_money)
 		values
-			(#{transactionNo}, 1, #{amount}, #{userNo}, #{no}, #{accumulated})
+			(#{transactionNo}, 1, #{amount}, #{no}, #{accumulated})
 	</insert>
 	
 	<!-- 유상효 객실 등록하기 -->
@@ -315,28 +315,41 @@
 			room_no = #{no}
 	</update>
 	
+	<select id="getRoomBookingByUserNO" parameterType="int" resultType="com.hoge.vo.accommo.RoomBooking">
+		select 
+			checkInDate,
+			checkOutDate, 
+			extraPeople, 
+			paidPrice, 
+			no,
+			roomNo,
+			bookingMadeDate
+		from 
+			(select 
+				rownum, 
+                check_in_date as checkInDate,
+                check_out_date as checkOutDate, 
+                room_extra_people as extraPeople,
+                room_paid_price as paidPrice,
+                room_booking_no as no,
+                room_no as roomNo,
+                booking_made_date as bookingMadeDate
+			from 
+				tb_final_room_bookings
+			where 
+				user_no=#{value }
+			order by 
+				booking_made_date desc)
+		where rownum = 1
+	</select>
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	<update id="updateUserPnt">
+		update 
+			tb_final_users
+		set 
+			user_pnt = (select user_pnt from tb_final_users where user_no=#{userNo})-#{usedPnt}
+		where user_no=#{userNo}
+	</update>
 	
 	
 	

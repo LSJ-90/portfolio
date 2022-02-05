@@ -257,7 +257,6 @@
                 placeholder="숙소 타이틀을 입력해 주세요"
               />
             </li>
-
             <li class="registration__item">
               <label for="accAddress" class="registration__title"
                 >주소</label
@@ -639,7 +638,8 @@
     </form>
   </article>
 </main>
-	
+
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8606c7f07c8e2d80f27869dab7ebaec2"></script>
 <script type="text/javascript">
 
 function first() {
@@ -742,6 +742,29 @@ $(function(){
 			
 		}
 	});
+	
+	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+    mapOption = {
+        center: new kakao.maps.LatLng(37.56508, 126.97852), // 지도의 중심좌표
+        level: 5, // 지도의 확대 레벨
+        mapTypeId : kakao.maps.MapTypeId.ROADMAP // 지도종류
+    }; 
+
+	// 지도를 생성한다 
+	var map = new kakao.maps.Map(mapContainer, mapOption); 
+	
+	// 지도에 확대 축소 컨트롤을 생성한다
+	var zoomControl = new kakao.maps.ZoomControl();
+	
+	// 지도의 우측에 확대 축소 컨트롤을 추가한다
+	map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+	
+	// 지도에 마커를 생성하고 표시한다
+	var marker = new kakao.maps.Marker({
+	    position: new kakao.maps.LatLng(37.56682, 126.97865), // 마커의 좌표
+	    map: map // 마커를 표시할 지도 객체
+	});
+	
 });
 		
 </script>

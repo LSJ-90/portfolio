@@ -35,7 +35,7 @@ public class LoginedUserArgumentResolver implements HandlerMethodArgumentResolve
 	@Override
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-		logger.info("@LoginedUser이 부착된 매개변수다. HttpSession객체에 저장된 인증된 사용자정보를 매개변수로 전달한다.");
+		// logger.info("@LoginedUser이 부착된 매개변수다. HttpSession객체에 저장된 인증된 사용자정보를 매개변수로 전달한다.");
 		// HttpSession객체에 "LOGIN_USER"라는 속성명으로 저장된 사용자정보를 반환한다.
 		return httpSession.getAttribute("LOGIN_USER");
 	}

@@ -2,7 +2,7 @@ package com.hoge.vo.other;
 
 import java.sql.Date;
 
-import com.hoge.form.ReservationInsertForm;
+import com.hoge.form.AccommoReserveForm;
 
 import lombok.Data;
 

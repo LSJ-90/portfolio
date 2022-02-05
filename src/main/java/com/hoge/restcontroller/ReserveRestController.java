@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hoge.dto.ActivityPriceDto;
 import com.hoge.dto.PriceDto;
 import com.hoge.dto.PromotionDiscountDto;
 import com.hoge.service.AccommodationService;
@@ -32,8 +33,8 @@ public class ReserveRestController {
 	private PromotionService promotionService;
 	
 	// 염주환
-	@GetMapping("/getPrice")
-	public PriceDto getPrice(String checkIn, String checkOut, int roomNo, int number, int point) throws Exception {
+	@GetMapping("/getAccommoPrice")
+	public PriceDto getAccommoPrice(String checkIn, String checkOut, int roomNo, int number, int point) throws Exception {
 		// 두 날짜 사이의 날짜list 생성
 		List<Date> dateList = new ArrayList<>();
 		DateFormat df = new SimpleDateFormat("yyyyMMdd");
@@ -268,6 +269,15 @@ public class ReserveRestController {
 		
 		
 		return priceDto;
+	}
+	
+	// 염주환
+	@GetMapping("/getActivityPrice")
+	public ActivityPriceDto getAccommoPrice(long pricePer, int number, int point) {
+		ActivityPriceDto activityPriceDto = new ActivityPriceDto();
+		activityPriceDto.setPrice(pricePer*number);
+		activityPriceDto.setTotalPrice((pricePer*number)-point);
+		return activityPriceDto;
 	}
 	
 }
