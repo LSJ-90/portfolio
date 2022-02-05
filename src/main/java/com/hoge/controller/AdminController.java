@@ -22,6 +22,8 @@ import com.hoge.dto.AdminHostQnADto;
 import com.hoge.dto.AdminUserQnADto;
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.RegisterCountPerDayDto;
+import com.hoge.dto.RoomBookingBatchDto;
+import com.hoge.dto.WithdrawalHostDto;
 import com.hoge.form.Criteria;
 import com.hoge.form.CriteriaAdminQnA;
 import com.hoge.form.CriteriaAdminUser;
@@ -29,6 +31,7 @@ import com.hoge.pagination.Pagination;
 import com.hoge.service.AdminTransactionService;
 import com.hoge.service.QnAService;
 import com.hoge.service.ReviewService;
+import com.hoge.service.ScheduleTaskService;
 import com.hoge.service.StatisticsService;
 import com.hoge.service.UserService;
 import com.hoge.vo.other.HostQnA;
@@ -61,6 +64,9 @@ public class AdminController {
 	@Autowired
 	private StatisticsService statisticsService;
 	
+	@Autowired
+	private ScheduleTaskService scheduleTaskService;
+	
 	
 	@Autowired
 	private AdminTransactionService adminTransactionService;
@@ -78,7 +84,8 @@ public class AdminController {
 	
 	@GetMapping("/review")
 	public String adminreviewInit() {
-		
+		 List<RoomBookingBatchDto> roomBookingBatchDto = scheduleTaskService.getRoomBookingBatchDto();
+		 System.out.println(roomBookingBatchDto);
 		return "adminpage/review.admintiles";
 	}
 	
@@ -86,6 +93,49 @@ public class AdminController {
 	public String adminsalesInit() {
 		
 		return "adminpage/sales.admintiles";
+	}
+	
+	@GetMapping("/withdrawal")
+	public String withdrawalInit(@RequestParam(name = "page", required = false, defaultValue = "1") String page, 
+			Criteria criteria, Model model) {
+		
+		// 검색조건에 해당하는 총 데이터 갯수 조회
+		int totalRecords = adminTransactionService.getApprovedWithdrawalCount(criteria);
+		// 현재 페이지번호와 총 데이터 갯수를 전달해서 페이징 처리에 필요한 정보를 제공하는 Pagination객체 생성
+		Pagination pagination = new Pagination(page, totalRecords);
+		
+		// 요청한 페이지에 대한 조회범위를 criteria에 저장
+		criteria.setBeginIndex(pagination.getBegin());
+		criteria.setEndIndex(pagination.getEnd());
+
+		// 검색조건(opt, value)과 조회범위(beginIndex, endIndex)가 포함된 Criteria를 서비스에 전달해서 데이터 조회
+		List<WithdrawalHostDto> list = adminTransactionService.getApprovedWithdrawalList(criteria);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pagination", pagination);
+		
+		return "adminpage/withdrawal.admintiles";
+	}
+	@GetMapping("/withdrawal-waiting")
+	public String withdrawalWaitingInit(@RequestParam(name = "page", required = false, defaultValue = "1") String page, 
+			Criteria criteria, Model model) {
+		
+		// 검색조건에 해당하는 총 데이터 갯수 조회
+		int totalRecords = adminTransactionService.getWaitingWithdrawalCount(criteria);
+		// 현재 페이지번호와 총 데이터 갯수를 전달해서 페이징 처리에 필요한 정보를 제공하는 Pagination객체 생성
+		Pagination pagination = new Pagination(page, totalRecords);
+		
+		// 요청한 페이지에 대한 조회범위를 criteria에 저장
+		criteria.setBeginIndex(pagination.getBegin());
+		criteria.setEndIndex(pagination.getEnd());
+		
+		// 검색조건(opt, value)과 조회범위(beginIndex, endIndex)가 포함된 Criteria를 서비스에 전달해서 데이터 조회
+		List<WithdrawalHostDto> list = adminTransactionService.getWaitingWithdrawalList(criteria);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pagination", pagination);
+		
+		return "adminpage/withdrawal-waiting.admintiles";
 	}
 	
 	

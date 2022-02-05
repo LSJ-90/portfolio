@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.hoge.dto.WithdrawalHostDto;
+import com.hoge.form.Criteria;
 import com.hoge.vo.other.Withdrawal;
 
 
@@ -18,4 +20,13 @@ public interface WithdrawalMapper {
 	
 	int getWithdrawalCountByHostNo(int no);
 	
+
+	   List<WithdrawalHostDto> getApprovedWithdrawalList(Criteria criteria);
+	   int getApprovedWithdrawalCount(Criteria criteria);
+	   
+	   List<WithdrawalHostDto> getWaitingWithdrawalList(Criteria criteria);
+	   int getWaitingWithdrawalCount(Criteria criteria);
+	   
+	 void approveWithdrawal(int withdrawalNo); 
+	 
 }

@@ -21,7 +21,7 @@ public class Host {
 	private String name;
 	private int userNo;
 	private String accountHolderName;
-	private int accountNumber;
+	private long accountNumber;
 	private String bankName;
 	private int hostingType; // 1. 시설 2.체험
 	private String tel;
