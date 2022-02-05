@@ -18,9 +18,9 @@
 		
         <label class="" for="address">체크인/체크아웃inputBox</label>
 	        <input id="type" type="hidden" name="opt2" value="checkInBox">
-	        <input id="checkInBox" type="text" name="checkInBoxValue"> -
+	        <input id="checkInBox" type="text" name="checkInBoxValue" autocomplete="off"> -
 	        <input id="type" type="hidden" name="opt3" value="checkOutBox">
-	        <input id="checkOutBox" type="text" name="checkOutBoxValue">
+	        <input id="checkOutBox" type="text" name="checkOutBoxValue" autocomplete="off">
 		
 		<label class="" for="maxStandardNumber">인원inputBox</label>
 			<input id="type" type="hidden" name="opt4" value="maxStandardNumber">
@@ -55,6 +55,7 @@
             var sDay = sDate.val();
             var eDay = eDate.val();
 
+            // 체크인 달력 생성
             if (!isValidStr(eDay)) {
                 sDate.datepicker({
                     maxDate: new Date(eDay)
@@ -69,7 +70,8 @@
                     datePickerSet(sDate, eDate);
                 }
             });
-
+	
+            // 체크아웃 달력 생성
             if (!isValidStr(sDay)) {
                 eDate.datepicker({
                     minDate: new Date(sDay)

@@ -37,7 +37,7 @@ public class AccommodationController {
 		
 		int totalRecords = accommodationService.getTotalRows(criteria);
 		
-		Pagination pagination = new Pagination(page, totalRecords, 20);
+		Pagination pagination = new Pagination(page, totalRecords, 5);
 		
 		criteria.setBeginIndex(pagination.getBegin());
 		criteria.setEndIndex(pagination.getEnd());
