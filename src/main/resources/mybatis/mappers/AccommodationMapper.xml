@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hoge.mapper.AccommodationMapper">
-	<!-- 염주환 -->
+	<!-- 염주환, 이승준:검색기능 추가-->
 	<select id="searchAccommoListDtos" parameterType="com.hoge.form.Criteria" resultType="com.hoge.dto.AccommoListDto">
 		select *
 		from
@@ -33,20 +33,26 @@
 		            tb_final_accommodations a,
 		            tb_final_rooms r
 		        where a.accommo_no = r.accommo_no
-			        	<if test="opt1 == 'address' and addressValue != ''">
-			        		and a.accommo_address like '%' || #{addressValue} || '%'
-			        	</if>
-			        	<if test="opt2 == 'checkInBox' and checkInBoxValue != '' and opt3 == 'checkOutBox' and checkOutBoxValue !=''">
-			        		and r.room_no NOT IN (select bk.room_no
-										  		  from tb_final_room_availability ava, tb_final_room_bookings bk
-										  		  where ava.room_booking_no = bk.room_booking_no
-										  		  and booked_date &gt;= #{checkInBoxValue}
-										  		  and booked_date &lt; #{checkOutBoxValue}
-										  		  group by bk.room_no)
-			        	</if>
-			        	<if test="opt4 == 'maxStandardNumber' and maxStandardNumberValue != ''">
-			        		and r.maximum_number &gt;= to_number(#{maxStandardNumberValue})
-			        	</if>
+			    	<if test="opt1 == 'address' and addressValue != ''">
+                       and a.accommo_address like '%' || #{addressValue} || '%'
+                    </if>
+                    <if test="opt2 == 'checkInBox' and checkInBoxValue != '' and opt3 == 'checkOutBox' and checkOutBoxValue !=''">
+                       and r.room_no NOT IN (select 
+                       							bk.room_no
+                                        	 from 
+                                        	 	tb_final_room_availability ava, tb_final_room_bookings bk
+                                       		 where 
+                                       		 	ava.room_booking_no = bk.room_booking_no
+                                       		 and 
+                                       		 	booked_date &gt;= #{checkInBoxValue}
+                                        	 and 
+                                        	 	booked_date &lt; #{checkOutBoxValue}
+                                        	 group 
+                                        	 	by bk.room_no)
+                    </if>
+                    <if test="opt4 == 'maxStandardNumber' and maxStandardNumberValue != ''">
+                       and r.maximum_number &gt;= to_number(#{maxStandardNumberValue})
+                    </if>
 		        group by 
 		            a.accommo_no, a.host_no, a.accommo_type, a.accommo_name, a.average_cleanliness_star, a.average_communication_star, 
 		            a.average_accuracy_star, a.average_location_star, a.accommo_region_depth1, a.accommo_region_depth2, 
@@ -56,8 +62,40 @@
 	
 	<!-- 염주환(검색 기능 추가 해야함) -->
 	<select id="getAccommodationsTotalRows" parameterType="com.hoge.form.Criteria" resultType="int">
-		select count(*)
-		from tb_final_accommodations
+		select 
+			count(*)
+		from (select
+				a.accommo_no as no
+      		  from
+              	tb_final_accommodations a,
+              	tb_final_rooms r
+              where 
+              	a.accommo_no = r.accommo_no
+	    	<if test="opt1 == 'address' and addressValue != ''">
+              and 
+               	a.accommo_address like '%' || #{addressValue} || '%'
+            </if>
+            <if test="opt2 == 'checkInBox' and checkInBoxValue != '' and opt3 == 'checkOutBox' and checkOutBoxValue !=''">
+              and 
+               	r.room_no NOT IN (select 
+               							bk.room_no
+                                	 from 
+                                	 	tb_final_room_availability ava, tb_final_room_bookings bk
+                               		 where 
+                               		 	ava.room_booking_no = bk.room_booking_no
+                               		 and 
+                               		 	booked_date &gt;= #{checkInBoxValue}
+                                	 and 
+                                	 	booked_date &lt; #{checkOutBoxValue}
+                                	 group 
+                                	 	by bk.room_no)
+            </if>
+            <if test="opt4 == 'maxStandardNumber' and maxStandardNumberValue != ''">
+               and 
+               	r.maximum_number &gt;= to_number(#{maxStandardNumberValue})
+            </if>
+            group by 
+		            a.accommo_no)
 	</select>
 
 	<!-- 염주환 -->
