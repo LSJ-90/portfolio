@@ -3,6 +3,16 @@
 <mapper namespace="com.hoge.mapper.HostTransactionMapper">
   
 
+
+<!-- 성하민 -->
+	<insert id="insertHostsalesTransaction" parameterType="com.hoge.vo.other.HostTransaction">
+		insert into TB_FINAL_HOST_TRANSACTIONS
+			(TRANSACTION_TYPE, TRANSACTION_AMOUNT, TRANSACTION_DATE, HOST_NO)
+		values
+			(#{type}, #{amount}, sysdate, #{hostNo})
+	</insert>
+
+
 <!--  성하민
   	int getHostTransactionCountByHostNo(int no); -->
   <select id="getHostTransactionCountByHostNo" parameterType="int" resultType="int">

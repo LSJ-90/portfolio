@@ -29,4 +29,6 @@ public interface WithdrawalMapper {
 	   
 	 void approveWithdrawal(int withdrawalNo); 
 	 
+	 Withdrawal getWithdrawalByWithdrawalNo(int no);
+	 
 }

@@ -218,8 +218,8 @@ function getUserNumberGraph() {
 		success:function(data) {
 			console.log(data);
 			for (let  i = 0; i<data.length; i++) {
-				dateList.push(data[i].registerDate);
-				userNumberList.push(data[i].count);
+				dateList.push(data[i].label);
+				userNumberList.push(data[i].data);
 			}
 			
 			new Chart(document.getElementById('lineChart'), {

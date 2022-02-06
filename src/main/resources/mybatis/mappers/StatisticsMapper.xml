@@ -4,9 +4,11 @@
   
 
 	
-  <!-- List<RegisterCountPerDayDto> getRegisterCountPerDayDto(); -->
-  <select id="getRegisterCountPerDayDto" resultType="com.hoge.dto.RegisterCountPerDayDto">
-		  SELECT SUBSTR(B.TODAY,-4) AS registerDate, NVL(SUM(a.NEW_USERS), 0) as count
+  <!-- List<LabelDataDto> getRegisterCountPerDayDto(); -->
+  <select id="getRegisterCountPerDayDto" resultType="com.hoge.dto.LabelDataDto">
+		  SELECT 
+		  		SUBSTR(B.TODAY,-4) AS label, 
+		  		NVL(SUM(a.NEW_USERS), 0) as data
 		FROM (SELECT TO_CHAR(USER_REGISTERED_DATE, 'YYYYMMDD') AS REGISTER_DATE,
 		COUNT(*) AS NEW_USERS
 		FROM TB_FINAL_USERS
@@ -21,6 +23,32 @@
 		WHERE B.TODAY = A.REGISTER_DATE(+)
 		GROUP BY B.TODAY
 		ORDER BY B.TODAY
+  </select>
+  
+  
+  
+  <!-- List<LabelDataDto> getSalesPerDayByHostNo(int no)-->
+  <select id="getSalesPerDayByHostNo" parameterType="int" resultType="com.hoge.dto.LabelDataDto">
+		   
+      SELECT SUBSTR(B.TODAY,-4) AS label, NVL(SUM(a.TRANSACTION_AMOUNT), 0) as data
+		FROM (SELECT TO_CHAR(TRANSACTION_DATE, 'YYYYMMDD') AS TRANSACTION_DATE,
+		SUM(TRANSACTION_AMOUNT) AS TRANSACTION_AMOUNT
+		FROM TB_FINAL_HOST_TRANSACTIONS
+		WHERE TRANSACTION_DATE >= TO_CHAR (SYSDATE-20, 'YYYYMMDD')
+		AND HOST_NO = #{no}
+		AND TRANSACTION_DATE &lt; TO_CHAR(SYSDATE, 'YYYYMMDD')
+        AND TRANSACTION_TYPE=1
+		GROUP BY TO_CHAR(TRANSACTION_DATE, 'YYYYMMDD')) A
+		, (SELECT
+		TO_CHAR (FIRST_DAY + LEVEL -1, 'YYYYMMDD') TODAY
+		FROM (SELECT TRUNC(SYSDATE - 20) FIRST_DAY FROM DUAL)
+		CONNECT BY FIRST_DAY + LEVEL - 1 &lt;= TRUNC(SYSDATE)
+		) B
+		WHERE B.TODAY = A.TRANSACTION_DATE(+)
+		GROUP BY B.TODAY
+		ORDER BY B.TODAY
+    
+    
   </select>
   
   

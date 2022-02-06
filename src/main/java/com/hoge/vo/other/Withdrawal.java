@@ -19,6 +19,7 @@ import lombok.ToString;
 @Builder
 public class Withdrawal {
 
+	private int no;
 	private int hostNo;
 	private String accountHolderName;
 	private long accountNumber;

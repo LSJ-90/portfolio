@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hoge.dto.RegisterCountPerDayDto;
+import com.hoge.dto.LabelDataDto;
 import com.hoge.mapper.StatisticsMapper;
 
 /**
@@ -20,11 +20,13 @@ public class StatisticsService {
 	@Autowired
 	private StatisticsMapper statisticsMapper;
 	
-	public List<RegisterCountPerDayDto> getRegisterCountPerDayDto(){
+	public List<LabelDataDto> getRegisterCountPerDayDto(){
 		return statisticsMapper.getRegisterCountPerDayDto();
 	}
 	
-	
+	 public List<LabelDataDto> getSalesPerDayByHostNo(int no){
+		 return statisticsMapper.getSalesPerDayByHostNo(no);
+	 }
 
 	
 }

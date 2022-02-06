@@ -13,9 +13,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RegisterCountPerDayDto {
+public class LabelDataDto {
 	
-	private String registerDate;
-	private int count;
+	private String label;
+	private long data;
 
 }

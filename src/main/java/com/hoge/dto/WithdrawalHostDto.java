@@ -27,6 +27,6 @@ public class WithdrawalHostDto {
 	private String bankName;
 	private long amount;
 	private String status;
-	@JsonFormat(pattern = "yyyy년 M월 d일")
+	@JsonFormat(pattern = "yyyy.MM.dd")
 	private Date createdDate;
 }

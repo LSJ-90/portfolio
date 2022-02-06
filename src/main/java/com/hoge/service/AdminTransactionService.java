@@ -5,15 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hoge.dto.RegisterCountPerDayDto;
 import com.hoge.dto.WithdrawalHostDto;
 import com.hoge.form.Criteria;
-import com.hoge.mapper.HostTransactionMapper;
-import com.hoge.mapper.StatisticsMapper;
 import com.hoge.mapper.TransactionMapper;
 import com.hoge.mapper.WithdrawalMapper;
-import com.hoge.vo.other.HostTransaction;
 import com.hoge.vo.other.Transaction;
+import com.hoge.vo.other.Withdrawal;
 
 /**
  * 
@@ -69,5 +66,17 @@ public class AdminTransactionService {
 	  public void approveWithdrawal(int withdrawalNo) {
 		  withdrawalMapper.approveWithdrawal(withdrawalNo);
 	  }
-	
+	  
+	  public void insertHostTransaction(Transaction transaction) {
+		  transactionMapper.insertHostTransaction(transaction);
+	  }
+		
+	  public Withdrawal getWithdrawalByWithdrawalNo(int no){
+		  return withdrawalMapper.getWithdrawalByWithdrawalNo(no);
+	  }
+	  
+	  public Transaction getlatestTransaction() {
+		  return transactionMapper.getlatestTransaction();
+	  }
+	  
 }
