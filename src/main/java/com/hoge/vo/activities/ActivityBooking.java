@@ -20,7 +20,7 @@ public class ActivityBooking {
 	private int activityTimeNo;
 	private int userNo;
 	private int numberOfPeople;
-	private String status;
+	private int status;
 	private Date bookingMadeDate; 
 	private Date canceledDate; 
 	private String cancelReason;

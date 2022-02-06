@@ -1,4 +1,4 @@
-package com.hoge.vo.other;
+package com.hoge.dto;
 
 import java.util.Date;
 
@@ -17,19 +17,16 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Transaction {
-	
-	private int no;
-	private String type;
+public class WithdrawalHostDto {
+
+	private int withdrawalNo;
+	private int hostNo;
+	private String hostName;
+	private String accountHolderName;
+	private long accountNumber;
+	private String bankName;
 	private long amount;
-	private int toHostNo;
-	private int toUserNo;
-	private int accommoBookingNo;
-	private int activityBookingNo;
+	private String status;
 	@JsonFormat(pattern = "yyyy년 M월 d일")
 	private Date createdDate;
-	private long accumulatedMoney;
-	
-	
-
 }

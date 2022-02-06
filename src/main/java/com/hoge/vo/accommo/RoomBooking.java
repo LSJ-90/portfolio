@@ -21,7 +21,7 @@ public class RoomBooking {
 	private int userNo;
 	private Date checkInDate; 
 	private Date checkOutDate;
-	private String status;
+	private int status;
 	private Date bookingMadeDate; 
 	private Date canceledDate; 
 	private String cancelReason;
@@ -32,7 +32,7 @@ public class RoomBooking {
 	private String roomUserName;
 	private String roomUserTel;
 	private int extraPeople; //초과 인원 수
-	
+	private String TID;
 	
 
 }

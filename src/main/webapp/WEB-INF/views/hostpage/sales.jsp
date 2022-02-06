@@ -52,6 +52,9 @@
 						<div class="row mb-3">
 							<div class="col">
 								<strong>출금신청내역</strong>
+								<div class="row mb-3">
+									<div class="col" id="noticeWithdrawal">
+									
 						 			<table class="table table-bordered border-dark">
 									 <colgroup>
 										<col width="20%">
@@ -73,6 +76,8 @@
 										
 									</tbody>
 								</table>
+									</div>
+								</div>	
 							</div>
 						</div>
 					
@@ -234,7 +239,12 @@ function getWithdrawalList(page) {
 					const pagination = result['pagination'];
 					var data = "";
 					var block = "";
-
+					
+					if (pagination['totalRecords'] == 0) {
+						data = "<span>출금신청 내역이 없습니다.</span>";
+						$("#noticeWithdrawal").html(data);
+						
+					} else{
 					
 					console.log(pagination);
 					console.log(JSON.stringify(list));
@@ -285,6 +295,7 @@ function getWithdrawalList(page) {
 					
 					$("#paginationBox1").html(block);
 				}
+					}
 			})
 }
 

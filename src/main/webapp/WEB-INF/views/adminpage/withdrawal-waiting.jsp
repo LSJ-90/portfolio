@@ -4,33 +4,17 @@
 
  <main id="main">
       <article id="admin-user">
-        <form class="search-user__form" id="form-search-user" method="get" action="user-list">
+        <form class="search-user__form" id="form-search-user" method="get" action="withdrawal">
           <input type="hidden" name="page" value="1" />
-          <div class="search-radio">
-            <input
-              type="radio"
-              class="user-check"
-              id="deleted-N"
-              name="deleted"
-              value="N"
-              checked
-            />
-            <label for="deleted-N" class="user-check__title"
-              >현재 이용중인 회원</label
-            >
-            <input type="radio" class="user-check" id="deleted-Y" name="deleted"
-            value="Y" ${'Y' eq param.deleted ? 'checked' : ''} />
-            <label for="deleted-Y" class="user-check__title">탈퇴한 회원</label>
-          </div>
-          
           <ul class="search-bar">
+          	 <li>총 선택금액:<span></span><li> 
+     		 <li><button type="button" class="btn__search" id="btn-withdrawal" onclick="">선택 승인</button><li>
+     		 <li><button type="button" class="btn__search" id="btn-withdrawal" onclick="location.href='/admin/withdrawal'">승인 완료 목록</button><li>
 	          <li>
 		        <select class="search__select" name="opt">
 					<option value="" selected disabled="disabled">검색조건</option>
-					<option value="이름" ${'이름' eq param.opt ? 'selected' : ''}>이름</option>
-					<option value="전화번호" ${'전화번호' eq param.opt ? 'selected' : ''}>전화번호</option>
-					<option value="아이디" ${'아이디' eq param.opt ? 'selected' : ''}>아이디</option>
-					<option value="이메일" ${'이메일' eq param.opt ? 'selected' : ''}>이메일</option>
+					<option value="호스트번호" ${'호스트번호' eq param.opt ? 'selected' : ''}>호스트번호</option>
+					<option value="호스트이름" ${'호스트이름' eq param.opt ? 'selected' : ''}>호스트이름</option>
 				</select>
 	          </li>
 	          <li>
@@ -47,53 +31,47 @@
 		<table class="user-list-table">
 			<colgroup>
 				<col style="width: 8%;">
+				<col style="width: 8%;">
+				<col style="width: 15%;">
+				<col style="width: 15%;">
 				<col style="width: 11%;">
 				<col style="width: 8%;">
 				<col style="width: 13%;">
 				<col style="width: 16%;">
-				<col style="width: 6%;">
-				<col style="width: 7%;">
-				<col style="width: 10%;">
-				<col style="width: 7%;">
-				<col style="width: 7%;">
-				<col style="width: 7%;">
+			
 			</colgroup>
 			<thead>
 				<tr>
-					<th>회원번호</th>
-					<th>아이디</th>
-					<th>이름</th>
-					<th>연락처</th>
-					<th>이메일</th>
-					<th>성별</th>
-					<th>포인트</th>
-					<th>가입일</th>
-					<th>호스팅여부</th>
-					<th>탈퇴여부</th>
-					<th>신고횟수</th>
+					<th class="style"><input type='checkbox' name='withdrawal'  value='selectall' class="selectAll"/>전체선택</th>
+					<th class="style">호스트번호</th>
+					<th class="style">호스트이름</th>
+					<th class="style">금액</th>
+					<th class="style">예금주</th>
+					<th class="style">계좌번호</th>
+					<th class="style">은행</th>
+					<th class="style">승인</th>
+					<th class="style">출금신청일</th>
 				</tr>
 			</thead>
 			<tbody>
 			<c:choose>
-			<c:when test="${empty users }">
+			<c:when test="${empty list }">
 				<tr>
 					<td class="text-center" colspan="6">사용자 없음.</td>
 				</tr>
 			</c:when>
 			<c:otherwise>
-				<c:forEach var="user" items="${users }" varStatus="loop">
+				<c:forEach var="withdrawal" items="${list }" varStatus="loop">
 				<tr>
-					<td>${user.no }</td>
-					<td>${user.id }</td>
-					<td>${user.name }</td>
-					<td>${user.tel }</td>
-					<td>${user.email }</td>
-					<td>${user.gender == 'female' ? '여' : '남'}</td>
-					<td>${user.pnt }</td>
-					<td><fmt:formatDate value="${user.registeredDate }" pattern="yyyy.MM.dd"/></td>
-					<td>${user.isHost == 'N' ?  'X' :'O'}</td>
-					<td>${user.deleted }</td>
-					<td>${user.reportedCount }</td>
+					<td><input type="checkbox" name="withdrawal" id="${withdrawal.withdrawalNo }" value="${withdrawal.withdrawalNo }"></td>
+					<td>${withdrawal.hostNo }</td>
+					<td>${withdrawal.hostName }</td>
+					<td id="amount-${withdrawal.withdrawalNo }"><fmt:formatNumber value="${withdrawal.amount }" pattern="#,###" />원</td>
+					<td>${withdrawal.accountHolderName }</td>
+					<td>${withdrawal.accountNumber }</td>
+					<td>${withdrawal.bankName }</td>
+					<td><button class="btn__modal" onclick="">승인하기</button></td>
+					<td><fmt:formatDate value="${withdrawal.createdDate }" pattern="yyyy.MM.dd"/></td>
 				</tr>
 				</c:forEach>
 			</c:otherwise>
@@ -111,7 +89,7 @@
 				<li class="page__prev ${pagination.existPrev ? '' : 'disabled' }">
 					<a 
 						class="page-link" 
-						href="user-list?page=${pagination.prevPage }" 
+						href="withdrawal?page=${pagination.prevPage }" 
 						data-page="${pagination.prevPage }"
 					>
 						<i class="fas fa-chevron-left"></i>
@@ -122,7 +100,7 @@
 					<li class="page__num ${pagination.pageNo eq num ? 'active' : '' }">
 						<a 
 							class="page-link" 
-							href="user-list?page=${num }" 
+							href="withdrawal?page=${num }" 
 							data-page="${num }"
 						>
 						${num }
@@ -133,7 +111,7 @@
 				<li class="page__next ${pagination.existNext ? '' : 'disabled' }">
 					<a 
 						class="page-link" 
-						href="user-list?page=${pagination.nextPage }" 
+						href="withdrawal?page=${pagination.nextPage }" 
 						data-page="${pagination.nextPage }"
 					>
 						<i class="fas fa-chevron-right"></i>
@@ -148,19 +126,7 @@
     </main>
 
 <script type="text/javascript">
-/* 폼에서 onsubmit 이벤트가 발생해서 폼이 제출될 때 실행될 이벤트핸들러 함수를 등록한다.
-$("#form-search-book").submit(function() {	// form에서 onsubmit이벤트가 발생했을 때, 반환값에 따라서 form 입력값이 서버로 제출되거나 제출되지 않을 수 있다.
-	var opt = $("select[name=opt]").val();
-	var value = $.trim($(":input[name=value]").val());
-	
-	if (opt && value) {
-		return true;		// 이벤트핸들러 함수가 true를 반환하면 form의 입력값이 서버로 제출된다.
-	}
-	
-	alert("검색조건 혹은 검색어를 입력하세요");
-	return false;			// 이벤트핸들러 함수가 false를 반환하면 form의 입력값이 서버로 제출되지 않는다.
-});
-*/
+
 
 // 검색버튼을 클릭했을 때 실행될 이벤트핸들러 함수를 등록한다.
 $("#btn-search-user").click(function() {
@@ -191,12 +157,32 @@ $(".pagination a").click(function(event) {
 })
 
 
-   $("input:radio[name=deleted]").click(function()
-    {
-	   $("#form-search-user").trigger("submit");
-    })
+
+$(function(){
+    $("[type=checkbox][name=withdrawal]").on("change", function(){ //0
+        var check = $(this).prop("checked"); //1
+        //전체 체크
+        if($(this).hasClass("selectAll")){ //2
+            $("[type=checkbox][name=withdrawal]").prop("checked", check);
+
+        //단일 체크
+        }else{ //3
+            var all = $("[type=checkbox][name=withdrawal].selectAll");
+            var allcheck = all.prop("checked")
+            if(check != allcheck){ //3-1
+                var len = $("[type=checkbox][name=withdrawal]").not(".selectAll").length; //3-2
+                var ckLen = $("[type=checkbox][name=withdrawal]:checked").not(".selectAll").length; //3-2
+                if(len === ckLen){ //3-3
+                    all.prop("checked", true);
+                }else{
+                    all.prop("checked", false);
+                }
+            }
+        }
+    });
+});
 
 
-
+//$("input[name='telecom']:checked").val();
 
 </script>

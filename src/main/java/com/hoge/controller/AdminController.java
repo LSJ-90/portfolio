@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,15 +22,20 @@ import com.hoge.dto.AdminHostQnADto;
 import com.hoge.dto.AdminUserQnADto;
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.RegisterCountPerDayDto;
+import com.hoge.dto.RoomBookingBatchDto;
+import com.hoge.dto.WithdrawalHostDto;
 import com.hoge.form.Criteria;
 import com.hoge.form.CriteriaAdminQnA;
 import com.hoge.form.CriteriaAdminUser;
 import com.hoge.pagination.Pagination;
+import com.hoge.service.AdminTransactionService;
 import com.hoge.service.QnAService;
 import com.hoge.service.ReviewService;
+import com.hoge.service.ScheduleTaskService;
 import com.hoge.service.StatisticsService;
 import com.hoge.service.UserService;
 import com.hoge.vo.other.HostQnA;
+import com.hoge.vo.other.Transaction;
 import com.hoge.vo.other.User;
 import com.hoge.vo.other.UserQnA;
 
@@ -58,6 +64,13 @@ public class AdminController {
 	@Autowired
 	private StatisticsService statisticsService;
 	
+	@Autowired
+	private ScheduleTaskService scheduleTaskService;
+	
+	
+	@Autowired
+	private AdminTransactionService adminTransactionService;
+	
 	
 
 	@GetMapping("/user-number-graph")							// 요청핸들러 메소드에 @ResponseBody를 붙인다.
@@ -71,7 +84,8 @@ public class AdminController {
 	
 	@GetMapping("/review")
 	public String adminreviewInit() {
-		
+		 List<RoomBookingBatchDto> roomBookingBatchDto = scheduleTaskService.getRoomBookingBatchDto();
+		 System.out.println(roomBookingBatchDto);
 		return "adminpage/review.admintiles";
 	}
 	
@@ -81,17 +95,60 @@ public class AdminController {
 		return "adminpage/sales.admintiles";
 	}
 	
+	@GetMapping("/withdrawal")
+	public String withdrawalInit(@RequestParam(name = "page", required = false, defaultValue = "1") String page, 
+			Criteria criteria, Model model) {
+		
+		// 검색조건에 해당하는 총 데이터 갯수 조회
+		int totalRecords = adminTransactionService.getApprovedWithdrawalCount(criteria);
+		// 현재 페이지번호와 총 데이터 갯수를 전달해서 페이징 처리에 필요한 정보를 제공하는 Pagination객체 생성
+		Pagination pagination = new Pagination(page, totalRecords);
+		
+		// 요청한 페이지에 대한 조회범위를 criteria에 저장
+		criteria.setBeginIndex(pagination.getBegin());
+		criteria.setEndIndex(pagination.getEnd());
+
+		// 검색조건(opt, value)과 조회범위(beginIndex, endIndex)가 포함된 Criteria를 서비스에 전달해서 데이터 조회
+		List<WithdrawalHostDto> list = adminTransactionService.getApprovedWithdrawalList(criteria);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pagination", pagination);
+		
+		return "adminpage/withdrawal.admintiles";
+	}
+	@GetMapping("/withdrawal-waiting")
+	public String withdrawalWaitingInit(@RequestParam(name = "page", required = false, defaultValue = "1") String page, 
+			Criteria criteria, Model model) {
+		
+		// 검색조건에 해당하는 총 데이터 갯수 조회
+		int totalRecords = adminTransactionService.getWaitingWithdrawalCount(criteria);
+		// 현재 페이지번호와 총 데이터 갯수를 전달해서 페이징 처리에 필요한 정보를 제공하는 Pagination객체 생성
+		Pagination pagination = new Pagination(page, totalRecords);
+		
+		// 요청한 페이지에 대한 조회범위를 criteria에 저장
+		criteria.setBeginIndex(pagination.getBegin());
+		criteria.setEndIndex(pagination.getEnd());
+		
+		// 검색조건(opt, value)과 조회범위(beginIndex, endIndex)가 포함된 Criteria를 서비스에 전달해서 데이터 조회
+		List<WithdrawalHostDto> list = adminTransactionService.getWaitingWithdrawalList(criteria);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pagination", pagination);
+		
+		return "adminpage/withdrawal-waiting.admintiles";
+	}
+	
 	
 	//성하민
 	@PostMapping(value = "/getActList.do", produces = "application/json")
-	public @ResponseBody HashMap<String, Object> getActList(@RequestParam(name = "page", required = false, defaultValue="1") String page, String opt, String value) throws Exception {
+	public @ResponseBody HashMap<String, Object> getActList(@RequestParam(name = "page", required = false, defaultValue="1") String page, String opt1, String value1) throws Exception {
 		
 		
 		logger.info("페이지 :" + page);
 		HashMap<String, Object> result = new HashMap<>();
 		Criteria criteria = new Criteria();
-		criteria.setOpt(opt);
-		criteria.setValue(value);
+		criteria.setOpt1(opt1);
+		criteria.setValue1(value1);
 		// 검색조건에 해당하는 총 데이터 갯수 조회
 		int totalRecords = reviewService.getActivityReviewsTotalRows(criteria);
 		logger.info("토탈레코드 :" + totalRecords);
@@ -121,15 +178,54 @@ public class AdminController {
 	}
 	
 	//성하민
+	@PostMapping(value = "/getTransaction.do", produces = "application/json")
+	public @ResponseBody HashMap<String, Object> getTransactionList(@RequestParam(name = "page", required = false, defaultValue="1") String page, Criteria criteria) throws Exception {
+		
+		
+		logger.info("페이지 :" + page);
+		HashMap<String, Object> result = new HashMap<>();
+		
+		
+		// 검색조건에 해당하는 총 데이터 갯수 조회
+		int totalRecords = adminTransactionService.getTransactionListTotalRows(criteria);
+		logger.info("토탈레코드 :" + totalRecords);
+		Pagination pagination = new Pagination(page, totalRecords);
+		
+		criteria.setBeginIndex(pagination.getBegin());
+		criteria.setEndIndex(pagination.getEnd());
+		logger.info("검색조건 및 값 :" + criteria);
+		
+		long totalDeposit = adminTransactionService.getTotalDeposit(criteria);
+		long totalWithdrawal = adminTransactionService.getTotalWithdrawal(criteria);
+		long totalsales = totalDeposit - totalWithdrawal;
+		
+		// 검색조건(opt, value)과 조회범위(beginIndex, endIndex)가 포함된 Criteria를 서비스에 전달해서 데이터 조회
+		List<Transaction> list = adminTransactionService.getTransactionList(criteria);
+		logger.info("디티오 :" + list);
+		logger.info("페이지네이션 :" + pagination);
+		
+		// 페이징
+		result.put("pagination", pagination);
+		
+		result.put("criteria", criteria);
+		
+		result.put("totalDeposit", totalDeposit);
+		result.put("totalWithdrawal", totalWithdrawal);
+		result.put("totalsales", totalsales);
+		
+		// 게시글 화면 출력
+		result.put("list", list);
+		
+		return result;
+	}
+	//성하민
 		@PostMapping(value = "/getAccList.do", produces = "application/json")
-		public @ResponseBody HashMap<String, Object> getAccList(@RequestParam(name = "page", required = false, defaultValue="1") String page, String opt, String value) throws Exception {
+		public @ResponseBody HashMap<String, Object> getAccList(@RequestParam(name = "page", required = false, defaultValue="1") String page, Criteria criteria) throws Exception {
 			
 			
 			logger.info("페이지 :" + page);
 			HashMap<String, Object> result = new HashMap<>();
-			Criteria criteria = new Criteria();
-			criteria.setOpt(opt);
-			criteria.setValue(value);
+			
 			// 검색조건에 해당하는 총 데이터 갯수 조회
 			int totalRecords = reviewService.getAccommoReviewsTotalRows(criteria);
 			logger.info("토탈레코드 :" + totalRecords);

@@ -21,7 +21,7 @@ public class Withdrawal {
 
 	private int hostNo;
 	private String accountHolderName;
-	private int accountNumber;
+	private long accountNumber;
 	private String bankName;
 	private long amount;
 	private String status;

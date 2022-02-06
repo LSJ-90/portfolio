@@ -9,13 +9,22 @@ import com.hoge.dto.AdminAccommoReviewDto;
 import com.hoge.dto.AdminActivityReviewDto;
 import com.hoge.dto.RegisterCountPerDayDto;
 import com.hoge.form.Criteria;
+import com.hoge.vo.other.Transaction;
 
 
 
 @Mapper
 public interface TransactionMapper {
 	
-	List<RegisterCountPerDayDto> getRegisterCountPerDayDto();
+	List<Transaction> getTransactionList(Criteria criteria);
+	
+	int getTransactionListTotalRows(Criteria criteria);
+	
+	
+	long getTotalDeposit(Criteria criteria);
+	long getTotalWithdrawal(Criteria criteria);
+	
+	
 	
 	
 }
