@@ -6,8 +6,35 @@
 <head>
    <title></title>
 <style type="text/css">
+.user-list-table {
+  table-layout: fixed;
+  width: 100%;
+  font-size: 15px;
+  border-collapse: collapse;
+  border-top: 2px solid var(--color-black);
+}
 
-.chart {margin: 50px 0;}
+.user-list-table th,
+.user-list-table td {
+  text-align: center;
+  vertical-align: middle;
+  height: 45px;
+}
+.user-list-table th {
+  font-weight: var(--weight-regular);
+  border-bottom: 1px solid var(--color-black);
+}
+
+.user-list-table td {
+  font-weight: var(--weight-light);
+  padding: 0 3px;
+  border-bottom: 1px solid var(--color-input-gray);
+}
+
+.user-list-table tr:last-child td {
+  border-bottom: 1px solid var(--color-black);
+}
+.chart {margin: 5px 0;}
 
 .sales-table > td {padding:2px 0 !important; text-align:center;}
 </style>   
@@ -21,123 +48,108 @@
 <body>
 <div class="container">
 	<div class="row mt-3">
-		<div class="col-5">
+		<div class="col-12">
 			<div class="row mt-3">
 				<div class="col-12">
+				<strong>일일매출액</strong>
 					<div class=chart>
-						<canvas id="line-chart-daily" width="200" height="110"></canvas>
-					</div>
-				</div>
-				<div class="col-12">
-					<div class=chart>
-						<canvas id="line-chart-monthly" width="200" height="110"></canvas>
+						<canvas id="line-chart-daily" width="1300" height="200"></canvas>
 					</div>
 				</div>
 			</div>
-		
-			<div class=chart>
-				<canvas id="bar-chart-horizontal" width="200" height="40"></canvas>
-			</div>
-		</div> 
-		<div class="col-7">
-				<div class="row mt-3">
-					<div class="withdrawal">
-						<div class="mt-3 text-end">
-							<button type="button" class="btn btn-dark" onclick="creatingModal()">출금신청</button>
+			<div class="row mb-3 mt-3">
+				<div class="col">
+					<div class="row mb-3">
+						<div class="col">
+						<strong>매출테이블</strong>
+					 		<table class="user-list-table">
+								 <colgroup>
+									<col width="35%">
+									<col width="30%">
+									<col width="35%">
+								</colgroup>
+								<thead>
+									<tr>
+										<th class="style">거래일</th>
+										<th class="style">거래유형</th>
+										<th class="style">거래액</th>
+									</tr>
+								</thead>
+							  <tbody id="dataSection2">
+							   
+							  </tbody>
+							</table>
+						</div>
+					</div>
+				
+					<!-- 페이지 내비게이션 표시 -->
+					<div class="row mb-3">
+						<div class="col">
+							<div class="pagination2">
+								<ul id="paginationBox2" class="pagination">
+					
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
-				<div class="row mb-3 mt-3">
-					<div class="col">
-						<div class="row mb-3">
-							<div class="col">
-								<strong>출금신청내역</strong>
-								<div class="row mb-3">
-									<div class="col" id="noticeWithdrawal">
+			</div> <!-- 매출 리스트 -->
+			<div class="row mt-3">
+				<div class="withdrawal">
+					<div class="mt-3 text-end">
+					<strong>출금신청가능액: <fmt:formatNumber value="${savedHost.accumulatedMoney }" type="currency" currencySymbol="￦" /> </strong>
+						<button type="button" class="btn btn-dark" onclick="creatingModal()">출금신청</button>
+					</div>
+				</div>
+			</div>
+			<div class="row mb-3 mt-3">
+				<div class="col">
+					<div class="row mb-3">
+						<div class="col">
+							<strong>출금신청내역</strong>
+							<div class="row mb-3">
+								<div class="col" id="noticeWithdrawal">
+								
+					 			<table class="user-list-table">
+								 <colgroup>
+									<col width="20%">
+									<col width="20%">
+									<col width="20%">
+									<col width="20%">
+									<col width="20%">
+								</colgroup>
+								<thead>
+									<tr>
+										<th class="style">출금신청일</th>
+										<th class="style">금액</th>
+										<th class="style">상태</th>
+										<th class="style">예금주</th>
+										<th class="style">은행</th>
+									</tr>
+								</thead>
+								<tbody id="dataSection1">
 									
-						 			<table class="table table-bordered border-dark">
-									 <colgroup>
-										<col width="20%">
-										<col width="20%">
-										<col width="20%">
-										<col width="20%">
-										<col width="20%">
-									</colgroup>
-									<thead>
-										<tr>
-											<th class="style">출금신청일</th>
-											<th class="style">금액</th>
-											<th class="style">상태</th>
-											<th class="style">예금주</th>
-											<th class="style">은행</th>
-										</tr>
-									</thead>
-									<tbody id="dataSection1">
-										
-									</tbody>
-								</table>
-									</div>
-								</div>	
-							</div>
-						</div>
-					
-						<!-- 페이지 내비게이션 표시 -->
-						<div class="row mb-3">
-							<div class="col">
-								<div class="pagination1">
-									<ul id="paginationBox1" class="pagination">
-						
-									</ul>
+								</tbody>
+							</table>
 								</div>
+							</div>	
+						</div>
+					</div>
+				
+					<!-- 페이지 내비게이션 표시 -->
+					<div class="row mb-3">
+						<div class="col">
+							<div class="pagination1">
+								<ul id="paginationBox1" class="pagination">
+					
+								</ul>
 							</div>
 						</div>
 					</div>
-				</div> <!-- 출금신청내역 리스트 -->
-				
-				
-				<div class="row mb-3 mt-3">
-					<div class="col">
-						<div class="row mb-3">
-							<div class="col">
-							<strong>매출테이블</strong>
-						 		<table class="table caption-top border-dark table-bordered">
-									 <colgroup>
-										<col width="35%">
-										<col width="30%">
-										<col width="35%">
-									</colgroup>
-									<thead>
-										<tr>
-											<th class="style">거래일</th>
-											<th class="style">거래유형</th>
-											<th class="style">거래액</th>
-										</tr>
-									</thead>
-								  <tbody id="dataSection2">
-								   
-								  </tbody>
-								</table>
-							</div>
-						</div>
-					
-						<!-- 페이지 내비게이션 표시 -->
-						<div class="row mb-3">
-							<div class="col">
-								<div class="pagination2">
-									<ul id="paginationBox2" class="pagination">
-						
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div> <!-- 매출 리스트 -->
+				</div>
+			</div> <!-- 출금신청내역 리스트 -->
+		</div> 
 		
-		
-			
-				
-			</div>
-				
 	</div> <!-- row -->
 	
 	
@@ -331,7 +343,7 @@ function getTransactionList(page) {
 				data += "<td style='color:red'> +" + numberWithCommas(list[i].amount) + "원</td>";
 					} else {
 						data += "<td>출금</td>";
-				data += "<td style='color:blue'> -" + numberWithCommas(list[i].amount) + "</td>";
+				data += "<td style='color:blue'> -" + numberWithCommas(list[i].amount) + "원</td>";
 					}
 				data += "</tr>";
 			}
@@ -374,88 +386,110 @@ function getTransactionList(page) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-new Chart(document.getElementById("bar-chart-horizontal"), {
-    type: 'horizontalBar',
-    data: {
-      labels: ["여성", "남성"],
-      datasets: [
-        {
-          label: "booking rate by gender",
-          backgroundColor: ["black","black"],
-          data: [2478,5267]
-        }
-      ]
-    },
-    options: {
-      legend: { display: false },
-      title: {
-        display: true,
-        text: '성별 예약자 비율'
-      }
-    }
+$(document).ready(function(){
+	getDailyHostSalesGraph();
 });
 
-
-new Chart(document.getElementById("line-chart-daily"), {
-	  type: 'line',
-	  data: {
-	    labels: [21,22,23,24,25,26,27,28],
-	    datasets: [ { 
-	        data: [168,170,178,190,203,276,408,547],
-	        label: "거래금액",
-	        borderColor: "black",
-	        fill: false
-	      }
-	      
-	    ]
-	  },
-	  options: {
-	    title: {
-	      display: true,
-	      text: '일별 입금 거래금액 변화'
-	    }
-	  }
-	});
+function getDailyHostSalesGraph() {
+	let dateList = [];
+	let userNumberList = [];
+	const hostNo = "${savedHost.no }";
 	
-new Chart(document.getElementById("line-chart-monthly"), {
-	  type: 'line',
-	  data: {
-	    labels: ["jan","feb","march","apr","may","june"],
-	    datasets: [ { 
-	        data: [150,170,190,100,250,408],
-	        label: "거래금액",
-	        borderColor: "black",
-	        fill: false
-	      }
-	      
-	    ]
-	  },
-	  options: {
-	    title: {
-	      display: true,
-	      text: '월별 입금 거래금액 변화'
-	    }
-	  }
-	});	
+	$.ajax({
+		url:"dailyHostSalesGraph",
+		data : { //서비스 처리에 필요한 인자값
+			hostNo : hostNo
+		},
+		type:"get",
+		dataType:"json",
+		success:function(data) {
+			console.log(data);
+			for (let  i = 0; i<data.length; i++) {
+				dateList.push(data[i].label);
+				userNumberList.push(data[i].data);
+			}
+			
+			new Chart(document.getElementById('line-chart-daily'), {
+				 type: 'line',
+				 data: {
+					 labels: dateList,
+					 datasets: [{
+						 data: userNumberList,
+						 label: "일일매출액",
+						 backgroundColor: [
+								'rgba(0, 0, 0, 0)'
+							],
+						 borderColor: [
+								'rgba(75, 192, 192, 1)',
+								'rgba(54, 162, 235, 1)',
+								'rgba(255, 99, 132, 1)',
+								'rgba(255, 206, 86, 1)',
+								'rgba(153, 102, 255, 1)',
+								'rgba(255, 159, 64, 1)',
+								'rgba(153, 102, 255, 1)'
+							],
+						 borderWidth: 2
+					 }]
+				 },
+				 options: {
+						responsive: false,
+						animation: {
+							onComplete: function () {
+								var chartInstance = this.chart,
+									ctx = chartInstance.ctx;
+								ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+								ctx.fillStyle = 'black';
+								ctx.textAlign = 'center';
+								ctx.textBaseline = 'bottom';
+
+								this.data.datasets.forEach(function (dataset, i) {
+									var meta = chartInstance.controller.getDatasetMeta(i);
+									meta.data.forEach(function (bar, index) {
+										var data = dataset.data[index];							
+										ctx.fillText(data, bar._model.x, bar._model.y - 5);
+									});
+								});
+							}
+						},
+						scales: {
+							yAxes: [{
+								ticks: {
+									beginAtZero: true,
+									
+									fontSize : 15,
+									//max :15
+								}
+							}]
+						},
+						 legend: {
+						      display: false
+						   }
+					}
+			});
+		},
+		error:function(){
+			alert("실패");
+		}
+		
+		
+	})//ajax
+}//그래프 가져오기
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	
 

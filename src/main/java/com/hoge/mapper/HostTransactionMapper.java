@@ -17,4 +17,6 @@ public interface HostTransactionMapper {
 	
 	
 	int getHostTransactionCountByHostNo(int no);
+	
+	void insertHostsalesTransaction(HostTransaction hostTransaction);
 }

@@ -65,6 +65,21 @@
 			WITHDRAWAL_NO = #{withdrawalNo}
 	</update>
 
+  <!-- Withdrawal getWithdrawalByWithdrawalNo(int no);-->
+   <select id="getWithdrawalByWithdrawalNo" parameterType="int" resultType="com.hoge.vo.other.Withdrawal">
+	 	select
+	 			WITHDRAWAL_NO as no,
+	 			HOST_NO as hostNo,
+				ACCOUNT_NUMBER as accountNumber,
+				BANK_NAME as bankName,
+				ACCOUT_HOLDER_NAME as accountHolderName,
+				MONEY_AMOUNT as amount,
+		 		WITHDRAWAL_STATUS as status,
+		 		WITHDRAWAL_CREATED_DATE as createdDate
+	 		from 
+	 			TB_FINAL_WITHDRAWALS
+	 		where WITHDRAWAL_NO = #{no}
+	 </select>
   <!-- List<WithdrawalHostDto> getWaitingWithdrawalList(Criteria criteria);-->
    <select id="getWaitingWithdrawalList" parameterType="com.hoge.form.Criteria" resultType="com.hoge.dto.WithdrawalHostDto">
 	 	select

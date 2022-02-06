@@ -35,6 +35,7 @@ import com.hoge.dto.ActMainDto;
 import com.hoge.dto.AdminActivityReviewDto;
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.ChattingMessageDto;
+import com.hoge.dto.LabelDataDto;
 import com.hoge.dto.RoomDto;
 import com.hoge.dto.RoomListDto;
 import com.hoge.form.AccHostModifyForm;
@@ -51,6 +52,7 @@ import com.hoge.pagination.PaginationPerPage5;
 import com.hoge.service.AccommodationService;
 import com.hoge.service.ChatRoomService;
 import com.hoge.service.QnAService;
+import com.hoge.service.StatisticsService;
 import com.hoge.service.HostService;
 import com.hoge.service.HostTransactionService;
 import com.hoge.util.SessionUtils;
@@ -88,7 +90,20 @@ public class HostController {
 	@Autowired
 	private AccommodationService accommodationService;
 	
+	@Autowired
+	private StatisticsService statisticsService;
+	
 	static final Logger logger = LogManager.getLogger(HostController.class);
+	
+	
+	//성하민
+	@GetMapping("/dailyHostSalesGraph")							// 요청핸들러 메소드에 @ResponseBody를 붙인다.
+	public @ResponseBody List<LabelDataDto> getUserNumberGraph(@RequestParam String hostNo) {
+		int no = Integer.parseInt(hostNo);
+		List<LabelDataDto> result = statisticsService.getSalesPerDayByHostNo(no);
+		logger.info("결과값:" + result);
+		return result;
+	}
 	
 	//성하민
 		@PostMapping(value = "/transactionList.do", produces = "application/json")

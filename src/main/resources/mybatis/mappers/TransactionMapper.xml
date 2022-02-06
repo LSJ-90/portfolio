@@ -4,7 +4,17 @@
   
 
 
-	
+
+
+<!-- 성하민 -->
+	<insert id="insertHostTransaction" parameterType="com.hoge.vo.other.Transaction">
+		insert into tb_final_transactions
+			(transaction_no, transaction_type, transaction_amount, transaction_to_host_no, accumulated_money, TRANSACTION_DATE)
+		values
+			(final_transaction_no_seq.nextval, 2, #{amount}, #{toHostNo}, #{accumulatedMoney}, sysdate)
+	</insert>
+
+
     <!-- // 성하민
 long getTotalDeposit(Criteria criteria);
 	 -->
@@ -78,6 +88,37 @@ int getTransactionListTotalRows(Criteria criteria);
 			</if>
 		)
 		where rn between #{beginIndex} and #{endIndex}
+	</select> 
+  
+    <!-- // 성하민
+  Transaction getlatestTransaction();
+	 -->
+	<select id="getlatestTransaction"  resultType="com.hoge.vo.other.Transaction">
+		select 	
+			TRANSACTION_NO as no,
+			TRANSACTION_TYPE as type,
+			TRANSACTION_AMOUNT as amount,
+			TRANSACTION_TO_HOST_NO as toHostNo,
+			TRANSACTION_TO_USER_NO as toUserNo,
+			TRANSACTION_DATE as createdDate,
+			ACTIVITY_BOOKING_NO as activityBookingNo,
+			ROOM_BOOKING_NO as accommoBookingNo,
+			ACCUMULATED_MONEY as accumulatedMoney
+		from (
+			select 	
+			TRANSACTION_NO,
+			TRANSACTION_TYPE,
+			TRANSACTION_AMOUNT,
+			TRANSACTION_TO_HOST_NO,
+			TRANSACTION_TO_USER_NO,
+			TRANSACTION_DATE,
+			ACTIVITY_BOOKING_NO,
+			ROOM_BOOKING_NO,
+			ACCUMULATED_MONEY,
+	 		row_number() over (order by TRANSACTION_DATE desc) rn
+		from TB_FINAL_TRANSACTIONS
+		)
+		where rn = 1
 	</select> 
   
 

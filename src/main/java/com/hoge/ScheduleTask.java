@@ -7,7 +7,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.hoge.dto.RoomBookingBatchDto;
+import com.hoge.service.HostTransactionService;
 import com.hoge.service.ScheduleTaskService;
+import com.hoge.vo.other.HostTransaction;
 
 @Component
 public class ScheduleTask {
@@ -15,6 +17,9 @@ public class ScheduleTask {
 	// 서비스나 디에이오 매퍼 오토와이어드 해서 실행한다.
 	@Autowired 
 	ScheduleTaskService scheduleTaskService;
+	
+	@Autowired 
+	HostTransactionService hostTransactionService;
 
 			
 	
@@ -27,6 +32,13 @@ public class ScheduleTask {
 			 long amount = (long) ((1 - dto.getCommissionRate()) * dto.getRoomTaxIncludedPrice());
 			 System.out.println(amount);
 			 scheduleTaskService.sendHostBookingPayment(dto.getHostNo(),amount);
+			 
+			 HostTransaction hostTransaction = new HostTransaction();
+			 hostTransaction.setAmount(amount);
+			 hostTransaction.setType(1);
+			 hostTransaction.setHostNo(dto.getHostNo());
+			 hostTransactionService.insertHostsalesTransaction(hostTransaction);
+			 
 			 long pnt = (long) (dto.getRoomPaidPrice()*0.01);
 			 System.out.println(pnt);
 			 scheduleTaskService.addUserPoint(dto.getUserNo(), pnt);

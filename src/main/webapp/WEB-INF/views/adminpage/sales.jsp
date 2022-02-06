@@ -281,17 +281,17 @@ function getTransaction(page) {
 							data += "<td style='color:green'>게스트환불</td>";
 						data += "<td style='color:green'> -" + numberWithCommas(list[i].amount) + "원</td>";
 						}
-						if (list[i]['toHostNo'] == '0') {
-						data += "<td> - </td>";
-						}
-						else {
-							data += "<td>" + list[i].toHostNo + "</td>";
-						}
 						if (list[i]['toUserNo'] == '0') {
 						data += "<td> - </td>";
 						}
 						else {
 							data += "<td>" + list[i].toUserNo + "</td>";
+						}
+						if (list[i]['toHostNo'] == '0') {
+						data += "<td> - </td>";
+						}
+						else {
+							data += "<td>" + list[i].toHostNo + "</td>";
 						}
 						if (list[i]['accommoBookingNo'] == '0') {
 						data += "<td> - </td>";
