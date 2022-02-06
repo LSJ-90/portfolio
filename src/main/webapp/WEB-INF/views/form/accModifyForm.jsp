@@ -152,26 +152,47 @@
                 value="${accMainDto.accAddress }"
               />
             </li>
-            <li class="registration__item">
+           <li class="registration__item">
               <label for="accCheckInTime" class="registration__title"
                 >체크인 · 체크아웃</label
               >
-              <input
-                type="text"
+              <select
                 class="registration__check-time"
                 id="accCheckInTime"
                 name="accCheckInTime"
-                placeholder="체크인 시간"
-                value="${accMainDto.accCheckInTime }"
-              />
-              <input
-                type="text"
+              >
+                <option disabled selected>check-in time</option>
+                <option value="12:00" >12:00</option>
+                <option value="12:30" >12:30</option>
+                <option value="13:00" >13:00</option>
+                <option value="13:30" >13:30</option>
+                <option value="14:00" >14:00</option>
+                <option value="14:30" >14:30</option>
+                <option value="15:00" >15:00</option>
+                <option value="15:30" >15:30</option>
+                <option value="16:00" >16:00</option>
+                <option value="16:30" >16:30</option>
+                <option value="17:00" >17:00</option>
+                <option value="17:30" >17:30</option>
+              </select>
+              <select
                 class="registration__check-time"
                 id="accCheckOutime"
                 name="accCheckOutime"
-                placeholder="체크아웃 시간"
-                value="${accMainDto.accCheckOutime }"
-              />
+              >
+                <option disabled selected>check-out time</option>
+                <option value="09:00" >09:00</option>
+                <option value="09:30" >09:30</option>
+                <option value="10:00" >10:00</option>
+                <option value="10:30" >10:30</option>
+                <option value="11:00" >11:00</option>
+                <option value="11:30" >11:30</option>
+                <option value="12:00" >12:00</option>
+                <option value="12:30" >12:30</option>
+                <option value="13:00" >13:00</option>
+                <option value="13:30" >13:30</option>
+                <option value="14:00" >14:00</option>
+              </select>
             </li>
             
             <li class="registration__item">
@@ -211,9 +232,10 @@
                 class="registration__file"
                 id="accHostMainImage"
                 name="hostMainImage"
+                value="${accMainDto.mainImage }"
                 onchange="javascript:document.getElementById('accMainFileName').value = this.value"
               />
-              <label for="accHostMainImage" class="btn__file">사진 선택</label>
+              <label for="accHostMainImage" class="btn__file" value="${accMainDto.mainImage }">사진 선택</label>
             </li>
             <img src="/resources/images/hostMainImage/${accMainDto.mainImage}" width="300">
             
@@ -334,18 +356,20 @@
     </form>
   </article>
 </main>
-	
 <script type="text/javascript">
 
-$("#bankName").val(${accMainDto.bankName}).prop("selected", true);
-$("#acctype").val(${accMainDto.accType}).prop("selected", true);
+//$("#bankName").val(${accMainDto.bankName}).prop("selected", true);
+//$("#acctype").val(${accMainDto.accType}).prop("selected", true);
 
-//$('#bankName option[value=${accMainDto.bankName}]').prop('selected', 'selected').change();
-//$('#acctype option[value=${accMainDto.accType}]').prop('selected', 'selected').change();
+$('#bankName option[value=${accMainDto.bankName}]').prop('selected', 'selected').change();
+$('#acctype option[value=${accMainDto.accType}]').prop('selected', 'selected').change();
+$('#accCheckInTime option[value=${accMainDto.accCheckInTime}]').prop('selected', 'selected').change();
+$('#accCheckOutime option[value=${accMainDto.accCheckOutime}]').prop('selected', 'selected').change();
+
 
 $(function(){
 	
-	$('#accModifyBtn').on('click', function(e){
+	$('#accModifyBtn').on('click', function(e){	
 		e.preventDefault();
 		e.stopPropagation();
 		

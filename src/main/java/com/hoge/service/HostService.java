@@ -28,6 +28,7 @@ import com.hoge.vo.accommo.Accommodation;
 import com.hoge.vo.activities.Activity;
 import com.hoge.vo.activities.ActivityImage;
 import com.hoge.vo.other.Host;
+import com.hoge.vo.other.PromotionDiscount;
 import com.hoge.vo.other.User;
 import com.hoge.vo.other.Withdrawal;
 
@@ -137,6 +138,12 @@ public class HostService {
 	
 	public int getWithdrawalCountByHostNo(int no) {
 		return withdrawalMapper.getWithdrawalCountByHostNo(no);
+	}
+	
+	
+	// 유상효 할인 프로모션 등록
+	public void addPromotionDiscount(PromotionDiscount promotionDiscount) {
+		hostMapper.addPromotionDiscount(promotionDiscount);
 	}
 
 

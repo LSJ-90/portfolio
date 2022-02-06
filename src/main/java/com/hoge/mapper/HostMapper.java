@@ -14,6 +14,7 @@ import com.hoge.vo.accommo.Accommodation;
 import com.hoge.vo.activities.Activity;
 import com.hoge.vo.activities.ActivityImage;
 import com.hoge.vo.other.Host;
+import com.hoge.vo.other.PromotionDiscount;
 import com.hoge.vo.other.User;
 
 /**
@@ -57,7 +58,9 @@ public interface HostMapper {
 	void modifyActByHostNo(Activity act);
 	void modifyAccImagesByHostNo(List<AccommoImage> accImages);
 	void modifyActImagesByHostNo(List<ActivityImage> actImages);
-	
+
+	// 유상효 할인 프로모션 등록
+	void addPromotionDiscount(PromotionDiscount promotionDiscount);
 	
 	// 호스트 번호로 호스트객체 반환
 	Host getHostByNo(int no);
