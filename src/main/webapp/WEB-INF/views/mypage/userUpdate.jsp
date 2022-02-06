@@ -1,49 +1,62 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../common/tags.jsp" %>
-<head>
-  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-</head>
-		
+
 <div class="mypage__content">
-	<header class="section__header">
-		<h1 class="section__title">회원정보수정</h1>
-	</header>
-	
-	<c:if test="${not empty error }">
+<article class="user-update">
+  <div class="update-title">회원 정보 수정</div>
+    <c:if test="${not empty error }">
 		<div class="mb-3 alert alert-danger">${error }</div>
-	</c:if>
-	
-	<article class="login">
-		<div class="form__wrap">
-			<!-- 회원 기본정보 수정폼 -->
-			<form action="/mypage/userupdate" class="" method="post" enctype="multipart/form-data">
-				<!--  자리를 어디에 둬야 할까... -->
-				<div>
-					<img src="../../resources/images/userprofiles/<c:out value='${LOGIN_USER.image}'/>"/>
-				</div>
-				<div class="">
-					<input type="file" class="form__id" id="" name="myProfile" accept=".png, .jpg, .jpeg"/>
-				</div>
-				<!--  제목들은 왼쪽으로 정렬되어야할까... -->
-				<div class="login__id">이름::
-					<input type="text" class="form__id" id="userName" name="name" value="<c:out value='${LOGIN_USER.name}'/>" />
-				</div>
-				<div class="login__id">아이디::
-					<c:out value="${LOGIN_USER.id}"/>
-				</div>
-				<div class="login__id">전화번호::
-					<input type="text" class="form__id" id="userTel" name="tel" value="<c:out value='${LOGIN_USER.tel}'/>" />
-				</div>
-				<div class="login__id">이메일::
-					<!-- type을 email로 줘야 할까...? -->
-					<input type="text" class="form__id" id="userEmail" name="email" value="<c:out value='${LOGIN_USER.email}'/>" />
-				</div>
-				<div class="login__id">포인트::
-					<!-- type을 email로 줘야 할까...? -->
-					<c:out value="${LOGIN_USER.pnt}"/>
-				</div>
-				<!-- 모달창 -->
+    </c:if>
+  <div class="section-wrap">
+    <section class="left__form">
+      <form
+        class="form__user-update"
+        method="post"
+        enctype="multipart/form-data"
+        action="/mypage/userupdate"
+      >
+        <div class="update__box">
+          <label for="userId">아이디</label>
+          <input
+            type="text"
+            id="userId"
+            name="id"
+            value='<c:out value="${LOGIN_USER.id}"/>'
+            disabled
+          />
+          <div class="warning" id="check_id"></div>
+        </div>
+        <div class="update__box">
+          <label for="userName">이름</label>
+          <input
+            type="text"
+            id="userName"
+            name="name"
+            value="<c:out value='${LOGIN_USER.name}'/>"
+          />
+        </div>
+        <div class="update__box">
+          <label for="userTel">휴대전화</label>
+          <input
+            type="tel"
+            id="userTel"
+            name="tel"
+            value="<c:out value='${LOGIN_USER.tel}'/>"
+          />
+        </div>
+        <div class="update__box">
+          <label for="userEmail">이메일</label>
+          <input
+            type="email"
+            id="userEmail"
+            name="email"
+            value="<c:out value='${LOGIN_USER.email}'/>"
+          />
+        </div>
+        
+         
+  <!-- 회원정보 수정 모달창 -->
 				<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				  <div class="modal-dialog">
 				    <div class="modal-content">
@@ -61,24 +74,48 @@
 				    </div>
 				  </div>
 				</div>
-			</form>
-			
-			<!-- 회원 비밀번호 수정폼 -->
-			<form action="/mypage/userpwdupdate" class="" method="post">
-				<div class="login__pwd">비밀번호
-					<input type="password" class="form__pwd" name="pwd" placeholder="비밀번호" />
-				</div>
-				<div class="login__pwd">변경할 비밀번호
-					<input type="password" class="form__pwd" name="changePwd" placeholder="변경할 비밀번호" />
-				</div>
-				<div class="login__pwd">변경할 비밀번호 확인
-					<input type="password" class="form__pwd" name="confirmPwd" placeholder="변경할 비밀번호 확인" />
-				</div>
-				<!-- 모달버튼 -->
-				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#examplepwdModal">
-			 			비밀번호 변경
-				</button>
-				<!-- 모달창 -->
+        </form>
+        
+        <form action="/mypage/userpwdupdate" method="post">
+        <div class="update__box">
+          <label for="userPwd">현재 비밀번호</label>
+          <input
+            type="password"
+            id="userPwd"
+            name="pwd"
+            placeholder="현재 비밀번호를 입력해 주세요"
+          />
+        </div>
+        <div class="update__box">
+          <label for="changePwd">변경할 비밀번호</label>
+          <input
+            type="password"
+            id="changePwd"
+            name="changePwd"
+            placeholder="변경할 비밀번호를 입력해 주세요"
+          />
+        </div>
+        <div class="update__box last">
+          <label for="confirmPwd">변경할 비밀번호 확인</label>
+          <input
+            type="password"
+            id="confirmPwd"
+            name="confirmPwd"
+            placeholder="변경할 비밀번호를 확인해 주세요"
+          />
+        </div>
+        <div class="update__btn">
+          <button
+            type="button"
+            class="btn__pw"
+            data-bs-toggle="modal"
+            data-bs-target="#examplepwdModal"
+          >
+            비밀번호 변경
+          </button>
+        </div>
+        
+        <!-- 비밀번호 변경 모달창 -->
 				<div class="modal fade" id="examplepwdModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				  <div class="modal-dialog">
 				    <div class="modal-content">
@@ -97,22 +134,51 @@
 				    </div>
 				  </div>
 				</div>
-			</form>
-		</div>
-		
-		
-		<div>
-			<!-- 회원정보 저장 모달버튼 -->
-			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-		 			회원정보 저장
-			</button>
-			<!-- 회원탈퇴 모달버튼 버튼 디자인을 작게 할까..? 색을 다르게 입힐까? -->
-			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleDeleteModal">
-		 			회원탈퇴
-			</button>
-		</div>
-		
-		<!-- 회원 탈퇴 폼 -->
+ 		</form>
+				
+        <div class="update__btn">
+          <button
+            type="button"
+            class="btn__update"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
+            저장하기
+          </button>
+        </div>
+      <button
+        class="btn__withdraw"
+        type="button"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleDeleteModal"
+      >
+        회원 탈퇴
+      </button>
+    </section>
+    <section class="right__img">
+      <div class="img-wrap">
+        <p class="img-title">프로필 사진</p>
+        <img
+          src="../../resources/images/userprofiles/<c:out value='${LOGIN_USER.image}'/>"
+          alt="my-profile-image"
+          class="img-profile"
+        />
+        <input
+          type="file"
+          class="update-imgfile"
+          id="update-imgfile"
+          name="myProfile"
+          accept=".png, .jpg, .jpeg"
+        />
+        <label for="update-imgfile" class="btn__profile-img">
+          <i class="fas fa-camera"></i>
+        </label>
+      </div>
+    </section>
+  </div>
+  
+  
+	<!-- 회원 탈퇴 폼 -->
 		<form action="/mypage/userdelete" class="" method="post">
 			
 			<!-- 모달창 -->
@@ -137,5 +203,5 @@
 			  </div>
 			</div>
 		</form>
-	</article>
+</article>
 </div>
