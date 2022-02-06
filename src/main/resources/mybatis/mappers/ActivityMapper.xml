@@ -25,6 +25,98 @@
 		where
 			activity_no = #{value}
 	</select>
+	
+	<select id="getActivityTimeTableByActivityNo" parameterType="int" resultType="com.hoge.vo.activities.ActivityTimeTable">
+		select 
+			activity_time_no as no,
+			activity_no as activityNo,
+			activity_time as time, 
+			activity_booked_number as soFarBookedNumberOfPeople, 
+			activity_closed as closed
+		from tb_final_activity_times
+		where activity_no = #{value}
+		and activity_closed='N'
+	</select>
+	
+	<select id="getActivityBookingNoSeq" resultType="int">
+		select final_activity_booking_no_seq.nextval
+		from dual
+	</select>
+	
+	<insert id="insertActivityBooking">
+		insert into 
+			tb_final_activity_bookings
+			(activity_booking_no, user_no, activity_time_no, number_of_people, activity_payment,
+			activity_tax_included_price, activity_used_pnt, activity_paid_price, tid)
+		values 
+			(#{activityBookingNo}, #{activityReserveForm.userNo}, #{activityReserveForm.activityTimeNo}, #{activityReserveForm.numberOfPeople}, 
+			#{activityReserveForm.payment}, #{activityReserveForm.taxIncludedPrice}, #{activityReserveForm.usedPnt}, #{activityReserveForm.paidPrice},
+			#{activityReserveForm.tid})
+	</insert>
+	
+	<insert id="updateActivityTimes" parameterType="com.hoge.form.ActivityReserveForm">
+		update 
+			tb_final_activity_times 
+		set 
+			activity_booked_number = (select activity_booked_number from tb_final_activity_times where activity_time_no = ${activityReserveForm.activityTimeNo}) + ${activityReserveForm.numberOfPeople}
+		where 
+			activity_time_no = ${activityReserveForm.activityTimeNo}
+	</insert>
+
+	<insert id="updateActivityTimesClosed" parameterType="com.hoge.form.ActivityReserveForm">
+		update
+			tb_final_activity_times 
+		set 
+			activity_closed = 'Y' 
+		where 
+			activity_time_no = ${activityReserveForm.activityTimeNo}
+			and activity_booked_number = (select maximum_number from tb_final_activities where activity_no = ${activityReserveForm.activityNo})
+	</insert>
+	
+	<insert id="insertTransaction">
+		<selectKey keyProperty="transactionNo" resultType="int" order="BEFORE">
+			select final_transaction_no_seq.nextval
+			from dual
+		</selectKey>
+		insert into tb_final_transactions
+			(transaction_no, transaction_type, transaction_amount, activity_booking_no, accumulated_money)
+		values
+			(#{transactionNo}, 1, #{transaction.amount}, #{transaction.activityBookingNo}, #{transaction.accumulatedMoney})
+	</insert>
+	
+	<select id="getActivityBooking" parameterType="int" resultType="com.hoge.dto.ActivityBookingDto">
+		select
+			(select activity_time from tb_final_activity_times where activity_time_no = a.activity_time_no) activityTime,
+			(select activity_no from tb_final_activity_times where activity_time_no = a.activity_time_no) activityNo,
+			number_of_people numberOfPeople,
+			activity_paid_price paidPrice,
+			booking_made_date bookingMadeDate,
+			activity_booking_no no
+		from 
+			(select 
+				rownum,
+				activity_time_no,
+				number_of_people,
+				activity_paid_price,
+				booking_made_date,
+				activity_booking_no
+			from 
+				tb_final_activity_bookings
+			where
+				user_no = #{value}
+			order by
+				booking_made_date desc) a
+		where rownum=1
+	</select>
+	
+	<select id="getActivityImageList" parameterType="int" resultType="com.hoge.vo.activities.ActivityImage">
+		select
+		    activity_image,
+		    activity_no
+		from
+		    tb_final_activity_images
+		where activity_no=#{value}
+	</select>
 
 
 

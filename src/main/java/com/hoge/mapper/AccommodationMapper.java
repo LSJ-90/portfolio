@@ -36,7 +36,7 @@ public interface AccommodationMapper {
 	// 염주환 예약페이지 숙소 관련 정보
 	ReserveAccommoDto getReserveAccommoDto(@Param("accommoNo") int accommoNo, @Param("roomNo") int roomNo);
 	// 염주환 roombooking insert
-	void insertRoomBooking(@Param("roomBooking") RoomBooking roomBooking, @Param("userNo") int userNo, @Param("no") int no);
+	void insertRoomBooking(@Param("roomBooking") RoomBooking roomBooking, @Param("userNo") int userNo, @Param("no") int no, @Param("tid") String tid);
 	// 염주환 roombooking, availability, transactions에 같은 no 넣기 위함
 	int getRoomBookingNoSeq();
 	// 염주환 availability insert
@@ -45,6 +45,12 @@ public interface AccommodationMapper {
 	long getAccumulatedMoney();
 	// 염주환 transactions insert
 	void insertTransactions(@Param("amount") long amount, @Param("accumulated") long accumulated, @Param("userNo") int userNo, @Param("no") int no);
+	// 염주환 user usedPnt
+	void updateUserPnt(@Param("userNo") int userNo, @Param("usedPnt") long usedPnt);
+	
+	// 예약완료페이지
+	// 염주환 예약정보 가져오기
+	RoomBooking getRoomBookingByUserNO(int userNo);
 	
 	// 유상효 객실 등록
 	void insertRoom(Room room);

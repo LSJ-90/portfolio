@@ -9,7 +9,7 @@
 </head>
 <body>
 <div class="container ">
-	<form id="frm" method="post" action="insert" >
+	<form id="frm" method="post" action="accommo/insert" >
 		<input type="hidden" name="roomNo" value="${accommo.roomNo }">
 		<input type="hidden" name="no" value="${accommo.no }">
 		<input type="hidden" name="taxIncludedPrice" value="">
@@ -125,15 +125,6 @@
 										<td>이용자 정보를 입력해주세요.</td>
 									</tr>
 								</table>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<th>요청사항</th>
-						<td>
-							<div class="form-floating">
-	  							<textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-	  							<label for="floatingTextarea2"></label>
 							</div>
 						</td>
 					</tr>
@@ -392,7 +383,7 @@ $(function() {
 		var roomNo = $(":input[name=roomNo]").val();
 		var point = $("input[name=usedPnt]").val();
 		
-		$.getJSON("/getPrice",
+		$.getJSON("/getAccommoPrice",
 				{checkIn: checkIn, checkOut: checkOut, roomNo: roomNo, number: number, point: point},
 				function(priceDto) {
 			$("#top-price, #bottom-price").text("￦"+priceDto.totalPrice.toLocaleString());
@@ -475,10 +466,9 @@ $(function() {
 				alert("동의사항을 모두 확인해 주세요.");
 			} else {
 				if($('input[name="payment"]:checked').val() == "카드") {
-					// alert("카드");
 					frm.submit();
 				} else {
-					frm.attr("action", "/reserve/kakaoPay");
+					frm.attr("action", "/reserve/accommo/kakaoPay");
 					frm.submit();
 				}
 			}

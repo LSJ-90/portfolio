@@ -21,9 +21,9 @@
 	<div class="row mb-3">
 		<div class="col-6">
 			<div>
-				<h2>${room.name }</h2>
-				<p><fmt:formatDate value="${book.checkInDate }" pattern="yyyy-MM-dd"/>~<fmt:formatDate value="${book.checkOutDate }" pattern="yyyy-MM-dd"/><br/>
-				인원 : ${room.standardNumber + book.extraPeople } 명</p>
+				<h2>${activity.name }</h2>
+				<p><fmt:formatDate value="${book.activityTime }" pattern="yyyy-MM-dd HH:ss"/><br/>
+				인원 : ${book.numberOfPeople } 명</p>
 			</div>
 			<div>
 				<h3>￦${book.paidPrice }</h3>
@@ -31,7 +31,7 @@
 			</div>
 		</div>
 		<div class="col-6">
-			<img alt="roomImage" src="/resources/images/accommoList/${room.accommoNo }/${images[0].image}">
+			<img alt="activityImage" src="/resources/images/activities/${images[0].image}">
 		</div>
 	</div>
 	<div class="row">

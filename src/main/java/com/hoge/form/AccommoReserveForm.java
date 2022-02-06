@@ -17,7 +17,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ReservationInsertForm {
+public class AccommoReserveForm {
 	
 	private int roomNo;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -31,5 +31,6 @@ public class ReservationInsertForm {
 	private String roomUserName;
 	private String roomUserTel;
 	private int extraPeople;
+	private String tid;
 
 }

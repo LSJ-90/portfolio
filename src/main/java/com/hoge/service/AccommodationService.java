@@ -23,7 +23,7 @@ import com.hoge.dto.ReserveAccommoDto;
 import com.hoge.dto.RoomDto;
 import com.hoge.dto.RoomListDto;
 import com.hoge.form.Criteria;
-import com.hoge.form.ReservationInsertForm;
+import com.hoge.form.AccommoReserveForm;
 import com.hoge.mapper.AccommodationMapper;
 import com.hoge.vo.accommo.AccommoImage;
 import com.hoge.vo.accommo.Accommodation;
@@ -66,13 +66,18 @@ public class AccommodationService {
 	}
 	
 	// 염주환
+	public List<AccommoImage> getAccommoImages(int accommoNo) {
+		return accommoMapper.getAccommoImagesByAccommoNo(accommoNo);
+	}
+	
+	// 염주환
 	public ReserveAccommoDto getReserveAccommoDto(int accommoNo, int roomNo) {
 		return accommoMapper.getReserveAccommoDto(accommoNo, roomNo);
 	}
 	
 	// 염주환
 	@Transactional
-	public void addNewBooking(RoomBooking roomBooking, int userNo) {
+	public void addNewBooking(RoomBooking roomBooking, int userNo, String tid) {
 		int no = accommoMapper.getRoomBookingNoSeq();
 		
 		List<Date> dateList = new ArrayList<>();
@@ -89,7 +94,7 @@ public class AccommodationService {
 			c1.add(Calendar.DATE, 1);
 		}
 	
-		accommoMapper.insertRoomBooking(roomBooking, userNo, no);
+		accommoMapper.insertRoomBooking(roomBooking, userNo, no, tid);
 		java.sql.Date sqlDate = null;
 		
 		for (Date date : dateList) {
@@ -101,6 +106,7 @@ public class AccommodationService {
 		long accumulatedMoney = accommoMapper.getAccumulatedMoney();
 		accumulatedMoney += roomBooking.getPaidPrice();
 		accommoMapper.insertTransactions(amount, accumulatedMoney, userNo, no);
+		accommoMapper.updateUserPnt(userNo, roomBooking.getUsedPnt());
 		
 	}
 
@@ -148,7 +154,7 @@ public class AccommodationService {
     private KakaoPayApprovalVO kakaoPayApprovalVO;
 
     // 염주환
-    public String kakaoPayReady(ReservationInsertForm form) {
+    public String kakaoPayReady(AccommoReserveForm form) {
  
     	RestTemplate restTemplate = new RestTemplate();
     	 
@@ -167,7 +173,7 @@ public class AccommodationService {
         params.add("quantity", "1");
         params.add("total_amount", Long.toString(form.getPaidPrice()));
         params.add("tax_free_amount", Long.toString(form.getPaidPrice()));
-        params.add("approval_url", "http://localhost/reserve/kakaoPaySuccess");
+        params.add("approval_url", "http://localhost/reserve/accommo/kakaoPaySuccess?roomNo="+form.getRoomNo()+"&checkInDate="+form.getCheckInDate()+"&checkOutDate="+form.getCheckOutDate()+"&payment="+form.getPayment()+"&taxIncludedPrice="+form.getTaxIncludedPrice()+"&usedPnt="+form.getUsedPnt()+"&paidPrice="+form.getPaidPrice()+"&roomUserName="+form.getRoomUserName()+"&roomUserTel="+form.getRoomUserTel()+"&extraPeople="+form.getExtraPeople());
         // TODO 염주환
         params.add("cancel_url", "http://localhost/kakaoPayCancel");
         // TODO 염주환
@@ -228,11 +234,10 @@ public class AccommodationService {
         
         return null;
     }
-
-
-
-
-
-	
-	
+    
+    // 염주환 예약완료페이지를 위한 booking 정보
+    public RoomBooking getRoomBooking(int userNo) {
+    	RoomBooking roomBooking = accommoMapper.getRoomBookingByUserNO(userNo);
+    	return roomBooking;
+    }
 }
