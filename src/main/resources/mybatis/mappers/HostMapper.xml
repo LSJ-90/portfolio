@@ -271,6 +271,27 @@
 		and h.host_no = #{value}
 	</select>
 	
+	
+
+	<!-- 성하민 -->
+	<update id="updateHost" parameterType="com.hoge.vo.other.Host">
+		update tb_final_hosts
+		set
+			host_name = #{name},
+			host_tel = #{tel},
+			account_holder_name = #{accountHolderName},
+			bank_name = #{bankName},
+			account_number = #{accountNumber},
+			host_main_image = #{mainImage},
+			grade_name = #{gradeName},
+			status = #{status},
+			status_detail = #{statusDetail},
+			request = #{request},
+			accumulated_Money = #{accumulatedMoney}
+		where
+			host_no = #{no}
+	</update>
+	
 	<!-- 호스트 넘버로 호스트 수정하기 -->
 	<update id="modifyHostByHostNo" parameterType="com.hoge.vo.other.Host">
 		update tb_final_hosts
@@ -346,18 +367,260 @@
 		)
 		values
 			(
-			final_discount_promotion_no_seq.nextval,
+			FINAL_DISCOUNT_PROMOTION_NO_SEQ.NEXTVAL,
 			#{weekdaysDiscountRate},
 			#{weekendDiscountRate},
 			#{peakSeasonDiscountRate},
-			#to_date({startingDate}),
-			#to_date({endingDate}),
+			#{startingDate},
+			#{endingDate},
 			#{introContent},
 			#{hostNo}
 			)
 	</insert>
 	
+	<!-- 유상효 증정 프로모션 등록 -->
+	<insert id="addPromotionOffer" parameterType="com.hoge.vo.other.PromotionOffer">
+		insert into tb_final_offer_promotions
+		(
+		offer_promotion_no,
+		offer_content,
+		promotion_starting_date,
+		promotion_ending_date,
+		promotion_intro_content,
+		host_no
+		)
+		values
+			(
+			final_offer_promotion_no_seq.nextval,
+			#{content},
+			#{startingDate},
+			#{endingDate},
+			#{introContent},
+			#{hostNo}
+			)
+	</insert>
 	
+	<!-- 유상효 프로모션 리스트 -->
+	<select id="getPromotionDiscountByHostNo" parameterType="int" resultType="com.hoge.vo.other.PromotionDiscount">
+		select
+			discount_promotion_no as no,
+			weekdays_discount_rate as weekdaysDiscountRate,
+			weekend_discount_rate as weekendDiscountRate,
+			peak_season_discount_rate as peakSeasonDiscountRate,
+			promotion_starting_date as startingDate,
+			promotion_ending_date as endingDate,
+			promotion_registered_date as registeredDate,
+			promotion_intro_content as introContent,
+			status as status
+		from
+			TB_FINAL_DISCOUNT_PROMOTIONS
+		where
+			host_no = #{value}
+	</select>
+	<select id="getPromotionDiscountByHostNoAndStatusY" parameterType="int" resultType="com.hoge.vo.other.PromotionDiscount">
+		select
+			discount_promotion_no as no,
+			weekdays_discount_rate as weekdaysDiscountRate,
+			weekend_discount_rate as weekendDiscountRate,
+			peak_season_discount_rate as peakSeasonDiscountRate,
+			promotion_starting_date as startingDate,
+			promotion_ending_date as endingDate,
+			promotion_registered_date as registeredDate,
+			promotion_intro_content as introContent,
+			status as status
+		from
+			tb_final_discount_promotions
+		where
+			host_no = #{value}
+		and status = 'Y'
+	</select>
+	<select id="getPromotionDiscountByHostNoAndStatusW" parameterType="int" resultType="com.hoge.vo.other.PromotionDiscount">
+		select
+			discount_promotion_no as no,
+			weekdays_discount_rate as weekdaysDiscountRate,
+			weekend_discount_rate as weekendDiscountRate,
+			peak_season_discount_rate as peakSeasonDiscountRate,
+			promotion_starting_date as startingDate,
+			promotion_ending_date as endingDate,
+			promotion_registered_date as registeredDate,
+			promotion_intro_content as introContent,
+			status as status
+		from
+			tb_final_discount_promotions
+		where
+			host_no = #{value}
+		and status = 'W'
+	</select>
+	<select id="getPromotionDiscountByHostNoAndStatusN" parameterType="int" resultType="com.hoge.vo.other.PromotionDiscount">
+		select
+			discount_promotion_no as no,
+			weekdays_discount_rate as weekdaysDiscountRate,
+			weekend_discount_rate as weekendDiscountRate,
+			peak_season_discount_rate as peakSeasonDiscountRate,
+			promotion_starting_date as startingDate,
+			promotion_ending_date as endingDate,
+			promotion_registered_date as registeredDate,
+			promotion_intro_content as introContent,
+			status as status
+		from
+			tb_final_discount_promotions
+		where
+			host_no = #{value}
+		and status = 'N'
+	</select>
+	<select id="getPromotionDiscountByHostNoAndStatusD" parameterType="int" resultType="com.hoge.vo.other.PromotionDiscount">
+		select
+			discount_promotion_no as no,
+			weekdays_discount_rate as weekdaysDiscountRate,
+			weekend_discount_rate as weekendDiscountRate,
+			peak_season_discount_rate as peakSeasonDiscountRate,
+			promotion_starting_date as startingDate,
+			promotion_ending_date as endingDate,
+			promotion_registered_date as registeredDate,
+			promotion_intro_content as introContent,
+			status as status
+		from
+			tb_final_discount_promotions
+		where
+			host_no = #{value}
+		and status = 'D'
+	</select>
+	<select id="getPromotionOfferByHostNo" parameterType="int" resultType="com.hoge.vo.other.PromotionOffer">
+		select
+			offer_promotion_no as no,
+			offer_content as content,
+			promotion_starting_date as startingDate,
+			promotion_ending_date as endingDate,
+			promotion_registered_date as registeredDate,
+			promotion_intro_content as introContent,
+			status as status
+		from
+			tb_final_offer_promotions
+		where
+			host_no = #{value}
+	</select>
+	<select id="getPromotionOfferByHostNoAndStatusY" parameterType="int" resultType="com.hoge.vo.other.PromotionOffer">
+		select
+			offer_promotion_no as no,
+			offer_content as content,
+			promotion_starting_date as startingDate,
+			promotion_ending_date as endingDate,
+			promotion_registered_date as registeredDate,
+			promotion_intro_content as introContent,
+			status as status
+		from
+			tb_final_offer_promotions
+		where
+			host_no = #{value}
+		and status = 'Y'
+	</select>
+	<select id="getPromotionOfferByHostNoAndStatusW" parameterType="int" resultType="com.hoge.vo.other.PromotionOffer">
+		select
+			offer_promotion_no as no,
+			offer_content as content,
+			promotion_starting_date as startingDate,
+			promotion_ending_date as endingDate,
+			promotion_registered_date as registeredDate,
+			promotion_intro_content as introContent,
+			status as status
+		from
+			tb_final_offer_promotions
+		where
+			host_no = #{value}
+		and status = 'W'
+	</select>
+	<select id="getPromotionOfferByHostNoAndStatusN" parameterType="int" resultType="com.hoge.vo.other.PromotionOffer">
+		select
+			offer_promotion_no as no,
+			offer_content as content,
+			promotion_starting_date as startingDate,
+			promotion_ending_date as endingDate,
+			promotion_registered_date as registeredDate,
+			promotion_intro_content as introContent,
+			status as status
+		from
+			tb_final_offer_promotions
+		where
+			host_no = #{value}
+		and status = 'N'
+	</select>
+	<select id="getPromotionOfferByHostNoAndStatusD" parameterType="int" resultType="com.hoge.vo.other.PromotionOffer">
+		select
+			offer_promotion_no as no,
+			offer_content as content,
+			promotion_starting_date as startingDate,
+			promotion_ending_date as endingDate,
+			promotion_registered_date as registeredDate,
+			promotion_intro_content as introContent,
+			status as status
+		from
+			tb_final_offer_promotions
+		where
+			host_no = #{value}
+		and status = 'D'
+	</select>
+	
+	<!-- 유상효 프로모션번호로 할인프로모션 조회 -->
+	<select id="getPromotionDiscountByPromotionNo" parameterType="int" resultType="com.hoge.vo.other.PromotionDiscount">
+		select
+			discount_promotion_no as no,
+			weekdays_discount_rate as weekdaysDiscountRate,
+			weekend_discount_rate as weekendDiscountRate,
+			peak_season_discount_rate as peakSeasonDiscountRate,
+			promotion_starting_date as startingDate,
+			promotion_ending_date as endingDate,
+			promotion_registered_date as registeredDate,
+			promotion_intro_content as introContent,
+			status as status
+		from
+			tb_final_discount_promotions
+		where
+			discount_promotion_no = #{value}
+	</select>
+	
+	<!-- 유상효 프로모션번호로 할인프로모션 수정하기 -->
+	<update id="modifyPromotionDiscount" parameterType="com.hoge.vo.other.PromotionDiscount">
+		update tb_final_discount_promotions
+		set
+			discount_promotion_no = #{no},
+			weekdays_discount_rate = #{weekdaysDiscountRate},
+			weekend_discount_rate = #{weekendDiscountRate},
+			peak_season_discount_rate = #{peakSeasonDiscountRate},
+			promotion_starting_date = #{startingDate},
+			promotion_ending_date = #{endingDate},
+			promotion_intro_content = #{introContent}
+		where
+			discount_promotion_no = #{no}
+	</update>
+	
+	<!-- 유상효 프로모션번호로 증정프로모션 조회 -->
+	<select id="getPromotionOfferByPromotionNo" parameterType="int" resultType="com.hoge.vo.other.PromotionOffer">
+		select
+			offer_promotion_no as no,
+			offer_content as content,
+			promotion_starting_date as startingDate,
+			promotion_ending_date as endingDate,
+			promotion_registered_date as registeredDate,
+			promotion_intro_content as introContent,
+			status as status
+		from
+			tb_final_offer_promotions
+		where
+			offer_promotion_no = #{no}
+	</select>
+	
+	<!-- 유상효 프로모션번호로 증정프로모션 수정하기 -->
+	<update id="modifyPromotionOffer" parameterType="com.hoge.vo.other.PromotionOffer">
+		update tb_final_offer_promotions
+		set
+			offer_promotion_no = #{no},
+			offer_content = #{content},
+			promotion_starting_date = #{startingDate},
+			promotion_ending_date = #{endingDate},
+			promotion_intro_content = #{introContent}
+		where
+			offer_promotion_no = #{no}
+	</update>
 	
 
 	<!-- 성하민

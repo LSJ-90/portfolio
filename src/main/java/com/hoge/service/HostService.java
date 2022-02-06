@@ -29,6 +29,7 @@ import com.hoge.vo.activities.Activity;
 import com.hoge.vo.activities.ActivityImage;
 import com.hoge.vo.other.Host;
 import com.hoge.vo.other.PromotionDiscount;
+import com.hoge.vo.other.PromotionOffer;
 import com.hoge.vo.other.User;
 import com.hoge.vo.other.Withdrawal;
 
@@ -145,6 +146,65 @@ public class HostService {
 	public void addPromotionDiscount(PromotionDiscount promotionDiscount) {
 		hostMapper.addPromotionDiscount(promotionDiscount);
 	}
+	
+	// 유상효 증정 프로모션 등록
+	public void addPromotionOffer(PromotionOffer promotionOffer) {
+		hostMapper.addPromotionOffer(promotionOffer);
+	}
+	
+	// 유상효 프로모션 리스트
+	public List<PromotionDiscount> getPromotionDiscountByHostNo(int hostNo) {
+		return hostMapper.getPromotionDiscountByHostNo(hostNo);
+	}
+	public List<PromotionDiscount> getPromotionDiscountByHostNoAndStatusY(int hostNo) {
+		return hostMapper.getPromotionDiscountByHostNoAndStatusY(hostNo);
+	}
+	public List<PromotionDiscount> getPromotionDiscountByHostNoAndStatusW(int hostNo) {
+		return hostMapper.getPromotionDiscountByHostNoAndStatusW(hostNo);
+	}
+	public List<PromotionDiscount> getPromotionDiscountByHostNoAndStatusN(int hostNo) {
+		return hostMapper.getPromotionDiscountByHostNoAndStatusN(hostNo);
+	}
+	public List<PromotionDiscount> getPromotionDiscountByHostNoAndStatusD(int hostNo) {
+		return hostMapper.getPromotionDiscountByHostNoAndStatusD(hostNo);
+	}
+	public List<PromotionOffer> getPromotionOfferByHostNo(int hostNo) {
+		return hostMapper.getPromotionOfferByHostNo(hostNo);
+	}
+	public List<PromotionOffer> getPromotionOfferByHostNoAndStatusY(int hostNo) {
+		return hostMapper.getPromotionOfferByHostNoAndStatusY(hostNo);
+	}
+	public List<PromotionOffer> getPromotionOfferByHostNoAndStatusW(int hostNo) {
+		return hostMapper.getPromotionOfferByHostNoAndStatusW(hostNo);
+	}
+	public List<PromotionOffer> getPromotionOfferByHostNoAndStatusN(int hostNo) {
+		return hostMapper.getPromotionOfferByHostNoAndStatusN(hostNo);
+	}
+	public List<PromotionOffer> getPromotionOfferByHostNoAndStatusD(int hostNo) {
+		return hostMapper.getPromotionOfferByHostNoAndStatusD(hostNo);
+	}
+	
+	// 유상효 프로모션 번호로 할인프로모션 조회
+	public PromotionDiscount getPromotionDiscountByPromotionNo(int no) {
+		return hostMapper.getPromotionDiscountByPromotionNo(no);
+	}
+	
+	// 유상효 프로모션 번호로 증정프로모션 조회
+	public PromotionOffer getPromotionOfferByPromotionNo(int no) {
+		return hostMapper.getPromotionOfferByPromotionNo(no);
+	}
+	
+	// 유상효 할인프로모션 수정
+	public void modifyPromotionDiscount(PromotionDiscount promotionDiscount) {
+		hostMapper.modifyPromotionDiscount(promotionDiscount);
+	}
+	
+	// 유상효 증정프로모션 수정
+	public void modifyPromotionOffer(PromotionOffer promotionOffer) {
+		hostMapper.modifyPromotionOffer(promotionOffer);
+	}
+	
+
 
 
 	
