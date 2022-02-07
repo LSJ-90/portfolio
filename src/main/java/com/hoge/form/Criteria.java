@@ -15,10 +15,10 @@ import lombok.ToString;
 @Builder
 public class Criteria {
 
-	private String opt; 
-	private String value;
-	private String opt1;
-	private String value1;
+	private String opt; //사용자: 성하민
+	private String value; //사용자: 성하민
+	private String opt1; //사용자: 성하민
+	private String value1; //사용자: 성하민
 	
 	private String addressValue;
 	private String opt2;
@@ -27,9 +27,11 @@ public class Criteria {
 	private String opt3;
 	private String checkOutBoxValue;
 	private String opt4;
+	private String startDate; //성하민 관리자 매출관리
+	private String endDate; //성하민 관리자 매출관리
 	private String maxStandardNumberValue;
 	private String checkInDate;
 	private String checkOutDate;
-	private int beginIndex;
-	private int endIndex;
+	private int beginIndex;  //사용자: 성하민
+	private int endIndex;  //사용자: 성하민
 }
