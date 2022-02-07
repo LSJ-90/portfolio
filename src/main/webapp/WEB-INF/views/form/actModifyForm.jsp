@@ -60,22 +60,21 @@
                 class="registration__value"
                 id="bankName"
                 name="bankName"
-                selected="${actMainDto.bankName }"
               >
-                <option value="농협" selected>농협</option>
-                <option value="국민은행">국민은행</option>
-                <option value="신한은행">신한은행</option>
-                <option value="우리은행">우리은행</option>
-                <option value="기업은행">기업은행</option>
-                <option value="하나은행">하나은행</option>
-                <option value="대구은행">대구은행</option>
-                <option value="부산은행">부산은행</option>
-                <option value="우체국">우체국</option>
-                <option value="SC제일은행">SC제일은행</option>
-                <option value="광주은행">광주은행</option>
-                <option value="경남은행">경남은행</option>
-                <option value="수협">수협</option>
-                <option value="케이뱅크">케이뱅크</option>
+                <option value="농협" ${'농협' eq actMainDto.bankName ? 'selected' : ''}>농협</option>
+                <option value="국민은행" ${'국민은행' eq actMainDto.bankName ? 'selected' : ''}>국민은행</option>
+                <option value="신한은행" ${'신한은행' eq actMainDto.bankName ? 'selected' : ''}>신한은행</option>
+                <option value="우리은행" ${'우리은행' eq actMainDto.bankName ? 'selected' : ''}>우리은행</option>
+                <option value="기업은행" ${'기업은행' eq actMainDto.bankName ? 'selected' : ''}>기업은행</option>
+                <option value="하나은행" ${'하나은행' eq actMainDto.bankName ? 'selected' : ''}>하나은행</option>
+                <option value="대구은행" ${'대구은행' eq actMainDto.bankName ? 'selected' : ''}>대구은행</option>
+                <option value="부산은행" ${'부산은행' eq actMainDto.bankName ? 'selected' : ''}>부산은행</option>
+                <option value="우체국" ${'우체국' eq actMainDto.bankName ? 'selected' : ''}>우체국</option>
+                <option value="SC제일은행" ${'SC제일은행' eq actMainDto.bankName ? 'selected' : ''}>SC제일은행</option>
+                <option value="광주은행" ${'광주은행' eq actMainDto.bankName ? 'selected' : ''}>광주은행</option>
+                <option value="경남은행" ${'경남은행' eq actMainDto.bankName ? 'selected' : ''}>경남은행</option>
+                <option value="수협" ${'수협' eq actMainDto.bankName ? 'selected' : ''}>수협</option>
+                <option value="케이뱅크" ${'케이뱅크' eq actMainDto.bankName ? 'selected' : ''}>케이뱅크</option>
               </select>
             </li>
             <li class="registration__item account">
@@ -195,7 +194,7 @@
               />
               <label for="actHostMainImage" class="btn__file">사진 선택</label>
             </li>
-            <img src="/resources/images/hostMainImage/${accMainDto.mainImage}" width="300">
+            <img src="/resources/images/hostMainImage/${actMainDto.mainImage}" width="300">
             
             <li class="registration__item file">
               <div class="registration__title">사진 첨부</div>

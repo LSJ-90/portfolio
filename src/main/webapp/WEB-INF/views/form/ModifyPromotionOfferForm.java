@@ -1,8 +1,9 @@
-package com.hoge.vo.other;
+package com.hoge.form;
 
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,8 +18,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PromotionOffer {
-
+public class ModifyPromotionOfferForm {
+	
+	private int hostingType;
 	private int no;
 	private int hostNo;
 	private String content; //증정 내용
@@ -29,4 +31,5 @@ public class PromotionOffer {
 	private Date registeredDate;
 	private String introContent; //기본적인 소개 내용
 	private String status; // w(승인대기), Y(승인완료), N(승인거절), D(종료)
+
 }

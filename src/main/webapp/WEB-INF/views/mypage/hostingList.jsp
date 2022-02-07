@@ -19,6 +19,8 @@
 				<h5>호스트 페이지</h5>
 			</div>
 		</div>
+		<a href="/mypage/myrevlist">마이페이지 전환</a>
+		<a href="/host/applyForm" class="text-right">호스트 추가등록</a>
 		<div class="row mb-3 d-flex justify-content-center">
 			<div class="col-6 text-center">
 				<c:forEach var="accListDto" items="${accListDto }" >

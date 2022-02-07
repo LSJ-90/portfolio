@@ -5,7 +5,7 @@
 	<div class="header-wrap">
 		<div class="header__title">
 			<a href="/host/main?hostNo=${param.hostNo}&hostingType=${param.hostingType }"><h1>${accMainDto.accName }</h1></a>
-			<a href="/host/main?hostNo=${param.hostNo}&hostingType=${param.hostingType }"><h1>${actMaintDto.actName }</h1></a>
+			<a href="/host/main?hostNo=${param.hostNo}&hostingType=${param.hostingType }"><h1>${actMainDto.actName }</h1></a>
 			<h1 class="title">${accMainDto.accType }</h1>
 		</div>
 		<nav id="nav">

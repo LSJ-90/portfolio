@@ -12,14 +12,14 @@
 	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
   <meta charset="UTF-8">
-  <title>증정 프로모션 등록</title>
+  <title>객실 등록</title>
 </head>
 <body>
-	<form class="border p-3 bg-light" id="" method="post" action="addPromotionOffer" enctype="multipart/form-data">
+	<form class="border p-3 bg-light" id="" method="post" action="modifyPromotionDiscount" enctype="multipart/form-data">
 		<div class="container" id="first">
 			<div class="row mb-3 ">
 				<div class="col text-center">
-					<h1>증정 프로모션 등록</h1>
+					<h1>할인 프로모션 수정</h1>
 				</div>
 			</div>
 			<div class="row mb-3 d-flex justify-content-center">
@@ -41,21 +41,30 @@
 						</c:otherwise>
 					</c:choose>
 					<div class="mb-3">
+						<input type="hidden" value="${param.no }" name="no" />
 						<label class="form-label">프로모션 소개</label>
-						<input type="text" class="form-control" id="introContent" name="introContent" />
-					</div>
-					<div class="mb-3">
-						<label class="form-label">증정 내용</label>
-						<input type="text" class="form-control" id="content" name="content" />
+						<input type="text" class="form-control" value="${promotionDiscount.introContent }" name="introContent" />
 					</div>
 					<div>
 						<label class="form-label">프로모션 시작일</label>
-						<input type="date" name="startingDate" class="form-control" />
+						<input type="date" name="startingDate" class="form-control" value="${promotionDiscount.startingDate}" />
 						<label class="form-label">프로모션 종료일</label>
-	   					<input type="date" name="endingDate" class="form-control" />
+	   					<input type="date" name="endingDate" class="form-control" value="${promotionDiscount.endingDate }" />
+					</div>
+					<div class="mb-3">
+						<label class="form-label">평일 할인율</label>
+						<input type="text" class="form-control" value="${promotionDiscount.weekdaysDiscountRate }" name="weekdaysDiscountRate" />
+					</div>
+					<div class="mb-3">
+						<label class="form-label">주말 할인율</label>
+						<input type="text" class="form-control" value="${promotionDiscount.weekendDiscountRate }"  name="weekendDiscountRate" />
+					</div>
+					<div class="mb-3">
+						<label class="form-label">성수기 할인율</label>
+						<input type="text" class="form-control" value="${promotionDiscount.peakSeasonDiscountRate }" name="peakSeasonDiscountRate" />
 					</div>
 					<div class="mb-3 text-end">
-						<button class="btn btn-primary" type="submit">프로모션 등록</button>
+						<button class="btn btn-primary" type="submit">프로모션 수정</button>
 					</div>					
 				</div>
 			</div>

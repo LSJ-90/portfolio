@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,7 +37,6 @@ import com.hoge.dto.ActMainDto;
 import com.hoge.dto.AdminActivityReviewDto;
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.ChattingMessageDto;
-import com.hoge.dto.LabelDataDto;
 import com.hoge.dto.RoomDto;
 import com.hoge.dto.RoomListDto;
 import com.hoge.form.AccHostModifyForm;
@@ -43,6 +44,8 @@ import com.hoge.form.ActHostModifyForm;
 import com.hoge.form.Criteria;
 import com.hoge.form.HostApplyForm;
 import com.hoge.form.InsertRoomForm;
+import com.hoge.form.ModifyPromotionDiscountForm;
+import com.hoge.form.ModifyPromotionOfferForm;
 import com.hoge.form.PromotionDiscountForm;
 import com.hoge.form.PromotionOfferForm;
 import com.hoge.form.RoomModifyForm;
@@ -52,7 +55,6 @@ import com.hoge.pagination.PaginationPerPage5;
 import com.hoge.service.AccommodationService;
 import com.hoge.service.ChatRoomService;
 import com.hoge.service.QnAService;
-import com.hoge.service.StatisticsService;
 import com.hoge.service.HostService;
 import com.hoge.service.HostTransactionService;
 import com.hoge.util.SessionUtils;
@@ -68,6 +70,7 @@ import com.hoge.vo.other.HostQnA;
 import com.hoge.vo.other.HostTransaction;
 import com.hoge.vo.other.Message;
 import com.hoge.vo.other.PromotionDiscount;
+import com.hoge.vo.other.PromotionOffer;
 import com.hoge.vo.other.User;
 import com.hoge.vo.other.Withdrawal;
 
@@ -90,20 +93,7 @@ public class HostController {
 	@Autowired
 	private AccommodationService accommodationService;
 	
-	@Autowired
-	private StatisticsService statisticsService;
-	
 	static final Logger logger = LogManager.getLogger(HostController.class);
-	
-	
-	//성하민
-	@GetMapping("/dailyHostSalesGraph")							// 요청핸들러 메소드에 @ResponseBody를 붙인다.
-	public @ResponseBody List<LabelDataDto> getUserNumberGraph(@RequestParam String hostNo) {
-		int no = Integer.parseInt(hostNo);
-		List<LabelDataDto> result = statisticsService.getSalesPerDayByHostNo(no);
-		logger.info("결과값:" + result);
-		return result;
-	}
 	
 	//성하민
 		@PostMapping(value = "/transactionList.do", produces = "application/json")
@@ -485,9 +475,40 @@ public class HostController {
 	
 	// 유상효 프로모션 관리페이지
 	@GetMapping("/mainPromotion")
-	public String mainPromotion(@RequestParam(name = "hostNo") int hostNo, @RequestParam(name = "hostingType") int hostingType, Model model) {
+	public String mainPromotion(@RequestParam(name = "hostNo") int hostNo, @RequestParam(name = "hostingType") int hostingType, @RequestParam(name = "status", defaultValue = "A") String status, Model model) {
 		AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
 		model.addAttribute("accMainDto", accMainDto);
+		ActMainDto actMainDto = hostService.getActMainByHostNo(hostNo);
+		model.addAttribute("actMainDto", actMainDto);
+		
+		if (status.equals("A")) {
+			List<PromotionDiscount> promotionDiscountList = hostService.getPromotionDiscountByHostNo(hostNo);
+			model.addAttribute("promotionDiscountList", promotionDiscountList);
+			List<PromotionOffer> promotionOfferList = hostService.getPromotionOfferByHostNo(hostNo);
+			model.addAttribute("promotionOfferList", promotionOfferList);
+		} else if (status.equals("Y")) {
+			List<PromotionDiscount> promotionDiscountList = hostService.getPromotionDiscountByHostNoAndStatusY(hostNo);
+			model.addAttribute("promotionDiscountList", promotionDiscountList);
+			List<PromotionOffer> promotionOfferList = hostService.getPromotionOfferByHostNoAndStatusY(hostNo);
+			model.addAttribute("promotionOfferList", promotionOfferList);
+		} else if (status.equals("W")) {
+			List<PromotionDiscount> promotionDiscountList = hostService.getPromotionDiscountByHostNoAndStatusW(hostNo);
+			model.addAttribute("promotionDiscountList", promotionDiscountList);
+			List<PromotionOffer> promotionOfferList = hostService.getPromotionOfferByHostNoAndStatusW(hostNo);
+			model.addAttribute("promotionOfferList", promotionOfferList);
+		} else if (status.equals("N")) {
+			List<PromotionDiscount> promotionDiscountList = hostService.getPromotionDiscountByHostNoAndStatusN(hostNo);
+			model.addAttribute("promotionDiscountList", promotionDiscountList);
+			List<PromotionOffer> promotionOfferList = hostService.getPromotionOfferByHostNoAndStatusN(hostNo);
+			model.addAttribute("promotionOfferList", promotionOfferList);
+		} else if (status.equals("D")) {
+			List<PromotionDiscount> promotionDiscountList = hostService.getPromotionDiscountByHostNoAndStatusD(hostNo);
+			model.addAttribute("promotionDiscountList", promotionDiscountList);
+			List<PromotionOffer> promotionOfferList = hostService.getPromotionOfferByHostNoAndStatusD(hostNo);
+			model.addAttribute("promotionOfferList", promotionOfferList);
+		}
+		
+		logger.info("model 출력값 :" + model);
 			
 	return "hostpage/promotion.hosttiles";
 	}
@@ -497,6 +518,8 @@ public class HostController {
 	public String addPromotionDiscountForm(@RequestParam(name = "hostNo") int hostNo, @RequestParam(name = "hostingType") int hostingType, Model model) {
 		AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
 		model.addAttribute("accMainDto", accMainDto);
+		ActMainDto actMainDto = hostService.getActMainByHostNo(hostNo);
+		model.addAttribute("actMainDto", actMainDto);
 		
 		return "form/addPromotionDiscountForm.hosttiles";
 	}
@@ -504,15 +527,25 @@ public class HostController {
 	// 유상효 할인 프로모션 등록
 	@PostMapping("/addPromotionDiscount")
 	public String addPromotionDiscount(PromotionDiscountForm form) {
-		logger.info("프로모션입력값 :" + form);
+		
+		logger.info("form입력값 :" + form);
+		
+		java.util.Date utilStarting = form.getStartingDate();
+		java.sql.Date sqlStarting = new java.sql.Date(utilStarting.getTime());
+		
+		java.util.Date utilEnding = form.getEndingDate();
+		java.sql.Date sqlEnding = new java.sql.Date(utilEnding.getTime());
+		
 		PromotionDiscount promotionDiscount = new PromotionDiscount();
 		promotionDiscount.setHostNo(form.getHostNo());
 		promotionDiscount.setWeekdaysDiscountRate(form.getWeekdaysDiscountRate());
 		promotionDiscount.setWeekendDiscountRate(form.getWeekendDiscountRate());
 		promotionDiscount.setPeakSeasonDiscountRate(form.getPeakSeasonDiscountRate());
-		promotionDiscount.setStartingDate(form.getStartingDate());
-		promotionDiscount.setEndingDate(form.getEndingDate());
+		promotionDiscount.setStartingDate(sqlStarting);
+		promotionDiscount.setEndingDate(sqlEnding);
 		promotionDiscount.setIntroContent(form.getIntroContent());
+		
+		logger.info("프로모션입력값 :" + promotionDiscount);
 		
 		hostService.addPromotionDiscount(promotionDiscount);
 		return "redirect:mainPromotion?hostNo="+form.getHostNo()+"&hostingType="+form.getHostingType();
@@ -523,18 +556,118 @@ public class HostController {
 	public String addPromotionOfferForm(@RequestParam(name = "hostNo") int hostNo, @RequestParam(name = "hostingType") int hostingType, Model model) {
 		AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
 		model.addAttribute("accMainDto", accMainDto);
+		ActMainDto actMainDto = hostService.getActMainByHostNo(hostNo);
+		model.addAttribute("actMainDto", actMainDto);
 		
 		return "form/addPromotionOfferForm.hosttiles";
 	}
 	
 	// 유상효 증정 프로모션 등록
-		@PostMapping("/addPromotionOffer")
-		public String addPromotionOffer(PromotionOfferForm form) {
-			return "redirect:mainPromotion?hostNo="+form.getHostNo()+"&hostingType="+form.getHostingType();
-		}
+	@PostMapping("/addPromotionOffer")
+	public String addPromotionOffer(PromotionOfferForm form) {
 		
+		logger.info("form입력값 :" + form);
+		
+		java.util.Date utilStarting = form.getStartingDate();
+		java.sql.Date sqlStarting = new java.sql.Date(utilStarting.getTime());
+		
+		java.util.Date utilEnding = form.getEndingDate();
+		java.sql.Date sqlEnding = new java.sql.Date(utilEnding.getTime());
+		
+		PromotionOffer promotionOffer = new PromotionOffer();
+		promotionOffer.setHostNo(form.getHostNo());
+		promotionOffer.setContent(form.getContent());
+		promotionOffer.setIntroContent(form.getIntroContent());
+		promotionOffer.setStartingDate(sqlStarting);
+		promotionOffer.setEndingDate(sqlEnding);
+		
+		hostService.addPromotionOffer(promotionOffer);
+		return "redirect:mainPromotion?hostNo="+form.getHostNo()+"&hostingType="+form.getHostingType();
+	}
 	
+	// 유상효 할인 프로모션 수정폼 호출
+	@GetMapping("modifyPromotionDiscount")
+	public String modifyPromotionDiscount(@RequestParam(name = "hostNo") int hostNo, @RequestParam(name = "hostingType") int hostingType, @RequestParam(name = "no") int no, Model model) {
+		AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
+		model.addAttribute("accMainDto", accMainDto);
+		ActMainDto actMainDto = hostService.getActMainByHostNo(hostNo);
+		model.addAttribute("actMainDto", actMainDto);
+		PromotionDiscount promotionDiscount = hostService.getPromotionDiscountByPromotionNo(no);
+		model.addAttribute("promotionDiscount", promotionDiscount);
+		
+		return "form/modifyPromotionDiscountForm.hosttiles";
+	}
 	
+	// 유상효 할인 프로모션 수정
+	@PostMapping("/modifyPromotionDiscount")
+	public String modifyPromotionDiscount(ModifyPromotionDiscountForm form) {
+		
+		logger.info("form입력값 :" + form);
+		
+		java.util.Date utilStarting = form.getStartingDate();
+		java.sql.Date sqlStarting = new java.sql.Date(utilStarting.getTime());
+		
+		java.util.Date utilEnding = form.getEndingDate();
+		java.sql.Date sqlEnding = new java.sql.Date(utilEnding.getTime());
+		
+		PromotionDiscount promotionDiscount = new PromotionDiscount();
+		promotionDiscount.setNo(form.getNo());
+		promotionDiscount.setHostNo(form.getHostNo());
+		promotionDiscount.setWeekdaysDiscountRate(form.getWeekdaysDiscountRate());
+		promotionDiscount.setWeekendDiscountRate(form.getWeekendDiscountRate());
+		promotionDiscount.setPeakSeasonDiscountRate(form.getPeakSeasonDiscountRate());
+		promotionDiscount.setStartingDate(sqlStarting);
+		promotionDiscount.setEndingDate(sqlEnding);
+		promotionDiscount.setIntroContent(form.getIntroContent());
+		
+		logger.info("프로모션입력값 :" + promotionDiscount);
+		
+		hostService.modifyPromotionDiscount(promotionDiscount);
+		
+		return "redirect:mainPromotion?hostNo="+form.getHostNo()+"&hostingType="+form.getHostingType();
+	}
+		
+	// 유상효 증정 프로모션 수정폼 호출
+	@GetMapping("modifyPromotionOffer")
+	public String modifyPromotionOffer(@RequestParam(name = "hostNo") int hostNo, @RequestParam(name = "hostingType") int hostingType, @RequestParam(name = "no") int no, Model model) {
+		AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
+		model.addAttribute("accMainDto", accMainDto);
+		ActMainDto actMainDto = hostService.getActMainByHostNo(hostNo);
+		model.addAttribute("actMainDto", actMainDto);
+		PromotionOffer promotionOffer = hostService.getPromotionOfferByPromotionNo(no);
+		model.addAttribute("promotionOffer", promotionOffer);
+		
+		return "form/modifyPromotionOfferForm.hosttiles";
+	}
+	
+	// 유상효 증정 프로모션 수정
+	@PostMapping("/modifyPromotionOffer")
+	public String modifyPromotionOffer(ModifyPromotionOfferForm form) {
+		
+		logger.info("form입력값 :" + form);
+		
+		java.util.Date utilStarting = form.getStartingDate();
+		java.sql.Date sqlStarting = new java.sql.Date(utilStarting.getTime());
+		
+		java.util.Date utilEnding = form.getEndingDate();
+		java.sql.Date sqlEnding = new java.sql.Date(utilEnding.getTime());
+		
+		PromotionOffer promotionOffer = new PromotionOffer();
+		promotionOffer.setNo(form.getNo());
+		promotionOffer.setHostNo(form.getHostNo());
+		promotionOffer.setContent(form.getContent());
+		promotionOffer.setIntroContent(form.getIntroContent());
+		promotionOffer.setStartingDate(sqlStarting);
+		promotionOffer.setEndingDate(sqlEnding);
+		
+		logger.info("프로모션입력값 :" + promotionOffer);
+		
+		hostService.modifyPromotionOffer(promotionOffer);
+		
+		return "redirect:mainPromotion?hostNo="+form.getHostNo()+"&hostingType="+form.getHostingType();
+	}
+		
+		
 	
 	public ModelAndView MainReq() {
 		return null;	

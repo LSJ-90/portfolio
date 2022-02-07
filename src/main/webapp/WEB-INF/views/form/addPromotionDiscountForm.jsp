@@ -12,7 +12,7 @@
 	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
   <meta charset="UTF-8">
-  <title>객실 등록</title>
+  <title>할인 프로모션 등록</title>
 </head>
 <body>
 	<form class="border p-3 bg-light" id="" method="post" action="addPromotionDiscount" enctype="multipart/form-data">
@@ -24,11 +24,22 @@
 			</div>
 			<div class="row mb-3 d-flex justify-content-center">
 				<div class="col-6 text-center">
-					<div class="mb-3">
-						<input type="hidden" value="${accMainDto.accNo }" id="accommoNo" name="accommoNo" />
-						<input type="hidden" value="${accMainDto.hostNo }" id="hostNo" name="hostNo" />
-						<input type="hidden" value="${accMainDto.hostingType }" id="hostingType" name="hostingType" />
-					</div>
+					<c:choose>
+						<c:when test="${(param.hostingType) == 1 }">
+							<div class="mb-3">
+								<input type="hidden" value="${accMainDto.accNo }" id="accommoNo" name="accommoNo" />
+								<input type="hidden" value="${accMainDto.hostNo }" id="hostNo" name="hostNo" />
+								<input type="hidden" value="${accMainDto.hostingType }" id="hostingType" name="hostingType" />
+							</div>
+						</c:when>
+						<c:otherwise>
+							<div class="mb-3">
+								<input type="hidden" value="${actMainDto.actNo }" id="activityNo" name="activityNo" />
+								<input type="hidden" value="${actMainDto.hostNo }" id="hostNo" name="hostNo" />
+								<input type="hidden" value="${actMainDto.hostingType }" id="hostingType" name="hostingType" />
+							</div>
+						</c:otherwise>
+					</c:choose>
 					<div class="mb-3">
 						<label class="form-label">프로모션 소개</label>
 						<input type="text" class="form-control" id="introContent" name="introContent" />
@@ -41,15 +52,15 @@
 					</div>
 					<div class="mb-3">
 						<label class="form-label">평일 할인율</label>
-						<input type="text" class="form-control" id="weekdaysDiscountRate" name="weekdaysDiscountRate" />%
+						<input type="text" class="form-control" id="weekdaysDiscountRate" name="weekdaysDiscountRate" />
 					</div>
 					<div class="mb-3">
 						<label class="form-label">주말 할인율</label>
-						<input type="text" class="form-control" id="weekendDiscountRate" name="weekendDiscountRate" />%
+						<input type="text" class="form-control" id="weekendDiscountRate" name="weekendDiscountRate" />
 					</div>
 					<div class="mb-3">
 						<label class="form-label">성수기 할인율</label>
-						<input type="text" class="form-control" id="peakSeasonDiscountRate" name="peakSeasonDiscountRate" />%
+						<input type="text" class="form-control" id="peakSeasonDiscountRate" name="peakSeasonDiscountRate" />
 					</div>
 					<div class="mb-3 text-end">
 						<button class="btn btn-primary" type="submit">프로모션 등록</button>
