@@ -23,7 +23,7 @@
 				<li class="nav__item"><a href="">예약관리</a></li>
 				<li class="nav__item"><a href="/host/sales?hostNo=${param.hostNo }&hostingType=${param.hostingType }">매출관리</a></li>
 				<li class="nav__item"><a href="/host/chat?hostNo=${param.hostNo }&hostingType=${param.hostingType }">게스트문의</a></li>
-				<li class="nav__item"><a href="/host/qna?hostNo=${param.hostNo }&hostingType=${param.hostingType }">관리자문의</a></li>
+				<li class="nav__item"><a href="/host/qna?page=1&hostNo=${param.hostNo }&hostingType=${param.hostingType }">관리자문의</a></li>
 			</ul>
 			<div class="nav__dropdown">
 				<button class="btn__dropdown">

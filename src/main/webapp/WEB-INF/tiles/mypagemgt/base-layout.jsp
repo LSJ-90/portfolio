@@ -16,6 +16,7 @@
     <script src="https://kit.fontawesome.com/d94ff6bbbc.js" crossorigin="anonymous"></script>
     <!-- css -->  
     <link rel="stylesheet" href="../../resources/css/style.css" />
+    <link rel="stylesheet" href="../../resources/css/host_style.css" />
     <link rel="stylesheet" href="../../resources/css/mypage_style.css" />
     <!-- script -->
     <script src="../../resources/javascript/main.js" defer></script>

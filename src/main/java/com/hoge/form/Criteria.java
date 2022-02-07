@@ -19,6 +19,16 @@ public class Criteria {
 	private String value; //사용자: 성하민
 	private String opt1; //사용자: 성하민
 	private String value1; //사용자: 성하민
+	private String value2; //사용자: 성하민
+	private String grade; //사용자: 성하민
+	private String accommoType; //사용자: 성하민
+	private String hostStatus; //사용자: 성하민
+	private String grade1; //사용자: 성하민
+	private String accommoType1; //사용자: 성하민
+	private String hostStatus1; //사용자: 성하민
+	private String grade2; //사용자: 성하민
+	private String accommoType2; //사용자: 성하민
+	private String hostStatus2; //사용자: 성하민
 	
 	private String addressValue;
 	private String opt2;

@@ -66,14 +66,14 @@
       </li>
       <li class="tab__content">
         <ul class="tab__menu">
-          <li class="tab__item"><a href="/admin/host-accommo-list">숙소리스트</a></li>
-          <li class="tab__item"><a href="/admin/host-qna">숙소승인 대기</a></li>
-          <li class="tab__item"><a href="/admin/host-qna">숙소승인 반려/종료</a></li>
+          <li class="tab__item"><a href="/admin/accommo-list">숙소리스트</a></li>
+          <li class="tab__item"><a href="/admin/accommo-waiting-list">숙소승인 대기</a></li>
+          <li class="tab__item"><a href="/admin/accommo-ended-list">숙소승인 반려/종료</a></li>
         </ul>
       </li>
       <li class="tab__content">
         <ul class="tab__menu">
-          <li class="tab__item"><a href="/admin/host-activity-list">체험리스트</a></li>
+          <li class="tab__item"><a href="/admin/activity-list">체험리스트</a></li>
           <li class="tab__item"><a href="#none">체험승인 대기</a></li>
           <li class="tab__item"><a href="#none">체험승인 반려/종료</a></li>
         </ul>

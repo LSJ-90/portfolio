@@ -175,9 +175,9 @@
 									<c:when test="${hostQna.hostStatus eq 'D'}">
 										<td>호스팅종료</td>
 									</c:when>
-									<c:otherwise>
+									<c:when test="${hostQna.hostStatus eq 'R'}">
 										<td>강제종료</td>
-									</c:otherwise>
+									</c:when>
 								</c:choose>
 								<td>${hostQna.category }</td>
 								<td class="text-overflow">${hostQna.title }</td>
