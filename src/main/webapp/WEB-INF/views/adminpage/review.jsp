@@ -1,163 +1,149 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../common/tags.jsp" %>
-<!-- 
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
- -->	
-<style>
-table {font-size: 10pt; text-align:center;}
+<c:set var="menu" value="review"/>
 
-
-</style>
-<body>
-<div class="container">
-<div class="row mb-3 mt-3">
-	<div class="col">
-		<p>숙소리뷰</p>
-	</div>
-</div>
-<div class="row mb-3 mt-3">
-	<div class="col">
-		<div class="row mb-3 mt-3">
-			<div class="col">
-				<form id="form-search-accReview" class="row row-cols-lg-auto g-3 align-items-center">
-					<div class="row mb-3 mt-3">
-						<div class="col-3">
-							<select class="form-select" name="opt">
-								<option value="" selected disabled="disabled">검색조건을 선택하세요</option>
-								<option value="회원번호"> 회원번호</option>
-								<option value="호스트번호"> 호스트번호</option>
-								<option value="시설번호"> 시설번호</option>
-								<option value="시설이름"> 시설이름</option>
-								<option value="내용"> 내용</option>
-							</select>
-						</div>
-						<div class="col-3">
-							<input type="text" class="form-control" name="value" value="">
-						</div>
-						<div class="col-1">
-							<button type="button" class="btn btn-outline-primary btn-sm" id="btn-search-accReview">검색</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-
-		<div class="row mb-3">
-			<div class="col">
-		 			<table class="table table-bordered border-dark">
-					<thead>
-						<tr>
-							<th style="width: 5%;">no.</th>
-							<th style="width: 7%;">회원번호</th>
-							<th style="width: 5%;">숙소번호</th>
-							<th style="width: 7%;">숙소이름</th>
-							<th style="width: 7%;">청결도</th>
-							<th style="width: 7%;">의사소통</th>
-							<th style="width: 7%;">정확도</th>
-							<th style="width: 7%;">위치</th>
-							<th style="width: 15%;">내용</th>
-							<th style="width: 7%;">작성일</th>
-							<th style="width: 10%;">답변</th>
-						</tr>
-					</thead>
-					<tbody id="dataSection1">
-						
-					</tbody>
-				</table>
-			</div>
-		</div>
-	
-		<!-- 페이지 내비게이션 표시 -->
-		<div class="row mb-3">
-			<div class="col">
-				<div class="pagination1">
-					<ul id="paginationBox1" class="pagination">
-		
-					</ul>
-				</div>
-			</div>
-		</div>
-		
-		
-	</div>
-</div> <!-- 첫번째 리스트 -->
-
-<div class="row mb-3 mt-3">
-	<div class="col">
-		<p>체험리뷰</p>
-	</div>
-</div>
-
-<div class="row mb-3 mt-3">
-	<div class="col">
-		<div class="row mb-3 mt-3">
-			<div class="col">
-				<form id="form-search-actReview" class="row row-cols-lg-auto g-3 align-items-center">
-					<div class="row mb-3 mt-3">
-						<div class="col-3">
-							<select class="form-select" name="opt1">
-								<option value="" selected disabled="disabled">검색조건을 선택하세요</option>
-								<option value="회원번호"> 회원번호</option>
-								<option value="호스트번호"> 호스트번호</option>
-								<option value="시설번호"> 체험번호</option>
-								<option value="시설이름"> 체험이름</option>
-								<option value="내용"> 내용</option>
-							</select>
-						</div>
-						<div class="col-3">
-							<input type="text" class="form-control" name="value1" value="">
-						</div>
-						<div class="col-1">
-							<button type="button" class="btn btn-outline-primary btn-sm" id="btn-search-actReview">검색</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-
-		<div class="row mb-3">
-			<div class="col">
-		 			<table class="table table-bordered border-dark">
-					<thead>
-						<tr>
-							<th style="width: 5%;">no.</th>
-							<th style="width: 7%;">회원번호</th>
-							<th style="width: 5%;">체험번호</th>
-							<th style="width: 7%;">체험이름</th>
-							<th style="width: 7%;">별점</th>
-							<th style="width: 15%;">내용</th>
-							<th style="width: 7%;">작성일</th>
-							<th style="width: 10%;">답변</th>
-						</tr>
-					</thead>
-					<tbody id="dataSection2">
-						
-					</tbody>
-				</table>
-			</div>
-		</div>
-	
-		<!-- 페이지 내비게이션 표시 -->
-		<div class="row mb-3">
-			<div class="col">
-				<div class="pagination2">
-					<ul id="paginationBox2" class="pagination">
-		
-					</ul>
-				</div>
-			</div>
-		</div>
-		
-		
-	</div>
-</div> <!-- 두번째 리스트 -->
-
-
-
-
-</div>
+<main id="main">
+  <article id="admin-user">
+  
+ <!-- 숙소 리뷰 -->
+    <article id="accommo-review">
+      <h1 class="section__title">숙소</h1>
+        <form class="search-user__form review" id="form-search-accReview">
+        <ul class="search-bar">
+          <li>
+            <select class="search__select" name="opt">
+              <option value="" selected disabled="disabled">
+                검색조건
+              </option>
+              <option value="회원번호">회원번호</option>
+              <option value="호스트번호">호스트번호</option>
+              <option value="시설번호">시설번호</option>
+              <option value="시설이름">시설이름</option>
+              <option value="내용">내용</option>
+            </select>
+          </li>
+          <li>
+            <input type="text" class="search-user" name="value" value="" />
+            <button
+              type="button"
+              class="btn__search"
+              id="btn-search-accReview"
+            >
+              검색
+            </button>
+          </li>
+        </ul>
+      </form>
+      <table class="user-list-table">
+        <colgroup>
+          <col style="width: 5%" />
+          <col style="width: 7%" />
+          <col style="width: 5%" />
+          <col style="width: 16%" />
+          <col style="width: 6%" />
+          <col style="width: 6%" />
+          <col style="width: 6%" />
+          <col style="width: 6%" />
+          <col style="width: 16%" />
+          <col style="width: 10%" />
+          <col style="width: 5%" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>no.</th>
+            <th>회원번호</th>
+            <th>숙소번호</th>
+            <th>숙소이름</th>
+            <th>청결도</th>
+            <th>의사소통</th>
+            <th>정확도</th>
+            <th>위치</th>
+            <th>내용</th>
+            <th>작성일</th>
+            <th>답변</th>
+          </tr>
+        </thead>
+        <tbody id="dataSection1">
+          
+        </tbody>
+      </table>
+      
+	<!-- 숙소 페이지네이션 -->      
+      <div id="pagination">
+        <ul class="pagination__list" id="paginationBox1">
+          
+        </ul>
+      </div>
+    </article>
+    
+    
+  <!-- 체험 리뷰 -->  
+    <article id="activity-review">
+      <h1 class="section__title">체험</h1>
+       <form class="search-user__form review" id="form-search-actReview">
+        <ul class="search-bar">
+          <li>
+            <select class="search__select" name="opt1">
+              <option value="" selected disabled="disabled">
+                검색조건
+              </option>
+              <option value="회원번호">회원번호</option>
+              <option value="호스트번호">호스트번호</option>
+              <option value="시설번호">체험번호</option>
+              <option value="시설이름">체험이름</option>
+              <option value="내용">내용</option>
+            </select>
+          </li>
+          <li>
+            <input type="text" class="search-user" name="value" value="" />
+            <button
+              type="button"
+              class="btn__search"
+              id="btn-search-actReview"
+            >
+              검색
+            </button>
+          </li>
+        </ul>
+      </form>
+      <table class="user-list-table">
+        <colgroup>
+          <col style="width: 8%" />
+          <col style="width: 9%" />
+          <col style="width: 9%" />
+          <col style="width: 22%" />
+          <col style="width: 9%" />
+          <col style="width: 23%" />
+          <col style="width: 12%" />
+          <col style="width: 8%" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>no.</th>
+            <th>회원번호</th>
+            <th>체험번호</th>
+            <th>체험이름</th>
+            <th>별점</th>
+            <th>내용</th>
+            <th>작성일</th>
+            <th>답변</th>
+          </tr>
+        </thead>
+        <tbody id="dataSection2">
+         
+        </tbody>
+      </table>
+      
+   	<!-- 체험 페이지네이션 -->   
+      <div id="pagination">
+        <ul class="pagination__list" id="paginationBox2">
+          
+        </ul>
+      </div>
+    </article>
+  </article>
+</main>
 
 <script type="text/javascript">
 $("#btn-search-actReview").click(function() {
@@ -216,13 +202,13 @@ function getAccPage(page) {
 							+ list[i].userNo + ")'>" + list[i].userNo + "</td>";
 						data += "<td style='cursor:pointer' onclick='showAccommoDetail("
 							+ list[i].accommoNo + ")'>" + list[i].accommoNo + "</td>";
-						data += "<td>" + list[i].accommoName + "</td>";
+						data += "<td class='text-overflow'>" + list[i].accommoName + "</td>";
 						data += "<td>" + list[i].cleanlinessStar + "</td>";
 						data += "<td>" + list[i].communicationStar + "</td>";
 						console.log(list[i].content);
 						data += "<td>" + list[i].accuracyStar + "</td>";
 						data += "<td>" + list[i].locationStar + "</td>";
-						data += "<td>" + list[i].content + "</td>";
+						data += "<td class='text-overflow'>" + list[i].content + "</td>";
 						data += "<td>" + list[i].createdDate + "</td>";
 						
 						if (list[i]['answerContent']!=null) {
@@ -238,9 +224,9 @@ function getAccPage(page) {
 					if (pagination['prevPage']) {
 						block += "<li class='page-item'><a class='page-link' href='javascript:getAccPage("
 								+ (pagination['beginPage'] - 1)
-								+ ")'> < </a></li>";
+								+ ")'> <i class='fas fa-chevron-left'></i> </a></li>";
 					} else {
-						block += "<li class='page-item disabled'><a class='page-link'> < </a></li>";
+						block += "<li class='page-item disabled'><a class='page-link'> <i class='fas fa-chevron-left'></i> </a></li>";
 					}
 
 					// 번호를 표시하는 부분
@@ -257,9 +243,9 @@ function getAccPage(page) {
 					if (pagination['nextPage']) {
 						block += "<li class='page-item'><a class='page-link' href='javascript:getAccPage("
 								+ (pagination['endPage'] + 1)
-								+ ")'>  > </a></li>";
+								+ ")'> <i class='fas fa-chevron-right'></i> </a></li>";
 					} else {
-						block += "<li class='page-item disabled'><a class='page-link'> > </a></li>";
+						block += "<li class='page-item disabled'><a class='page-link'> <i class='fas fa-chevron-right'></i> </a></li>";
 					}
 					
 					$("#paginationBox1").html(block);
@@ -297,9 +283,9 @@ function getActPage(page1) {
 							+ list[i].userNo + ")'>" + list[i].userNo + "</td>";
 						data += "<td style='cursor:pointer' onclick='showAccommoDetail("
 							+ list[i].activityNo + ")'>" + list[i].activityNo + "</td>";
-						data += "<td>" + list[i].activityName + "</td>";
+						data += "<td class='text-overflow'>" + list[i].activityName + "</td>";
 						data += "<td>" + list[i].star + "</td>";
-						data += "<td>" + list[i].content + "</td>";
+						data += "<td class='text-overflow'>" + list[i].content + "</td>";
 						data += "<td>" + list[i].createdDate + "</td>";
 						
 						if (list[i]['answerContent']!=null) {
@@ -315,9 +301,9 @@ function getActPage(page1) {
 					if (pagination['prevPage']) {
 						block += "<li class='page-item'><a class='page-link' href='javascript:getActPage("
 								+ (pagination['beginPage'] - 1)
-								+ ")'> < </a></li>";
+								+ ")'> <i class='fas fa-chevron-left'></i> </a></li>";
 					} else {
-						block += "<li class='page-item disabled'><a class='page-link'> < </a></li>";
+						block += "<li class='page-item disabled'><a class='page-link'> <i class='fas fa-chevron-left'></i> </a></li>";
 					}
 
 					// 번호를 표시하는 부분
@@ -334,9 +320,9 @@ function getActPage(page1) {
 					if (pagination['nextPage']) {
 						block += "<li class='page-item'><a class='page-link' href='javascript:getActPage("
 								+ (pagination['endPage'] + 1)
-								+ ")'>  > </a></li>";
+								+ ")'> <i class='fas fa-chevron-right'></i> </a></li>";
 					} else {
-						block += "<li class='page-item disabled'><a class='page-link'> > </a></li>";
+						block += "<li class='page-item disabled'><a class='page-link'> <i class='fas fa-chevron-right'></i> </a></li>";
 					}
 					
 					$("#paginationBox2").html(block);
