@@ -168,6 +168,7 @@ public class HostService {
 	public List<PromotionDiscount> getPromotionDiscountByHostNoAndStatusD(int hostNo) {
 		return hostMapper.getPromotionDiscountByHostNoAndStatusD(hostNo);
 	}
+	
 	public List<PromotionOffer> getPromotionOfferByHostNo(int hostNo) {
 		return hostMapper.getPromotionOfferByHostNo(hostNo);
 	}

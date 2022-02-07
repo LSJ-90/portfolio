@@ -15,7 +15,7 @@
 					<li class="nav__item"><a href="/host/mainRoom?hostNo=${param.hostNo }&hostingType=${param.hostingType }" class="active">객실관리</a></li>
 				</c:when>
 			<c:otherwise>
-					<li class="nav__item"><a href="/host/mainRoom?hostNo=${param.hostNo }&hostingType=${param.hostingType }" class="active">체험관리</a></li>
+					<li class="nav__item"><a href="/activity/mainTime?hostNo=${param.hostNo }&hostingType=${param.hostingType }" class="active">체험관리</a></li>
 			</c:otherwise>
 			</c:choose>
 				<li class="nav__item"><a href="/host/mainPromotion?hostNo=${param.hostNo }&hostingType=${param.hostingType }">프로모션</a></li>

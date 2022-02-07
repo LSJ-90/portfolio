@@ -118,6 +118,86 @@
 		where 
 			activity_no = #{value}
 	</select>
+	
+	
+	
+	
+	<!-- 유상효 타임테이블 등록 -->
+	<insert id="addTime" parameterType="com.hoge.form.ActTimeForm">
+		insert into tb_final_activity_times
+		(
+		activity_time_no,
+		activity_no,
+		activity_time
+		)
+		values
+			(
+			final_activity_time_no_seq.nextval,
+			#{activityNo},
+			TO_DATE(#{inputTime}, 'YYYY-MM-DD HH24:MI:SS')
+			)
+	</insert>
+	
+	<!-- 유상효 타임테이블 리스트 -->
+	<select id="getTimeTableByActNo" parameterType="int" resultType="com.hoge.vo.activities.ActivityTimeTable">
+		select
+			activity_time_no as no,
+			activity_time as time,
+			activity_booked_number as soFarBookedNumberOfPeople,
+			activity_closed as closed
+		from
+			tb_final_activity_times
+		where
+			activity_no = #{value}
+		order by activity_time asc
+	</select>
+	<select id="getTimeTableByActNoAndStatusN" parameterType="int" resultType="com.hoge.vo.activities.ActivityTimeTable">
+		select
+			activity_time_no as no,
+			activity_time as time,
+			activity_booked_number as soFarBookedNumberOfPeople,
+			activity_closed as closed
+		from
+			tb_final_activity_times
+		where
+			activity_no = #{value}
+		and activity_closed = 'N'
+		order by activity_time asc
+	</select>
+	<select id="getTimeTableByActNoAndStatusY" parameterType="int" resultType="com.hoge.vo.activities.ActivityTimeTable">
+		select
+			activity_time_no as no,
+			activity_time as time,
+			activity_booked_number as soFarBookedNumberOfPeople,
+			activity_closed as closed
+		from
+			tb_final_activity_times
+		where
+			activity_no = #{value}
+		and activity_closed = 'Y'
+		order by activity_time asc
+	</select>
+	<select id="getTimeTableByTimeNo" parameterType="int" resultType="com.hoge.vo.activities.ActivityTimeTable">
+		select
+			activity_time_no as no,
+			activity_time as time,
+			activity_booked_number as soFarBookedNumberOfPeople,
+			activity_closed as closed
+		from
+			tb_final_activity_times
+		where
+			activity_time_no = #{value}
+	</select>
+	
+	<!-- 유상효 타임테이블번호로 타임테이블 수정하기 -->
+	<update id="modifyTimeTable" parameterType="com.hoge.form.ActTimeForm">
+		update tb_final_activity_times
+		set
+			activity_time = TO_DATE(#{inputTime}, 'YYYY-MM-DD HH24:MI:SS')
+		where
+			activity_time_no = #{no}
+	</update>
+	
 
 
 

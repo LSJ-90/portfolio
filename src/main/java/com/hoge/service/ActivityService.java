@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.hoge.dto.ActivityBookingDto;
 import com.hoge.form.AccommoReserveForm;
+import com.hoge.form.ActTimeForm;
 import com.hoge.form.ActivityReserveForm;
 import com.hoge.mapper.AccommodationMapper;
 import com.hoge.mapper.ActivityMapper;
@@ -156,5 +157,35 @@ public class ActivityService {
     // 염주환
     public List<ActivityImage> getActiviyImages(int activitNo) {
     	return activityMapper.getActivityImageList(activitNo);
-    };
+    }
+    
+    
+    // 유상효 타임테이블 등록
+	public void addTime(ActTimeForm form) {
+		activityMapper.addTime(form);
+	}
+	
+	// 유상효 타임테이블 리스트
+	public List<ActivityTimeTable> getTimeTableByActNo(int actNo) {
+		return activityMapper.getTimeTableByActNo(actNo);
+	}
+	public List<ActivityTimeTable> getTimeTableByActNoAndStatusN(int actNo) {
+		return  activityMapper.getTimeTableByActNoAndStatusN(actNo);
+	}
+	public List<ActivityTimeTable> getTimeTableByActNoAndStatusY(int actNo) {
+		return  activityMapper.getTimeTableByActNoAndStatusY(actNo);
+	}
+	
+	// 유상효 타임테이블no로 타임테이블 조회
+	public ActivityTimeTable getTimeTableByTimeNo(int no) {
+		return activityMapper.getTimeTableByTimeNo(no);
+	}
+	
+	// 유상효 체험 타임테이블 수정
+	public void modifyTimeTable(ActTimeForm form) {
+		activityMapper.modifyTimeTable(form);
+	}
+	
+	
+	
 }

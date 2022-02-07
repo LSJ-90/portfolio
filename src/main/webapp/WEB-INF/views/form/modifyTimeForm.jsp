@@ -12,14 +12,14 @@
 	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
   <meta charset="UTF-8">
-  <title>객실 등록</title>
+  <title>타임테이블 등록</title>
 </head>
 <body>
-	<form class="border p-3 bg-light" id="" method="post" action="modifyPromotionOffer" enctype="multipart/form-data">
+	<form class="border p-3 bg-light" id="" method="post" action="modifyTimeTable" enctype="multipart/form-data">
 		<div class="container" id="first">
 			<div class="row mb-3 ">
 				<div class="col text-center">
-					<h1>증정 프로모션 수정</h1>
+					<h1>체험 타임테이블 수정</h1>
 				</div>
 			</div>
 			<div class="row mb-3 d-flex justify-content-center">
@@ -40,24 +40,19 @@
 							</div>
 						</c:otherwise>
 					</c:choose>
+					<input type="hidden" value="${param.no }" name="no" />
 					<div class="mb-3">
-						<input type="hidden" value="${param.no }" name="no" />
-						<label class="form-label">프로모션 소개</label>
-						<input type="text" class="form-control" value="${promotionOffer.introContent }" name="introContent" />
+						<label class="form-label">날짜 선택</label>
+						<input type="date" class="form-control" value='<fmt:formatDate value="${activityTimeTable.time}" pattern="yyyy-MM-dd"/>' name="date" />
 					</div>
 					<div class="mb-3">
-						<label class="form-label">증정 내용</label>
-						<input type="text" class="form-control" value="${promotionOffer.content }" name="content" />
+						<label class="form-label">시간 선택</label>
+						<input type="time" class="form-control" value="<fmt:formatDate value="${activityTimeTable.time}" pattern="kk:mm"/>" name="time" />
 					</div>
-					<div>
-						<label class="form-label">프로모션 시작일</label>
-						<input type="date" value="<fmt:formatDate value="${promotionOffer.startingDate}" pattern="yyyy-MM-dd"/>" name="startingDate" class="form-control" />
-						<label class="form-label">프로모션 종료일</label>
-	   					<input type="date" value="<fmt:formatDate value="${promotionOffer.endingDate}" pattern="yyyy-MM-dd"/>" name="endingDate" class="form-control" />
-					</div>
+					
 					<div class="mb-3 text-end">
-						<button class="btn btn-primary" type="submit">프로모션 수정</button>
-					</div>					
+						<button class="btn btn-primary" type="submit">타임테이블 수정</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -65,7 +60,8 @@
 </body>
 <script type="text/javascript">
 
-
+// var a = $("#date").val() + $("#time").val();
+// $("b").val(a);
 
 </script>
 </html>
