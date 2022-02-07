@@ -111,11 +111,12 @@
 	
 	<select id="getActivityImageList" parameterType="int" resultType="com.hoge.vo.activities.ActivityImage">
 		select
-		    activity_image,
-		    activity_no
+		    activity_no as activityNo,
+		    activity_image as image
 		from
 		    tb_final_activity_images
-		where activity_no=#{value}
+		where 
+			activity_no = #{value}
 	</select>
 
 

@@ -9,6 +9,11 @@
 </head>
 <body>
 <div class="container ">
+	<div class="row mb-3">
+		<div class="col">
+			<h3>BOOKING</h3>
+		</div>
+	</div>
 	<form id="frm" method="post" action="accommo/insert" >
 		<input type="hidden" name="roomNo" value="${accommo.roomNo }">
 		<input type="hidden" name="no" value="${accommo.no }">
@@ -22,14 +27,18 @@
 						<h5>${accommo.accommoName }</h5>
 					</div>
    					<div>
-   						<div></div>
 	   					<input type="date" name="checkInDate" class="form-control" value="<fmt:formatDate value="${checkIn }" pattern="yyyy-MM-dd"/>"/>
 	   					<input type="date" name="checkOutDate" class="form-control" value="<fmt:formatDate value="${checkOut }" pattern="yyyy-MM-dd"/>"/>
    					</div>
    					<div>
-   						<span id="top-price"></span>원
+   						<span id="top-price"></span>
    					</div>
 				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<h3>RESERVATIONS</h3>
 			</div>
 		</div>
 		<div class="row mb-3 border">
@@ -150,7 +159,7 @@
 									</td>
 								</tr>
 							</table>
-							<span id="bottom-price" data-total-price=""></span>원
+							<span id="bottom-price" data-total-price=""></span>
 						</td>
 					</tr>
 					<tr>

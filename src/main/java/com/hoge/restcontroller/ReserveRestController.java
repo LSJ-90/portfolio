@@ -52,7 +52,7 @@ public class ReserveRestController {
 		int outYear = c2.get(Calendar.YEAR);
 		
 		while (c1.compareTo(c2) != 1) {
-			// System.out.println("c1" + c1.get(Calendar.DATE));
+			System.out.println("날짜" + c1.get(Calendar.DATE));
 			dateList.add(c1.getTime());
 			c1.add(Calendar.DATE, 1);
 		}
@@ -128,7 +128,7 @@ public class ReserveRestController {
 							if ((date.equals(peakStart) || date.after(peakStart)) && (date.equals(peakStart) || (date.before(peakEnd)))) {
 								// System.out.println("peak" + date.getDate());
 								priceDto.setPeakSeasonNumber(priceDto.getPeakSeasonNumber()+1);
-								promotionDiscountDto.setPeakSeasonDiscountRate(promotionDiscountDto.getPeakSeasonDiscountRate()+1);
+								promotionDiscountDto.setDiscountPeakSeasonsNumber(promotionDiscountDto.getDiscountPeakSeasonsNumber()+1);
 								iter.remove();
 							} else {
 								calendar.setTime(date);
@@ -209,30 +209,61 @@ public class ReserveRestController {
 				}
 			}
 		}
-		while(iter.hasNext()) {
-			Date date = iter.next();
-			if ((date.equals(peakStart) || date.after(peakStart)) && (date.equals(peakStart) || date.before(peakEnd))) {
-				// System.out.println("peak" + date.getDate());
-				priceDto.setPeakSeasonNumber(priceDto.getPeakSeasonNumber()+1);
-			} else {
-				calendar.setTime(date);
-				dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-				if (dayOfWeek == 7 || dayOfWeek == 1) {
-					// System.out.println("weekend" + date.getDate());
-					priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
+		if (iter.hasNext()) {
+			while(iter.hasNext()) {
+				Date date = iter.next();
+				if ((date.equals(peakStart) || date.after(peakStart)) && (date.equals(peakStart) || date.before(peakEnd))) {
+					// System.out.println("peak" + date.getDate());
+					priceDto.setPeakSeasonNumber(priceDto.getPeakSeasonNumber()+1);
 				} else {
-					boolean isHoliday = false; 
-					for (Date holiday : holidayList) {
-						if (date.compareTo(holiday) == 0) {
-							// System.out.println("holiday" + date.getDate());
-							priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
-							isHoliday = true;
-							break;
+					calendar.setTime(date);
+					dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+					if (dayOfWeek == 7 || dayOfWeek == 1) {
+						// System.out.println("weekend" + date.getDate());
+						priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
+					} else {
+						boolean isHoliday = false; 
+						for (Date holiday : holidayList) {
+							if (date.compareTo(holiday) == 0) {
+								// System.out.println("holiday" + date.getDate());
+								priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
+								isHoliday = true;
+								break;
+							}
+						}
+						if (isHoliday == false) {
+						// System.out.println("weekday" + date.getDate());
+						priceDto.setWeekdayNumber(priceDto.getWeekdayNumber()+1);
 						}
 					}
-					if (isHoliday == false) {
-					// System.out.println("weekday" + date.getDate());
-					priceDto.setWeekdayNumber(priceDto.getWeekdayNumber()+1);
+				}
+			}
+		} else {
+			while(iter.hasPrevious()) {
+				Date date = iter.previous();
+				if ((date.equals(peakStart) || date.after(peakStart)) && (date.equals(peakStart) || date.before(peakEnd))) {
+					// System.out.println("peak" + date.getDate());
+					priceDto.setPeakSeasonNumber(priceDto.getPeakSeasonNumber()+1);
+				} else {
+					calendar.setTime(date);
+					dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+					if (dayOfWeek == 7 || dayOfWeek == 1) {
+						// System.out.println("weekend" + date.getDate());
+						priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
+					} else {
+						boolean isHoliday = false; 
+						for (Date holiday : holidayList) {
+							if (date.compareTo(holiday) == 0) {
+								// System.out.println("holiday" + date.getDate());
+								priceDto.setWeekendNumber(priceDto.getWeekendNumber()+1);
+								isHoliday = true;
+								break;
+							}
+						}
+						if (isHoliday == false) {
+						// System.out.println("weekday" + date.getDate());
+						priceDto.setWeekdayNumber(priceDto.getWeekdayNumber()+1);
+						}
 					}
 				}
 			}
@@ -245,12 +276,16 @@ public class ReserveRestController {
 		long totalPrice = roomPrice;
 		long discountAmount = 0;
 		
+		System.out.println(priceDto);
+		
 		for (PromotionDiscountDto promotion : promotionDiscountDtos) {
 			discountAmount +=
 					(long) ((room.getWeekdaysPrice() * promotion.getDiscountWeekdayNumber() * (promotion.getWeekdaysDiscountRate())) +
 					(room.getWeekendPrice() * promotion.getDiscountWeekendNumber() * (promotion.getWeekendDiscountRate())) +
 					(room.getPeakSeasonPrice() * promotion.getDiscountPeakSeasonsNumber() * (promotion.getPeakSeasonDiscountRate())));
 			totalPrice -= discountAmount;
+			
+			System.out.println(promotion);
 		}
 		
 		// number 숫자는 인원 초과

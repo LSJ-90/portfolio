@@ -186,11 +186,11 @@ public class ReservationController {
 		ActivityBookingDto book = activityService.getActivityBookingDetail(user.getNo());
 		Activity activity = activityService.getActivityDetail(book.getActivityNo());
 		List<ActivityImage> images = activityService.getActiviyImages(book.getActivityNo());
-		
 		model.addAttribute("book", book);
 		model.addAttribute("activity", activity);
 		model.addAttribute("images", images);
+		model.addAttribute("user", user);
 		
-		return "activity/completePayment.tiles";
+		return "activities/completePayment.tiles";
 	}
 }

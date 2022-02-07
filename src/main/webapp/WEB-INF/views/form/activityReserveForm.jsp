@@ -9,6 +9,11 @@
 </head>
 <body>
 <div class="container ">
+	<div class="row mb-3">
+		<div class="col">
+			<h3>BOOKING</h3>
+		</div>
+	</div>
 	<form id="frm" method="post" action="activity/insert" >
 		<input type="hidden" name="activityNo" value="${activity.no }">
 		<input type="hidden" name="taxIncludedPrice" value="">
@@ -31,9 +36,14 @@
 						</select>
    					</div>
    					<div>
-   						<span id="top-price"></span>원
+   						<span id="top-price"></span>
    					</div>
 				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<h3>RESERVATIONS</h3>
 			</div>
 		</div>
 		<div class="row mb-3 border">
@@ -124,7 +134,7 @@
 									</td>
 								</tr>
 							</table>
-							<span id="bottom-price" data-total-price=""></span>원
+							<span id="bottom-price" data-total-price=""></span>
 						</td>
 					</tr>
 					<tr>

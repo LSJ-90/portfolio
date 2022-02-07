@@ -14,20 +14,23 @@
 </head>
 <body>
 <div class="container">
-	<div class="row mb-3">
-		<div class="col">
-			<span id="span-address">${address }</span>
+	<form id="form-search-accommo" method="get" action="list">
+		<input type="hidden" name="number" value="${criteria.maxStandardNumberValue }">
+		<div class="row mb-3">
+			<div class="col">
+				<span id="span-address">${criteria.addressValue }</span>
+				<input id="checkInBox" type="text" name="checkInDate" autocomplete="off" value="${criteria.checkInBoxValue }"> -
+		        <input id="checkOutBox" type="text" name="checkOutDate" autocomplete="off" value="${criteria.checkOutBoxValue }">
+			</div>
 		</div>
-	</div>
-	<div class="row mb-3">
-		<div class="col-6">
-			<form id="form-search-accommo" class="row row-cols-lg-auto g-3 align-items-center" method="get" action="list">
+		<div class="row mb-3">
+			<div class="col-6">
 				<input type="hidden" name="page" value="1" />
 				<div class="accommo">
 					<c:choose>
 						<c:when test="${empty accommos }">
 							<tr>
-								<td class="text-center" colspan="6">위치에 맞는 숙소 정보가 없습니다.</td>
+								<td class="text-center" colspan="6">검색 조건에 맞는 숙소 정보가 없습니다.</td>
 							</tr>
 						</c:when>
 						<c:otherwise>
@@ -38,9 +41,17 @@
 									<div class="col-3">
 										<ul>
 											<li>${accommos.regionDepth1 }</li>
-											<li>기준 ${accommos.minStandardNumber }명(최대 ${accommos.maxStandardNumber }명)</li>
-											<li><fmt:formatNumber value="${accommos.minWeekdaysPrice }" />~<fmt:formatNumber value="${accommos.maxWeekdaysPrice }" /></li>
-											<li>${(accommos.cleanlinessStar+accommos.communicationStar+accommos.accuracyStar+accommos.locationStar)/4 }</li>
+											<li>기준 ${accommos.minNumber }명(최대 ${accommos.maxNumber }명)</li>
+											<c:choose>
+												<c:when test="${empty criteria.checkInBoxValue }">
+													<li><fmt:formatNumber value="${accommos.minWeekdaysPrice }" />~<fmt:formatNumber value="${accommos.maxWeekendPrice }" /></li>
+													<li>${(accommos.cleanlinessStar + accommos.communicationStar + accommos.accuracyStar + accommos.locationStar) / 4 }</li>
+												</c:when>
+												<c:otherwise>
+													<li><fmt:formatNumber value="${accommos.minPrice }" />~<fmt:formatNumber value="${accommos.maxPrice }" /></li>
+													<li>${accommos.averageStar }</li>
+												</c:otherwise>
+											</c:choose>
 											<li>예약하기</li>
 										</ul>
 									</div>
@@ -108,14 +119,14 @@
 						</div>
 					</div>
 				</c:if>
-			</form>
+			</div>
+			
+			<!-- 지도 -->
+			<div class="col-6">
+				<div id="map" style="width:100%;height:600px;"></div>
+			</div>
 		</div>
-		
-		<!-- 지도 -->
-		<div class="col-6">
-			<div id="map" style="width:100%;height:600px;"></div>
-		</div>
-	</div>
+	</form>
 </div>
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8606c7f07c8e2d80f27869dab7ebaec2&libraries=services"></script>
@@ -153,7 +164,7 @@ $(function() {
 	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = {
         center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-        level: 3 // 지도의 확대 레벨
+        level: 5 // 지도의 확대 레벨
     };  
 
 	// 지도를 생성합니다    
@@ -253,28 +264,56 @@ $(function() {
 	        image : markerImage // 마커 이미지 
 	    });
 	}
+
+	// 지도 영역 변화 이벤트를 등록한다
+	kakao.maps.event.addListener(map, 'bounds_changed', function () {
+		var bounds = map.getBounds();
+		// 영역의 남서쪽 좌표를 얻어옵니다 
+	    var swLatLng = bounds.getSouthWest(); 
+	    
+	    // 영역의 북동쪽 좌표를 얻어옵니다 
+	    var neLatLng = bounds.getNorthEast(); 
+		
+		var number = $("input[name=number]").val();
+		var checkIn = $("input[name=checkInDate]").val();
+		var checkOut = $("input[name=checkOutDate]").val();
+		// mapAreaList(number, checkIn, checkOut, swLatLng.getLat(), swLatLng.getLng(), neLatLng.getLat(), neLatLng.getLng());
+
+	});
 	
-	// 마커에 커서가 오버됐을 때 마커 위에 표시할 인포윈도우를 생성합니다
-	var iwContent = '<div style="padding:5px;">Hello World!</div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-
-	// 인포윈도우를 생성합니다
-	var infowindow = new kakao.maps.InfoWindow({
-	    content : iwContent
-	});
-
-	// 마커에 마우스오버 이벤트를 등록합니다
-	kakao.maps.event.addListener(marker, 'mouseover', function() {
-		console.log("in");
-	  // 마커에 마우스오버 이벤트가 발생하면 인포윈도우를 마커위에 표시합니다
-	    infowindow.open(map, marker);
-	});
-
-	// 마커에 마우스아웃 이벤트를 등록합니다
-	kakao.maps.event.addListener(marker, 'mouseout', function() {
-		console.log("out");
-	    // 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
-	    infowindow.close();
-	});
+	// 지도 영역의 list 출력
+	function mapAreaList(number, checkIn, checkOut, swLat, swLng, neLat, neLng) {
+		$.ajax({
+			type: 'get',
+			url: '/rest/accommo/mapArea',
+			data: {number: number, checkIn: checkIn, checkOut: checkOut, swLat: swLat, swLng: swLng, neLat: neLat, neLng: neLng},
+			async: false,
+			dataType: 'json',
+			success: function(result) {
+				console.log(result);
+			},
+			error: function(error) {
+				console.log(error);
+			}
+			
+		});
+	}
+	
+	/* window.onload = function () {
+	$.ajax({
+		type: 'get',
+		url: '/holidays',
+		data: {year: "2022", month: "01"},
+		dataType: 'json',
+		success: function(result) {
+			console.log(result);
+		},
+		error: function(error) {
+			console.log(error);
+		}
+	}) 
+}*/
+	
 	
 	
 	
@@ -293,6 +332,55 @@ $(function() {
 			}
 		})
 	})
+	
+	
+	datePickerSet($("#checkInBox"), $("#checkOutBox"));
+
+	// 달력생성함수 sDate:시작일 eDate:종료일
+	function datePickerSet(sDate, eDate) {
+
+        var sDay = sDate.val();
+        var eDay = eDate.val();
+
+        // 체크인 달력 생성
+        if (!isValidStr(eDay)) {
+            sDate.datepicker({
+                maxDate: new Date(eDay)
+            });
+        }
+        
+        sDate.datepicker({
+            language: 'ko',
+            minDate: new Date(),
+            autoClose: true,
+            onSelect: function () {
+                datePickerSet(sDate, eDate);
+            }
+        });
+
+        // 체크아웃 달력 생성
+        if (!isValidStr(sDay)) {
+            eDate.datepicker({
+                minDate: new Date(sDay)
+            });
+        } 
+        
+	    eDate.datepicker({
+	        language: 'ko',
+	        autoClose: true,
+	        onSelect: function () {
+	            datePickerSet(sDate, eDate);
+	        }
+	    });
+		
+	    //날짜 생성 여부
+	    function isValidStr(str) {
+	        if (str == null || str == undefined || str == "")
+	            return true;
+	        else
+	            return false;
+	    }
+	}
 })
 </script>
 
