@@ -358,6 +358,11 @@ textarea {
   border: none;
 }
 
+#chatting-detail {
+  height: 530px;
+  overflow-y: auto;
+}
+
 /* Footer */
 
 #footer {
@@ -417,4 +422,3 @@ textarea {
 .name {
   color: var(--color-black);
 }
-

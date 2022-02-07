@@ -2,11 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../common/tags.jsp" %>
 
-<style>
-#chatting-detail { height: 530px;
-  overflow-y:auto;} 
-</style>
-
 <main id="main">
   <article id="host-chat">
   

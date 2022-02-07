@@ -56,6 +56,7 @@ li {
 }
 
 button {
+  font-family: var(--font-family-spoqa);
   background-color: transparent;
   cursor: pointer;
   border: none;
@@ -95,6 +96,7 @@ input::placeholder {
   background-color: var(--color-white);
   position: sticky;
   top: 0;
+  z-index: 20;
 }
 
 .header-wrap {
@@ -224,6 +226,14 @@ input::placeholder {
   margin-top: 20px;
 }
 
+.info__point {
+  font-family: var(--font-family-lato);
+  font-size: 16px;
+  font-weight: var(--weight-regular);
+  color: var(--color-title-black);
+  margin-top: 20px;
+}
+
 .host {
   text-align: right;
   vertical-align: middle;
@@ -345,7 +355,7 @@ input::placeholder {
 .registration__btn {
   display: flex;
   justify-content: center;
-   padding: 100px 0 50px 0;
+  padding: 100px 0 50px 0;
 }
 
 .btn__accommo,
@@ -397,7 +407,7 @@ input::placeholder {
 .registration__item {
   display: flex;
   align-items: center;
-  height: 60px;
+  min-height: 60px;
   border-bottom: 1px solid var(--color-input-gray);
   padding: 10px 0;
 }
@@ -466,7 +476,8 @@ input::placeholder {
   height: 240px;
 }
 
-.registration__file {
+.registration__file,
+.update-imgfile {
   position: absolute;
   width: 0;
   height: 0;
@@ -544,6 +555,175 @@ input::placeholder {
   background-color: var(--color-black);
   width: 400px;
   height: 55px;
+}
+
+/* User-update */
+
+.update-title {
+  font-size: 18px;
+  font-weight: var(--weight-regular);
+}
+
+.section-wrap {
+  display: flex;
+}
+
+.left__form {
+  padding-top: 45px;
+  width: 55%;
+}
+
+.update__box {
+  margin-bottom: 30px;
+}
+
+.update__box.last {
+  margin-bottom: 15px;
+}
+
+label,
+.img-title {
+  font-size: 14px;
+  font-weight: var(--weight-light);
+}
+
+.update__box input,
+.withdraw__box input {
+  width: 100%;
+  height: 45px;
+  padding: 0 8px;
+  margin-top: 13px;
+  border-bottom: 1px solid var(--color-borderline-gray);
+}
+
+.btn__update,
+.btn__pw {
+  width: 100%;
+  height: 55px;
+  font-size: 16px;
+  font-weight: var(--weight-light);
+  color: var(--color-white);
+  background-color: var(--color-black);
+  letter-spacing: 4px;
+}
+
+.btn__pw {
+  font-size: 14px;
+}
+
+.btn__update {
+  margin: 30px 0 15px 0;
+}
+
+.right__img {
+  display: flex;
+  justify-content: center;
+  width: 45%;
+  padding-top: 45px;
+}
+
+.img-wrap {
+  position: relative;
+}
+
+.img-title {
+  margin-bottom: 20px;
+}
+
+.img-profile {
+  width: 180px;
+  height: 180px;
+  font-size: 18px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-color: var(--color-background-gray);
+  border: 1px solid var(--color-borderline-gray);
+  border-radius: 50%;
+}
+
+.btn__profile-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 10px;
+  top: 175px;
+  width: 45px;
+  height: 45px;
+  font-size: 22px;
+  color: var(--color-faq-text-gray);
+  background-color: var(--color-white);
+  border: 1px solid var(--color-borderline-gray);
+  border-radius: 50%;
+}
+
+.btn__withdraw {
+  font-size: 13px;
+  font-weight: var(--weight-light);
+  text-decoration: underline;
+}
+
+/* user-update Modal */
+
+.modal-content {
+  width: 600px;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-input-gray);
+  border-radius: 10px;
+}
+
+.modal-title {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  font-size: 18px;
+  font-weight: var(--weight-regular);
+  height: 60px;
+  padding: 0 20px 10px;
+  border-bottom: 1px solid var(--color-input-gray);
+}
+
+.modal-main {
+  font-size: 16px;
+  font-weight: var(--weight-light);
+  text-align: center;
+  padding: 50px 50px 60px;
+}
+
+.modal__text-warning {
+  font-weight: var(--weight-regular);
+  margin-top: 5px;
+}
+
+.withdraw__box {
+  width: 300px;
+  margin: 30px auto 0;
+}
+
+.modal-btn {
+  text-align: center;
+  padding: 20px 0;
+  border-top: 1px solid var(--color-input-gray);
+}
+
+.btn__cancel,
+.btn__save {
+  font-size: 16px;
+  font-weight: var(--weight-light);
+  letter-spacing: 4px;
+  width: 180px;
+  height: 55px;
+}
+
+.btn__cancel {
+  border: 1px solid var(--color-black);
+}
+
+.btn__save {
+  color: var(--color-white);
+  background-color: var(--color-black);
+  margin-left: 10px;
 }
 
 /* Footer */
