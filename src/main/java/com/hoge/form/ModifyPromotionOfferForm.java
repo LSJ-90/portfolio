@@ -4,7 +4,6 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.hoge.vo.other.PromotionDiscount;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
