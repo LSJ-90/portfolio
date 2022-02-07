@@ -139,6 +139,7 @@
 							</div>
 							<div>
 								<div class="accordion accordion-flush m-3" id="faqlist" style="border-top:1px solid #d5d5d5; border-bottom:1px solid #d5d5d5;">
+								<input type="hidden" name="page" value="1" />
 									<c:forEach var="qna" items="${qnaList }" varStatus="loop">
 									<div class="accordion-item">
 										<div class="row pt-1">
@@ -210,17 +211,17 @@
 				<nav>
 		  			<ul class="pagination justify-content-center">
 		    			<li class="page-item ${pagination.existPrev ? '' : 'disabled' }">
-		      				<a class="page-link" href="qna?page=${pagination.prevPage }" data-page="${pagination.prevPage }">이전</a>
+		      				<a class="page-link" href="qna?page=${pagination.prevPage }&hostNo=${savedHost.no }&hostingType=${savedHost.hostingType }" data-page="${pagination.prevPage }">이전</a>
 		    			</li>
 	
 		    			<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
 			    			<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
-			    				<a class="page-link" href="qna?page=${num }" data-page="${num }">${num }</a>
+			    				<a class="page-link" href="qna?page=${num }&hostNo=${savedHost.no }&hostingType=${savedHost.hostingType }" data-page="${num }">${num }</a>
 			    			</li>	    			
 		    			</c:forEach>
 	
 		    			<li class="page-item ${pagination.existNext ? '' : 'disabled' }">
-		      				<a class="page-link" href="qna?page=${pagination.nextPage }" data-page="${pagination.nextPage }">다음</a>
+		      				<a class="page-link" href="qna?page=${pagination.nextPage }&hostNo=${savedHost.no }&hostingType=${savedHost.hostingType }" data-page="${pagination.nextPage }">다음</a>
 		    			</li>
 		  			</ul>
 				</nav>
@@ -237,7 +238,8 @@
 				    <div id="back" class="back p-4">
 				    <div>
 				<form id="qna-form" method="post" action="/host/qna-insert.do">
-					<input type="hidden" name="hostNo" value="100">
+					<input type="hidden" name="hostNo" value=${savedHost.no }>
+					<input type="hidden" name="hostingType" value=${savedHost.hostingType }>
 					<div>
 						<div class="category-list-box p-3 ">
 							<label class="form-label mb-3" for="title"><strong>문의 카테고리</strong></label>
@@ -277,6 +279,8 @@
   
 </body>
 <script type="text/javascript">
+
+
 function openQnA() {
 	console.log("엥");
 	  $("#front").hide();

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.hoge.dto.AccommoListDto;
+import com.hoge.dto.AdminAccommoListDto;
 import com.hoge.dto.MapArea;
 import com.hoge.dto.ReserveAccommoDto;
 import com.hoge.dto.RoomBookingBatchDto;
@@ -79,4 +80,12 @@ public interface AccommodationMapper {
 	
 	//성하민 방 예약+호스트정보+grade 정보 가져오기
 	List<RoomBookingBatchDto> getRoomBookingBatchDto();
+	
+	//성하민 관리자페이지에서 숙소정보 가져오기
+	List<AdminAccommoListDto> getAccommoListForAdmin(Criteria criteria);
+	
+	//성하민 관리자페이지에서 숙소 개수 가져오기
+	int getAccommoCountForAdmin(Criteria criteria);
+	
+	
 }

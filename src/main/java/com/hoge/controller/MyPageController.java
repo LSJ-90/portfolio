@@ -180,7 +180,7 @@ public class MyPageController {
 		
 	//성하민
 		@GetMapping("/qna")
-		public ModelAndView qna(@RequestParam(name = "page", required = false, defaultValue = "1") String page, ModelAndView mv) {
+		public ModelAndView qna(String page, ModelAndView mv) {
 			mv.setViewName("mypage/qna.mytiles");
 			
 			User user = (User) SessionUtils.getAttribute("LOGIN_USER");

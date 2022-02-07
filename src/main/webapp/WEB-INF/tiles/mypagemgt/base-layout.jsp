@@ -19,6 +19,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- css -->  
     <link rel="stylesheet" href="../../resources/css/style.css" />
+    <link rel="stylesheet" href="../../resources/css/host_style.css" />
     <link rel="stylesheet" href="../../resources/css/mypage_style.css" />
     <!-- script -->
     <script src="../../resources/javascript/main.js" defer></script>

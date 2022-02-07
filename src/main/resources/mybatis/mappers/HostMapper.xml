@@ -638,7 +638,10 @@
 	 		host_tel as tel,
 	 		grade_name as gradeName,
 	 		host_main_image as mainImage,
-	 		ACCUMULATED_MONEY as accumulatedMoney
+	 		ACCUMULATED_MONEY as accumulatedMoney,
+	 		STATUS_DETAIL as statusDetail,
+			request as request,
+			status as hostStatus
 	 	from
 	 		tb_final_hosts
 	 	where 

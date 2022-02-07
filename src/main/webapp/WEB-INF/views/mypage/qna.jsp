@@ -149,7 +149,7 @@
 													<strong>답변 대기 중입니다.</strong>
 													</c:when>
 													<c:otherwise>
-													<strong>A. </strong>답입니다
+													<strong>A. ${qna.answerContent }</strong>
 													</c:otherwise>
 												</c:choose>
 											</div>
@@ -169,6 +169,31 @@
 						
 					</div><!-- qna-box -->
 				</div>  <!-- qna-list -->
+				
+<c:if test="${pagination.totalRecords gt 0 }">
+		<!-- 페이지 내비게이션 표시 -->
+		<div class="row mb-3">
+			<div class="col">
+				<nav>
+		  			<ul class="pagination justify-content-center">
+		    			<li class="page-item ${pagination.existPrev ? '' : 'disabled' }">
+		      				<a class="page-link" href="qna?page=${pagination.prevPage }" data-page="${pagination.prevPage }">이전</a>
+		    			</li>
+	
+		    			<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
+			    			<li class="page-item ${pagination.pageNo eq num ? 'active' : '' }">
+			    				<a class="page-link" href="qna?page=${num }" data-page="${num }">${num }</a>
+			    			</li>	    			
+		    			</c:forEach>
+	
+		    			<li class="page-item ${pagination.existNext ? '' : 'disabled' }">
+		      				<a class="page-link" href="qna?page=${pagination.nextPage }" data-page="${pagination.nextPage }">다음</a>
+		    			</li>
+		  			</ul>
+				</nav>
+			</div>
+		</div>
+	</c:if>	
 								
 			
 			
