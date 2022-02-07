@@ -2,6 +2,8 @@ package com.hoge.form;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,7 +25,9 @@ public class PromotionDiscountForm {
 	private double weekdaysDiscountRate;
 	private double weekendDiscountRate;
 	private double peakSeasonDiscountRate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date startingDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date endingDate;
 	private Date registeredDate;
 	private String introContent;

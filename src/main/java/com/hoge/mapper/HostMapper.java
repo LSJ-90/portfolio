@@ -15,6 +15,7 @@ import com.hoge.vo.activities.Activity;
 import com.hoge.vo.activities.ActivityImage;
 import com.hoge.vo.other.Host;
 import com.hoge.vo.other.PromotionDiscount;
+import com.hoge.vo.other.PromotionOffer;
 import com.hoge.vo.other.User;
 
 /**
@@ -62,12 +63,35 @@ public interface HostMapper {
 	// 유상효 할인 프로모션 등록
 	void addPromotionDiscount(PromotionDiscount promotionDiscount);
 	
+	// 유상효 증정 프로모션 등록
+	void addPromotionOffer(PromotionOffer promotionOffer);
+	
+	// 유상효 프로모션 리스트
+	List<PromotionDiscount> getPromotionDiscountByHostNo(int hostNo);
+	List<PromotionDiscount> getPromotionDiscountByHostNoAndStatusY(int hostNo);
+	List<PromotionDiscount> getPromotionDiscountByHostNoAndStatusW(int hostNo);
+	List<PromotionDiscount> getPromotionDiscountByHostNoAndStatusN(int hostNo);
+	List<PromotionDiscount> getPromotionDiscountByHostNoAndStatusD(int hostNo);
+	List<PromotionOffer> getPromotionOfferByHostNo(int hostNo);
+	List<PromotionOffer> getPromotionOfferByHostNoAndStatusY(int hostNo);
+	List<PromotionOffer> getPromotionOfferByHostNoAndStatusW(int hostNo);
+	List<PromotionOffer> getPromotionOfferByHostNoAndStatusN(int hostNo);
+	List<PromotionOffer> getPromotionOfferByHostNoAndStatusD(int hostNo);
+	
+	// 유상효 프로모션 번호로 할인프로모션 조회
+	PromotionDiscount getPromotionDiscountByPromotionNo(int no);
+	
+	// 유상효 프로모션 번호로 증정프로모션 조회
+	PromotionOffer getPromotionOfferByPromotionNo(int no);
+	
+	// 유상효 할인프로모션 수정
+	void modifyPromotionDiscount(PromotionDiscount promotionDiscount);
+	
+	// 유상효 증정프로모션 수정
+	void modifyPromotionOffer(PromotionOffer promotionOffer);
+	
 	// 호스트 번호로 호스트객체 반환
 	Host getHostByNo(int no);
-	
-	
-	
-	
 	
 
 	void insertAccomadation(Accommodation acc);
