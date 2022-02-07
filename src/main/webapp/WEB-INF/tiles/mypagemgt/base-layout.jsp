@@ -14,6 +14,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Abel&display=swap" rel="stylesheet">   
     <script src="https://kit.fontawesome.com/d94ff6bbbc.js" crossorigin="anonymous"></script>
+    <!-- bootstrap -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- css -->  
     <link rel="stylesheet" href="../../resources/css/style.css" />
     <link rel="stylesheet" href="../../resources/css/mypage_style.css" />
