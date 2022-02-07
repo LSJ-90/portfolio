@@ -31,7 +31,7 @@
 			</div>
 		</div>
 		<div class="col-6">
-			<img alt="activityImage" src="/resources/images/activities/${images[0].image}">
+			<img style="height: 500px;" alt="activityImage" src="/resources/images/activities/${images[0].image}">
 		</div>
 	</div>
 	<div class="row">

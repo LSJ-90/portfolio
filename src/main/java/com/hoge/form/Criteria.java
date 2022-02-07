@@ -28,8 +28,8 @@ public class Criteria {
 	private String checkOutBoxValue;
 	private String opt4;
 	private String maxStandardNumberValue;
-	private String startDate;
-	private String endDate;
+	private String checkInDate;
+	private String checkOutDate;
 	private int beginIndex;
 	private int endIndex;
 }

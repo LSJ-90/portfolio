@@ -27,8 +27,8 @@
 					max(r.weekend_price) as maxWeekendPrice,
 		            min(r.peak_season_price) as minPeakSeasonPrice,
 					max(r.peak_season_price) as maxPeakSeasonPrice,
-		            min(r.standard_number) as minStandardNumber,
-					max(r.maximum_number) as maxStandardNumber
+		            min(r.standard_number) as minNumber,
+					max(r.maximum_number) as maxNumber
 				from
 		            tb_final_accommodations a,
 		            tb_final_rooms r
@@ -443,6 +443,96 @@
 			TB_FINAL_ROOM_BOOKINGS
 		where
 			ROOM_BOOKING_NO = #{no}
+	</select>
+	
+	<select id="searchMapAreaAccommoListDtos" resultType="com.hoge.dto.AccommoListDto">
+		select *
+		from
+			(select
+		    		row_number() over (order by a.accommo_no) rn,
+					a.accommo_no as no, 
+					a.host_no as hostNo, 
+					a.accommo_type as type, 
+					a.accommo_name as name, 
+					a.average_cleanliness_star as cleanlinessStar,
+					a.average_communication_star as communicationStar, 
+					a.average_accuracy_star as accuracyStar, 
+					a.average_location_star as locationStar,
+					a.accommo_address as address, 
+					a.accommo_region_depth1 as regionDepth1, 
+					a.accommo_region_depth2 as regionDepth2, 
+					a.accommo_region_depth3 as regionDepth3, 
+					a.accommo_xce as xce, 
+					a.accommo_yce as yce,
+		            min(r.weekdays_price) as minWeekdaysPrice,
+					max(r.weekdays_price) as maxWeekdaysPrice,
+		            min(r.weekend_price) as minWeekendPrice,
+					max(r.weekend_price) as maxWeekendPrice,
+		            min(r.peak_season_price) as minPeakSeasonPrice,
+					max(r.peak_season_price) as maxPeakSeasonPrice,
+		            min(r.standard_number) as minNumber,
+					max(r.maximum_number) as maxNumber
+				from
+		            tb_final_accommodations a,
+		            tb_final_rooms r
+		        where a.accommo_no = r.accommo_no
+		        	   and a.accommo_xce between #{mapArea.swLat} and #{mapArea.neLat}
+                       and a.accommo_yce between #{mapArea.swLng} and #{mapArea.neLng}
+                    <if test="mapArea.checkIn != '' and mapArea.checkOut !=''">
+                       and r.room_no NOT IN (select 
+                       							bk.room_no
+                                        	 from 
+                                        	 	tb_final_room_availability ava, tb_final_room_bookings bk
+                                       		 where 
+                                       		 	ava.room_booking_no = bk.room_booking_no
+                                       		 and 
+                                       		 	booked_date &gt;= #{mapArea.checkIn}
+                                        	 and 
+                                        	 	booked_date &lt; #{mapArea.checkOut}
+                                        	 group 
+                                        	 	by bk.room_no)
+                    </if>
+                    <if test="mapArea.number != ''">
+                       and r.maximum_number &gt;= to_number(#{mapArea.number})
+                    </if>
+		        group by
+		            a.accommo_no, a.host_no, a.accommo_type, a.accommo_name, a.average_cleanliness_star, a.average_communication_star, 
+		            a.average_accuracy_star, a.average_location_star, a.accommo_region_depth1, a.accommo_region_depth2, 
+		            a.accommo_region_depth3, a.accommo_xce, a.accommo_yce,a.accommo_address)
+		where rn between #{criteria.beginIndex} and #{criteria.endIndex}
+	</select>
+	
+	<select id="getMapAreaAccommodationsTotalRows" parameterType="com.hoge.dto.MapArea" resultType="int">
+		select 
+			count(*)
+		from (select
+				a.accommo_no as no
+      		  from
+              	tb_final_accommodations a,
+              	tb_final_rooms r
+              where 
+              	a.accommo_no = r.accommo_no
+              	and a.accommo_xce between #{mapArea.swLat} and #{mapArea.neLat}
+                and a.accommo_yce between #{mapArea.swLng} and #{mapArea.neLng}
+                <if test="mapArea.checkIn != '' and mapArea.checkOut !=''">
+                   and r.room_no NOT IN (select 
+                   							bk.room_no
+                                    	 from 
+                                    	 	tb_final_room_availability ava, tb_final_room_bookings bk
+                                   		 where 
+                                   		 	ava.room_booking_no = bk.room_booking_no
+                                   		 and 
+                                   		 	booked_date &gt;= #{mapArea.checkIn}
+                                    	 and 
+                                    	 	booked_date &lt; #{mapArea.checkOut}
+                                    	 group 
+                                    	 	by bk.room_no)
+                </if>
+                <if test="mapArea.number != ''">
+                   and r.maximum_number &gt;= to_number(#{mapArea.number})
+                </if>
+            group by 
+		            a.accommo_no)
 	</select>
 	
 </mapper>

@@ -19,6 +19,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.hoge.dto.AccommoListDto;
+import com.hoge.dto.MapArea;
 import com.hoge.dto.ReserveAccommoDto;
 import com.hoge.dto.RoomDto;
 import com.hoge.dto.RoomListDto;
@@ -55,14 +56,18 @@ public class AccommodationService {
 	}
 	
 	// 염주환
+	public int getTotalRows(MapArea mapArea) {
+		return accommoMapper.getMapAreaAccommodationsTotalRows(mapArea);
+	}
+	
+	// 염주환
 	public List<AccommoListDto> searchAccommoListDto(Criteria criteria) {
-		List<AccommoListDto> accommoListDtos = accommoMapper.searchAccommoListDtos(criteria);
-		for (AccommoListDto dto : accommoListDtos) {
-			List<AccommoImage> accommoImages = accommoMapper.getAccommoImagesByAccommoNo(dto.getNo());
-			dto.setAccommoImages(accommoImages);
-		}
-		
-		return accommoListDtos;
+		return accommoMapper.searchAccommoListDtos(criteria);
+	}
+	
+	 // 염주환 지도영역에 맞는 listDto
+    public List<AccommoListDto> searchAccommoListDto(MapArea mapArea, Criteria criteria) {
+		return accommoMapper.searchMapAreaAccommoListDtos(mapArea, criteria);
 	}
 	
 	// 염주환
@@ -95,6 +100,7 @@ public class AccommodationService {
 		}
 	
 		accommoMapper.insertRoomBooking(roomBooking, userNo, no, tid);
+		
 		java.sql.Date sqlDate = null;
 		
 		for (Date date : dateList) {
@@ -240,4 +246,6 @@ public class AccommodationService {
     	RoomBooking roomBooking = accommoMapper.getRoomBookingByUserNO(userNo);
     	return roomBooking;
     }
+    
+   
 }
