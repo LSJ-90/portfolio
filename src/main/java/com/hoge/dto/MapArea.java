@@ -1,9 +1,5 @@
 package com.hoge.dto;
 
-import java.util.List;
-
-import com.hoge.vo.accommo.AccommoImage;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

@@ -252,11 +252,24 @@ button {
   display: flex;
 }
 
-/* User-list */
+/* Admin-User */
 #admin-user {
   max-width: 1400px;
   margin: 0 auto;
   padding-top: 110px;
+}
+
+#accommo-review {
+  margin-bottom: 150px;
+}
+
+.section__title {
+  font-size: 18px;
+  font-weight: var(--weight-regular);
+  letter-spacing: 14px;
+  text-indent: 14px;
+  text-align: center;
+  padding-bottom: 50px;
 }
 
 .search-user__form {
@@ -264,6 +277,10 @@ button {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
+}
+
+.search-user__form.review {
+  justify-content: end;
 }
 
 .search-radio {
@@ -459,6 +476,8 @@ button {
   height: 40px;
 }
 
+/* Pagination */
+
 #pagination {
   margin-top: 25px;
 }
@@ -472,6 +491,10 @@ button {
   color: var(--color-black);
   font-size: 16px;
   border: none;
+}
+
+.page-link i {
+  color: var(--color-black);
 }
 
 .page__prev,

@@ -97,6 +97,10 @@
     </main>
 
 <script type="text/javascript">
+
+getTransaction();
+datePickerSet($("#startDate"), $("#endDate"));
+
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ", ");
 }
@@ -184,11 +188,10 @@ $("#btn-search-user").click(function() {
 	}
 });
 	
-$(function () {
+
 	
-	getTransaction();
-	datePickerSet($("#startDate"), $("#endDate"));
-});
+	
+
 	
 
 	// 달력생성함수 sDate:시작일 eDate:종료일

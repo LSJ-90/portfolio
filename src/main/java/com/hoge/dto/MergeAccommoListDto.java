@@ -29,5 +29,10 @@ public class MergeAccommoListDto {
 	private long maxPrice;
 	private long minNumber;
 	private long maxNumber;
+	private double xce;
+	private double yce;
+	private Boolean isPromotion = false;
 	private List<AccommoImage> accommoImages;
 }
+
+

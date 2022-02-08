@@ -511,9 +511,9 @@
               	tb_final_rooms r
               where 
               	a.accommo_no = r.accommo_no
-              	and a.accommo_xce between #{mapArea.swLat} and #{mapArea.neLat}
-                and a.accommo_yce between #{mapArea.swLng} and #{mapArea.neLng}
-                <if test="mapArea.checkIn != '' and mapArea.checkOut !=''">
+              	and a.accommo_xce between #{swLat} and #{neLat}
+                and a.accommo_yce between #{swLng} and #{neLng}
+                <if test="checkIn != '' and checkOut !=''">
                    and r.room_no NOT IN (select 
                    							bk.room_no
                                     	 from 
@@ -521,17 +521,131 @@
                                    		 where 
                                    		 	ava.room_booking_no = bk.room_booking_no
                                    		 and 
-                                   		 	booked_date &gt;= #{mapArea.checkIn}
+                                   		 	booked_date &gt;= #{checkIn}
                                     	 and 
-                                    	 	booked_date &lt; #{mapArea.checkOut}
+                                    	 	booked_date &lt; #{checkOut}
                                     	 group 
                                     	 	by bk.room_no)
                 </if>
-                <if test="mapArea.number != ''">
-                   and r.maximum_number &gt;= to_number(#{mapArea.number})
+                <if test="number != ''">
+                   and r.maximum_number &gt;= to_number(#{number})
                 </if>
             group by 
 		            a.accommo_no)
 	</select>
+	
+	
+
+	
+	<!-- //성하민 관리자페이지에서 숙소 개수 가져오기
+	int getAccommoCountForAdmin(Criteria criteria);
+	 -->
+	<select id="getAccommoCountForAdmin" parameterType="com.hoge.form.Criteria" resultType="int">
+		select 
+			count(*)
+		from  tb_final_accommodations a, tb_final_hosts h
+		 where
+        	a.host_no = h.host_no
+        and
+         	h.STATUS = #{hostStatus}
+         	<if test="grade != null and grade != '' ">
+				and h.GRADE_NAME = #{grade} 
+			</if>
+			<if test="accommoType != null and accommoType != ''">
+				and a.accommo_type  = #{accommoType} 	
+			</if>
+         	<if test="opt != null and opt != '' and value != null and value != '' ">
+				<choose>
+					<when test="opt == '회원번호'">
+						and h.HOST_USER_NO = #{value} 
+					</when>
+					<when test="opt == '호스트번호'">
+						and h.HOST_NO = #{value}
+					</when>
+					<when test="opt == '숙소이름'">
+						and a.accommo_name like '%' || #{value} || '%'
+					</when>
+					<when test="opt == '주소'">
+						and a.accommo_address like '%' || #{value} || '%'
+					</when>
+				</choose>
+			</if>
+	</select>
+	
+	<!-- 성하민 List<AdminAccommoListDto > getAccommoListForAdmin(Criteria criteria); -->
+	<select id="getAccommoListForAdmin" parameterType="com.hoge.form.Criteria" resultType="com.hoge.dto.AdminAccommoListDto">
+		select 
+			no, 
+		 	type, 
+			name, 
+			cleanlinessStar,
+			communicationStar, 
+			accuracyStar, 
+			locationStar, 
+			address,
+			registeredDate,
+			hostNo,
+			hostName,
+			userNo,
+			hostTel,
+			hostStatus,
+			gradeName,
+			mainImage,
+			accumulatedMoney,
+			statusDetail,
+			request
+		from (select
+			a.accommo_no as no, 
+			a.accommo_type as type, 
+			a.accommo_name as name, 
+			a.average_cleanliness_star as cleanlinessStar,
+			a.average_communication_star as communicationStar, 
+			a.average_accuracy_star as accuracyStar, 
+			a.average_location_star as locationStar, 
+			a.accommo_address as address,
+			a.accommo_registered_date as registeredDate,
+			h.STATUS_DETAIL as statusDetail,
+			h.request as request,
+			h.host_no as hostNo,
+			h.host_name as hostName,
+			h.host_user_no as userNo,
+			h.host_tel as hostTel,
+			h.status as hostStatus,
+			h.grade_name as gradeName,
+			h.host_main_image as mainImage,
+			h.ACCUMULATED_MONEY as accumulatedMoney,
+			row_number() over (order by a.accommo_registered_date desc) rn
+		from
+            tb_final_accommodations a, tb_final_hosts h
+        where
+        	a.host_no = h.host_no
+        and
+         	h.STATUS = #{hostStatus}
+         	<if test="grade != null and grade != '' ">
+				and h.GRADE_NAME = #{grade} 
+			</if>
+			<if test="accommoType != null and accommoType != ''">
+				and a.accommo_type  = #{accommoType} 	
+			</if>
+         	<if test="opt != null and opt != '' and value != null and value != '' ">
+				<choose>
+					<when test="opt == '회원번호'">
+						and h.HOST_USER_NO = #{value} 
+					</when>
+					<when test="opt == '호스트번호'">
+						and h.HOST_NO = #{value}
+					</when>
+					<when test="opt == '숙소이름'">
+						and a.accommo_name like '%' || #{value} || '%'
+					</when>
+					<when test="opt == '주소'">
+						and a.accommo_address like '%' || #{value} || '%'
+					</when>
+				</choose>
+			</if>
+	)
+		where rn between #{beginIndex} and #{endIndex}
+	</select> 
+	
 	
 </mapper>

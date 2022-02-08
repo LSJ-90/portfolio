@@ -15,11 +15,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hoge.dto.AccommoListDto;
-import com.hoge.dto.AccommoPositionDto;
 import com.hoge.dto.MapArea;
 import com.hoge.dto.MergeAccommoListDto;
 import com.hoge.dto.PriceDto;
@@ -28,7 +26,6 @@ import com.hoge.form.Criteria;
 import com.hoge.pagination.Pagination;
 import com.hoge.service.AccommodationService;
 import com.hoge.service.PromotionService;
-import com.hoge.vo.accommo.Accommodation;
 import com.hoge.vo.other.PromotionDiscount;
 
 @RestController
@@ -40,28 +37,12 @@ public class AccommoRestController {
 	@Autowired
 	private PromotionService promotionService;
 	
-	// 염주환 마커 정보 불러옴
-	@GetMapping("/marker")
-	public List<AccommoPositionDto> list(@RequestParam(value="accommoNoArray[]") List<String> accommoNoArray) {
-		List<AccommoPositionDto> positionDtos = new ArrayList<>();
-		for (String no : accommoNoArray) {
-			AccommoPositionDto dto = new AccommoPositionDto();
-			Accommodation accommo = accommodationService.getAccommodationDetail(Integer.parseInt(no));
-			dto.setTitle(accommo.getName());
-			dto.setXce(accommo.getXce());
-			dto.setYce(accommo.getYce());
-			positionDtos.add(dto);
-		}
-		return positionDtos;
-	}
-	
 	// 염주환
 	@GetMapping("/mapArea")
 	public List<MergeAccommoListDto> list(MapArea mapArea) throws Exception {
 		String page = "1";
 		
 		int totalRecords = accommodationService.getTotalRows(mapArea);
-		
 		Pagination pagination = new Pagination(page, totalRecords, 5);
 
 		Criteria criteria = new Criteria();
@@ -71,8 +52,22 @@ public class AccommoRestController {
 		
 		List<AccommoListDto> accommoListDtos = accommodationService.searchAccommoListDto(mapArea, criteria);
 		
+		List<MergeAccommoListDto> merges = new ArrayList<>();
 		
-		return getMergeAccommoListDto(accommoListDtos, mapArea.getCheckIn(), mapArea.getCheckOut());
+		if (mapArea.getCheckIn() != "" & mapArea.getCheckOut() != "") {
+			merges = getMergeAccommoListDto(accommoListDtos, mapArea.getCheckIn(), mapArea.getCheckOut());
+		} else {
+			for (AccommoListDto dto : accommoListDtos) {
+				MergeAccommoListDto merge = new MergeAccommoListDto();
+				BeanUtils.copyProperties(dto, merge);
+				merge.setAverageStar((dto.getCleanlinessStar()+dto.getCommunicationStar()+dto.getAccuracyStar()+dto.getLocationStar())/4);
+				merge.setMinPrice(dto.getMinWeekdaysPrice());
+				merge.setMaxPrice(dto.getMaxWeekendPrice());
+				merges.add(merge);
+			}
+		}
+		
+		return merges;
 	}
 	
 	
@@ -315,35 +310,25 @@ public class AccommoRestController {
 			MergeAccommoListDto merge = new MergeAccommoListDto();
 			BeanUtils.copyProperties(dto, merge);
 			
-			System.out.println(dto.getMinWeekdaysPrice());
-			System.out.println(dto.getMinWeekendPrice());
-			System.out.println(dto.getMinPeakSeasonPrice());
-			System.out.println(priceDto.getWeekdayNumber());
-			System.out.println(priceDto.getWeekendNumber());
-			System.out.println(priceDto.getPeakSeasonNumber());
-
 			long minPrice = (dto.getMinWeekdaysPrice() * priceDto.getWeekdayNumber()) +
 					(dto.getMinWeekendPrice() * priceDto.getWeekendNumber()) +
 					(dto.getMinPeakSeasonPrice() * priceDto.getPeakSeasonNumber());
 			
-			System.out.println(minPrice);
 			
 			for (PromotionDiscountDto promotion : promotionDiscountDtos) {
 				minPrice +=
 						(long) ((dto.getMinWeekdaysPrice() * promotion.getDiscountWeekdayNumber() * (1-promotion.getWeekdaysDiscountRate())) +
 						(dto.getMinWeekendPrice() * promotion.getDiscountWeekendNumber() * (1-promotion.getWeekendDiscountRate())) +
 						(dto.getMinPeakSeasonPrice() * promotion.getDiscountPeakSeasonsNumber() * (1-promotion.getPeakSeasonDiscountRate())));
-				System.out.println(promotion);
 			}
 			
-			System.out.println(minPrice);
 
 			long maxPrice = (dto.getMaxWeekdaysPrice() * priceDto.getWeekdayNumber()) +
 					(dto.getMaxWeekendPrice() * priceDto.getWeekendNumber()) +
 					(dto.getMaxPeakSeasonPrice() * priceDto.getPeakSeasonNumber());
 			
 			for (PromotionDiscountDto promotion : promotionDiscountDtos) {
-				maxPrice -=
+				maxPrice +=
 						(long) ((dto.getMaxWeekdaysPrice() * promotion.getDiscountWeekdayNumber() * (1-promotion.getWeekdaysDiscountRate())) +
 						(dto.getMaxWeekendPrice() * promotion.getDiscountWeekendNumber() * (1-promotion.getWeekendDiscountRate())) +
 						(dto.getMaxPeakSeasonPrice() * promotion.getDiscountPeakSeasonsNumber() * (1-promotion.getPeakSeasonDiscountRate())));
@@ -353,7 +338,9 @@ public class AccommoRestController {
 			merge.setMaxPrice(maxPrice);
 			merge.setAverageStar((dto.getCleanlinessStar()+dto.getCommunicationStar()+dto.getAccuracyStar()+dto.getLocationStar())/4);
 			
-			System.out.println(merge);
+			if (!promotionDiscountDtos.isEmpty()) {
+				merge.setIsPromotion(true);
+			};
 			
 			mergeAccommoListDtos.add(merge);
 			// System.out.println(merge);

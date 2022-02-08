@@ -690,8 +690,7 @@ public class HostController {
 	
 	//성하민
 	@GetMapping("/qna")
-	public ModelAndView qna(@RequestParam(name = "page", required = false, defaultValue = "1") String page, 
-			ModelAndView mv, int hostNo, int hostingType) {
+	public ModelAndView qna(String page, ModelAndView mv, int hostNo, int hostingType) {
 		if (hostingType == 1) {
 			AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
 			mv.addObject("accMainDto", accMainDto);
@@ -700,7 +699,7 @@ public class HostController {
 			mv.addObject("actMaintDto", actMainDto);
 		}
 		
-		
+		Host savedHost = hostService.getHostByNo(hostNo);
 		mv.setViewName("hostpage/qna.hosttiles");
 		
 		
@@ -718,6 +717,7 @@ public class HostController {
 		mv.addObject("qnaList", qnaList);
 		mv.addObject("pagination", pagination);
 		mv.addObject("totalRecords", totalRecords);
+		mv.addObject("savedHost", savedHost);
 	
 		return mv;
 	}
@@ -786,10 +786,11 @@ public class HostController {
 	
 	
 	@PostMapping("/qna-insert.do")
-	public String save(HostQnA hostQnA) throws IOException {
+	public String save(HostQnA hostQnA, int hostNo, int hostingType) throws IOException {
+		hostQnA.setHostNo(hostNo);
 		hostQnAService.insertHostQnA(hostQnA);
 		
-		return "redirect:qna";
+		return "redirect:qna?page=1&hostNo="+hostNo+"&hostingType="+hostingType;
 	}
 	
 	@PostMapping("/withdrawal")

@@ -212,6 +212,7 @@
 	                method="post"
 	                action="/admin/answer-insert-user-qna"
 	              >
+	              <input type="hidden" name="questionNo" value="" />
                 <p class="questionDate" id="modified">
                   
                 </p>
@@ -250,13 +251,6 @@ function creatingModal(no) {
 	
 	});
 	
-	//private String content;
-	//private String answered;
-	
-	//private String answerContent;
-	//@JsonFormat(pattern = "yyyy년 M월 d일")
-	//private Date answerUpdateDate;
-	//private String answerModified; //답변 수정 여부
 	
 	$.getJSON('/admin/user-qna-answer.do', {no:no}, function(QnaDto) {
 	
