@@ -116,6 +116,11 @@
  
  
 <script type="text/javascript">
+$(function(){
+	
+	activeMenu("숙소관리", "숙소승인 대기");
+	})
+
 searchAccommos();
 
 function searchAccommos(page) {

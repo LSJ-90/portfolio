@@ -6,8 +6,6 @@
    <title></title>
      <meta charset="utf-8">
      <meta name="viewport" content="width=device-width, initial-scale=1">
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
   	 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
@@ -17,7 +15,7 @@
 	 <style type="text/css">
 	 
 	 .today-list-box {
-	  height:200px; background: rgba(201, 203, 207, 0.2); padding: 20px 20px; border: 1px solid rgba(201, 203, 207, 0.2);
+	  height:200px; background: pink; padding: 20px 20px; border: 1px solid rgba(201, 203, 207, 0.2);
 	  border-radius:16px; box-shadow: inset 0 0 8px #dep13a;
 	 }
 	 
@@ -28,9 +26,9 @@
 	 
 	 .count {font-size: 22px; color: red;}
 	 
-	 .chartbox {margin: 0 10px; background: rgba(201, 203, 207, 0.2); border: 1px solid rgba(201, 203, 207, 0.2); border-radius:16px; box-shadow: inset 0 0 8px #dep13a;
+	 .chartbox {margin: 0 10px; background: rgba(100, 102, 255, 0.2); border: 1px solid rgba(201, 203, 207, 0.2); border-radius:16px; box-shadow: inset 0 0 8px #dep13a;
 	 }
-	 .today-box {eight:100px; margin: 0 10px; background: rgba(201, 203, 207, 0.2); border: 1px solid rgba(201, 203, 207, 0.2); border-radius:16px;
+	 .today-box {eight:100px; margin: 0 10px; background: pink; border: 1px solid rgba(201, 203, 207, 0.2); border-radius:16px;
 	 }
 	 
 	 </style>
@@ -41,6 +39,8 @@
 <div class="container">
 	<div class="row mb-3">
 		<div class="col-12">
+		<h5>최근 1년간 월별 순이익</h5>
+		<canvas id="myChart" width="400" height="80"></canvas>
 			<div class="today-box">
 						입금액
 						<span class="count" id="todayOrder">8,000,000</span>
@@ -58,23 +58,23 @@
 		</div>
 	</div>
 	<div class="row mb-3">
-		<div class="col-4">
+		<div class="col-6">
 			<div class="row mb-3">
 				<div class="chartbox col mt-1">
 					<h5>일별 가입자수</h5>
-					<canvas id="lineChart" width="400" height="170"></canvas>
+					<canvas id="lineChart" width="600" height="200"></canvas>
 				</div>
 			</div>
 			<div class="row mb-3">
 				<div class="chartbox col mt-1">
-					<h5>일별 거래수</h5>
-					<canvas id="lineChart1" width="400" height="170"></canvas>
+					<h5>일별 거래금액 </h5>
+					<canvas id="transactionAmountChart" width="600" height="200"></canvas>
 				</div>
 			</div>
 		</div>
-		<div class="col-4">
+		<div class="col-6">
 			<div class="row mb-3">
-			<div class="col-6 mt-1 mb-3">
+			<div class="col-4 mt-1 mb-3">
 			<div class="today-list-box">
 				<div class="row">
 					<div class="col-12">
@@ -103,7 +103,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-6 mt-1">
+		<div class="col-4 mt-1">
 			<div class="today-list-box">
 				<div class="row">
 					<div class="col-12">
@@ -128,7 +128,7 @@
 				</div>
 			</div>
 		</div>
-			<div class="col-6 mt-1">
+			<div class="col-4 mt-1">
 			<div class="today-list-box">
 				<div class="row">
 					<div class="col-12">
@@ -153,7 +153,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-6 mt-1">
+		<div class="col-4 mt-1">
 			<div class="today-list-box">
 				<div class="row">
 					<div class="col-12">
@@ -176,35 +176,24 @@
 
 			</div>
 		</div>
-		<div class="col-4 mt-1">
-			<div class="todo-list-box">
-				<div class="row">
-					<div class="col-12">
-						<span class="count" id="todayOrder">todo-list</span>
-						
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
 	
-
-		
-		
-		
 	
 
-	<canvas id="myChart" width="250" height="80"></canvas>
-	<canvas id="myChart2" width="400" height="300"></canvas>
-<button id="sendAjax">button</button>
+		
+	
 
 </div> <!-- container -->
 </body>
 <script type="text/javascript">
+$(function(){
+	
+main();	
+})
 
-$(document).ready(function(){
-	getUserNumberGraph();
-});
+getUserNumberGraph();
+getTransactionAmountChart();
+getProfitAmountPerMonth();
 
 function getUserNumberGraph() {
 	let dateList = [];
@@ -233,10 +222,10 @@ function getUserNumberGraph() {
 								'rgba(0, 0, 0, 0)'
 							],
 						 borderColor: [
+								'rgba(255, 206, 86, 1)',
 								'rgba(75, 192, 192, 1)',
 								'rgba(54, 162, 235, 1)',
 								'rgba(255, 99, 132, 1)',
-								'rgba(255, 206, 86, 1)',
 								'rgba(153, 102, 255, 1)',
 								'rgba(255, 159, 64, 1)',
 								'rgba(153, 102, 255, 1)'
@@ -286,71 +275,106 @@ function getUserNumberGraph() {
 		
 	})//ajax
 }//그래프 가져오기
-
-
-var ctx1 = document.getElementById('lineChart1');
-var myChart = new Chart(ctx1, {
-    type: 'line',
-    data: {
-		labels: ['1', '2', '3', '4', '5', '6', '오늘'],
-		datasets: [{
-			label: '일별 거래수',
-			data: [12, 19, 3, 5, 2, 3, 9],
-			backgroundColor: [
-					'rgba(0, 0, 0, 0)'
-			],
-			borderColor: [
-					'rgba(75, 192, 192, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(255, 99, 132, 1)',
-					'rgba(255, 206, 86, 1)',
-					'rgba(153, 102, 255, 1)',
-					'rgba(255, 159, 64, 1)',
-					'rgba(153, 102, 255, 1)'
-			],
-			borderWidth: 2
-		}]
-	},
-	options: {
-		responsive: false,
-		animation: {
-			onComplete: function () {
-				var chartInstance = this.chart,
-					ctx = chartInstance.ctx;
-				ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
-				ctx.fillStyle = 'black';
-				ctx.textAlign = 'center';
-				ctx.textBaseline = 'bottom';
-
-				this.data.datasets.forEach(function (dataset, i) {
-					var meta = chartInstance.controller.getDatasetMeta(i);
-					meta.data.forEach(function (bar, index) {
-						var data = dataset.data[index];							
-						ctx.fillText(data, bar._model.x, bar._model.y - 5);
-					});
-				});
+function getTransactionAmountChart() {
+	let dateList = [];
+	let transactionList = [];
+	
+	
+	$.ajax({
+		url:"admin-transaction-graph",
+		type:"get",
+		dataType:"json",
+		success:function(data) {
+			console.log(data);
+			for (let  i = 0; i<data.length; i++) {
+				dateList.push(data[i].label);
+				transactionList.push(data[i].data);
 			}
-		},
-		scales: {
-			yAxes: [{
-				ticks: {
-					beginAtZero: true,
-					stepSize : 2,
-					fontSize : 14,
-				}
-			}]
-		},
-		 legend: {
-		      display: false //레이블 제거
-		}
+			
+			new Chart(document.getElementById('transactionAmountChart'), {
+				 type: 'line',
+				 data: {
+					 labels: dateList,
+					 datasets: [{
+						 data: transactionList,
+						 label: "가입자 수",
+						 backgroundColor: [
+								'rgba(0, 0, 0, 0)'
+							],
+						 borderColor: [
+								'rgba(54, 162, 235, 1)',
+								'rgba(255, 99, 132, 1)',
+								'rgba(255, 206, 86, 1)',
+								'rgba(153, 102, 255, 1)',
+								'rgba(255, 159, 64, 1)',
+								'rgba(153, 102, 255, 1)'
+							],
+						 borderWidth: 2
+					 }]
+				 },
+				 options: {
+						responsive: false,
+						animation: {
+							onComplete: function () {
+								var chartInstance = this.chart,
+									ctx = chartInstance.ctx;
+								ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+								ctx.fillStyle = 'black';
+								ctx.textAlign = 'center';
+								ctx.textBaseline = 'bottom';
 
-	}
-});			
+								this.data.datasets.forEach(function (dataset, i) {
+									var meta = chartInstance.controller.getDatasetMeta(i);
+									meta.data.forEach(function (bar, index) {
+										var data = dataset.data[index];							
+										ctx.fillText(data, bar._model.x, bar._model.y - 5);
+									});
+								});
+							}
+						},
+						scales: {
+							yAxes: [{
+								ticks: {
+									beginAtZero: true,
+									fontSize : 14,
+								}
+							}]
+						},
+						 legend: {
+						      display: false
+						   }
+					}
+			});
+		},
+		error:function(){
+			alert("실패");
+		}
+		
+		
+	})//ajax
+}//그래프 가져오기
+
+function getProfitAmountPerMonth() {
+	let dateList = [];
+	let profitList = [];
+	
+	
+	$.ajax({
+		url:"admin-profit-graph",
+		type:"get",
+		dataType:"json",
+		success:function(data) {
+			console.log(data);
+			for (let  i = 0; i<data.length; i++) {
+				dateList.push(data[i].label);
+				profitList.push(data[i].data);
+			}
+	
 
 
 new Chart(document.getElementById("myChart"), {
 	type: 'bar', 
-	data: { labels: ['2','3','4','5','6','7','8','9','10','11','12','1','2'], 
+	data: { labels: dateList, 
 		datasets: [{ label: '월별 순이익', 
 			backgroundColor: ['rgba(255, 99, 132, 0.2)',  'rgba(255, 159, 64, 0.2)',  'rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)',
 			      'rgba(255, 159, 64, 0.2)',
@@ -365,7 +389,7 @@ new Chart(document.getElementById("myChart"), {
 			borderColor: ['rgb(255, 99, 132)',
 				'rgb(255, 99, 132)',
 		      'rgb(255, 205, 86)'],
-			data: [4 ,10, 5, 4 ,10, 5, 4 ,10, 5, 7,8] }] },
+			data: profitList }] },
 			options: {
 				animation: {
 					onComplete: function () {
@@ -389,9 +413,8 @@ new Chart(document.getElementById("myChart"), {
 					yAxes: [{
 						ticks: {
 							beginAtZero: true,
-							stepSize : 2,
 							fontSize : 14,
-							max :15
+							
 						}
 					}]
 				},
@@ -401,7 +424,14 @@ new Chart(document.getElementById("myChart"), {
 
 			}
 			});
-
+		},
+		error:function(){
+			alert("실패");
+		}
+		
+		
+	})//ajax
+}//그래프 가져오기
 
 
 

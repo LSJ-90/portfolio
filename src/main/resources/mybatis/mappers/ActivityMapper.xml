@@ -198,6 +198,106 @@
 			activity_time_no = #{no}
 	</update>
 	
+	
+	
+	
+	<!--
+	//성하민 관리자페이지에서 체험 개수 가져오기
+	int getActivityCountForAdmin(Criteria criteria); -->
+	<select id="getActivityCountForAdmin" parameterType="com.hoge.form.Criteria" resultType="int">
+		select 
+			count(*)
+		from  TB_FINAL_ACTIVITIES a, tb_final_hosts h
+		 where
+        	a.host_no = h.host_no
+        and
+         	h.STATUS = #{hostStatus}
+         	<if test="grade != null and grade != '' ">
+				and h.GRADE_NAME = #{grade} 
+			</if>
+         	<if test="opt != null and opt != '' and value != null and value != '' ">
+				<choose>
+					<when test="opt == '회원번호'">
+						and h.HOST_USER_NO = #{value} 
+					</when>
+					<when test="opt == '호스트번호'">
+						and h.HOST_NO = #{value}
+					</when>
+					<when test="opt == '체험이름'">
+						and a.activity_name like '%' || #{value} || '%'
+					</when>
+					<when test="opt == '주소'">
+						and a.activity_address like '%' || #{value} || '%'
+					</when>
+				</choose>
+			</if>
+	</select>
+	
+		<!--  
+	//성하민 관리자페이지에서 체험정보 가져오기
+	List<AdminActivityListDto> getActivityListForAdmin(Criteria criteria); -->
+	<select id="getActivityListForAdmin" parameterType="com.hoge.form.Criteria" resultType="com.hoge.dto.AdminActivityListDto">
+		select 
+			no, 
+			name, 
+			address,
+			registeredDate,
+			star,
+			hostNo,
+			hostName,
+			userNo,
+			hostTel,
+			hostStatus,
+			gradeName,
+			mainImage,
+			accumulatedMoney,
+			statusDetail,
+			request
+		from (select
+			a.ACTIVITY_NO as no, 
+			a.ACTIVITY_NAME as name, 
+			a.ACTIVITY_ADDRESS as address,
+			a.ACTIVITY_REGISTERED_DATE as registeredDate,
+			a.AVERAGE_STAR as star,
+			h.STATUS_DETAIL as statusDetail,
+			h.request as request,
+			h.host_no as hostNo,
+			h.host_name as hostName,
+			h.host_user_no as userNo,
+			h.host_tel as hostTel,
+			h.status as hostStatus,
+			h.grade_name as gradeName,
+			h.host_main_image as mainImage,
+			h.ACCUMULATED_MONEY as accumulatedMoney,
+			row_number() over (order by a.ACTIVITY_REGISTERED_DATE desc) rn
+		from
+            TB_FINAL_ACTIVITIES a, tb_final_hosts h
+        where
+        	a.host_no = h.host_no
+        and
+         	h.STATUS = #{hostStatus}
+         	<if test="grade != null and grade != '' ">
+				and h.GRADE_NAME = #{grade} 
+			</if>
+         	<if test="opt != null and opt != '' and value != null and value != '' ">
+				<choose>
+					<when test="opt == '회원번호'">
+						and h.HOST_USER_NO = #{value} 
+					</when>
+					<when test="opt == '호스트번호'">
+						and h.HOST_NO = #{value}
+					</when>
+					<when test="opt == '체험이름'">
+						and a.activity_name like '%' || #{value} || '%'
+					</when>
+					<when test="opt == '주소'">
+						and a.activity_address like '%' || #{value} || '%'
+					</when>
+				</choose>
+			</if>
+	)
+		where rn between #{beginIndex} and #{endIndex}
+	</select> 
 
 
 

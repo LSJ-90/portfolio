@@ -20,6 +20,10 @@ import com.hoge.dto.AccListDto;
 import com.hoge.dto.AccMainDto;
 import com.hoge.dto.ActListDto;
 import com.hoge.dto.ActMainDto;
+import com.hoge.dto.RoomBookingDto;
+import com.hoge.dto.RoomDto;
+import com.hoge.form.Criteria;
+import com.hoge.mapper.AccommodationMapper;
 import com.hoge.mapper.HostMapper;
 import com.hoge.mapper.WithdrawalMapper;
 import com.hoge.util.SessionUtils;
@@ -46,6 +50,9 @@ public class HostService {
 	
 	@Autowired
 	private WithdrawalMapper withdrawalMapper;
+	
+	@Autowired
+	private AccommodationMapper accommoMapper;
   
 	// 유상효 호스트 등록
 	public void hostApply(Host host, Accommodation acc, Activity act, List<AccommoImage> accImages, List<ActivityImage> actImages) {
@@ -206,7 +213,16 @@ public class HostService {
 	}
 	
 
+	//성하민 호스트페이지에서 채팅에서 이용가능룸 정보 가져오기
+		public List<RoomDto> getAvailableRoomInfo(Criteria criteria){
+			return accommoMapper.getAvailableRoomInfo(criteria);
+		}
 
+		//성하민 호스트페이지에서 예약된 룸정보 가져오기
+		public List<RoomBookingDto> getBookedRoomInfo(Criteria criteria){
+			return accommoMapper.getBookedRoomInfo(criteria);
+		}
+		
 
 	
 

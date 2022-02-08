@@ -648,4 +648,74 @@
 	</select> 
 	
 	
+	<!-- 성하민 호스트페이지 호스트번호와 날짜로 이용가능한 방 찾기
+	 List<RoomDto> getAvailableRoomInfo(Criteria criteria);
+	 -->
+	<select id="getAvailableRoomInfo" parameterType="com.hoge.form.Criteria" resultType="com.hoge.dto.RoomDto">
+		select 
+   			 r.room_no as no, 
+   			 a.accommo_no as accommoNo, 
+   			 a.host_no as hostNo, 
+   			 r.ROOM_NAME as name,
+			r.WEEKDAYS_PRICE as weekdaysPrice, 
+			r.WEEKEND_PRICE as weekendPrice, 
+			r.PEAK_SEASON_PRICE as peakSeasonPrice, 
+			r.STANDARD_NUMBER as standardNumber, 
+			r.MAXIMUM_NUMBER as maximumNumber,
+			r.PRICE_PER_PERSON as pricePerPerson, 
+			r.ROOM_AMENITY as amenity, 
+			r.ROOM_FEATURE as feature
+		    from 
+		    tb_final_rooms r, TB_FINAL_ACCOMMODATIONS a
+		    where a.host_no = 210
+		    and r.accommo_no = a.accommo_no
+		    and r.room_no NOT IN (select bk.room_no
+                                	 from 
+                                	 	tb_final_room_availability ava, tb_final_room_bookings bk, 
+                                        tb_final_accommodations a, tb_final_rooms r
+                               		 where 
+                               		 	ava.room_booking_no = bk.room_booking_no
+                                        and bk.room_no = r.room_no
+                                        and bk.room_booking_status = 1
+                                        and a.accommo_no = r.accommo_no
+                               		 and 
+                               		 	ava.booked_date = #{bookedDate} 
+                                    and a.host_no = #{hostNo} 
+                                	 group 
+                                	 	by bk.room_no)
+	</select>
+	
+	
+	
+	
+	<!-- 성하민 호스트페이지 호스트번호와 날짜로 해당하는 예약 찾기
+	 List<RoomBookingDto> getBookedRoomInfo(Criteria criteria);
+
+	 -->
+	<select id="getBookedRoomInfo" parameterType="com.hoge.form.Criteria" resultType="com.hoge.dto.RoomBookingDto">
+			select
+		    bk.room_no as no, 
+		    ava.booked_date as bookedDate, 
+		    a.accommo_no as accommoNo, 
+		    a.host_no as hostNo, 
+		    r.ROOM_NAME as name,
+			bk.room_booking_status as roomBookingStatus, 
+			bk.room_booking_name as roomBookingName
+		    from 
+		    tb_final_room_availability ava, tb_final_room_bookings bk, tb_final_rooms r, TB_FINAL_ACCOMMODATIONS a
+		    where 
+		    ava.room_booking_no = bk.room_booking_no
+		    and r.room_no = bk.room_no
+		    and a.host_no = #{hostNo} 
+		    and r.accommo_no = a.accommo_no
+		    and ava.booked_date = #{bookedDate} 
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>

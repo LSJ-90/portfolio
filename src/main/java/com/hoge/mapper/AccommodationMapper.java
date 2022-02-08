@@ -10,6 +10,7 @@ import com.hoge.dto.AdminAccommoListDto;
 import com.hoge.dto.MapArea;
 import com.hoge.dto.ReserveAccommoDto;
 import com.hoge.dto.RoomBookingBatchDto;
+import com.hoge.dto.RoomBookingDto;
 import com.hoge.dto.RoomDto;
 import com.hoge.dto.RoomListDto;
 import com.hoge.form.Criteria;
@@ -86,6 +87,12 @@ public interface AccommodationMapper {
 	
 	//성하민 관리자페이지에서 숙소 개수 가져오기
 	int getAccommoCountForAdmin(Criteria criteria);
+	
+	//성하민 호스트페이지에서 채팅에서 이용가능룸 정보 가져오기
+	List<RoomDto> getAvailableRoomInfo(Criteria criteria);
+
+	//성하민 호스트페이지에서 예약된 룸정보 가져오기
+	List<RoomBookingDto> getBookedRoomInfo(Criteria criteria);
 	
 	
 }

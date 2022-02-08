@@ -15,27 +15,9 @@
       <ul class="search-bar">
       	<li>
       		<select
-          class="search__select accommoType"
-          name="accommoType"
-          onchange="searchDeniedAccommos()"
-        >
-          	<option value="" selected disabled="disabled">숙소타입</option>
-			   	<option value="호텔">호텔</option>
-                <option value="게스트하우스">게스트하우스</option>
-                <option value="렌탈하우스">렌탈하우스</option>
-                <option value="펜션">펜션</option>
-                <option value="한옥">한옥</option>
-                <option value="캠핑&아웃도어">캠핑&아웃도어</option>
-                <option value="호스텔">호스텔</option>
-                <option value="리조트">리조트</option>
-                <option value="민박">민박</option>
-        </select>
-      	</li>
-      	<li>
-      		<select
           class="search__select grade"
           name="grade"
-          onchange="searchDeniedAccommos()"
+          onchange="searchDeniedActivities()"
         >
           	<option value="" selected disabled="disabled">등급</option>
 			<option value="BRONZE" ${'BRONZE' eq param.grade ? 'selected' : ''}>브론즈</option>
@@ -51,12 +33,12 @@
           	<option value="주소">주소</option>
 			<option value="호스트번호">호스트번호</option>
 			<option value="회원번호">회원번호</option>
-			<option value="숙소이름">숙소이름</option>
+			<option value="체험이름">체험이름</option>
         </select>
       	</li>
       	<li>
       		<input type="text" class="search-user" name="value" value="" />
-        <button type="button" class="btn__search" id="btn-search-userQnA" onclick="searchDeniedAccommos()">
+        <button type="button" class="btn__search" id="btn-search-userQnA" onclick="searchDeniedActivities()">
           검색
         </button>
       	</li>
@@ -80,10 +62,9 @@
           <th>no.</th>
           <th>호스트이름</th>
           <th>호스트등급</th>
-          <th>유저번호</th>
+          <th>회원번호</th>
           <th>연락처</th>
-          <th>숙소타입</th>
-          <th>숙소이름</th>
+          <th>체험이름</th>
           <th>반려 사유</th>
           <th>등록일</th>
         </tr>
@@ -117,27 +98,9 @@
       <ul class="search-bar">
       	<li>
       		<select
-          class="search__select accommoType"
-          name="accommoType1"
-          onchange="searchEndedAccommos()"
-        >
-          	<option value="" selected disabled="disabled">숙소타입</option>
-			   	<option value="호텔">호텔</option>
-                <option value="게스트하우스">게스트하우스</option>
-                <option value="렌탈하우스">렌탈하우스</option>
-                <option value="펜션">펜션</option>
-                <option value="한옥">한옥</option>
-                <option value="캠핑&아웃도어">캠핑&아웃도어</option>
-                <option value="호스텔">호스텔</option>
-                <option value="리조트">리조트</option>
-                <option value="민박">민박</option>
-        </select>
-      	</li>
-      	<li>
-      		<select
           class="search__select grade"
           name="grade1"
-          onchange="searchEndedAccommos()"
+          onchange="searchEndedActivities()"
         >
           	<option value="" selected disabled="disabled">등급</option>
 			<option value="BRONZE" ${'BRONZE' eq param.grade ? 'selected' : ''}>브론즈</option>
@@ -153,12 +116,12 @@
           	<option value="주소">주소</option>
 			<option value="호스트번호">호스트번호</option>
 			<option value="회원번호">회원번호</option>
-			<option value="숙소이름">숙소이름</option>
+			<option value="체험이름">체험이름</option>
         </select>
       	</li>
       	<li>
       		<input type="text" class="search-user" name="value1" value="" />
-        <button type="button" class="btn__search" id="btn-search-userQnA" onclick="searchEndedAccommos()">
+        <button type="button" class="btn__search" id="btn-search-userQnA" onclick="searchEndedActivities()">
           검색
         </button>
       	</li>
@@ -182,10 +145,9 @@
           <th>no.</th>
           <th>호스트이름</th>
           <th>호스트등급</th>
-          <th>유저번호</th>
+          <th>회원번호</th>
           <th>연락처</th>
-          <th>숙소타입</th>
-          <th>숙소이름</th>
+          <th>체험이름</th>
           <th>종료 상세</th>
           <th>등록일</th>
         </tr>
@@ -219,27 +181,9 @@
       <ul class="search-bar">
       	<li>
       		<select
-          class="search__select accommoType"
-          name="accommoType2"
-          onchange="searchClosedAccommos()"
-        >
-          	<option value="" selected disabled="disabled">숙소타입</option>
-			   	<option value="호텔">호텔</option>
-                <option value="게스트하우스">게스트하우스</option>
-                <option value="렌탈하우스">렌탈하우스</option>
-                <option value="펜션">펜션</option>
-                <option value="한옥">한옥</option>
-                <option value="캠핑&아웃도어">캠핑&아웃도어</option>
-                <option value="호스텔">호스텔</option>
-                <option value="리조트">리조트</option>
-                <option value="민박">민박</option>
-        </select>
-      	</li>
-      	<li>
-      		<select
           class="search__select grade"
           name="grade2"
-          onchange="searchClosedAccommos()"
+          onchange="searchClosedActivities()"
         >
           	<option value="" selected disabled="disabled">등급</option>
 			<option value="BRONZE" ${'BRONZE' eq param.grade ? 'selected' : ''}>브론즈</option>
@@ -255,12 +199,12 @@
           	<option value="주소">주소</option>
 			<option value="호스트번호">호스트번호</option>
 			<option value="회원번호">회원번호</option>
-			<option value="숙소이름">숙소이름</option>
+				<option value="체험이름">체험이름</option>
         </select>
       	</li>
       	<li>
       		<input type="text" class="search-user" name="value2" value="" />
-        <button type="button" class="btn__search" id="btn-search-userQnA" onclick="searchClosedAccommos()">
+        <button type="button" class="btn__search" id="btn-search-userQnA" onclick="searchClosedActivities()">
           검색
         </button>
       	</li>
@@ -284,10 +228,9 @@
           <th>no.</th>
           <th>호스트이름</th>
           <th>호스트등급</th>
-          <th>유저번호</th>
+          <th>회원번호</th>
           <th>연락처</th>
-          <th>숙소타입</th>
-          <th>숙소이름</th>
+          <th>체험이름</th>
           <th>종료 상세</th>
           <th>등록일</th>
         </tr>
@@ -319,24 +262,22 @@ $(function(){
 	activeMenu("숙소관리", "숙소승인 반려/종료");
 	})
 
-searchDeniedAccommos();
-searchEndedAccommos();
-searchClosedAccommos();
+searchDeniedActivities();
+searchEndedActivities();
+searchClosedActivities();
 
-function searchDeniedAccommos(page) {
+function searchDeniedActivities(page) {
 	var opt = $("select[name=opt]").val();
 	var value = $.trim($(":input[name=value]").val());
-	var accommoType =  $("select[name=accommoType]").val();
 	var grade =  $("select[name=grade]").val();
 	
 			$.ajax({
 				type: 'POST',
-				url : "/admin/getDeniedAccommoList.do", //서비스 주소 
+				url : "/admin/getDeniedActivityList.do", //서비스 주소 
 				data : { //서비스 처리에 필요한 인자값
 					page : page,
 					opt : opt,
 					value : value,
-					accommoType : accommoType,
 					grade : grade
 				},
 				success : function(result) {
@@ -355,7 +296,6 @@ function searchDeniedAccommos(page) {
 						data += "<td>" + list[i].gradeName + "</td>";
 						data += "<td>" + list[i].userNo + "</td>";
 						data += "<td>" + list[i].hostTel + "</td>";
-						data += "<td>" + list[i].type + "</td>";
 						data += "<td>" + list[i].name + "</td>";
 						data += "<td>" + list[i].statusDetail + "</td>";
 						data += "<td>" + list[i].registeredDate + "</td>";
@@ -365,7 +305,7 @@ function searchDeniedAccommos(page) {
 
 					// 이전버튼 활성화 여부를 결정하는 부분
 					if (pagination['prevPage']) {
-						block += "<li class='page-item'><a class='page-link' onclick='searchDeniedAccommos("
+						block += "<li class='page-item'><a class='page-link' onclick='searchDeniedActivities("
 								+ (pagination['beginPage'] - 1)
 								+ ")'> < </a></li>";
 					} else {
@@ -375,7 +315,7 @@ function searchDeniedAccommos(page) {
 					// 번호를 표시하는 부분
 					for (var i = pagination['beginPage']; i <= pagination['endPage']; i++) {
 						if (page !== i) {
-							block += "<li class='page-item'><a class='page-link' onclick='searchDeniedAccommos("
+							block += "<li class='page-item'><a class='page-link' onclick='searchDeniedActivities("
 									+ i + ")'>" + (i) + "</a></li>";
 						} else {
 							block += "<li class='page-item disabled'><a class='page-link'>"
@@ -384,7 +324,7 @@ function searchDeniedAccommos(page) {
 					}
 
 					if (pagination['nextPage']) {
-						block += "<li class='page-item'><a class='page-link' onclick='searchDeniedAccommos("
+						block += "<li class='page-item'><a class='page-link' onclick='searchDeniedActivities("
 								+ (pagination['endPage'] + 1)
 								+ ")'>  > </a></li>";
 					} else {
@@ -395,20 +335,18 @@ function searchDeniedAccommos(page) {
 				}
 			})
 }
-function searchEndedAccommos(page) {
+function searchEndedActivities(page) {
 	var opt = $("select[name=opt1]").val();
 	var value = $.trim($(":input[name=value1]").val());
-	var accommoType =  $("select[name=accommoType1]").val();
 	var grade =  $("select[name=grade1]").val();
 	
 			$.ajax({
 				type: 'POST',
-				url : "/admin/getEndedAccommoList.do", //서비스 주소 
+				url : "/admin/getEndedActivityList.do", //서비스 주소 
 				data : { //서비스 처리에 필요한 인자값
 					page : page,
 					opt : opt,
 					value : value,
-					accommoType : accommoType,
 					grade : grade
 				},
 				success : function(result) {
@@ -427,7 +365,6 @@ function searchEndedAccommos(page) {
 						data += "<td>" + list[i].gradeName + "</td>";
 						data += "<td>" + list[i].userNo + "</td>";
 						data += "<td>" + list[i].hostTel + "</td>";
-						data += "<td>" + list[i].type + "</td>";
 						data += "<td>" + list[i].name + "</td>";
 						data += "<td>" + list[i].statusDetail + "</td>";
 						data += "<td>" + list[i].registeredDate + "</td>";
@@ -437,7 +374,7 @@ function searchEndedAccommos(page) {
 
 					// 이전버튼 활성화 여부를 결정하는 부분
 					if (pagination['prevPage']) {
-						block += "<li class='page-item'><a class='page-link' onclick='searchEndedAccommos("
+						block += "<li class='page-item'><a class='page-link' onclick='searchEndedActivities("
 								+ (pagination['beginPage'] - 1)
 								+ ")'> < </a></li>";
 					} else {
@@ -447,7 +384,7 @@ function searchEndedAccommos(page) {
 					// 번호를 표시하는 부분
 					for (var i = pagination['beginPage']; i <= pagination['endPage']; i++) {
 						if (page !== i) {
-							block += "<li class='page-item'><a class='page-link' onclick='searchEndedAccommos("
+							block += "<li class='page-item'><a class='page-link' onclick='searchEndedActivities("
 									+ i + ")'>" + (i) + "</a></li>";
 						} else {
 							block += "<li class='page-item disabled'><a class='page-link'>"
@@ -456,7 +393,7 @@ function searchEndedAccommos(page) {
 					}
 
 					if (pagination['nextPage']) {
-						block += "<li class='page-item'><a class='page-link' onclick='searchEndedAccommos("
+						block += "<li class='page-item'><a class='page-link' onclick='searchEndedActivities("
 								+ (pagination['endPage'] + 1)
 								+ ")'>  > </a></li>";
 					} else {
@@ -467,20 +404,18 @@ function searchEndedAccommos(page) {
 				}
 			})
 }
-function searchClosedAccommos(page) {
+function searchClosedActivities(page) {
 	var opt = $("select[name=opt2]").val();
 	var value = $.trim($(":input[name=value2]").val());
-	var accommoType =  $("select[name=accommoType2]").val();
 	var grade =  $("select[name=grade2]").val();
 	
 			$.ajax({
 				type: 'POST',
-				url : "/admin/getClosedAccommoList.do", //서비스 주소 
+				url : "/admin/getClosedActivityList.do", //서비스 주소 
 				data : { //서비스 처리에 필요한 인자값
 					page : page,
 					opt : opt,
 					value : value,
-					accommoType : accommoType,
 					grade : grade
 				},
 				success : function(result) {
@@ -499,7 +434,6 @@ function searchClosedAccommos(page) {
 						data += "<td>" + list[i].gradeName + "</td>";
 						data += "<td>" + list[i].userNo + "</td>";
 						data += "<td>" + list[i].hostTel + "</td>";
-						data += "<td>" + list[i].type + "</td>";
 						data += "<td>" + list[i].name + "</td>";
 						data += "<td>" + list[i].statusDetail + "</td>";
 						data += "<td>" + list[i].registeredDate + "</td>";
@@ -509,7 +443,7 @@ function searchClosedAccommos(page) {
 
 					// 이전버튼 활성화 여부를 결정하는 부분
 					if (pagination['prevPage']) {
-						block += "<li class='page-item'><a class='page-link' onclick='searchClosedAccommos("
+						block += "<li class='page-item'><a class='page-link' onclick='searchClosedActivities("
 								+ (pagination['beginPage'] - 1)
 								+ ")'> < </a></li>";
 					} else {
@@ -519,7 +453,7 @@ function searchClosedAccommos(page) {
 					// 번호를 표시하는 부분
 					for (var i = pagination['beginPage']; i <= pagination['endPage']; i++) {
 						if (page !== i) {
-							block += "<li class='page-item'><a class='page-link' onclick='searchClosedAccommos("
+							block += "<li class='page-item'><a class='page-link' onclick='searchClosedActivities("
 									+ i + ")'>" + (i) + "</a></li>";
 						} else {
 							block += "<li class='page-item disabled'><a class='page-link'>"
@@ -528,7 +462,7 @@ function searchClosedAccommos(page) {
 					}
 
 					if (pagination['nextPage']) {
-						block += "<li class='page-item'><a class='page-link' onclick='searchClosedAccommos("
+						block += "<li class='page-item'><a class='page-link' onclick='searchClosedActivities("
 								+ (pagination['endPage'] + 1)
 								+ ")'>  > </a></li>";
 					} else {
