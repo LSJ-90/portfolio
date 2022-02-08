@@ -34,7 +34,7 @@ height:25px;z-index:1}
 box-sizing:content-box;font-family:Tahoma,sans-serif;font-size:14px;color:#4a4a4a;width:250px;position:absolute;
 left:-100000px;opacity:0;transition:opacity .3s ease,left 0s .3s,-webkit-transform .3s ease;
 transition:opacity .3s ease,transform .3s ease,left 0s .3s;transition:opacity .3s ease,transform .3s ease,left 0s .3s,-webkit-transform .3s ease;
-z-index:100}.datepicker.-from-top-{-webkit-transform:translateY(-8px);transform:translateY(-8px)}
+z-index:2000}.datepicker.-from-top-{-webkit-transform:translateY(-8px);transform:translateY(-8px)}
 .datepicker.-from-right-{-webkit-transform:translateX(8px);transform:translateX(8px)}
 .datepicker.-from-bottom-{-webkit-transform:translateY(8px);transform:translateY(8px)}
 .datepicker.-from-left-{-webkit-transform:translateX(-8px);transform:translateX(-8px)}

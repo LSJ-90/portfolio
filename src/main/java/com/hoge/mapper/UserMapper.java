@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.hoge.dto.AccommoListDto;
 import com.hoge.dto.KakaoUserDto;
 import com.hoge.dto.UserRevInfoDto;
 import com.hoge.form.CriteriaAdminUser;
 import com.hoge.vo.other.User;
+import com.hoge.vo.other.Wish;
 
 
 /**
@@ -51,6 +53,12 @@ public interface UserMapper {
 	// 이승준: 해당 유저가 예약한 간단한 예약정보를 가져오는 메소드.
 	List<UserRevInfoDto> getMyRevListByNo(int no);
 
+	// 이승준: 해당 유저가 정상적으로 다녀온 예약정보를 가져오는 메소드.
+    List<UserRevInfoDto> getMyTourListByNo(int no);
+    
+    // 이승준: 해당 유저가 관심을 보이는 숙소 번호를 가져오는 메소드.
+	List<Wish> getMyLoveListByNo(int userNo);
 	
-
+	// 이승준: 해당 유저가 관심을 보이는 숙소 정보 가져오는 메소드.
+	AccommoListDto getAccommodationByNo(int accommoNo);
 }
