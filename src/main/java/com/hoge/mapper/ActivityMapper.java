@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.hoge.dto.ActivityBookingDto;
+import com.hoge.form.ActTimeForm;
 import com.hoge.form.ActivityReserveForm;
 import com.hoge.vo.activities.Activity;
 import com.hoge.vo.activities.ActivityBooking;
@@ -35,5 +36,19 @@ public interface ActivityMapper {
 	ActivityBookingDto getActivityBooking(int userNo);
 	// 염주환 체험 이미지
 	List<ActivityImage> getActivityImageList(int activitNo);
+	
+	// 유상효 타임테이블 등록
+	void addTime(ActTimeForm form);
+	
+	//유상효 타임테이블 리스트
+	List<ActivityTimeTable> getTimeTableByActNo(int actNo);
+	List<ActivityTimeTable> getTimeTableByActNoAndStatusN(int actNo);
+	List<ActivityTimeTable> getTimeTableByActNoAndStatusY(int actNo);
+	
+	// 유상효 타임테이블no로 타임테이블 조회
+	ActivityTimeTable getTimeTableByTimeNo(int no);
+	
+	// 유상효 체험 타임테이블 수정
+	void modifyTimeTable(ActTimeForm form);
 
 }

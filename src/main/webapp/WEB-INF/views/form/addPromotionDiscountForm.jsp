@@ -64,7 +64,7 @@
 					</div>
 					<div class="mb-3 text-end">
 						<button class="btn btn-primary" type="submit">프로모션 등록</button>
-					</div>					
+					</div>
 				</div>
 			</div>
 		</div>

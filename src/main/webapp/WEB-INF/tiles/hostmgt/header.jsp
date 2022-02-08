@@ -16,7 +16,10 @@
 					<li class="host-nav__item"><a href="/host/mainRoom?hostNo=${param.hostNo }&hostingType=${param.hostingType }" class="active">객실관리</a></li>
 				</c:when>
 			<c:otherwise>
+					<li class="nav__item"><a href="/activity/mainTime?hostNo=${param.hostNo }&hostingType=${param.hostingType }" class="active">체험관리</a></li>
+      <!-- 마스터 주석처리
 					<li class="host-nav__item"><a href="/host/mainRoom?hostNo=${param.hostNo }&hostingType=${param.hostingType }" class="active">체험관리</a></li>
+      -->
 			</c:otherwise>
 			</c:choose>
 				<li class="nav__item"><a href="/host/mainPromotion?hostNo=${param.hostNo }&hostingType=${param.hostingType }">프로모션</a></li>

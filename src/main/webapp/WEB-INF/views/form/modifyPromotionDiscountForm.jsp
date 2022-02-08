@@ -47,9 +47,9 @@
 					</div>
 					<div>
 						<label class="form-label">프로모션 시작일</label>
-						<input type="date" name="startingDate" class="form-control" value="${promotionDiscount.startingDate}" />
+						<input type="date" name="startingDate" class="form-control" value="<fmt:formatDate value="${promotionDiscount.startingDate}" pattern="yyyy-MM-dd"/>" />
 						<label class="form-label">프로모션 종료일</label>
-	   					<input type="date" name="endingDate" class="form-control" value="${promotionDiscount.endingDate }" />
+	   					<input type="date" name="endingDate" class="form-control" value="<fmt:formatDate value="${promotionDiscount.endingDate}" pattern="yyyy-MM-dd"/>" />
 					</div>
 					<div class="mb-3">
 						<label class="form-label">평일 할인율</label>

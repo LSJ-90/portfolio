@@ -557,7 +557,7 @@ public class HostController {
 		promotionDiscount.setWeekendDiscountRate(form.getWeekendDiscountRate());
 		promotionDiscount.setPeakSeasonDiscountRate(form.getPeakSeasonDiscountRate());
 		promotionDiscount.setStartingDate(sqlStarting);
-		promotionDiscount.setEndingDate(sqlEnding);
+		promotionDiscount.setEndingDate(sqlEnding); // 날짜시간 오라클 입력
 		promotionDiscount.setIntroContent(form.getIntroContent());
 		
 		logger.info("프로모션입력값 :" + promotionDiscount);
