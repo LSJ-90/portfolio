@@ -1,19 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../../views/common/tags.jsp" %>	
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<meta charset="UTF-8">
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script> 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<style>
- 
-#chatting-detail { height: 530px;
-  overflow-y:auto;} 
-.format {display: none;}
-
-
-</style>
 
   <div class="mypage__menu">
     <ul class="menu__my-stay">
@@ -41,55 +31,43 @@
   
   
   
-  <div class="modal fade" id="modal-creating-chatting" aria-labelledby="호스트문의" aria-hidden="true">
-  	<div class="modal-dialog modal-xl ">
-			<input type="hidden" id="sessionId" name="sessionId" value="">
-	    	<div class="modal-content" id="modal-content-chat">
-	      		<div class="modal-header" id="modal-header-chat">
-	        		<h5 class="modal-title" id="modal-title-chat">호스트 문의 목록</h5>
-	        		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	      		</div>
-	      			<div class="modal-body" id="modal-body-chat">
-	      				<div class="row mb-3">
-							<div class="col-5" id="left-chat-list">
-								<div class="chat-list">
-									<ul>
-										
-									</ul>
-								</div>	
-							</div> <!-- 채팅 목록 -->
-							<div class="col-7" id="right-chat-message">
-								 <section class="chat-message">
-							      <div class="section-title">예약 문의</div>
-							      <div class="section-main" id="chatting-content">
-									<div id="chatting-detail">
-										<input type="hidden" id="sessionId" value="">
-										<input type="hidden" id="roomNumber" value="">
-								        <ul class="message__list">
-								           <li>대화를 시작하기 위해 좌측의 리스트에서 대화를 클릭해주세용~~ 어쩌구 저쩌구</li>
-								        </ul>
-							        </div>
-							      </div>
-							      <div class="message__chatting" style="display:none;">
-							        <textarea
-							          class="chatting"
-							          id="chatting"
-							          placeholder="Press Enter for sending a message."
-							        ></textarea>
-							      </div>
-							    </section>
-							</div>
-						</div> <!-- row -->
-	      			</div> <!-- modal body -->
-	      		<div class="modal-footer">
-	      		</div> 
-	    	</div>
-  	</div> <!-- modal dialog -->
-</div> <!-- modal fade -->
-	
+  <!-- Mypage chat Modal -->
   
- 
-		
+	<div class="modal fade" id="modal-creating-chatting" aria-labelledby="호스트문의" aria-hidden="true">
+	  <div class="modal-dialog modal-xl ">
+	    <input type="hidden" id="sessionId" name="sessionId" value="">
+	     <article class="modal-content mychat">
+           <section class="mychat__list">
+             <div class="section-title">예약 문의 리스트</div>
+             <div class="section-main">
+               <ul class="sender-list__menu">
+                 
+               </ul>
+             </div>
+           </section>
+           <section class="mychat__message">
+             <div class="section-title">예약 문의</div>
+             <div class="section-main" id="chatting-content">
+               <div id="chatting-detail">
+			     <input type="hidden" id="sessionId" value="">
+				 <input type="hidden" id="roomNumber" value="">
+	               <ul class="message__list">
+	                 <li>대화를 시작하기 위해 왼쪽의 호스트 리스트에서 호스트를 선택해 주세요.</li>
+	               </ul>
+                 </div>
+               <div class="message__chatting" style="display:none;">
+                 <textarea
+                   class="chatting"
+                   id="chatting"
+                   placeholder="Press Enter for send message."
+                 ></textarea>
+               </div>
+             </div>
+           </section>
+         </article>
+	 
+	  </div>
+	</div>		
 
 
 
@@ -140,7 +118,7 @@ function chatopen() {//모달창 띄우기
 //채팅 리스트를 열어줌
 function listopen() {
 
-	$('div.chat-list:not(.format) ul').empty();
+	$('.sender-list__menu').empty();
 	console.log(userNo);
 	
 	
@@ -157,8 +135,8 @@ function listopen() {
 			
 		var data ="";
 			data +=  "<li class='sender-list__item' onclick='enter("+value.chatRoomNo+")'>";
-			data +=  "<img src='../../resources/images/hostMainImage/"+value.image+"' id='userImg' class='userImg rounded-circle' alt='sender-image'>";
-			data +=  "<div class='sender-info'>";
+			data +=  "<img src='../../resources/images/hostMainImage/"+value.image+"' id='userImg' class='mychat__img userImg rounded-circle' alt=''>";
+			data +=  "<div class='mychat__sender-info'>";
 			data +=  " <input type='hidden' id='hostNo' name='hostNo' value=''>";
 			data +=  " <input type='hidden' id='chatRoomNumber' name='chatRoomNumber' value='"+value.chatRoomNo+"'>";
 			data +=  "<p class='userName' id='userName'>"+value.name+"</p>";
@@ -170,7 +148,7 @@ function listopen() {
 			data += "</div><div class='unreadcount' style='display:none;' id='unreadcount-"+value.chatRoomNo+"'>"+value.unreadCount+"</div></li>";
 			}
 			
-			$('div.chat-list:not(.format) ul').append(data);
+			$('.sender-list__menu').append(data);
 			
 			
 		})
@@ -266,7 +244,7 @@ function wsEvt() {
     	data += "<p class='readStatus'>"+checked+"</p>"
     	data += "<p class='sendingTime'>"+sendingTime+"</p>"
     	data += "</div>"
-    	data += "<p class='myMessage'>"+myMessage+"</p>"
+    	data += "<p class='mychat-myMessage'>"+myMessage+"</p>"
     	data += "</li>"
     	
     	$(".message__list").append(data);
@@ -354,9 +332,9 @@ function send() {
    	var data ="";
    	data +=
    	 "<li class='message__item left'><img src='../../resources/images/hostMainImage/"+senderImg+"' alt='sender-image' id='senderImg'/>";
-       data += "<div class='message-box'>";
+       data += "<div class='mychat-message-box'>";
        data += "<p class='sender'>"+senderName+"</p>";
-       data += "<p class='message'>"+message+"</p>";
+       data += "<p class='mychat-message'>"+message+"</p>";
       data += "</div>";
       data += "<p class='sendingTime left'>"+sendingTime+"</p></li>"
  	
@@ -378,7 +356,7 @@ function send() {
 	    	console.log('함수버튼 눌렀을 때 받아온 룸넘버');
 	    	console.log(ChatRoomNo);
 	    	//$('div.chat-list:not(.format)').hide();
-	    	$('div.chat:not(.format) ul').empty();
+	    	$('.message__list').empty();
 	    	$('.message__chatting').show();
 			$("#chat-middle").show();
 			$("#roomNumber").val(ChatRoomNo);
