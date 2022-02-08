@@ -1,6 +1,9 @@
 package com.hoge.dto;
 
 import java.util.Date;
+import java.util.List;
+
+import com.hoge.vo.accommo.AccommoImage;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +20,7 @@ import lombok.ToString;
 @Builder
 public class UserRevInfoDto {
 	private int roomBookingNo;
+	private int accommoNo;
     private String accommoName;
     private String roomName;
     private int roomNo;
@@ -25,5 +29,5 @@ public class UserRevInfoDto {
     private Date checkInDate;
     private Date checkOutDate;
     private String roomTaxIncludedPrice;
-    private int no;
+    private List<AccommoImage> accommoImages;
 }

@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.hoge.config.auth.LoginedUser;
 import com.hoge.dto.AccListDto;
+import com.hoge.dto.AccommoListDto;
 import com.hoge.dto.ActListDto;
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.ChattingMessageDto;
@@ -72,6 +73,33 @@ public class MyPageController {
 		}
 		
 		return "mypage/myRevList.mytiles";
+	}
+	
+	// 이승준: 마이페이지 위시리스트 리턴
+	@GetMapping("/mylovelist")
+	public String myLoveListInit(@LoginedUser User savedUser, Model model) { 
+		
+		List<AccommoListDto> myLoveList = userService.getMyLoveList(savedUser.getNo()); 
+		
+		if (!(myLoveList.isEmpty())) {
+			model.addAttribute("myLoveList", myLoveList);
+		}
+		
+		return "mypage/myLoveList.mytiles";
+	}
+	
+	
+	// 이승준: 마이페이지 다녀온페이지 리턴
+	@GetMapping("/mytourlist")
+	public String myTourListInit(@LoginedUser User savedUser, Model model) { 
+		
+		List<UserRevInfoDto> myTourList = userService.getMyTourListByNo(savedUser.getNo());
+
+		if (!(myTourList.isEmpty())) {
+			model.addAttribute("myTourList", myTourList);
+		}
+
+		return "mypage/myTourList.mytiles";
 	}
 	
 	// 이승준: 회원정보 업데이트 페이지 리턴
