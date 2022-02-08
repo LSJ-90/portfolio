@@ -67,7 +67,11 @@ public class AccommodationService {
 	
 	 // 염주환 지도영역에 맞는 listDto
     public List<AccommoListDto> searchAccommoListDto(MapArea mapArea, Criteria criteria) {
-		return accommoMapper.searchMapAreaAccommoListDtos(mapArea, criteria);
+    	List<AccommoListDto> dtos = accommoMapper.searchMapAreaAccommoListDtos(mapArea, criteria);
+    	for (AccommoListDto dto : dtos) {
+    		dto.setAccommoImages(accommoMapper.getAccommoImagesByAccommoNo(dto.getNo()));
+    	}
+    	return dtos;
 	}
 	
 	// 염주환

@@ -511,9 +511,9 @@
               	tb_final_rooms r
               where 
               	a.accommo_no = r.accommo_no
-              	and a.accommo_xce between #{mapArea.swLat} and #{mapArea.neLat}
-                and a.accommo_yce between #{mapArea.swLng} and #{mapArea.neLng}
-                <if test="mapArea.checkIn != '' and mapArea.checkOut !=''">
+              	and a.accommo_xce between #{swLat} and #{neLat}
+                and a.accommo_yce between #{swLng} and #{neLng}
+                <if test="checkIn != '' and checkOut !=''">
                    and r.room_no NOT IN (select 
                    							bk.room_no
                                     	 from 
@@ -521,14 +521,14 @@
                                    		 where 
                                    		 	ava.room_booking_no = bk.room_booking_no
                                    		 and 
-                                   		 	booked_date &gt;= #{mapArea.checkIn}
+                                   		 	booked_date &gt;= #{checkIn}
                                     	 and 
-                                    	 	booked_date &lt; #{mapArea.checkOut}
+                                    	 	booked_date &lt; #{checkOut}
                                     	 group 
                                     	 	by bk.room_no)
                 </if>
-                <if test="mapArea.number != ''">
-                   and r.maximum_number &gt;= to_number(#{mapArea.number})
+                <if test="number != ''">
+                   and r.maximum_number &gt;= to_number(#{number})
                 </if>
             group by 
 		            a.accommo_no)
