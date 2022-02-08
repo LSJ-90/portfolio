@@ -38,6 +38,7 @@ import com.hoge.dto.AdminActivityReviewDto;
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.ChattingMessageDto;
 import com.hoge.dto.LabelDataDto;
+import com.hoge.dto.RoomBookingDto;
 import com.hoge.dto.RoomDto;
 import com.hoge.dto.RoomListDto;
 import com.hoge.form.AccHostModifyForm;
@@ -171,6 +172,22 @@ public class HostController {
 			
 			// 게시글 화면 출력
 			result.put("list", list);
+			
+			return result;
+		}
+		
+		@PostMapping(value = "/get-room-info.do", produces = "application/json")
+		public @ResponseBody HashMap<String, Object> bookingList(@RequestBody Criteria criteria) throws Exception {
+			
+			
+			List<RoomDto> availableRoomList = hostService.getAvailableRoomInfo(criteria);
+			List<RoomBookingDto> bookedRoomList = hostService.getBookedRoomInfo(criteria);
+			HashMap<String, Object> result = new HashMap<>();
+			// 페이징
+			result.put("availableRoomList", availableRoomList);
+			
+			// 게시글 화면 출력
+			result.put("bookedRoomList", bookedRoomList);
 			
 			return result;
 		}

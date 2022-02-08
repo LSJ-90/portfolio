@@ -12,27 +12,9 @@
       <ul class="search-bar">
       	<li>
       		<select
-          class="search__select accommoType"
-          name="accommoType"
-          onchange="searchAccommos()"
-        >
-          	<option value="" selected disabled="disabled">숙소타입</option>
-			   	<option value="호텔">호텔</option>
-                <option value="게스트하우스">게스트하우스</option>
-                <option value="렌탈하우스">렌탈하우스</option>
-                <option value="펜션">펜션</option>
-                <option value="한옥">한옥</option>
-                <option value="캠핑&아웃도어">캠핑&아웃도어</option>
-                <option value="호스텔">호스텔</option>
-                <option value="리조트">리조트</option>
-                <option value="민박">민박</option>
-        </select>
-      	</li>
-      	<li>
-      		<select
           class="search__select grade"
           name="grade"
-          onchange="searchAccommos()"
+          onchange="searchActivities()"
         >
           	<option value="" selected disabled="disabled">등급</option>
 			<option value="BRONZE" ${'BRONZE' eq param.grade ? 'selected' : ''}>브론즈</option>
@@ -48,12 +30,12 @@
           	<option value="주소">주소</option>
 			<option value="호스트번호">호스트번호</option>
 			<option value="회원번호">회원번호</option>
-			<option value="숙소이름">숙소이름</option>
+			<option value="체험이름">체험이름</option>
         </select>
       	</li>
       	<li>
       		<input type="text" class="search-user" name="value" value="" />
-        <button type="button" class="btn__search" id="btn-search-userQnA" onclick="searchAccommos()">
+        <button type="button" class="btn__search" id="btn-search-userQnA" onclick="searchActivities()">
           검색
         </button>
       	</li>
@@ -63,10 +45,7 @@
 
 	<table class="user-list-table">
 		<colgroup>
-	        <col style="width: 6%" />
-	        <col style="width: 7%" />
-	        <col style="width: 9%" />
-	        <col style="width: 7%" />
+	        <col style="width: 10%" />
 	        <col style="width: 10%" />
 	        <col style="width: 10%" />
 	        <col style="width: 10%" />
@@ -80,14 +59,10 @@
           <th>no.</th>
           <th>호스트이름</th>
           <th>호스트등급</th>
-          <th>유저번호</th>
+          <th>회원번호</th>
           <th>연락처</th>
-          <th>숙소타입</th>
-          <th>숙소이름</th>
-          <th>청결도</th>
-          <th>의사소통</th>
-          <th>정확도</th>
-          <th>위치</th>
+          <th>회원이름</th>
+          <th>별점</th>
           <th>등록일</th>
         </tr>
       </thead>
@@ -96,7 +71,6 @@
 			</tbody>
 		</table>
 
-		<!-- 페이지 내비게이션 표시 -->
 		<!-- 페이지 내비게이션 표시 -->
 		<div class="row mb-3">
 			<div class="col">
@@ -115,25 +89,23 @@
 <script type="text/javascript">
 $(function(){
 	
-	activeMenu("숙소관리", "숙소리스트");
+	activeMenu("체험관리", "체험리스트");
 	})
 
-searchAccommos();
+searchActivities();
 
-function searchAccommos(page) {
+function searchActivities(page) {
 	var opt = $("select[name=opt]").val();
 	var value = $.trim($(":input[name=value]").val());
-	var accommoType =  $("select[name=accommoType]").val();
 	var grade =  $("select[name=grade]").val();
 	
 			$.ajax({
 				type: 'POST',
-				url : "/admin/getApprovedAccommoList.do", //서비스 주소 
+				url : "/admin/getApprovedActivityList.do", //서비스 주소 
 				data : { //서비스 처리에 필요한 인자값
 					page : page,
 					opt : opt,
 					value : value,
-					accommoType : accommoType,
 					grade : grade
 				},
 				success : function(result) {
@@ -152,12 +124,8 @@ function searchAccommos(page) {
 						data += "<td>" + list[i].gradeName + "</td>";
 						data += "<td>" + list[i].userNo + "</td>";
 						data += "<td>" + list[i].hostTel + "</td>";
-						data += "<td>" + list[i].type + "</td>";
 						data += "<td>" + list[i].name + "</td>";
-						data += "<td>" + list[i].cleanlinessStar + "</td>";
-						data += "<td>" + list[i].communicationStar + "</td>";
-						data += "<td>" + list[i].accuracyStar + "</td>";
-						data += "<td>" + list[i].locationStar + "</td>";
+						data += "<td>" + list[i].star + "</td>";
 						data += "<td>" + list[i].registeredDate + "</td>";
 						data += "</tr>";
 					}
@@ -165,7 +133,7 @@ function searchAccommos(page) {
 
 					// 이전버튼 활성화 여부를 결정하는 부분
 					if (pagination['prevPage']) {
-						block += "<li class='page-item'><a class='page-link' onclick='searchAccommos("
+						block += "<li class='page-item'><a class='page-link' onclick='searchActivities("
 								+ (pagination['beginPage'] - 1)
 								+ ")'> < </a></li>";
 					} else {
@@ -175,7 +143,7 @@ function searchAccommos(page) {
 					// 번호를 표시하는 부분
 					for (var i = pagination['beginPage']; i <= pagination['endPage']; i++) {
 						if (page !== i) {
-							block += "<li class='page-item'><a class='page-link' onclick='searchAccommos("
+							block += "<li class='page-item'><a class='page-link' onclick='searchActivities("
 									+ i + ")'>" + (i) + "</a></li>";
 						} else {
 							block += "<li class='page-item disabled'><a class='page-link'>"
@@ -184,7 +152,7 @@ function searchAccommos(page) {
 					}
 
 					if (pagination['nextPage']) {
-						block += "<li class='page-item'><a class='page-link' onclick='searchAccommos("
+						block += "<li class='page-item'><a class='page-link' onclick='searchActivities("
 								+ (pagination['endPage'] + 1)
 								+ ")'>  > </a></li>";
 					} else {

@@ -24,8 +24,16 @@ public class StatisticsService {
 		return statisticsMapper.getRegisterCountPerDayDto();
 	}
 	
+	public List<LabelDataDto> getTransactionAmountPerDay(){
+		return statisticsMapper.getTransactionAmountPerDay();
+	}
+	
 	 public List<LabelDataDto> getSalesPerDayByHostNo(int no){
 		 return statisticsMapper.getSalesPerDayByHostNo(no);
+	 }
+	 
+	 public List<LabelDataDto> getProfitAmountPerMonth(){
+		 return statisticsMapper.getProfitAmountPerMonth();
 	 }
 
 	

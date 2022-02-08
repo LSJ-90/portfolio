@@ -146,6 +146,11 @@
 </main>
 
 <script type="text/javascript">
+$(function(){
+	
+	activeMenu("회원관리", "리뷰관리");
+	})
+
 $("#btn-search-actReview").click(function() {
 	var opt1 = $("select[name=opt1]").val();
 	var value1 = $.trim($(":input[name=value1]").val());

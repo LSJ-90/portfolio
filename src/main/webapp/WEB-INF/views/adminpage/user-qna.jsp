@@ -244,6 +244,11 @@
  
 <script type="text/javascript">
 
+$(function(){
+	
+	activeMenu("회원관리", "회원문의");
+	})
+
 function creatingModal(no) {
 	
 	let answeringModal = new bootstrap.Modal(document.getElementById('modal-answering'), {

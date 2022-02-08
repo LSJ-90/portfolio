@@ -2,6 +2,54 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../common/tags.jsp" %>
 
+<style>
+.custom_calendar_table td {
+    text-align: center;
+}
+
+.custom_calendar_table thead.cal_date th {
+    font-size: 1.5rem;
+}
+
+.custom_calendar_table thead.cal_date th button {
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+}
+
+.custom_calendar_table thead.cal_week th {
+    background-color: gray;
+    color: #fff;
+}
+
+.custom_calendar_table tbody td {
+    cursor: pointer;
+}
+
+.custom_calendar_table tbody td:nth-child(1) {
+    color: red;
+}
+
+.custom_calendar_table tbody td:nth-child(7) {
+    color: #288CFF;
+}
+
+.custom_calendar_table tbody td.select_day {
+    background-color: gray;
+    color: #fff;
+}
+
+.message__chatting { display:none;
+}
+
+#booking-info {
+  height: 600px;
+  overflow-y: auto;
+}
+#booking-info-on-selected-date {display:none;}
+
+</style>
+
 <main id="main">
   <article id="host-chat">
   
@@ -82,7 +130,41 @@
   <!-- 예약정보 -->  
     <section class="chat-info">
       <div class="section-title">예약 정보</div>
-      <div class="section-main">아직 내용이 없다...</div>
+      <div class="section-main" id="booking-info">
+      	  <div id="calendarForm"></div>
+      	  <div id="booking-info-on-selected-date">
+      	  <p>예약정보</p>
+      	  <div>
+      	  <table class="">
+			<colgroup>
+            <col style="width: 35%" />
+            <col style="width: 30%" />
+            <col style="width: 35%" />
+         
+          </colgroup>
+          <thead>
+            <tr>
+              <th>객실이름</th>
+              <th>예약자 이름</th>
+              <th>예약 상태</th>
+            </tr>
+          </thead>
+
+			<tbody id ="bookedRoomListSection">
+			</tbody>
+			</table>
+      	  </div>
+      	  
+      	  
+      	  
+      	  <p>예약가능</p>
+      	  
+      	  <div id="availableRoomSection">
+      	  
+      	  
+      	  </div>
+      	  </div>
+      </div>
     </section>
   </article>
 </main>
@@ -108,6 +190,7 @@ function getFullYmdStr(){
 
 const userNo = "${LOGIN_USER.no }";
 const hostName = "${savedHost.name }";
+const hostNo = "${savedHost.no }";
 const hostImg = "${savedHost.mainImage }";
 let ws;
 
@@ -297,6 +380,7 @@ function wsEvt() {
 			$('.message__list').empty();
 			$("#chatting-waiting").hide();
 			$("#chatting-detail").show();
+			$(".message__chatting").show();
 			
 			var Myelement = document.getElementById("roomNumber");
 			
@@ -334,8 +418,177 @@ function wsEvt() {
 	    }
     }	
     
+  (function () {
+      calendarMaker($("#calendarForm"), new Date());
+  })();
 
-  
+    var nowDate = new Date();
+    function calendarMaker(target, date) {
+        if (date == null || date == undefined) {
+            date = new Date();
+        }
+        nowDate = date;
+        if ($(target).length > 0) {
+            var year = nowDate.getFullYear();
+            var month = nowDate.getMonth() + 1;
+            $(target).empty().append(assembly(year, month));
+        } else {
+            console.error("custom_calendar Target is empty!!!");
+            return;
+        }
+
+        var thisMonth = new Date(nowDate.getFullYear(), nowDate.getMonth(), 1);
+        var thisLastDay = new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, 0);
+
+
+        var tag = "<tr>";
+        var cnt = 0;
+        //빈 공백 만들어주기
+        for (i = 0; i < thisMonth.getDay(); i++) {
+            tag += "<td></td>";
+            cnt++;
+        }
+
+        //날짜 채우기
+        for (i = 1; i <= thisLastDay.getDate(); i++) {
+            if (cnt % 7 == 0) { tag += "<tr>"; }
+            var dataMonth = month;
+            
+            if (month <= 9) {
+            	dataMonth = "0"+month;
+            }
+            var dataDay = i;
+            
+            if (i <= 9) {
+            	dataDay = "0"+i;
+            }
+            
+
+            tag += "<td id='"+year+"-"+dataMonth+"-"+dataDay+"'>" + i + "</td>";
+            cnt++;
+            if (cnt % 7 == 0) {
+                tag += "</tr>";
+            }
+        }
+        $(target).find("#custom_set_date").append(tag);
+        calMoveEvtFn();
+
+        function assembly(year, month) {
+            var calendar_html_code =
+                "<table class='custom_calendar_table'>" +
+                "<colgroup>" +
+                "<col style='width:81px'/>" +
+                "<col style='width:81px'/>" +
+                "<col style='width:81px'/>" +
+                "<col style='width:81px'/>" +
+                "<col style='width:81px'/>" +
+                "<col style='width:81px'/>" +
+                "<col style='width:81px'/>" +
+                "</colgroup>" +
+                "<thead class='cal_date'>" +
+                "<th><button type='button' class='prev'><</button></th>" +
+                "<th colspan='5'><p><span>" + year + "</span>년 <span>" + month + "</span>월</p></th>" +
+                "<th><button type='button' class='next'>></button></th>" +
+                "</thead>" +
+                "<thead  class='cal_week'>" +
+                "<th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th>" +
+                "</thead>" +
+                "<tbody id='custom_set_date'>" +
+                "</tbody>" +
+                "</table>";
+            return calendar_html_code;
+        }
+
+        function calMoveEvtFn() {
+            //전달 클릭
+            $(".custom_calendar_table").on("click", ".prev", function () {
+                nowDate = new Date(nowDate.getFullYear(), nowDate.getMonth() - 1, nowDate.getDate());
+                calendarMaker($(target), nowDate);
+            });
+            //다음날 클릭
+            $(".custom_calendar_table").on("click", ".next", function () {
+                nowDate = new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, nowDate.getDate());
+                calendarMaker($(target), nowDate);
+            });
+            //일자 선택 클릭
+            $(".custom_calendar_table").on("click", "td", function () {
+                $(".custom_calendar_table .select_day").removeClass("select_day");
+                $(this).removeClass("select_day").addClass("select_day");
+            });
+        }
+    }
+    
+
+ 	$(".custom_calendar_table td").click(function(){
+ 	console.log($(this).attr("id"));
+ 		var bookedDate = $(this).attr("id");
+ 		$("#booking-info-on-selected-date").show();
+    
+	$.ajax({
+		type: 'POST',
+		url : "/host/get-room-info.do", //서비스 주소 
+		contentType: 'application/json',
+		data : JSON.stringify({ //서비스 처리에 필요한 인자값
+			hostNo : hostNo,
+			bookedDate : bookedDate
+		}),
+		success : function(result) {
+			const availableRoomList = result['availableRoomList'];
+			const bookedRoomList = result['bookedRoomList'];
+			var availableRoomData = "";
+			var bookedRoomData = "";
+			
+			
+			// 테이블의 row를 삽입하는 부분
+			for (var i = 0; i < bookedRoomList.length; i++) {
+				
+				bookedRoomData += "<tr>";
+				bookedRoomData += "<td>" + bookedRoomList[i].name + "</td>";
+				bookedRoomData += "<td>" + bookedRoomList[i].roomBookingName + "</td>";
+				
+				if (bookedRoomList[i]['roomBookingStatus'] == '0') {
+					bookedRoomData += "<td>종료</td>";
+				} else if (bookedRoomList[i]['roomBookingStatus'] == '1'){
+					bookedRoomData += "<td>예약중</td>";
+				} else {
+					bookedRoomData += "<td>예약취소</td>";
+				}
+				bookedRoomData += "</tr>";
+			}
+			$("#bookedRoomListSection").html(bookedRoomData);
+
+			for (var i = 0; i < availableRoomList.length; i++) {
+				availableRoomData += "<table border='1' bordercolor='blue' align = 'center' >";
+				availableRoomData += "<tr bgcolor='blue' align ='center'>";
+				availableRoomData += "<p><td colspan = '3' span style='color:white'>"+availableRoomList[i].name+"</td></p>";
+				availableRoomData += "</tr><tr><td>인원</td>";
+				availableRoomData += "<td colspan='2'>기준:"+availableRoomList[i].standardNumber+"명 / 최대:"+availableRoomList[i].maximumNumber+"명 / 기준초과시 인당 "+availableRoomList[i].pricePerPerson+"원</td>";
+				availableRoomData += "</tr><tr><td>amenities</td>";
+				availableRoomData += "<td colspan='2'>"+availableRoomList[i].amenity+"</td>";
+				availableRoomData += "</tr><tr><td>features</td>";
+				availableRoomData += "<td colspan='2'>"+availableRoomList[i].feature+"</td>";
+				availableRoomData += "</tr><tr>";
+				availableRoomData += "<td rowspan='3' align = 'center' bgcolor='skyblue'>가격</td>";
+				availableRoomData += "<td>평일</td><td>"+availableRoomList[i].weekdaysPrice+"</td></tr><tr>";
+				availableRoomData += "<td>주말/공휴일</td><td>"+availableRoomList[i].weekendPrice+"</td></tr><tr>";
+				availableRoomData += "<td>성수기</td><td>"+availableRoomList[i].peakSeasonPrice+"</td></tr>";
+				availableRoomData += "</table>";
+		
+			}
+		
+			$("#availableRoomSection").html(availableRoomData);
+		
+			}
+	})
+    
+    
+    
+    
+    
+ 		
+ 	})
+    	
+
 	
 			
 </script>

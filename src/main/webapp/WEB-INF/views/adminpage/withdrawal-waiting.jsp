@@ -78,6 +78,11 @@
     </main>
 
 <script type="text/javascript">
+$(function(){
+	
+	activeMenu("매출관리", "송금 신청내역");
+	})
+
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ", ");
 }
@@ -108,7 +113,7 @@ function getWithdrawal(page) {
 			
 			for (var i = 0; i < list.length; i++) {
 				data += "<tr>";
-				data += "<td><input type='checkbox' name='withdrawal' value=" + list[i].withdrawalNo + ")></td>";
+				data += "<td><input type='checkbox' name='withdrawal' value=" + list[i].withdrawalNo + "></td>";
 				data += "<td>" + list[i].hostNo + "</td>";
 				data += "<td>" + list[i].hostName + "</td>";
 				data += "<td style='color:red' data-amount='"+ list[i].amount +"'><span>" + numberWithCommas(list[i].amount) + "</span>원</td>";

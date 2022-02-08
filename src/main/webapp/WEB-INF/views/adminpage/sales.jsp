@@ -97,6 +97,11 @@
     </main>
 
 <script type="text/javascript">
+$(function(){
+	
+activeMenu("매출관리", "매출내역");
+})
+
 
 getTransaction();
 datePickerSet($("#startDate"), $("#endDate"));

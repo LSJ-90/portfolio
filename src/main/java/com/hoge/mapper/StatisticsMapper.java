@@ -15,4 +15,9 @@ public interface StatisticsMapper {
 	
 	List<LabelDataDto> getSalesPerDayByHostNo(int no);
 	
+	
+	List<LabelDataDto> getTransactionAmountPerDay();
+	
+	List<LabelDataDto> getProfitAmountPerMonth();
+	
 }

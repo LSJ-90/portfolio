@@ -36,8 +36,8 @@
       <li class="sub-nav__item-main">
         <i class="fas fa-cog"></i><a href="/admin/main">MAIN</a>
       </li>
-      <li class="sub-nav__item active" data-tabNum="0">
-        <a href="" class="tab__btn active">회원관리</a>
+      <li class="sub-nav__item" data-tabNum="0">
+        <a href="" class="tab__btn">회원관리</a>
       </li>
       <li class="sub-nav__item" data-tabNum="1">
         <a href="" class="tab__btn">숙소관리</a>
@@ -57,7 +57,7 @@
       <li class="tab__content">
         <ul class="tab__menu">
           <li class="tab__item">
-            <a href="/admin/user-list" class="active">회원리스트</a>
+            <a href="/admin/user-list" class="">회원리스트</a>
           </li>
           <li class="tab__item"><a href="/admin/host-qna">호스트문의</a></li>
           <li class="tab__item"><a href="/admin/user-qna">회원문의</a></li>
@@ -74,16 +74,16 @@
       <li class="tab__content">
         <ul class="tab__menu">
           <li class="tab__item"><a href="/admin/activity-list">체험리스트</a></li>
-          <li class="tab__item"><a href="#none">체험승인 대기</a></li>
-          <li class="tab__item"><a href="#none">체험승인 반려/종료</a></li>
+          <li class="tab__item"><a href="/admin/activity-waiting-list">체험승인 대기</a></li>
+          <li class="tab__item"><a href="/admin/activity-ended-list">체험승인 반려/종료</a></li>
         </ul>
       </li>
       <li class="tab__content">
         <ul class="tab__menu">
           <li class="tab__item"><a href="/admin/promotion-list">프로모션리스트</a></li>
-          <li class="tab__item"><a href="#none">프로모션승인 대기</a></li>
+          <li class="tab__item"><a href="/admin/promotion-waiting-list">프로모션승인 대기</a></li>
           <li class="tab__item">
-            <a href="#none">프로모션승인 반려/종료</a>
+            <a href="/admin/promotion-ended-list">프로모션승인 반려/종료</a>
           </li>
         </ul>
       </li>
@@ -95,5 +95,23 @@
       </li>
     </ul>
   </div>
+  
+<script type="text/javascript">
+function activeMenu(tabName, contentName) {
+	$('.tab__menu a').removeClass('active');
+	$(".tab__menu a:contains("+contentName+")").addClass('active');
+	$(".sub-nav__item a:contains("+tabName+")")[0].click();
+	
+}
+function activeMenuTab(tabName) {
+	$(".sub-nav__item a:contains("+tabName+")")[0].click();
+	
+}
+function main() {
+	$(".sub-nav__item-main a").addClass('active');
+	
+}
+
+</script>
   
 </header>

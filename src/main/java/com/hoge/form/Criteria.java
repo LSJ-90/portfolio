@@ -29,6 +29,8 @@ public class Criteria {
 	private String grade2; //사용자: 성하민
 	private String accommoType2; //사용자: 성하민
 	private String hostStatus2; //사용자: 성하민
+	private int hostNo; //사용자:성하민
+	private String bookedDate; //사용자:성하민
 	
 	private String addressValue;
 	private String opt2;

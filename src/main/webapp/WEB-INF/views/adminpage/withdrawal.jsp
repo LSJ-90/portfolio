@@ -121,6 +121,10 @@
     </main>
 
 <script type="text/javascript">
+$(function(){
+	
+	activeMenu("매출관리", "송금 신청내역");
+	})
 
 
 

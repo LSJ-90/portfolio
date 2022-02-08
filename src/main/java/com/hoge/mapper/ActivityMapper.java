@@ -6,8 +6,11 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.hoge.dto.ActivityBookingDto;
+import com.hoge.dto.AdminAccommoListDto;
+import com.hoge.dto.AdminActivityListDto;
 import com.hoge.form.ActTimeForm;
 import com.hoge.form.ActivityReserveForm;
+import com.hoge.form.Criteria;
 import com.hoge.vo.activities.Activity;
 import com.hoge.vo.activities.ActivityBooking;
 import com.hoge.vo.activities.ActivityImage;
@@ -50,5 +53,15 @@ public interface ActivityMapper {
 	
 	// 유상효 체험 타임테이블 수정
 	void modifyTimeTable(ActTimeForm form);
+	
+	
+	
+	
+	
+	//성하민 관리자페이지에서 체험정보 가져오기
+	List<AdminActivityListDto> getActivityListForAdmin(Criteria criteria);
+	
+	//성하민 관리자페이지에서 체험 개수 가져오기
+	int getActivityCountForAdmin(Criteria criteria);
 
 }
