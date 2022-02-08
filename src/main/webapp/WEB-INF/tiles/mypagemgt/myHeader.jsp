@@ -13,17 +13,13 @@
 </div>
 
 <div class="host">
-	<a href="/host/applyForm" class="host__registration"> <img
-		src="../../resources/images/main/login_icon.png" alt=""
-		class="host__icon" /> 호스트 등록
-	</a>
-	<a href="/mypage/hostingList" class="host__registration"> 호스트 전환
-	</a>
-	<!--  
-  호스트 등록 후
-  <a href="/host/main" class="host__change">
-    <img src="../../resources/images/main/login_icon.png" alt="" class="host__icon" />
-    호스트 페이지
-  </a>
-  -->
+   <img src="../../resources/images/main/login_icon.png" alt="host-icon" class="host__icon" />
+   <div class="host__registration">
+     <a href="/host/applyForm">호스트 등록</a>
+   </div>
+   <div class="host__line"></div>
+   <div class="host__change">
+     <a href="/mypage/hostingList">호스트 전환</a>
+   </div>
 </div>
+
