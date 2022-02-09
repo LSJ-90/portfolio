@@ -32,6 +32,8 @@ public class Criteria {
 	private int hostNo; //사용자:성하민
 	private String bookedDate; //사용자:성하민
 	
+	private int accNo; //사용자:유상효
+	
 	private String addressValue;
 	private String opt2;
 	
