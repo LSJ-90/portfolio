@@ -798,6 +798,7 @@
                       and b.check_in_date &gt;= TO_DATE(#{checkInDate}, 'YYYY-MM-DD')
                       and b.check_out_date &lt;= TO_DATE(#{checkOutDate}, 'YYYY-MM-DD')
                       )
+     </select>
 
     
     
@@ -873,7 +874,6 @@
 			and r.accommo_no = #{no}
 			and r.room_no = bk.room_no
 	</select>
-	
 	
 	
 	
