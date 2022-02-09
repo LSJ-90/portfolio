@@ -514,80 +514,80 @@ function wsEvt() {
             $(".custom_calendar_table").on("click", "td", function () {
                 $(".custom_calendar_table .select_day").removeClass("select_day");
                 $(this).removeClass("select_day").addClass("select_day");
+                
+                
+                
+                console.log($(this).attr("id"));
+         		var bookedDate = $(this).attr("id");
+         		$("#booking-info-on-selected-date").show();
+            
+        	$.ajax({
+        		type: 'POST',
+        		url : "/host/get-room-info.do", //서비스 주소 
+        		contentType: 'application/json',
+        		data : JSON.stringify({ //서비스 처리에 필요한 인자값
+        			hostNo : hostNo,
+        			bookedDate : bookedDate
+        		}),
+        		success : function(result) {
+        			const availableRoomList = result['availableRoomList'];
+        			const bookedRoomList = result['bookedRoomList'];
+        			var availableRoomData = "";
+        			var bookedRoomData = "";
+        			
+        			
+        			// 테이블의 row를 삽입하는 부분
+        			for (var i = 0; i < bookedRoomList.length; i++) {
+        				
+        				bookedRoomData += "<tr>";
+        				bookedRoomData += "<td>" + bookedRoomList[i].name + "</td>";
+        				bookedRoomData += "<td>" + bookedRoomList[i].roomBookingName + "</td>";
+        				
+        				if (bookedRoomList[i]['roomBookingStatus'] == '0') {
+        					bookedRoomData += "<td>종료</td>";
+        				} else if (bookedRoomList[i]['roomBookingStatus'] == '1'){
+        					bookedRoomData += "<td>예약중</td>";
+        				} else {
+        					bookedRoomData += "<td>예약취소</td>";
+        				}
+        				bookedRoomData += "</tr>";
+        			}
+        			$("#bookedRoomListSection").html(bookedRoomData);
+
+        			for (var i = 0; i < availableRoomList.length; i++) {
+        				availableRoomData += "<table border='1' bordercolor='blue' align = 'center' >";
+        				availableRoomData += "<tr bgcolor='blue' align ='center'>";
+        				availableRoomData += "<p><td colspan = '3' span style='color:white'>"+availableRoomList[i].name+"</td></p>";
+        				availableRoomData += "</tr><tr><td>인원</td>";
+        				availableRoomData += "<td colspan='2'>기준:"+availableRoomList[i].standardNumber+"명 / 최대:"+availableRoomList[i].maximumNumber+"명 / 기준초과시 인당 "+availableRoomList[i].pricePerPerson+"원</td>";
+        				availableRoomData += "</tr><tr><td>amenities</td>";
+        				availableRoomData += "<td colspan='2'>"+availableRoomList[i].amenity+"</td>";
+        				availableRoomData += "</tr><tr><td>features</td>";
+        				availableRoomData += "<td colspan='2'>"+availableRoomList[i].feature+"</td>";
+        				availableRoomData += "</tr><tr>";
+        				availableRoomData += "<td rowspan='3' align = 'center' bgcolor='skyblue'>가격</td>";
+        				availableRoomData += "<td>평일</td><td>"+availableRoomList[i].weekdaysPrice+"</td></tr><tr>";
+        				availableRoomData += "<td>주말/공휴일</td><td>"+availableRoomList[i].weekendPrice+"</td></tr><tr>";
+        				availableRoomData += "<td>성수기</td><td>"+availableRoomList[i].peakSeasonPrice+"</td></tr>";
+        				availableRoomData += "</table>";
+        		
+        			}
+        		
+        			$("#availableRoomSection").html(availableRoomData);
+        		
+        			}
+        	})
+            
+            
+                
+                
+                
+                
+                
             });
         }
     }
     
-
- 	$(".custom_calendar_table td").click(function(){
- 	console.log($(this).attr("id"));
- 		var bookedDate = $(this).attr("id");
- 		$("#booking-info-on-selected-date").show();
-    
-	$.ajax({
-		type: 'POST',
-		url : "/host/get-room-info.do", //서비스 주소 
-		contentType: 'application/json',
-		data : JSON.stringify({ //서비스 처리에 필요한 인자값
-			hostNo : hostNo,
-			bookedDate : bookedDate
-		}),
-		success : function(result) {
-			const availableRoomList = result['availableRoomList'];
-			const bookedRoomList = result['bookedRoomList'];
-			var availableRoomData = "";
-			var bookedRoomData = "";
-			
-			
-			// 테이블의 row를 삽입하는 부분
-			for (var i = 0; i < bookedRoomList.length; i++) {
-				
-				bookedRoomData += "<tr>";
-				bookedRoomData += "<td>" + bookedRoomList[i].name + "</td>";
-				bookedRoomData += "<td>" + bookedRoomList[i].roomBookingName + "</td>";
-				
-				if (bookedRoomList[i]['roomBookingStatus'] == '0') {
-					bookedRoomData += "<td>종료</td>";
-				} else if (bookedRoomList[i]['roomBookingStatus'] == '1'){
-					bookedRoomData += "<td>예약중</td>";
-				} else {
-					bookedRoomData += "<td>예약취소</td>";
-				}
-				bookedRoomData += "</tr>";
-			}
-			$("#bookedRoomListSection").html(bookedRoomData);
-
-			for (var i = 0; i < availableRoomList.length; i++) {
-				availableRoomData += "<table border='1' bordercolor='blue' align = 'center' >";
-				availableRoomData += "<tr bgcolor='blue' align ='center'>";
-				availableRoomData += "<p><td colspan = '3' span style='color:white'>"+availableRoomList[i].name+"</td></p>";
-				availableRoomData += "</tr><tr><td>인원</td>";
-				availableRoomData += "<td colspan='2'>기준:"+availableRoomList[i].standardNumber+"명 / 최대:"+availableRoomList[i].maximumNumber+"명 / 기준초과시 인당 "+availableRoomList[i].pricePerPerson+"원</td>";
-				availableRoomData += "</tr><tr><td>amenities</td>";
-				availableRoomData += "<td colspan='2'>"+availableRoomList[i].amenity+"</td>";
-				availableRoomData += "</tr><tr><td>features</td>";
-				availableRoomData += "<td colspan='2'>"+availableRoomList[i].feature+"</td>";
-				availableRoomData += "</tr><tr>";
-				availableRoomData += "<td rowspan='3' align = 'center' bgcolor='skyblue'>가격</td>";
-				availableRoomData += "<td>평일</td><td>"+availableRoomList[i].weekdaysPrice+"</td></tr><tr>";
-				availableRoomData += "<td>주말/공휴일</td><td>"+availableRoomList[i].weekendPrice+"</td></tr><tr>";
-				availableRoomData += "<td>성수기</td><td>"+availableRoomList[i].peakSeasonPrice+"</td></tr>";
-				availableRoomData += "</table>";
-		
-			}
-		
-			$("#availableRoomSection").html(availableRoomData);
-		
-			}
-	})
-    
-    
-    
-    
-    
- 		
- 	})
-    	
 
 	
 			
