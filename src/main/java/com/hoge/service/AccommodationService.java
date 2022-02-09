@@ -89,6 +89,7 @@ public class AccommodationService {
 	public void addNewBooking(RoomBooking roomBooking, int userNo, String tid) {
 		int no = accommoMapper.getRoomBookingNoSeq();
 		
+		System.out.println(userNo);
 		List<Date> dateList = new ArrayList<>();
 		
 		Calendar c1 = Calendar.getInstance();

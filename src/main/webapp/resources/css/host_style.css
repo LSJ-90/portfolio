@@ -239,17 +239,17 @@ textarea {
 }
 
 .chat-list {
-  width: 335px;
+  width: 280px;
 }
 
 .chat-message {
-  width: 730px;
+  width: 700px;
   display: flex;
   flex-direction: column;
 }
 
 .chat-info {
-  width: 305px;
+  width: 390px;
 }
 
 .section-title {
@@ -261,8 +261,11 @@ textarea {
 }
 
 .section-main {
-  height: 554px;
   padding: 20px;
+}
+
+.section-main.chat {
+  height: 554px;
 }
 
 .sender-list__item {
@@ -277,15 +280,18 @@ textarea {
 
 .sender__img {
   align-self: center;
-  width: 55px;
-  height: 55px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   background-color: var(--color-faq-text-gray);
 }
 
+#senderImg {
+  align-self: flex-start;
+}
+
 .sender-info {
-  margin: 0 12px;
-  width: 164px;
+  width: 125px;
 }
 
 .userName {
@@ -313,7 +319,7 @@ textarea {
   text-align: center;
   color: var(--color-white);
   border-radius: 50%;
-  background-color: var(--color-black);
+ /* background-color: var(--color-black);*/
 }
 
 .message__list {
@@ -335,13 +341,6 @@ textarea {
   align-self: flex-end;
 }
 
-#senderImg {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  background-color: var(--color-faq-text-gray);
-}
-
 .sender {
   font-size: 14px;
   font-weight: var(--weight-regular);
@@ -350,12 +349,15 @@ textarea {
 
 .message,
 .myMessage {
-  max-width: 470px;
   min-height: 38px;
   font-size: 15px;
   font-weight: var(--weight-light);
   padding: 8px 10px;
   border-radius: 18px;
+}
+
+.myMessage {
+  max-width: 400px;
 }
 
 .message,
@@ -371,6 +373,7 @@ textarea {
 }
 
 .message-box {
+  max-width: 55%;
   margin: 0 8px;
 }
 
@@ -406,6 +409,103 @@ textarea {
 #chatting-detail {
   height: 530px;
   overflow-y: auto;
+}
+
+.book-calendar__date {
+  display: flex;
+  justify-content: space-evenly;
+  font-size: 18px;
+  padding-bottom: 5px;
+}
+
+.date-number {
+  font-weight: var(--weight-regular);
+}
+
+.book-calendar__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.book-calendar__table th,
+.book-calendar__table td {
+  font-size: 16px;
+  font-weight: var(--weight-light);
+  text-align: center;
+  vertical-align: middle;
+}
+
+.book-calendar__table th {
+  height: 32px;
+}
+
+.book-calendar__table td {
+  height: 28px;
+  cursor: pointer;
+}
+
+.book-info {
+  margin: 30px 0 25px 0;
+}
+
+.book-info__title,
+.book-room__title {
+  font-size: 15px;
+  font-weight: var(--weight-regular);
+  margin-bottom: 5px;
+}
+
+.book-info__table {
+  width: 100%;
+  border-collapse: collapse;
+  border-top: 2px solid var(--color-black);
+}
+
+.book-info__table th,
+.book-info__table td {
+  font-size: 15px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.book-info__table th {
+  font-weight: var(--weight-regular);
+  height: 30px;
+  border-bottom: 1px solid var(--color-black);
+}
+
+.book-info__table td {
+  font-weight: var(--weight-light);
+  height: 35px;
+  border-bottom: 1px solid var(--color-input-gray);
+}
+
+.book-info__table tr:last-child td,
+#td-price {
+  border-bottom: 1px solid var(--color-black);
+}
+
+.book-info__table.room td {
+  padding: 6px;
+  border-right: 1px solid var(--color-input-gray);
+}
+
+.book-info__table.room td:last-child {
+  border-right: none;
+}
+
+#td-price {
+  background-color: var(--color-input-gray);
+}
+
+.select_day {
+  background-color: var(--color-black);
+  color: var(--color-white);
+}
+
+.chat-info.a {
+  height: 1000px;
+  overflow: scroll;
 }
 
 /* Host-qna */

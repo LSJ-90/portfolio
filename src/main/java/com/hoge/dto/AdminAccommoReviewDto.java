@@ -36,17 +36,17 @@ public class AdminAccommoReviewDto {
 	private double locationStar;
 	
 	private String content;
-	@JsonFormat(pattern = "yyyy년 M월 d일")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date createdDate;
 	private String deleted;
-	@JsonFormat(pattern = "yyyy년 M월 d일")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date updatedDate;
 	
 	private String answered;
 	private String answerContent;
 	private String answerDeleted;
 	
-	@JsonFormat(pattern = "yyyy년 M월 d일")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private String answerCreatedDate;
 	
 

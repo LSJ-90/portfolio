@@ -43,4 +43,22 @@ public class ReviewService {
 		return reviewMapper.getActivityReviewsTotalRows(criteria);
 	}
 	
+	
+
+	//성하민 호스트페이지 메인에서 최근 3일 리뷰건수 가져오기
+	public int getRecentReviewCountByAccommoNo(int no) {
+		return reviewMapper.getRecentReviewCountByAccommoNo(no);
+	}
+	
+	//성하민 호스트페이지 메인에서 최근 3일 리뷰데이터 가져오기
+	public List<AdminAccommoReviewDto> getRecentReviewListByAccommoNo(Criteria criteria){
+		return reviewMapper.getRecentReviewListByAccommoNo(criteria);
+	}
+	
+	//성하민 호스트페이지 메인에서 오늘 리뷰건수 가져오기
+	public int getTodayReviewCountByAccommoNo(int no) {
+		return reviewMapper.getTodayReviewCountByAccommoNo(no);
+	}
+	
+	
 }

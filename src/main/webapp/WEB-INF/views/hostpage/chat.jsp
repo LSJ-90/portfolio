@@ -3,41 +3,6 @@
 <%@ include file="../common/tags.jsp" %>
 
 <style>
-.custom_calendar_table td {
-    text-align: center;
-}
-
-.custom_calendar_table thead.cal_date th {
-    font-size: 1.5rem;
-}
-
-.custom_calendar_table thead.cal_date th button {
-    font-size: 1.5rem;
-    background: none;
-    border: none;
-}
-
-.custom_calendar_table thead.cal_week th {
-    background-color: gray;
-    color: #fff;
-}
-
-.custom_calendar_table tbody td {
-    cursor: pointer;
-}
-
-.custom_calendar_table tbody td:nth-child(1) {
-    color: red;
-}
-
-.custom_calendar_table tbody td:nth-child(7) {
-    color: #288CFF;
-}
-
-.custom_calendar_table tbody td.select_day {
-    background-color: gray;
-    color: #fff;
-}
 
 .message__chatting { display:none;
 }
@@ -68,7 +33,7 @@
 	          <li class="sender-list__item" onclick="enter(${chatRoom.chatRoomNo })">
 	            <img
 	              src="../../resources/images/userprofiles/${chatRoom.image }"
-	              alt="sender-image"
+	              class="sender__img"
 	              id="userImg"
 	            />
 	            <div class="sender-info">
@@ -80,7 +45,7 @@
 	                <fmt:formatDate value="${chatRoom.updatedDate}" pattern="yyyy.MM.dd HH:mm"/>
 	              </p>
 	            </div>
-	            <div class="unreadcount" id="unreadcount-${chatRoom.chatRoomNo }">
+	            <div class="unreadcount" style="${chatRoom.unreadCount eq 0 ? 'background-color: white' : 'background-color: #000000'}" id="unreadcount-${chatRoom.chatRoomNo }">
 	              ${chatRoom.unreadCount }
 	            </div>
 	          </li>
@@ -131,38 +96,33 @@
     <section class="chat-info">
       <div class="section-title">예약 정보</div>
       <div class="section-main" id="booking-info">
+      <!-- 달력 -->
       	  <div id="calendarForm"></div>
+      	  
+      	  <!--  예약정보  -->
       	  <div id="booking-info-on-selected-date">
-      	  <p>예약정보</p>
-      	  <div>
-      	  <table class="">
-			<colgroup>
-            <col style="width: 35%" />
-            <col style="width: 30%" />
-            <col style="width: 35%" />
-         
-          </colgroup>
-          <thead>
-            <tr>
-              <th>객실이름</th>
-              <th>예약자 이름</th>
-              <th>예약 상태</th>
-            </tr>
-          </thead>
-
-			<tbody id ="bookedRoomListSection">
-			</tbody>
-			</table>
-      	  </div>
-      	  
-      	  
-      	  
-      	  <p>예약가능</p>
-      	  
-      	  <div id="availableRoomSection">
-      	  
-      	  
-      	  </div>
+	        <div class="book-info">
+              <table class="book-info__table">
+                <p class="book-info__title">객실 예약정보</p>
+                <thead>
+                  <tr>
+                    <th>객실</th>
+                    <th>예약자</th>
+                    <th>상태</th>
+                  </tr>
+                </thead>
+                <tbody id="bookedRoomListSection">
+                 
+                </tbody>
+              </table>
+              </div>
+	      	  
+	      	  <div class="book-room">
+                <p class="book-room__title">예약가능 객실</p>
+	      	    <div id="availableRoomSection">
+	      	  
+	      	  </div>
+            </div>  
       	  </div>
       </div>
     </section>
@@ -230,6 +190,7 @@ function wsEvt() {
 				    appendMessage(msg.senderName, msg.message, msg.sendingTime, msg.senderImg);
 				}  else {
 					var unreadCount = Number($("#unreadcount-"+msg.roomNumber).html())+1;
+					$("#unreadcount-"+msg.roomNumber).css("background-color","#000000");        
 					$("#unreadcount-"+msg.roomNumber).html(unreadCount);
 				}
 			}else if(msg.type = "check" && msg.sessionId != $("#sessionId").val()) {
@@ -327,7 +288,7 @@ function wsEvt() {
     function appendMessage(senderName, message, sendingTime, senderImg) {
     	var data ="";
     	data +=
-    	 "<li class='message__item left'><img src='../../resources/images/userprofiles/"+senderImg+"' alt='sender-image' id='senderImg'/>";
+    	 "<li class='message__item left'><img src='../../resources/images/userprofiles/"+senderImg+"' id='senderImg' class='sender__img'/>";
         data += "<div class='message-box'>";
         data += "<p class='sender'>"+senderName+"</p>";
         data += "<p class='message'>"+message+"</p>";
@@ -391,7 +352,9 @@ function wsEvt() {
 			console.log(Myelement.value);
 		 	ChangeToZeroChecked(ChatRoomNo); //메시지 읽음 확인
 			$("#unreadcount-"+ChatRoomNo).empty();
-			 
+			$("#unreadcount-"+ChatRoomNo).css("background-color","white");        
+
+
 			
 	    	console.log('여기까지 오키');
 			
@@ -475,44 +438,44 @@ function wsEvt() {
 
         function assembly(year, month) {
             var calendar_html_code =
-                "<table class='custom_calendar_table'>" +
-                "<colgroup>" +
-                "<col style='width:81px'/>" +
-                "<col style='width:81px'/>" +
-                "<col style='width:81px'/>" +
-                "<col style='width:81px'/>" +
-                "<col style='width:81px'/>" +
-                "<col style='width:81px'/>" +
-                "<col style='width:81px'/>" +
-                "</colgroup>" +
-                "<thead class='cal_date'>" +
-                "<th><button type='button' class='prev'><</button></th>" +
-                "<th colspan='5'><p><span>" + year + "</span>년 <span>" + month + "</span>월</p></th>" +
-                "<th><button type='button' class='next'>></button></th>" +
-                "</thead>" +
-                "<thead  class='cal_week'>" +
+            	"<div class='book-calendar'>" +
+            	"<div class='book-calendar__date'>" +
+                "<button type='button' class='date-prev'>" +
+                "<i class='fas fa-chevron-left'></i>" +
+                "</button>" +
+                "<p class='date-number'>"+ year +"년 "+ month +"월</p>" +
+                "<button type='button' class='date-next'>" +
+                "<i class='fas fa-chevron-right'></i>" +
+                "</button>" +
+                "</div>" +
+                "<table class='book-calendar__table'>" +
+                "<thead class='cal__week'>" +
+                "<tr>" +
                 "<th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th>" +
+                "</tr>" +
                 "</thead>" +
                 "<tbody id='custom_set_date'>" +
                 "</tbody>" +
-                "</table>";
+          		"</table>" +
+          		"</div>";
+            	
             return calendar_html_code;
         }
 
         function calMoveEvtFn() {
             //전달 클릭
-            $(".custom_calendar_table").on("click", ".prev", function () {
+            $(".book-calendar__date").on("click", ".date-prev", function () {
                 nowDate = new Date(nowDate.getFullYear(), nowDate.getMonth() - 1, nowDate.getDate());
                 calendarMaker($(target), nowDate);
             });
             //다음날 클릭
-            $(".custom_calendar_table").on("click", ".next", function () {
+            $(".book-calendar__date").on("click", ".date-next", function () {
                 nowDate = new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, nowDate.getDate());
                 calendarMaker($(target), nowDate);
             });
             //일자 선택 클릭
-            $(".custom_calendar_table").on("click", "td", function () {
-                $(".custom_calendar_table .select_day").removeClass("select_day");
+            $(".book-calendar__table").on("click", "td", function () {
+                $(".book-calendar__table .select_day").removeClass("select_day");
                 $(this).removeClass("select_day").addClass("select_day");
                 
                 
@@ -535,6 +498,13 @@ function wsEvt() {
         			var availableRoomData = "";
         			var bookedRoomData = "";
         			
+        			if (bookedRoomList.length == 0) {
+        				bookedRoomData += "<tr>";
+        				bookedRoomData += "<td colspan='3'>예약정보가 없습니다<td>";
+        				bookedRoomData += "<tr>";
+        				
+        			}else {
+        			
         			
         			// 테이블의 row를 삽입하는 부분
         			for (var i = 0; i < bookedRoomList.length; i++) {
@@ -551,27 +521,35 @@ function wsEvt() {
         					bookedRoomData += "<td>예약취소</td>";
         				}
         				bookedRoomData += "</tr>";
-        			}
+        			}}
         			$("#bookedRoomListSection").html(bookedRoomData);
+        			
+        			
+        			if (availableRoomList.length == 0) {
+        				availableRoomData += "<p>예약가능한 객실이 없습니다</p>";
+        				
+        				
+        			} else {
+        			
 
         			for (var i = 0; i < availableRoomList.length; i++) {
-        				availableRoomData += "<table border='1' bordercolor='blue' align = 'center' >";
-        				availableRoomData += "<tr bgcolor='blue' align ='center'>";
-        				availableRoomData += "<p><td colspan = '3' span style='color:white'>"+availableRoomList[i].name+"</td></p>";
-        				availableRoomData += "</tr><tr><td>인원</td>";
-        				availableRoomData += "<td colspan='2'>기준:"+availableRoomList[i].standardNumber+"명 / 최대:"+availableRoomList[i].maximumNumber+"명 / 기준초과시 인당 "+availableRoomList[i].pricePerPerson+"원</td>";
-        				availableRoomData += "</tr><tr><td>amenities</td>";
-        				availableRoomData += "<td colspan='2'>"+availableRoomList[i].amenity+"</td>";
-        				availableRoomData += "</tr><tr><td>features</td>";
-        				availableRoomData += "<td colspan='2'>"+availableRoomList[i].feature+"</td>";
-        				availableRoomData += "</tr><tr>";
-        				availableRoomData += "<td rowspan='3' align = 'center' bgcolor='skyblue'>가격</td>";
-        				availableRoomData += "<td>평일</td><td>"+availableRoomList[i].weekdaysPrice+"</td></tr><tr>";
-        				availableRoomData += "<td>주말/공휴일</td><td>"+availableRoomList[i].weekendPrice+"</td></tr><tr>";
-        				availableRoomData += "<td>성수기</td><td>"+availableRoomList[i].peakSeasonPrice+"</td></tr>";
-        				availableRoomData += "</table>";
+        				availableRoomData += "<table class='book-info__table room'>";
+        				availableRoomData += "<thead>";
+        				availableRoomData += "<tr><th colspan='3'>" +availableRoomList[i].name+ "</th></tr>";
+        				availableRoomData += "</thead>";
+        				availableRoomData += "<tbody><tr><td>인원</td>";
+        				availableRoomData += "<td colspan='2'>기준:"+availableRoomList[i].standardNumber+"명 / 최대:"+availableRoomList[i].maximumNumber+"명 / 기준초과시 인당 "+availableRoomList[i].pricePerPerson+"원</td></tr>";
+        				availableRoomData += "<tr><td>amenities</td>";
+        				availableRoomData += "<td colspan='2'>"+availableRoomList[i].amenity+"</td></tr>";
+        				availableRoomData += "<tr><td>features</td>";
+        				availableRoomData += "<td colspan='2'>"+availableRoomList[i].feature+"</td></tr>";
+        				availableRoomData += "<tr><td rowspan='3' id='td-price'>가격</td>";
+        				availableRoomData += "<td style='width: 30%'>평일</td><td>"+availableRoomList[i].weekdaysPrice+"</td></tr>";
+        				availableRoomData += "<tr><td>주말/공휴일</td><td>"+availableRoomList[i].weekendPrice+"</td></tr>";
+        				availableRoomData += "<tr><td>성수기</td><td>"+availableRoomList[i].peakSeasonPrice+"</td></tr>";
+        				availableRoomData += "</tbody></table>";
         		
-        			}
+        			}}
         		
         			$("#availableRoomSection").html(availableRoomData);
         		
