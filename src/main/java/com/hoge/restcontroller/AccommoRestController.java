@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hoge.dto.AccommoListDto;
+import com.hoge.dto.AccommoPagination;
 import com.hoge.dto.MapArea;
 import com.hoge.dto.MergeAccommoListDto;
 import com.hoge.dto.PriceDto;
@@ -39,11 +40,24 @@ public class AccommoRestController {
 	
 	// 염주환
 	@GetMapping("/mapArea")
-	public List<MergeAccommoListDto> list(MapArea mapArea) throws Exception {
-		String page = "1";
+	public AccommoPagination list(MapArea mapArea) throws Exception {
+		
+		System.out.println(mapArea.getCheckIn());
+		System.out.println(mapArea.getCheckOut());
+		System.out.println(mapArea.getNeLat());
+		System.out.println(mapArea.getNeLng());
+		System.out.println(mapArea.getNumber());
+		System.out.println(mapArea.getPage());
+		System.out.println(mapArea.getSwLat());
+		System.out.println(mapArea.getSwLng());
+		System.out.println("===========================================");
+		
+		AccommoPagination accommoPagination = new AccommoPagination();
 		
 		int totalRecords = accommodationService.getTotalRows(mapArea);
-		Pagination pagination = new Pagination(page, totalRecords, 5);
+		System.out.println("total" + totalRecords);
+		
+		Pagination pagination = new Pagination(mapArea.getPage(), totalRecords, 5);
 
 		Criteria criteria = new Criteria();
 		
@@ -67,7 +81,18 @@ public class AccommoRestController {
 			}
 		}
 		
-		return merges;
+		for (AccommoListDto dto : accommoListDtos) {
+			System.out.println(dto);
+		}
+		
+		for (MergeAccommoListDto dto : merges) {
+			System.out.println(dto);
+		}
+		
+		accommoPagination.setAccommos(merges);
+		accommoPagination.setPagination(pagination);
+		
+		return accommoPagination;
 	}
 	
 	
