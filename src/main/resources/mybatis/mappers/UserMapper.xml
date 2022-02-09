@@ -234,7 +234,40 @@
 	</select> 
 	
 	<!-- 1056 >> #{no} , parameterType="int"-->
+	<!-- 이승준
+		List<UserRevInfoDto> getMyRevListByNo(int no);
+	 -->
 	<select id="getMyRevListByNo" resultType="com.hoge.dto.UserRevInfoDto" parameterType="int">
+		select 
+			bookings.room_booking_no as roomBookingNo,
+			accommos.accommo_no as accommoNo,
+			accommos.accommo_name as accommoName,
+			rooms.room_name as roomName,
+			rooms.room_no as roomNo,
+			accommos.accommo_region_depth1 as accommoRegionDepth1,
+			accommos.accommo_region_depth2 as accommoRegionDepth2,
+			bookings.check_in_date as checkInDate,
+			bookings.check_out_date as checkOutDate,
+			bookings.room_tax_included_price as roomTaxIncludedPrice
+		from 
+			tb_final_room_bookings bookings, tb_final_rooms rooms, tb_final_accommodations accommos 
+		where 
+			rooms.accommo_no = accommos.accommo_no
+		and 
+			rooms.room_no = bookings.room_no
+		and 
+			bookings.user_no = #{value}
+		and 
+			bookings.room_booking_status = 1
+		order by 
+			bookings.check_in_date
+	</select>
+	
+	<!-- 1061 >> #{no} , parameterType="int"-->
+	<!-- 이승준
+		List<UserRevInfoDto> getMyTourListByNo(int no);
+	 -->
+	<select id="getMyTourListByNo" resultType="com.hoge.dto.UserRevInfoDto" parameterType="int">
 		select 
 			bookings.room_booking_no as roomBookingNo,
 			accommos.accommo_name as accommoName,
@@ -253,11 +286,65 @@
 		and 
 			rooms.room_no = bookings.room_no
 		and 
-			bookings.user_no = 1056
+			bookings.user_no = 1061
 		and 
-			bookings.room_booking_status = 1
+			bookings.room_booking_status = 0
 		order by 
 			bookings.check_in_date
+	</select>
+	
+	<!-- 이승준
+		List<AccommoListDto> getMyLoveListByNo(int userNo);
+	 -->
+	<select id="getMyLoveListByNo" resultType="com.hoge.vo.other.Wish" parameterType="int">
+		select 
+			accommo_no as accommoNo
+		from 
+			tb_final_wishes
+		where 
+			user_no = 1061
+		and 
+			accommo_no is not null
+	</select>
+	
+	<!-- 이승준
+		AccommoListDto getAccommodationByNo(int accommoNo);
+	 -->
+	<select id="getAccommodationByNo" resultType="com.hoge.dto.AccommoListDto" parameterType="int">
+		select
+			a.accommo_no as accommoNo, 
+			a.host_no as hostNo, 
+			a.accommo_type as type, 
+			a.accommo_name as name, 
+			a.average_cleanliness_star as cleanlinessStar,
+			a.average_communication_star as communicationStar, 
+			a.average_accuracy_star as accuracyStar, 
+			a.average_location_star as locationStar,
+			a.accommo_address as address, 
+			a.accommo_region_depth1 as regionDepth1, 
+			a.accommo_region_depth2 as regionDepth2, 
+			a.accommo_region_depth3 as regionDepth3, 
+			a.accommo_xce as xce, 
+			a.accommo_yce as yce,
+	        min(r.weekdays_price) as minWeekdaysPrice,
+			max(r.weekdays_price) as maxWeekdaysPrice,
+	        min(r.weekend_price) as minWeekendPrice,
+			max(r.weekend_price) as maxWeekendPrice,
+	        min(r.peak_season_price) as minPeakSeasonPrice,
+			max(r.peak_season_price) as maxPeakSeasonPrice,
+	        min(r.standard_number) as minNumber,
+			max(r.maximum_number) as maxNumber
+		from
+	        tb_final_accommodations a,
+	        tb_final_rooms r
+        where 
+        	a.accommo_no = r.accommo_no
+        and 
+        	a.accommo_no = #{value}
+        group by 
+            a.accommo_no, a.host_no, a.accommo_type, a.accommo_name, a.average_cleanliness_star, a.average_communication_star, 
+            a.average_accuracy_star, a.average_location_star, a.accommo_region_depth1, a.accommo_region_depth2, 
+            a.accommo_region_depth3, a.accommo_xce, a.accommo_yce,a.accommo_address
 	</select>
 	
 </mapper>

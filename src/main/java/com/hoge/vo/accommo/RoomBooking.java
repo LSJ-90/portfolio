@@ -2,6 +2,8 @@ package com.hoge.vo.accommo;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,10 +20,14 @@ public class RoomBooking {
 
 	private int no;
 	private int roomNo;
+	private String roomName;
 	private int userNo;
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date checkInDate; 
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date checkOutDate;
 	private int status;
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date bookingMadeDate; 
 	private Date canceledDate; 
 	private String cancelReason;

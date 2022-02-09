@@ -1,5 +1,6 @@
 package com.hoge.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -7,14 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.hoge.dto.AccommoListDto;
 import com.hoge.dto.KakaoUserDto;
 import com.hoge.dto.UserRevInfoDto;
 import com.hoge.exception.FindException;
 import com.hoge.exception.LoginException;
 import com.hoge.form.CriteriaAdminUser;
+import com.hoge.mapper.HostMapper;
 import com.hoge.mapper.UserMapper;
 import com.hoge.util.SessionUtils;
+import com.hoge.vo.accommo.AccommoImage;
 import com.hoge.vo.other.User;
+import com.hoge.vo.other.Wish;
 
 /**
  * User에 관한 서비스 로직
@@ -26,6 +31,9 @@ public class UserService {
 	
 	@Autowired
 	private UserMapper userMapper;
+	
+	@Autowired
+	private HostMapper hostMapper;
 	
 	// 이승준 공용
 	public List<User> getAllUsers() {
@@ -167,8 +175,35 @@ public class UserService {
 	}
 	
 	// 이승준: 나의예약정보
-	public List<UserRevInfoDto> getMyRevListByNo(int no) {
+	public List<UserRevInfoDto> getMyRevListByNo(int userNo) {
 		
-		return userMapper.getMyRevListByNo(no);
+		List<UserRevInfoDto> userRevInfoList = userMapper.getMyRevListByNo(userNo);
+		
+		for (UserRevInfoDto userRevInfo : userRevInfoList) {
+			List<AccommoImage> accommoImages = hostMapper.getAccImagesByAccNo(userRevInfo.getAccommoNo());
+			userRevInfo.setAccommoImages(accommoImages);
+		}
+		
+		return userRevInfoList;
+	}
+	
+	// 이승준: 나의투어정보
+	public List<UserRevInfoDto> getMyTourListByNo(int no) {
+		
+		return userMapper.getMyTourListByNo(no);
+	}
+	
+	// 이승준: 나의위시리스트
+	public List<AccommoListDto> getMyLoveList(int userNo) {
+		
+		List<Wish> accommoNoList = userMapper.getMyLoveListByNo(userNo);
+		
+		List<AccommoListDto> myLoveList = new ArrayList<>();
+		
+		for (Wish accommoNo : accommoNoList) {
+			myLoveList.add(userMapper.getAccommodationByNo(accommoNo.getAccommoNo()));	
+		}
+		
+		return myLoveList;
 	}
 }

@@ -8,6 +8,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,9 +35,11 @@ import com.hoge.config.auth.LoginedUser;
 import com.hoge.dto.AccMainDto;
 import com.hoge.dto.ActListDto;
 import com.hoge.dto.ActMainDto;
+import com.hoge.dto.AdminAccommoReviewDto;
 import com.hoge.dto.AdminActivityReviewDto;
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.ChattingMessageDto;
+import com.hoge.dto.HostCalendar;
 import com.hoge.dto.LabelDataDto;
 import com.hoge.dto.RoomBookingDto;
 import com.hoge.dto.RoomDto;
@@ -57,6 +60,7 @@ import com.hoge.pagination.PaginationPerPage5;
 import com.hoge.service.AccommodationService;
 import com.hoge.service.ChatRoomService;
 import com.hoge.service.QnAService;
+import com.hoge.service.ReviewService;
 import com.hoge.service.StatisticsService;
 import com.hoge.service.HostService;
 import com.hoge.service.HostTransactionService;
@@ -64,6 +68,7 @@ import com.hoge.util.SessionUtils;
 import com.hoge.vo.accommo.AccommoImage;
 import com.hoge.vo.accommo.Accommodation;
 import com.hoge.vo.accommo.Room;
+import com.hoge.vo.accommo.RoomBooking;
 import com.hoge.vo.accommo.RoomImage;
 import com.hoge.vo.activities.Activity;
 import com.hoge.vo.activities.ActivityImage;
@@ -97,6 +102,9 @@ public class HostController {
 	private AccommodationService accommodationService;
 	
 	@Autowired
+	private ReviewService reviewService;
+	
+	@Autowired
 	private StatisticsService statisticsService;
 	
 	static final Logger logger = LogManager.getLogger(HostController.class);
@@ -108,6 +116,37 @@ public class HostController {
 			List<LabelDataDto> result = statisticsService.getSalesPerDayByHostNo(no);
 			logger.info("결과값:" + result);
 			return result;
+		}
+		//성하민
+		@GetMapping("/hostCalendar.do")							// 요청핸들러 메소드에 @ResponseBody를 붙인다.
+		public @ResponseBody List<HostCalendar> gethostCalendar(@RequestParam int hostNo) {
+			List<RoomBooking> bookings = hostService.getRoomBookingByHostNo(hostNo);
+			List<HostCalendar> bookingList = new ArrayList<>();
+			Random randomGenerator = new Random();
+			if (bookings != null) {
+				for(RoomBooking booking : bookings) {
+					HostCalendar hostCalendar = new HostCalendar();
+					int red = randomGenerator.nextInt(256);
+					int green = randomGenerator.nextInt(256);
+					int blue = randomGenerator.nextInt(256);
+					// rgba(215, 215, 215, 0.3);
+					String color = "rgba("+red+", "+green+","+blue+", 0.5)";
+					
+					
+					hostCalendar.setBackgroundcolor(color);
+					hostCalendar.setTextColor("white");
+					hostCalendar.setBordercolor(color);
+					hostCalendar.setTitle(booking.getRoomName()+"-"+booking.getRoomUserName()+" ("+booking.getRoomUserTel()+") 추가인원: "+booking.getExtraPeople()+"명");
+					hostCalendar.setStart(booking.getCheckInDate());
+					hostCalendar.setEnd(booking.getCheckOutDate());
+					
+					bookingList.add(hostCalendar);
+				}
+			}
+			
+			
+			logger.info("결과값:" + bookingList);
+			return bookingList;
 		}
 	
 	
@@ -144,7 +183,68 @@ public class HostController {
 			
 			return result;
 		}
+		//성하민
+		@PostMapping(value = "/getMainAccReviewList.do", produces = "application/json")
+		public @ResponseBody HashMap<String, Object> getMainAccReviewList(@RequestParam(name = "page", required = false, defaultValue="1") String page, Criteria criteria) throws Exception {
+			
+			
+			logger.info("페이지 :" + page);
+			HashMap<String, Object> result = new HashMap<>();
+			
+			int totalRecords = reviewService.getRecentReviewCountByAccommoNo(criteria.getNo());
+			logger.info("토탈레코드 :" + totalRecords);
+			// 현재 페이지번호와 총 데이터 갯수를 전달해서 페이징 처리에 필요한 정보를 제공하는 Pagination객체 생성
+			PaginationPerPage5 pagination = new PaginationPerPage5(page, totalRecords);
+			
+			criteria.setBeginIndex(pagination.getBegin());
+			criteria.setEndIndex(pagination.getEnd());
+			
+			List<AdminAccommoReviewDto> list = reviewService.getRecentReviewListByAccommoNo(criteria);
+			
+			logger.info("디티오 :" + list);
+			logger.info("페이지네이션 :" + pagination);
+			
+			// 페이징
+			result.put("pagination", pagination);
+			
+			// 게시글 화면 출력
+			result.put("list", list);
+			
+			return result;
+		}
 	
+		//성하민
+		@PostMapping(value = "/getMainBookingList.do", produces = "application/json")
+		public @ResponseBody HashMap<String, Object> getwithdrawalList(@RequestParam(name = "page", required = false, defaultValue="1") String page, Criteria criteria) throws Exception {
+			
+			
+			logger.info("페이지 :" + page);
+			HashMap<String, Object> result = new HashMap<>();
+			
+			int totalRecords = hostService.getRecentBookingCountByAccommoNo(criteria.getNo());
+			logger.info("토탈레코드 :" + totalRecords);
+			// 현재 페이지번호와 총 데이터 갯수를 전달해서 페이징 처리에 필요한 정보를 제공하는 Pagination객체 생성
+			PaginationPerPage5 pagination = new PaginationPerPage5(page, totalRecords);
+			
+			criteria.setBeginIndex(pagination.getBegin());
+			criteria.setEndIndex(pagination.getEnd());
+			
+			
+			
+			List<RoomBooking> list = hostService.getRecentBookingListByAccommoNo(criteria);
+			
+			logger.info("디티오 :" + list);
+			logger.info("페이지네이션 :" + pagination);
+			
+			// 페이징
+			result.put("pagination", pagination);
+			
+			// 게시글 화면 출력
+			result.put("list", list);
+			
+			return result;
+		}
+		
 		@PostMapping(value = "/withdrawalList.do", produces = "application/json")
 		public @ResponseBody HashMap<String, Object> TransactionList(@RequestParam(name = "page", required = false, defaultValue="1") String page, String hostNo) throws Exception {
 			
@@ -309,7 +409,7 @@ public class HostController {
 		return "redirect:../mypage/hostingList";
 	}
 	
-	// 유상효 호스트 메인페이지
+	//성하민 호스트 메인페이지
 	@GetMapping("/main")
 	public String hostMain(@RequestParam(name = "hostNo") int hostNo, @RequestParam(name = "hostingType") int hostingType, Model model) {
 		if (hostingType == 1) {
@@ -320,6 +420,25 @@ public class HostController {
 			ActMainDto actMainDto = hostService.getActMainByHostNo(hostNo);
 			model.addAttribute("actMainDto", actMainDto);
 		return "hostpage/actMain.hosttiles";
+		}
+	}
+	
+	// 성하민 호스트 예약관리 페이지
+	@GetMapping("/booking-calendar")
+	public String hostBookingCalendar(@RequestParam(name = "hostNo") int hostNo, @RequestParam(name = "hostingType") int hostingType, Model model) {
+		if (hostingType == 1) {
+			AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
+			model.addAttribute("accMainDto", accMainDto);
+			Host savedHost = hostService.getHostByNo(hostNo);
+			model.addAttribute("savedHost", savedHost);
+			
+			return "hostpage/accBookingCalendar.hosttiles";
+		} else {
+			ActMainDto actMainDto = hostService.getActMainByHostNo(hostNo);
+			model.addAttribute("actMainDto", actMainDto);
+			Host savedHost = hostService.getHostByNo(hostNo);
+			model.addAttribute("savedHost", savedHost);
+			return "hostpage/actBookingCalendar.hosttiles";
 		}
 	}
 	
