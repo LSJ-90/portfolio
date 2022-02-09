@@ -18,6 +18,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.hoge.dto.AccMainDto;
 import com.hoge.dto.AccommoListDto;
 import com.hoge.dto.MapArea;
 import com.hoge.dto.ReserveAccommoDto;
@@ -251,6 +252,22 @@ public class AccommodationService {
     	RoomBooking roomBooking = accommoMapper.getRoomBookingByUserNO(userNo);
     	return roomBooking;
     }
+
+    // 유상효 숙소번호로 숙소정보 조회
+	public AccMainDto getAccDetailByAccNo(int accNo) {
+		return accommoMapper.getAccDetailByAccNo(accNo);
+	}
+
+	// 유상효 날짜 검색으로 룸리스트 가져오기
+	public List<RoomListDto> getRoomListByDate(Criteria criteria) {
+		List<RoomListDto> roomDtos = accommoMapper.getRoomListByDate(criteria);
+		for (RoomListDto roomDto : roomDtos) {
+			List<RoomImage> roomImages = accommoMapper.getRoomImagesByRoomNo(roomDto.getNo());
+			roomDto.setRoomImages(roomImages);
+		}
+		return roomDtos;
+	}
+	
     
     
     

@@ -92,7 +92,7 @@
                 class="registration__value"
                 id="hostAcc"
                 name="accountNumber"
-                placeholder="계좌번호를 입력해 주세요"
+                placeholder="계좌번호를 (-)빼고 입력해 주세요"
               />
               <button class="btn__check-account" type="button">
                 계좌 확인
