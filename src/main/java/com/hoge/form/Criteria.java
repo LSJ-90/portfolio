@@ -15,6 +15,7 @@ import lombok.ToString;
 @Builder
 public class Criteria {
 
+	private int no; //사용자: 성하민
 	private String opt; //사용자: 성하민
 	private String value; //사용자: 성하민
 	private String opt1; //사용자: 성하민

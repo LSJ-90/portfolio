@@ -29,6 +29,7 @@ import com.hoge.mapper.WithdrawalMapper;
 import com.hoge.util.SessionUtils;
 import com.hoge.vo.accommo.AccommoImage;
 import com.hoge.vo.accommo.Accommodation;
+import com.hoge.vo.accommo.RoomBooking;
 import com.hoge.vo.activities.Activity;
 import com.hoge.vo.activities.ActivityImage;
 import com.hoge.vo.other.Host;
@@ -53,6 +54,14 @@ public class HostService {
 	
 	@Autowired
 	private AccommodationMapper accommoMapper;
+	
+	
+	//성하민 호스트 예약관리
+	public List<RoomBooking> getRoomBookingByHostNo(int no) {
+		return accommoMapper.getRoomBookingByHostNo(no);
+	}
+	
+	
   
 	// 유상효 호스트 등록
 	public void hostApply(Host host, Accommodation acc, Activity act, List<AccommoImage> accImages, List<ActivityImage> actImages) {
@@ -224,6 +233,22 @@ public class HostService {
 		}
 		
 
+		//성하민 호스트페이지 메인에서 최근 3일 예약건수 가져오기
+		public int getRecentBookingCountByAccommoNo(int no) {
+			return accommoMapper.getRecentBookingCountByAccommoNo(no);
+		}
+		
+		//성하민 호스트페이지 메인에서 최근 3일 예약데이터 가져오기
+		public List<RoomBooking> getRecentBookingListByAccommoNo(Criteria criteria){
+			return accommoMapper.getRecentBookingListByAccommoNo(criteria);
+		}
+		
+		//성하민 호스트페이지 메인에서 오늘 예약건수 가져오기
+		public int getTodayBookingCountByAccommoNo(int no) {
+			return accommoMapper.getTodayBookingCountByAccommoNo(no);
+		}
+		
+		
 	
 
 }
