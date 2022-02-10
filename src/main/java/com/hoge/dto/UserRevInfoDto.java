@@ -19,11 +19,12 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 public class UserRevInfoDto {
+	private int roomBookingStatus;
 	private int roomBookingNo;
 	private int accommoNo;
     private String accommoName;
-    private String roomName;
     private int roomNo;
+    private String roomName;
     private String accommoRegionDepth1;
     private String accommoRegionDepth2;
     private Date checkInDate;

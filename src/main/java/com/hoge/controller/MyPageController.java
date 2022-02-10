@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,6 +51,8 @@ import com.hoge.vo.other.UserQnA;
 @Controller
 @RequestMapping("/mypage")
 public class MyPageController {
+	
+	static final Logger logger = LogManager.getLogger(AdminController.class);
 	
 	@Autowired
 	private ChatRoomService chatRoomService;
@@ -120,7 +124,7 @@ public class MyPageController {
 		
 		String saveDirectory = "C:\\final-workspace\\finalproject-chanel5\\src\\main\\webapp\\resources\\images\\userprofiles";
 		MultipartFile myProfile = form.getMyProfile();
-		// System.out.println(myProfile);
+	    System.out.println(myProfile);
 		if (!myProfile.isEmpty()) {		
 			String fileName = myProfile.getOriginalFilename();
 			savedUser.setImage(fileName);
