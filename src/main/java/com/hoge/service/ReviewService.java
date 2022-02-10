@@ -7,8 +7,11 @@ import org.springframework.stereotype.Service;
 
 import com.hoge.dto.AdminAccommoReviewDto;
 import com.hoge.dto.AdminActivityReviewDto;
+import com.hoge.dto.UserRevInfoDto;
 import com.hoge.form.Criteria;
 import com.hoge.mapper.ReviewMapper;
+import com.hoge.vo.accommo.AccommoImage;
+import com.hoge.vo.other.ReviewAccommo;
 
 /**
  * 
@@ -60,5 +63,13 @@ public class ReviewService {
 		return reviewMapper.getTodayReviewCountByAccommoNo(no);
 	}
 	
+	//이승준: 리뷰 인서트
+	public void insertAccommoReview(ReviewAccommo accommoReviewInfo) {
+		reviewMapper.insertAccommoReview(accommoReviewInfo);
+	}
 	
+	//이승준: 리뷰 업데이트
+	public void updateAccommReview(ReviewAccommo accommoReviewInfo) {
+		reviewMapper.updateAccommReview(accommoReviewInfo);
+	}
 }

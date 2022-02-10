@@ -61,4 +61,7 @@ public interface UserMapper {
 	
 	// 이승준: 해당 유저가 관심을 보이는 숙소 정보 가져오는 메소드.
 	AccommoListDto getAccommodationByNo(int accommoNo);
+	
+	// 이승준: 부킹넘버로 나의 예약정보 조회
+	UserRevInfoDto getRevInfoByBookingNo(int roomBookingNo);
 }

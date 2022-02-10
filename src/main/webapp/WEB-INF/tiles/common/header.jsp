@@ -1,13 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../../views/common/tags.jsp" %>
-<head>
-	<!-- datepicker -->
-	<link rel="stylesheet" href="../../resources/css/datepickerAdmin.min.css">
-    <script src="../../resources/js/datepicker.js"></script>
-    <script src="../../resources/js/datepicker.min.js"></script>
-    <script src="../../resources/js/datepickerutil/datepicker.ko.js"></script>
-</head>
 <header id="header">
   <div class="header-wrap">
     <div class="header__logo">
@@ -95,9 +88,9 @@
 				    <input id="address" type="text" name="addressValue" autocomplete="off" placeholder="위치 입력">
 			    </div>
 				<div class="col-3">
-					<label for="checkInBox">날짜</label>
+					<label for="">날짜</label>
 			        <input id="type" type="hidden" name="opt2" value="checkInBox">
-			        <input id="checkInBox" type="text" name="checkInBoxValue" autocomplete="off" placeholder="날짜 입력">
+			        <input id="" type="text" name="checkInBoxValue" autocomplete="off" placeholder="날짜 입력">
 				</div>
 	        </div>
 		</form>
