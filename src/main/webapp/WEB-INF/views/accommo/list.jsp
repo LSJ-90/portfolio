@@ -189,12 +189,13 @@ $(function() {
                   	row += '<div class="col-7">';
                   	row += '<div id="carouselExampleIndicators'+accommo.no+'" class="carousel slide" data-bs-interval="false">';
                   	row += '<div class="carousel-indicators">';
-                  	row += '<button type="button" data-bs-target="#carouselExampleIndicators'+accommo.no+'" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>';
-                  	row += '<button type="button" data-bs-target="#carouselExampleIndicators'+accommo.no+'" data-bs-slide-to="1" aria-label="Slide 2"></button>';
-                  	row += '<button type="button" data-bs-target="#carouselExampleIndicators'+accommo.no+'" data-bs-slide-to="2" aria-label="Slide 3"></button>';
-                  	row += '<button type="button" data-bs-target="#carouselExampleIndicators'+accommo.no+'" data-bs-slide-to="3" aria-label="Slide 4"></button>';
-                  	row += '<button type="button" data-bs-target="#carouselExampleIndicators'+accommo.no+'" data-bs-slide-to="4" aria-label="Slide 5"></button>';
-                  	row += '<button type="button" data-bs-target="#carouselExampleIndicators'+accommo.no+'" data-bs-slide-to="5" aria-label="Slide 6"></button>';
+                  	$.each (activity.activityImages, function (index, image) {
+                  		if (index == 0) {
+    	                  	row += '<button type="button" data-bs-target="#carouselExampleIndicators'+accommo.no+'" data-bs-slide-to="'+index+'" class="active" aria-current="true" aria-label="Slide '+index+'"></button>';
+                  		} else {
+    	                  	row += '<button type="button" data-bs-target="#carouselExampleIndicators'+accommo.no+'" data-bs-slide-to="'+index+'" aria-label="Slide '+index+'"></button>';
+                  		}
+                  	});
                   	row += '</div>';
                   	row += '<div class="carousel-inner">';
                   	$.each (accommo.accommoImages, function (index, image) {

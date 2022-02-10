@@ -26,6 +26,7 @@
 			activity_no = #{value}
 	</select>
 	
+	<!-- 염주환 -->
 	<select id="getActivityTimeTableByActivityNo" parameterType="int" resultType="com.hoge.vo.activities.ActivityTimeTable">
 		select 
 			activity_time_no as no,
@@ -38,11 +39,13 @@
 		and activity_closed='N'
 	</select>
 	
+	<!-- 염주환 -->
 	<select id="getActivityBookingNoSeq" resultType="int">
 		select final_activity_booking_no_seq.nextval
 		from dual
 	</select>
 	
+	<!-- 염주환 -->
 	<insert id="insertActivityBooking">
 		insert into 
 			tb_final_activity_bookings
@@ -54,6 +57,7 @@
 			#{activityReserveForm.tid})
 	</insert>
 	
+	<!-- 염주환 -->
 	<insert id="updateActivityTimes" parameterType="com.hoge.form.ActivityReserveForm">
 		update 
 			tb_final_activity_times 
@@ -63,6 +67,7 @@
 			activity_time_no = ${activityReserveForm.activityTimeNo}
 	</insert>
 
+	<!-- 염주환 -->
 	<insert id="updateActivityTimesClosed" parameterType="com.hoge.form.ActivityReserveForm">
 		update
 			tb_final_activity_times 
@@ -73,6 +78,7 @@
 			and activity_booked_number = (select maximum_number from tb_final_activities where activity_no = ${activityReserveForm.activityNo})
 	</insert>
 	
+	<!-- 염주환 -->
 	<insert id="insertTransaction">
 		<selectKey keyProperty="transactionNo" resultType="int" order="BEFORE">
 			select final_transaction_no_seq.nextval
@@ -84,6 +90,7 @@
 			(#{transactionNo}, 1, #{transaction.amount}, #{transaction.activityBookingNo}, #{transaction.accumulatedMoney})
 	</insert>
 	
+	<!-- 염주환 -->
 	<select id="getActivityBooking" parameterType="int" resultType="com.hoge.dto.ActivityBookingDto">
 		select
 			(select activity_time from tb_final_activity_times where activity_time_no = a.activity_time_no) activityTime,
@@ -109,6 +116,7 @@
 		where rownum=1
 	</select>
 	
+	<!-- 염주환 -->
 	<select id="getActivityImageList" parameterType="int" resultType="com.hoge.vo.activities.ActivityImage">
 		select
 		    activity_no as activityNo,
@@ -299,6 +307,60 @@
 		where rn between #{beginIndex} and #{endIndex}
 	</select> 
 
+	<!-- 염주환 -->
+	<select id="getActivityListDto" resultType="com.hoge.dto.ActivityListDto">
+		select *
+		from (
+		    select 
+		        row_number() over (order by a.activity_no) rn,
+		        a.activity_no as no,
+		        a.maximum_number - t.booked_number as availableNumber,
+		        a.price_per_person as pricePerPerson,
+		        a.activity_name as name,
+		        a.average_star as star,
+		        a.activity_region_depth1 as regionDepth1,
+		        a.activity_region_depth2 as regionDepth2,
+		        a.activity_intro_title as introTitle,
+		        a.activity_xce as xce,
+		        a.activity_yce as yce
+		    from 
+		        tb_final_activities a,
+		        (select activity_no, min(activity_booked_number) booked_number
+		        from tb_final_activity_times
+		        where activity_closed = 'N'
+		        and activity_time > sysdate
+		        <if test="mapArea.checkIn != ''"> 
+		        and TO_CHAR(activity_time, 'YYYYMMDD') = #{mapArea.checkIn}
+		        </if>
+		        group by activity_no) t
+		    where 
+		        a.activity_no = t.activity_no
+		        and a.activity_xce between #{mapArea.swLat} and #{mapArea.neLat}
+		        and a.activity_yce between #{mapArea.swLng} and #{mapArea.neLng}
+		    )
+		where rn between #{criteria.beginIndex} and #{criteria.endIndex}
+	</select>
 
-
+	<select id="getActivitiesTotalRows" parameterType="com.hoge.dto.MapArea" resultType="int">
+		select 
+			count(*)
+		from (
+		    select 
+		        a.activity_no as no
+		    from 
+		        tb_final_activities a,
+		        (select activity_no
+		        from tb_final_activity_times
+		        where activity_closed = 'N'
+		        and activity_time > sysdate
+		        <if test="checkIn != ''"> 
+		        and TO_CHAR(activity_time, 'YYYYMMDD') = #{checkIn}
+		        </if>
+		        group by activity_no) t
+		    where 
+		        a.activity_no = t.activity_no
+		        and a.activity_xce between #{swLat} and #{neLat}
+                and a.activity_yce between #{swLng} and #{neLng}
+		    )
+	</select>
 </mapper>
