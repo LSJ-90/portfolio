@@ -4,13 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import com.hoge.controller.AdminController;
 import com.hoge.dto.AccommoListDto;
 import com.hoge.dto.KakaoUserDto;
 import com.hoge.dto.UserRevInfoDto;
@@ -31,8 +28,6 @@ import com.hoge.vo.other.Wish;
  */
 @Service
 public class UserService {
-	
-	static final Logger logger = LogManager.getLogger(AdminController.class);
 	
 	@Autowired
 	private UserMapper userMapper;
@@ -193,16 +188,9 @@ public class UserService {
 	}
 	
 	// 이승준: 나의투어정보
-	public List<UserRevInfoDto> getMyTourListByNo(int userNo) {
+	public List<UserRevInfoDto> getMyTourListByNo(int no) {
 		
-		List<UserRevInfoDto> userTourInfoList = userMapper.getMyTourListByNo(userNo);
-		
-		for (UserRevInfoDto userTourInfo : userTourInfoList) {
-			List<AccommoImage> accommoImages = hostMapper.getAccImagesByAccNo(userTourInfo.getAccommoNo());
-			userTourInfo.setAccommoImages(accommoImages);
-		}
-		
-		return userTourInfoList;
+		return userMapper.getMyTourListByNo(no);
 	}
 	
 	// 이승준: 나의위시리스트

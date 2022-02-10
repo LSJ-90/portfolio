@@ -44,32 +44,35 @@
 				</div>
 			</div>
 			<div class="col-4 me-0 border-top border-bottom border-end bg-light">
-				<div id="carouselExampleIndicators${myTourInfo.accommoNo }" class="carousel slide" data-bs-ride="carousel">
+				<div id="carouselExampleIndicators${myTourInfo.roomBookingNo }" class="carousel slide"
+					data-bs-ride="carousel">
 					<div class="carousel-indicators">
-						<c:forEach var="accommoImage" items="${myTourInfo.accommoImages }" varStatus="status">
-							<button type="button" 
-									data-bs-target="#carouselExampleIndicators${myTourInfo.accommoNo }"
-									data-bs-slide-to="${status.index }" 
-									class="<c:if test="${status.index eq 0 }">active</c:if>" 
-									aria-current="true"
-									aria-label="Slide ${status.count }">
-							</button>
-						</c:forEach>
+						<button type="button" data-bs-target="#carouselExampleIndicators${myTourInfo.roomBookingNo }"
+							data-bs-slide-to="0" class="active" aria-current="true"
+							aria-label="Slide 1"></button>
+						<button type="button" data-bs-target="#ccarouselExampleIndicators${myTourInfo.roomBookingNo }"
+							data-bs-slide-to="1" aria-label="Slide 2"></button>
+						<button type="button" data-bs-target="#carouselExampleIndicators${myTourInfo.roomBookingNo }"
+							data-bs-slide-to="2" aria-label="Slide 3"></button>
 					</div>
 					<div class="carousel-inner">
-						<c:forEach var="accommoImage" items="${myTourInfo.accommoImages }" varStatus="status">
-							<div class="carousel-item<c:if test="${status.index eq 0 }"> active</c:if>">
-								<img src="../../resources/images/accommoList/${accommoImage.image}" class="d-block w-100" alt="...">
-							</div>
-						</c:forEach>
+						<div class="carousel-item active">
+							<img src="../../resources/images/accommoList/200/accommo_200_1.jpg" class="d-block w-100" alt="...">
+						</div>
+						<div class="carousel-item">
+							<img src="../../resources/images/accommoList/200/accommo_200_2.jpg" class="d-block w-100" alt="...">
+						</div>
+						<div class="carousel-item">
+							<img src="../../resources/images/accommoList/200/accommo_200_3.jpg" class="d-block w-100" alt="...">
+						</div>
 					</div>
 					<button class="carousel-control-prev" type="button"
-						data-bs-target="#carouselExampleIndicators${myTourInfo.accommoNo }" data-bs-slide="prev">
+						data-bs-target="#carouselExampleIndicators${myTourInfo.roomBookingNo }" data-bs-slide="prev">
 						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 						<span class="visually-hidden">Previous</span>
 					</button>
 					<button class="carousel-control-next" type="button"
-						data-bs-target="#carouselExampleIndicators${myTourInfo.accommoNo }" data-bs-slide="next">
+						data-bs-target="#carouselExampleIndicators${myTourInfo.roomBookingNo }" data-bs-slide="next">
 						<span class="carousel-control-next-icon" aria-hidden="true"></span>
 						<span class="visually-hidden">Next</span>
 					</button>

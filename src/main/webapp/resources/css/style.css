@@ -111,7 +111,7 @@ textarea {
   background-color: var(--color-white);
   position: sticky;
   top: 0;
-  z-index: 20;
+  z-index:20
 }
 
 .header-wrap {
@@ -195,120 +195,12 @@ textarea {
 
 /* Main-index */
 
-#stay,
-.discount-wrap,
-#event,
-#activity {
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-#stay-total,
-#event,
-#activity-total,
-#activity-new {
-  margin-top: 110px;
-}
-
-.stay-new__item a {
-  display: block;
-  position: relative;
-}
-
-.stay-new__image {
-  width: 100%;
-  height: 850px;
-  background-color: gray;
-}
-
-.stay-new__info {
+#stay {
   text-align: center;
-  width: 320px;
-  height: 300px;
-  position: absolute;
-  right: 70px;
-  top: 50%;
-  padding: 30px 0;
-  margin-top: -150px;
-  background-color: var(--color-white);
 }
 
-.stay-total__item-wrap {
-  display: flex;
-  justify-content: space-between;
-}
-
-.stay-total__image {
-  width: 410px;
-  height: 250px;
-  background-color: gray;
-}
-
-.promotion-banner {
-  margin-top: 150px;
-}
-
-.promotion__image {
-  color: white;
-  background-color: black;
-  height: 350px;
-}
-
-#discount {
-  padding: 110px 0;
-  background-color: var(--color-background-gray);
-}
-
-.discount__item a {
-  display: flex;
-}
-
-.discount__image {
-  width: 960px;
-  height: 540px;
-  background-color: gray;
-}
-
-.event__item-wrap {
-  display: flex;
-  justify-content: space-between;
-}
-
-.event__image {
-  width: 410px;
-  height: 250px;
-  background-color: gray;
-}
-
-.activity-new__item a {
-  display: block;
-  position: relative;
-}
-
-.activity-new__image {
-  width: 100%;
-  height: 650px;
-  background-color: gray;
-}
-
-.activity-new__info {
-  width: 400px;
-  height: 160px;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  background-color: var(--color-white);
-}
-
-.activity-total__item-wrap {
-  display: flex;
-  justify-content: space-between;
-}
-
-.activity-total__image {
-  width: 400px;
-  height: 400px;
-  background-color: gray;
+.stay-new__list img {
+  max-width: 1400px;
 }
 
 /* Main-login, Join */

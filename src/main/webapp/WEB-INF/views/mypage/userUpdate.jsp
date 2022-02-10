@@ -49,7 +49,6 @@
              />
            </div>
            
-           
          <!-- 모달창 -->
 		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
@@ -70,7 +69,7 @@
                   >
                     저장취소
                   </button>
-                  <button id="userUpdateSubmit" type="button" class="btn__save">저장하기</button>
+                  <button type="submit" class="btn__save">저장하기</button>
                 </footer>
               </article>
 		  </div>
@@ -220,12 +219,6 @@
              class="img-profile"
              style="background-image: url(../../resources/images/userprofiles/<c:out value='${LOGIN_USER.image}'/>)"
            ></div>
-           <form
-           id=""
-           method="post"
-           enctype="multipart/form-data"
-           action="/mypage/userupdate"
-         >
            <input
              type="file"
              class="update-imgfile"
@@ -233,7 +226,6 @@
              name="myProfile"
              accept=".png, .jpg, .jpeg"
            />
-            </form>
            <label for="update-imgfile" class="btn__profile-img">
              <i class="fas fa-camera"></i>
            </label>
