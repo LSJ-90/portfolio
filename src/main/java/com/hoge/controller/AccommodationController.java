@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.hoge.dto.AccMainDto;
 import com.hoge.dto.RoomListDto;
 import com.hoge.form.Criteria;
-import com.hoge.pagination.Pagination;
 import com.hoge.service.AccommodationService;
 import com.hoge.service.HostService;
 import com.hoge.vo.accommo.AccommoImage;

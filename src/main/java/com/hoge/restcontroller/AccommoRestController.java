@@ -42,20 +42,9 @@ public class AccommoRestController {
 	@GetMapping("/mapArea")
 	public AccommoPagination list(MapArea mapArea) throws Exception {
 		
-		System.out.println(mapArea.getCheckIn());
-		System.out.println(mapArea.getCheckOut());
-		System.out.println(mapArea.getNeLat());
-		System.out.println(mapArea.getNeLng());
-		System.out.println(mapArea.getNumber());
-		System.out.println(mapArea.getPage());
-		System.out.println(mapArea.getSwLat());
-		System.out.println(mapArea.getSwLng());
-		System.out.println("===========================================");
-		
 		AccommoPagination accommoPagination = new AccommoPagination();
 		
 		int totalRecords = accommodationService.getTotalRows(mapArea);
-		System.out.println("total" + totalRecords);
 		
 		Pagination pagination = new Pagination(mapArea.getPage(), totalRecords, 5);
 
@@ -81,13 +70,6 @@ public class AccommoRestController {
 			}
 		}
 		
-		for (AccommoListDto dto : accommoListDtos) {
-			System.out.println(dto);
-		}
-		
-		for (MergeAccommoListDto dto : merges) {
-			System.out.println(dto);
-		}
 		
 		accommoPagination.setAccommos(merges);
 		accommoPagination.setPagination(pagination);

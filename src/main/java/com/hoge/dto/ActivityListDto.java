@@ -1,6 +1,9 @@
-package com.hoge.vo.activities;
+package com.hoge.dto;
 
-import java.util.Date;
+import java.util.List;
+
+import com.hoge.vo.activities.ActivityImage;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,22 +17,17 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Activity {
+public class ActivityListDto {
 
 	private int no;
-	private int hostNo;
-	private String name;
-	private String introTitle;
-	private String introContent;
-	private int maximumNumber;
+	private int availableNumber;
 	private long pricePerPerson;
+	private String name;
 	private double star;
-	private String address;
 	private String regionDepth1;
 	private String regionDepth2;
-	private String regionDepth3;
+	private String introTitle;
 	private double xce;
 	private double yce;
-	private Date registeredDate;
-
+	private List<ActivityImage> activityImages; 
 }

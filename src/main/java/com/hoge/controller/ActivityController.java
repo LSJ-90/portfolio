@@ -112,7 +112,15 @@ public class ActivityController {
 	}
 	
 	
-	
+	// 염주환 list
+	@GetMapping("/list")
+	public String list(@RequestParam(name = "page", required = false, defaultValue = "1") String page,
+			Criteria criteria, Model model) throws Exception {
+		
+		model.addAttribute("criteria", criteria);
+		
+		return "activities/list.tiles";
+	}
 	
 	
 	

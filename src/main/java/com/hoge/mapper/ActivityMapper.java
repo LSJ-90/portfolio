@@ -6,8 +6,10 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.hoge.dto.ActivityBookingDto;
+import com.hoge.dto.ActivityListDto;
 import com.hoge.dto.AdminAccommoListDto;
 import com.hoge.dto.AdminActivityListDto;
+import com.hoge.dto.MapArea;
 import com.hoge.form.ActTimeForm;
 import com.hoge.form.ActivityReserveForm;
 import com.hoge.form.Criteria;
@@ -33,6 +35,10 @@ public interface ActivityMapper {
 	void updateActivityTimesClosed(@Param("activityReserveForm") ActivityReserveForm activityReserveForm);
 	// 염주환 transaction insert
 	void insertTransaction(@Param("transaction") Transaction transaction);
+	
+	// 염주환 list
+	List<ActivityListDto> getActivityListDto(@Param("mapArea") MapArea mapArea, @Param("criteria") Criteria criteria);
+	int getActivitiesTotalRows(MapArea mapArea);
 	
 	// 염주환 예약 완료 페이지
 	// 염주환 예약 정보
