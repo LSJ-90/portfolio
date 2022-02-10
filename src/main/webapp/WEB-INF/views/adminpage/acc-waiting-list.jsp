@@ -6,7 +6,7 @@
 <main id="main">
   <article id="admin-user">
   <form
-      class="search-user__form"
+      class="search-user__form only-child"
       id="form-search-userQnA"
       method="get"
       action="user-qna"
@@ -14,51 +14,51 @@
       <input type="hidden" name="page" value="1" />
       <ul class="search-bar">
       	<li>
-      		<select
-          class="search__select accommoType"
-          name="accommoType"
-          onchange="searchAccommos()"
-        >
+          <select
+            class="search__select accommoType host"
+            name="accommoType"
+            onchange="searchAccommos()"
+	      >
           	<option value="" selected disabled="disabled">숙소타입</option>
-			   	<option value="호텔">호텔</option>
-                <option value="게스트하우스">게스트하우스</option>
-                <option value="렌탈하우스">렌탈하우스</option>
-                <option value="펜션">펜션</option>
-                <option value="한옥">한옥</option>
-                <option value="캠핑&아웃도어">캠핑&아웃도어</option>
-                <option value="호스텔">호스텔</option>
-                <option value="리조트">리조트</option>
-                <option value="민박">민박</option>
+		   	<option value="호텔">호텔</option>
+            <option value="게스트하우스">게스트하우스</option>
+            <option value="렌탈하우스">렌탈하우스</option>
+            <option value="펜션">펜션</option>
+            <option value="한옥">한옥</option>
+            <option value="캠핑&아웃도어">캠핑&아웃도어</option>
+            <option value="호스텔">호스텔</option>
+            <option value="리조트">리조트</option>
+            <option value="민박">민박</option>
         </select>
       	</li>
       	<li>
       		<select
-          class="search__select grade"
-          name="grade"
-          onchange="searchAccommos()"
-        >
-          	<option value="" selected disabled="disabled">등급</option>
+	         class="search__select grade"
+	         name="grade"
+	         onchange="searchAccommos()"
+	       >
+	         	<option value="" selected disabled="disabled">등급</option>
 			<option value="BRONZE" ${'BRONZE' eq param.grade ? 'selected' : ''}>브론즈</option>
 			<option value="SILVER" ${'SILVER' eq param.grade ? 'selected' : ''}>실버</option>
 			<option value="GOLD" ${'GOLD' eq param.grade ? 'selected' : ''}>골드</option>
 			<option value="PLATINUM" ${'PLATINUM' eq param.grade ? 'selected' : ''}>플래티넘</option>
 			<option value="DIAMOND" ${'DIAMOND' eq param.grade ? 'selected' : ''}>다이아몬드</option>
-        </select>
-      	</li>
-      	<li>
-      		<select class="search__select" name="opt">
-          	<option value="" selected disabled="disabled">검색조건</option>
-          	<option value="주소">주소</option>
+	       </select>
+     	</li>
+     	<li>
+	     		<select class="search__select" name="opt">
+	         	<option value="" selected disabled="disabled">검색조건</option>
+	         	<option value="주소">주소</option>
 			<option value="호스트번호">호스트번호</option>
 			<option value="회원번호">회원번호</option>
 			<option value="숙소이름">숙소이름</option>
-        </select>
-      	</li>
-      	<li>
+	       </select>
+     	</li>
+     	<li>
       		<input type="text" class="search-user" name="value" value="" />
-        <button type="button" class="btn__search" id="btn-search-userQnA" onclick="searchAccommos()">
-          검색
-        </button>
+	        <button type="button" class="btn__search" id="btn-search-userQnA" onclick="searchAccommos()">
+	          검색
+	        </button>
       	</li>
       </ul>
     </form>
@@ -67,15 +67,16 @@
 	<table class="user-list-table">
 		<colgroup>
 	        <col style="width: 6%" />
-	        <col style="width: 7%" />
+	        <col style="width: 12%" />
 	        <col style="width: 9%" />
 	        <col style="width: 7%" />
+	        <col style="width: 11%" />
 	        <col style="width: 10%" />
-	        <col style="width: 10%" />
-	        <col style="width: 10%" />
-	        <col style="width: 10%" />
-	        <col style="width: 10%" />
-	        <col style="width: 8%" />
+	        <col style="width: 12%" />
+	        <col style="width: 6%" />
+	        <col style="width: 6%" />
+	        <col style="width: 6%" />
+	        <col style="width: 6%" />
 	        <col style="width: 8%" />
       </colgroup>
       <thead>
@@ -100,16 +101,13 @@
 		</table>
 
 		<!-- 페이지 내비게이션 표시 -->
-		<!-- 페이지 내비게이션 표시 -->
-		<div class="row mb-3">
-			<div class="col">
-				<div class="pagination">
-					<ul id="paginationBox" class="pagination">
+		
+				<div id="pagination">
+					<ul id="paginationBox" class="pagination__list">
 		
 					</ul>
 				</div>
-			</div>
-		</div>
+		
 
  </article>
  </main>
@@ -151,7 +149,7 @@ function searchAccommos(page) {
 					for (var i = 0; i < list.length; i++) {
 						data += "<tr>";
 						data += "<td>" + list[i].no + "</td>";
-						data += "<td><a href='/admin/accommo-detail?hostNo=" + list[i].hostNo + "'>"+list[i].hostName+"</a></td>";
+						data += "<td><a href='/admin/accommo-detail?hostNo=" + list[i].hostNo + "' class='withdrawal-color'>"+list[i].hostName+"</a></td>";
 						data += "<td>" + list[i].gradeName + "</td>";
 						data += "<td>" + list[i].userNo + "</td>";
 						data += "<td>" + list[i].hostTel + "</td>";
@@ -170,9 +168,9 @@ function searchAccommos(page) {
 					if (pagination['prevPage']) {
 						block += "<li class='page-item'><a class='page-link' onclick='searchAccommos("
 								+ (pagination['beginPage'] - 1)
-								+ ")'> < </a></li>";
+								+ ")'> <i class='fas fa-chevron-left'></i> </a></li>";
 					} else {
-						block += "<li class='page-item disabled'><a class='page-link'> < </a></li>";
+						block += "<li class='page-item disabled'><a class='page-link'> <i class='fas fa-chevron-left'></i> </a></li>";
 					}
 
 					// 번호를 표시하는 부분
@@ -189,9 +187,9 @@ function searchAccommos(page) {
 					if (pagination['nextPage']) {
 						block += "<li class='page-item'><a class='page-link' onclick='searchAccommos("
 								+ (pagination['endPage'] + 1)
-								+ ")'>  > </a></li>";
+								+ ")'> <i class='fas fa-chevron-right'></i> </a></li>";
 					} else {
-						block += "<li class='page-item disabled'><a class='page-link'> > </a></li>";
+						block += "<li class='page-item disabled'><a class='page-link'> <i class='fas fa-chevron-right'></i> </a></li>";
 					}
 					
 					$("#paginationBox").html(block);

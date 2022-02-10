@@ -49,18 +49,4 @@ function checkSelectAll() {
   });
 }
 
-// ---------------- Tab-active ----------------
-//수정요망
-
-{
-  const tabItem = document.querySelector(".sub-nav__content");
-  tabItem.addEventListener("click", (e) => {
-    const active = document.querySelector(".tab__item a.active");
-    if (active != null) {
-      active.classList.remove("active");
-    }
-    e.target.classList.add("active");
-  });
-}
-
 
