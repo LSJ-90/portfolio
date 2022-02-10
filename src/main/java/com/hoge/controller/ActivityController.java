@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.hoge.dto.AccMainDto;
 import com.hoge.dto.ActMainDto;
 import com.hoge.form.ActTimeForm;
+import com.hoge.form.Criteria;
 import com.hoge.service.ActivityService;
 import com.hoge.service.HostService;
 import com.hoge.vo.activities.ActivityTimeTable;
@@ -109,15 +110,6 @@ public class ActivityController {
 		
 		return "redirect:/activity/mainTime?hostNo="+form.getHostNo()+"&hostingType="+form.getHostingType();
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

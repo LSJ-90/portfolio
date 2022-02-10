@@ -31,7 +31,7 @@
 			</div>
 		</div>
 		<div class="col-6">
-			<img alt="roomImage" src="/resources/images/accommoList/${room.accommoNo }/${images[0].image}">
+			<img alt="roomImage" src="/resources/images/accommoList/${images[0].image}">
 		</div>
 	</div>
 	<div class="row">

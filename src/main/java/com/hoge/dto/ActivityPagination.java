@@ -1,5 +1,10 @@
 package com.hoge.dto;
 
+import java.util.List;
+
+import com.hoge.pagination.Pagination;
+import com.hoge.vo.activities.Activity;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,15 +18,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MapArea {
+public class ActivityPagination {
 	
-	private String number;
-	private String checkIn;
-	private String checkOut;
-	private String page;
-	private double swLat;
-	private double swLng;
-	private double neLat;
-	private double neLng;
-
+	private Pagination pagination;
+	private List<Activity> activityList;
 }
