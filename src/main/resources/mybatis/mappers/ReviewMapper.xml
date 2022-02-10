@@ -292,5 +292,117 @@
 		where rn between #{beginIndex} and #{endIndex}
 	</select> 
 	 
-
+	 <!-- 이승준: 나의 해당숙소리뷰 인서트
+ 		 void insertAccommoReview(ReviewAccommo accommoReviewInfo); 
+	 -->
+	<insert id="insertAccommoReview" parameterType="com.hoge.vo.other.ReviewAccommo">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+				select final_accommo_review_no_seq.nextval
+				from dual
+		</selectKey>
+		insert into tb_final_accommo_reviews (
+			accommo_review_no,
+            user_no, 
+            accommo_no, 
+            review_cleanliness_star, 
+            review_communication_star, 
+			review_accuracy_star, 
+            review_location_star, 
+            review_content,
+            check_in_date,
+            check_out_date,
+            room_no)
+		values (
+			#{no},
+			#{userNo},
+			#{accommoNo},
+			#{cleanlinessStar},
+			#{communicationStar},
+			#{accuracyStar},
+			#{locationStar},
+			#{content},
+            #{checkInDate},
+            #{checkOutDate},
+            #{roomNo})
+	</insert>
+	
+	<!--이승준: 나의 해당숙소리뷰 체크
+  		int reviewCheck(UserRevInfoDto userRevInfoDto);
+		
+	 -->
+	<select id="reviewCheck" parameterType="com.hoge.dto.UserRevInfoDto" resultType="int">
+		select 
+			count(*) as reviewStatus
+		from 
+			tb_final_accommo_reviews
+		where
+		    review_deleted = 'N'
+		and
+		    user_no = #{userNo}
+		and 
+		    accommo_no = #{accommoNo}
+		and 
+		    room_no = #{roomNo}
+		and 
+		    check_in_date = #{checkInDate}
+		and 
+		    check_out_date = #{checkOutDate}
+	</select>
+	
+	<!--이승준: 나의 해당숙소리뷰 조회
+  		int reviewCheck(UserRevInfoDto userRevInfoDto);
+		
+	 -->
+	<select id="selectAccommoReview" parameterType="com.hoge.dto.UserRevInfoDto" resultType="com.hoge.vo.other.ReviewAccommo">
+		select
+			accommo_review_no as no,
+            user_no as userNo, 
+            accommo_no as accommoNo, 
+            review_cleanliness_star as cleanlinessStar, 
+            review_communication_star as communicationStar, 
+			review_accuracy_star as accuracyStar, 
+            review_location_star as locationStar,
+            review_created_date as createdDate,
+            review_deleted as deleted,
+            review_updated_date as updatedDate,
+            review_answered as answered,
+            answer_content as answerContent,
+            answer_created_date as answerCreatedDate,
+            answer_deleted as answerDeleted,
+            review_content as content,
+            check_in_date as checkInDate,
+            check_out_date as checkOutDate,
+            room_no as roomNo
+		from 
+			tb_final_accommo_reviews
+		where
+			review_deleted = 'N'
+        and
+			user_no = #{userNo}
+		and 
+			accommo_no = #{accommoNo}
+        and 
+			room_no = #{roomNo}
+        and 
+            check_in_date = #{checkInDate}
+        and 
+            check_out_date = #{checkOutDate}
+	</select>
+	
+	<update id="updateAccommReview" parameterType="com.hoge.vo.other.ReviewAccommo">
+		update tb_final_accommo_reviews
+		<set>
+	    	review_cleanliness_star = #{cleanlinessStar},
+	    	review_communication_star = #{communicationStar}, 
+			review_accuracy_star = #{accuracyStar}, 
+	        review_location_star = #{locationStar},
+	    <if test="deleted != null">
+	        review_deleted = #{deleted},
+	    </if>
+	        review_updated_date = SYSDATE,
+	        review_content = #{content}
+	 	</set>
+		where
+			accommo_review_no = #{no}
+	</update>  
 </mapper>

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.hoge.vo.accommo.AccommoImage;
+import com.hoge.vo.other.ReviewAccommo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,4 +32,7 @@ public class UserRevInfoDto {
     private Date checkOutDate;
     private String roomTaxIncludedPrice;
     private List<AccommoImage> accommoImages;
+    private int reviewStatus;
+    private int userNo;
+    private ReviewAccommo myReview;
 }

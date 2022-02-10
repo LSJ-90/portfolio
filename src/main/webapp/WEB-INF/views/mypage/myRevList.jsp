@@ -4,6 +4,7 @@
 <head>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js"></script>
+	<link rel="stylesheet" href="../../resources/css/admin_style.css" />
 </head>
 <div class="mypage__content">
 	<ul class="content__menu">
@@ -43,12 +44,159 @@
 							<c:if test="${myRevInfo.roomBookingStatus eq 2 }">
 								<button id="" type="button" class="btn btn-dark me-2">취소완료</button>
 							</c:if>
-							<c:if test="${myRevInfo.roomBookingStatus eq 0 }">
-								<button id="" type="button" class="btn btn-dark me-2" data-bs-toggle="modal" data-bs-target="#modal-review">리뷰작성</button>
+							<c:if test="${myRevInfo.roomBookingStatus eq 0 and myRevInfo.reviewStatus eq 0}">
+								<button id="insertReviewBtn" type="button" class="btn btn-dark me-2" data-bs-toggle="modal" data-bs-target="#modal-review-insert${myRevInfo.roomBookingNo }">리뷰작성</button>
 							</c:if>
+							<c:if test="${myRevInfo.roomBookingStatus eq 0 and myRevInfo.reviewStatus eq 1}">
+								<button id="" type="button" class="btn btn-dark me-2" data-bs-toggle="modal" data-bs-target="#modal-review-select${myRevInfo.roomBookingNo }">리뷰조회</button>
+							</c:if>
+							<!-- 리뷰작성모달 Start -->
+							<form id="form-insert-review${myRevInfo.roomBookingNo }" action="/mypage/myrevlist/insertreview" method="get">
+								<div class="modal fade" id="modal-review-insert${myRevInfo.roomBookingNo }" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+								  <div class="modal-dialog">
+								    <article class="modal-content">
+								      <header class="modal-title">
+								        <p class="modal__title">리뷰작성</p>
+								      </header>
+								      <div class="modal-body">
+										<h3>${myRevInfo.accommoName }/${myRevInfo.roomName }</h3>
+										<input id="reviewAccommoNo" type="hidden" name="accommoNo" value="${myRevInfo.accommoNo }"/>
+										<input id="reviewRoomBookingNo" type="hidden" name="roomBookingNo" value="${myRevInfo.roomBookingNo }"/>
+										<div class="make_star1">
+											<div class="selectrating" data-rate="5">
+												<span class="" id="">청결점수</span>
+												<i class="fas fa-star"></i>
+												<i class="fas fa-star"></i>
+												<i class="fas fa-star"></i>
+												<i class="fas fa-star"></i>
+												<i class="fas fa-star"></i>
+												<span class="starScore1" ></span>
+												<input type="hidden" name="cleanlinessStar"/>
+											</div>
+										</div>
+										<div class="make_star2">
+											<div class="selectrating" data-rate="5">
+												<span class="" id="">소통점수</span>
+												<i class="fas fa-star"></i>
+												<i class="fas fa-star"></i>
+												<i class="fas fa-star"></i>
+												<i class="fas fa-star"></i>
+												<i class="fas fa-star"></i>
+												<span class="starScore2"></span>
+												<input type="hidden" name="communicationStar"/>
+											</div>
+										</div>
+										<div class="make_star3">
+											<div class="selectrating" data-rate="5">
+												<span class="" id="">정확점수</span>
+												<i class="fas fa-star"></i>
+												<i class="fas fa-star"></i>
+												<i class="fas fa-star"></i>
+												<i class="fas fa-star"></i>
+												<i class="fas fa-star"></i>
+												<span class="starScore3"></span>
+												<input type="hidden" name="accuracyStar"/>
+											</div>
+										</div>
+										<div class="make_star4">
+											<div class="selectrating" data-rate="5">
+												<span class="" id="">위치점수</span>
+												<i class="fas fa-star"></i>
+												<i class="fas fa-star"></i>
+												<i class="fas fa-star"></i>
+												<i class="fas fa-star"></i>
+												<i class="fas fa-star"></i>
+												<span class="starScore4"></span>
+												<input type="hidden" name="locationStar"/>
+											</div>
+										</div>
+										<textarea class="answer__textarea" name="content" id=""></textarea>
+								      </div>
+								      <div class="modal-footer">
+								        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">닫기</button>
+								        <button type="submit" class="reviewSave btn btn-dark">리뷰저장</button>
+								      </div>
+								    </article>
+								  </div>
+								</div>
+							</form>
+							<!-- 리뷰작성모달 End -->
+							<!-- 리뷰조회모달 Start -->
+							<form id="form-update-review${myRevInfo.roomBookingNo }" action="" method="get">
+							<div class="modal fade" id="modal-review-select${myRevInfo.roomBookingNo }" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+							  <div class="modal-dialog">
+							    <article class="modal-content">
+							      <header class="modal-title">
+							        <p class="modal__title">리뷰조회 및 수정</p>
+							      </header>
+							      <fmt:formatDate value="${myRevInfo.myReview.updatedDate }" type="both" pattern="yyyy-MM-dd HH:mm:ss" />
+							      <div class="modal-body">
+									<h3>${myRevInfo.accommoName }/${myRevInfo.roomName }</h3>
+									<div class="make_star1">
+										<div class="selectrating" data-rate="${myRevInfo.myReview.cleanlinessStar }">
+											<span class="" id="">청결점수</span>
+											<i class="fas fa-star"></i>
+											<i class="fas fa-star"></i>
+											<i class="fas fa-star"></i>
+											<i class="fas fa-star"></i>
+											<i class="fas fa-star"></i>
+											<span class="starScore1"></span>
+											<input type="hidden" name="cleanlinessStar"/>
+										</div>
+									</div>
+									<div class="make_star2">
+										<div class="selectrating" data-rate="${myRevInfo.myReview.communicationStar }">
+											<span class="" id="">소통점수</span>
+											<i class="fas fa-star"></i>
+											<i class="fas fa-star"></i>
+											<i class="fas fa-star"></i>
+											<i class="fas fa-star"></i>
+											<i class="fas fa-star"></i>
+											<span class="starScore2"></span>
+											<input type="hidden" name="communicationStar"/>
+										</div>
+									</div>
+									<div class="make_star3">
+										<div class="selectrating" data-rate="${myRevInfo.myReview.accuracyStar }">
+											<span class="" id="">정확점수</span>
+											<i class="fas fa-star"></i>
+											<i class="fas fa-star"></i>
+											<i class="fas fa-star"></i>
+											<i class="fas fa-star"></i>
+											<i class="fas fa-star"></i>
+											<span class="starScore3"></span>
+											<input type="hidden" name="accuracyStar"/>
+										</div>
+									</div>
+									<div class="make_star4">
+										<div class="selectrating" data-rate="${myRevInfo.myReview.locationStar }">
+											<span class="" id="">위치점수</span>
+											<i class="fas fa-star"></i>
+											<i class="fas fa-star"></i>
+											<i class="fas fa-star"></i>
+											<i class="fas fa-star"></i>
+											<i class="fas fa-star"></i>
+											<span class="starScore4"></span>
+											<input type="hidden" name="locationStar"/>
+										</div>
+									</div>
+									<input type="hidden" name="no" value="${myRevInfo.myReview.no }"/>
+									<textarea class="answer__textarea" name="content" >${myRevInfo.myReview.content }</textarea>
+								  </div>
+							      <div class="modal-footer">
+							        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">닫기</button>
+							        <button id="reviewModifyBtn${myRevInfo.roomBookingNo }" type="button" class="reviewModify btn btn-dark">수정</button>
+							        <button id="reviewDeleteBtn${myRevInfo.roomBookingNo }" type="button" class="reviewDelete btn btn-dark">삭제</button>
+							      </div>
+								 </article>
+							   </div>
+							 </div>
+							 </form>
+							 <!-- 리뷰조회모달 End-->
 						</div>
 					</div>
 				</div>
+				<!-- 이미지 -->
 				<div class="col-4 me-0 border-top border-bottom border-end bg-light">
 					<div id="carouselExampleIndicators${myRevInfo.accommoNo }" class="carousel slide" data-bs-ride="carousel">
 						<div class="carousel-indicators">
@@ -85,97 +233,118 @@
 		</c:forEach>
 	</div>
 </div>
-
-<!-- Modal -->
-<div class="modal fade" id="modal-review" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <article class="modal-content">
-      <header class="modal-title">
-        <p class="modal__title">문의 상세</p>
-      </header>
-      <div class="modal-body">
-		<h2>별점주기테스트</h2>
-		<div class="make_star1">
-			<div class="selectrating" data-rate="5">
-				<span class="" id="">청결점수</span>
-				<i class="fas fa-star"></i>
-				<i class="fas fa-star"></i>
-				<i class="fas fa-star"></i>
-				<i class="fas fa-star"></i>
-				<i class="fas fa-star"></i>
-				<span id="starScore1" ></span>
-				<input type="hidden" name="cleanlinessStar"/>
-			</div>
-		</div>
-		<div class="make_star2">
-			<div class="selectrating" data-rate="5">
-				<span class="" id="">소통점수</span>
-				<i class="fas fa-star"></i>
-				<i class="fas fa-star"></i>
-				<i class="fas fa-star"></i>
-				<i class="fas fa-star"></i>
-				<i class="fas fa-star"></i>
-				<span id="starScore2"></span>
-				<input type="hidden" name="communicationStar"/>
-			</div>
-		</div>
-		<div class="make_star3">
-			<div class="selectrating" data-rate="5">
-				<span class="" id="">정확점수</span>
-				<i class="fas fa-star"></i>
-				<i class="fas fa-star"></i>
-				<i class="fas fa-star"></i>
-				<i class="fas fa-star"></i>
-				<i class="fas fa-star"></i>
-				<span id="starScore3"></span>
-				<input type="hidden" name="accuracyStar"/>
-			</div>
-		</div>
-		<div class="make_star4">
-			<div class="selectrating" data-rate="5">
-				<span class="" id="">위치점수</span>
-				<i class="fas fa-star"></i>
-				<i class="fas fa-star"></i>
-				<i class="fas fa-star"></i>
-				<i class="fas fa-star"></i>
-				<i class="fas fa-star"></i>
-				<span id="starScore4"></span>
-				<input type="hidden" name="locationStarme"/>
-			</div>
-		</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Understood</button>
-      </div>
-    </article>
-  </div>
-</div>
-
 <script>
 $(function() {
-	// 별점주기
-	var rating = $(".selectrating");
+	/* 작성된 리뷰 별점셋팅 스타트 */
+	<c:forEach var="myRevInfo" items="${myRevList }">
+	<c:forEach var="cnt" begin="1" end="4">
 	
+	// 작성된 리뷰 별 셋팅하기
+	var rating = $("#modal-review-select${myRevInfo.roomBookingNo} .selectrating");
 	rating.each(function(){
-		var targetScore = $(this).attr('data-rate');
+		var defaultScore = $(this).attr('data-rate');
+		for(var i = 0; i<defaultScore; i++){
+			$(this).find('.fa-star').eq(i).css({color:'#dc143c'});
+		}
 		
-		for(var i = 0; i<targetScore; i++){
-			$(this).find('.fa-star').eq(i).css({color:'red'});
-			$("#starScore${cnt}").text(targetScore + "점");
+		// 작성된 리뷰 색칠 후 각 스코어와 input에 값 셋팅
+		$("#modal-review-select${myRevInfo.roomBookingNo} .starScore1").text(${myRevInfo.myReview.cleanlinessStar } + "점");
+		$("#modal-review-select${myRevInfo.roomBookingNo} .starScore2").text(${myRevInfo.myReview.communicationStar } + "점");
+		$("#modal-review-select${myRevInfo.roomBookingNo} .starScore3").text(${myRevInfo.myReview.accuracyStar } + "점");
+		$("#modal-review-select${myRevInfo.roomBookingNo} .starScore4").text(${myRevInfo.myReview.locationStar } + "점");
+		$("#modal-review-select${myRevInfo.roomBookingNo} .make_star1 input[type=hidden]").val(${myRevInfo.myReview.cleanlinessStar });
+		$("#modal-review-select${myRevInfo.roomBookingNo} .make_star2 input[type=hidden]").val(${myRevInfo.myReview.communicationStar });
+		$("#modal-review-select${myRevInfo.roomBookingNo} .make_star3 input[type=hidden]").val(${myRevInfo.myReview.accuracyStar });
+		$("#modal-review-select${myRevInfo.roomBookingNo} .make_star4 input[type=hidden]").val(${myRevInfo.myReview.locationStar });
+	});
+	// 작성된 리뷰 별 클릭 수정
+	$("#modal-review-select${myRevInfo.roomBookingNo} .make_star${cnt} svg").click(function() {
+		var targetNum = $(this).index() +1;
+		$("#modal-review-select${myRevInfo.roomBookingNo} .make_star${cnt} svg").css({color:"black"});
+		$("#modal-review-select${myRevInfo.roomBookingNo} .make_star${cnt} svg:nth-child(-n+" + targetNum +")").css({color:"#dc143c"});
+		$("#modal-review-select${myRevInfo.roomBookingNo} .starScore${cnt}").text(targetNum-1 + "점");
+		$("#modal-review-select${myRevInfo.roomBookingNo} .make_star${cnt} input[type=hidden]").val(targetNum-1);
+	});
+	</c:forEach>
+	</c:forEach>
+	/* 작성된 리뷰 별점셋팅 엔드 */
+	
+	/* 작성할 리뷰 기초셋팅 스타트 */
+	<c:forEach var="myRevInfo" items="${myRevList }">
+	<c:forEach var="cnt" begin="1" end="4">
+	
+	// 작성할 리뷰 별 기초셋팅하기
+	var rating = $("#modal-review-insert${myRevInfo.roomBookingNo} .selectrating");
+	rating.each(function(){
+		var defaultScore = $(this).attr('data-rate');
+		for(var i = 0; i<defaultScore; i++){
+			$(this).find('.fa-star').eq(i).css({color:'#dc143c'});
+			$("#modal-review-insert${myRevInfo.roomBookingNo} .starScore${cnt}").text(defaultScore + "점");
+			$("#modal-review-insert${myRevInfo.roomBookingNo} .make_star${cnt} input[type=hidden]").val(defaultScore);
 		}	
 	});
 	
-	<c:forEach var="cnt" begin="1" end="4">
-	$(".make_star${cnt} svg").click(function() {
+	// 작성할 리뷰 별 클릭 수정
+	$("#modal-review-insert${myRevInfo.roomBookingNo} .make_star${cnt} svg").click(function() {
 		var targetNum = $(this).index() +1;
-		$(".make_star${cnt} svg").css({color:"black"});
-		$(".make_star${cnt} svg:nth-child(-n+" + targetNum +")").css({color:"#dc143c"});
-		$("#starScore${cnt}").text(targetNum-1 + "점");
-		$(".make_star${cnt} input[type=hidden]").val(targetNum-1);
-		console.log($(".make_star${cnt} input[type=hidden]").val());
+		$("#modal-review-insert${myRevInfo.roomBookingNo} .make_star${cnt} svg").css({color:"black"});
+		$("#modal-review-insert${myRevInfo.roomBookingNo} .make_star${cnt} svg:nth-child(-n+" + targetNum +")").css({color:"#dc143c"});
+		$("#modal-review-insert${myRevInfo.roomBookingNo} .starScore${cnt}").text(targetNum-1 + "점");
+		$("#modal-review-insert${myRevInfo.roomBookingNo} .make_star${cnt} input[type=hidden]").val(targetNum-1);
 	});
 	</c:forEach>
+	</c:forEach>
+	/* 작성할 리뷰 기초셋팅 엔드 */
+	
+	/* 폼 서브밋 */
+	<c:forEach var="myRevInfo" items="${myRevList }">
+		$("#reviewDeleteBtn${myRevInfo.roomBookingNo }").click(function() {
+			$("#form-update-review${myRevInfo.roomBookingNo }").attr("action","/mypage/myrevlist/deletereview");
+			$("#form-update-review${myRevInfo.roomBookingNo }").submit();
+		});
+		
+		$("#reviewModifyBtn${myRevInfo.roomBookingNo }").click(function() {
+			$("#form-update-review${myRevInfo.roomBookingNo }").attr("action","/mypage/myrevlist/updatereview");
+			$("#form-update-review${myRevInfo.roomBookingNo }").submit();
+		});
+	</c:forEach>
+	
+	
+	
+	/* 리뷰 수정 보류
+	<c:forEach var="myRevInfo" items="${myRevList }">
+	
+	$("#reviewModifyBtn${myRevInfo.roomBookingNo }").click(function() {
+		var $cleanlinessStar = $("#modal-review-select${myRevInfo.roomBookingNo} .make_star1 input[type=hidden]").val();
+		var $communicationStar = $("#modal-review-select${myRevInfo.roomBookingNo} .make_star2 input[type=hidden]").val();
+		var $accuracyStar = $("#modal-review-select${myRevInfo.roomBookingNo} .make_star3 input[type=hidden]").val();
+		var $locationStar = $("#modal-review-select${myRevInfo.roomBookingNo} .make_star4 input[type=hidden]").val();
+		var $content = $("#modal-review-select${myRevInfo.roomBookingNo} textarea").val();
+		var $no = $("#modal-review-select${myRevInfo.roomBookingNo} input[name=no]").val();	
+		console.log($cleanlinessStar);
+		console.log($communicationStar);
+		console.log($accuracyStar);
+		console.log($locationStar);
+		console.log($content);
+		console.log($no);
+		console.log(${myRevInfo.accommoNo});
+		
+		$.ajax({
+			type: 'get',
+		    url:  '/mypage/myrevlist/updatereview',
+		    data: {cleanlinessStar:${myRevInfo.accommoNo}, 
+		    	   communicationStar:$communicationStar, 
+		    	   accuracyStar:$accuracyStar, 
+		    	   locationStar:$locationStar,
+		    	   content:$content
+		    	   no:$no},
+		    success: function(data) {
+		    	console.log(data);
+		    }
+		});
+		
+	});
+	
+	</c:forEach>*/
 });
-
 </script>

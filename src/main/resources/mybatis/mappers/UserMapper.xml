@@ -101,7 +101,7 @@
 	 <!-- 이승준 
 		void insertUser();
 	 -->
-	 <insert id="insertUser" parameterType="com.hoge.vo.other.User">
+	<insert id="insertUser" parameterType="com.hoge.vo.other.User">
 		insert into tb_final_users
 			(user_no, user_id, user_name, user_pwd, user_tel, user_email, user_gender)
 		values
@@ -259,6 +259,21 @@
 			bookings.user_no = #{value}
 		order by 
 			bookings.check_in_date
+	</select>
+	
+	<!-- 이승준
+		UserRevInfoDto getRevInfoByBookingNo(int roomBookingNo);
+	 -->
+	<select id="getRevInfoByBookingNo" resultType="com.hoge.dto.UserRevInfoDto" parameterType="int">
+		select 
+            rooms.room_no as roomNo,
+			bookings.check_in_date as checkInDate,
+			bookings.check_out_date as checkOutDate
+		from 
+			tb_final_room_bookings bookings, tb_final_rooms rooms
+		where 
+			rooms.room_no = bookings.room_no 
+        and room_booking_no = #{roomBookingNo}
 	</select>
 	
 	<!-- 이승준
