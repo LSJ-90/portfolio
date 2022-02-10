@@ -233,17 +233,17 @@
 		where rn between #{beginIndex} and #{endIndex}
 	</select> 
 	
-	<!-- 1056 >> #{no} , parameterType="int"-->
 	<!-- 이승준
 		List<UserRevInfoDto> getMyRevListByNo(int no);
 	 -->
 	<select id="getMyRevListByNo" resultType="com.hoge.dto.UserRevInfoDto" parameterType="int">
 		select 
+			bookings.room_booking_status as roomBookingStatus,
 			bookings.room_booking_no as roomBookingNo,
 			accommos.accommo_no as accommoNo,
 			accommos.accommo_name as accommoName,
+            rooms.room_no as roomNo,
 			rooms.room_name as roomName,
-			rooms.room_no as roomNo,
 			accommos.accommo_region_depth1 as accommoRegionDepth1,
 			accommos.accommo_region_depth2 as accommoRegionDepth2,
 			bookings.check_in_date as checkInDate,
@@ -257,19 +257,18 @@
 			rooms.room_no = bookings.room_no
 		and 
 			bookings.user_no = #{value}
-		and 
-			bookings.room_booking_status = 1
 		order by 
 			bookings.check_in_date
 	</select>
 	
-	<!-- 1061 >> #{no} , parameterType="int"-->
 	<!-- 이승준
 		List<UserRevInfoDto> getMyTourListByNo(int no);
 	 -->
 	<select id="getMyTourListByNo" resultType="com.hoge.dto.UserRevInfoDto" parameterType="int">
 		select 
+			bookings.room_booking_status as roomBookingStatus,
 			bookings.room_booking_no as roomBookingNo,
+			accommos.accommo_no as accommoNo,
 			accommos.accommo_name as accommoName,
 			rooms.room_name as roomName,
 			rooms.room_no as roomNo,
@@ -286,7 +285,7 @@
 		and 
 			rooms.room_no = bookings.room_no
 		and 
-			bookings.user_no = 1061
+			bookings.user_no = #{value}
 		and 
 			bookings.room_booking_status = 0
 		order by 
