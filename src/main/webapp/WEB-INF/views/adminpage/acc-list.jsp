@@ -6,13 +6,13 @@
 <main id="main">
   <article id="admin-user">
   <form
-      class="search-user__form"
+      class="search-user__form only-child"
     >
       <input type="hidden" name="page" value="1" />
       <ul class="search-bar">
       	<li>
       		<select
-          class="search__select accommoType"
+          class="search__select accommoType host"
           name="accommoType"
           onchange="searchAccommos()"
         >
@@ -64,15 +64,16 @@
 	<table class="user-list-table">
 		<colgroup>
 	        <col style="width: 6%" />
-	        <col style="width: 7%" />
+	        <col style="width: 12%" />
 	        <col style="width: 9%" />
 	        <col style="width: 7%" />
+	        <col style="width: 11%" />
 	        <col style="width: 10%" />
-	        <col style="width: 10%" />
-	        <col style="width: 10%" />
-	        <col style="width: 10%" />
-	        <col style="width: 10%" />
-	        <col style="width: 8%" />
+	        <col style="width: 12%" />
+	        <col style="width: 6%" />
+	        <col style="width: 6%" />
+	        <col style="width: 6%" />
+	        <col style="width: 6%" />
 	        <col style="width: 8%" />
       </colgroup>
       <thead>
@@ -97,16 +98,13 @@
 		</table>
 
 		<!-- 페이지 내비게이션 표시 -->
-		<!-- 페이지 내비게이션 표시 -->
-		<div class="row mb-3">
-			<div class="col">
-				<div class="pagination">
-					<ul id="paginationBox" class="pagination">
 		
-					</ul>
-				</div>
-			</div>
+		<div id="pagination">
+			<ul id="paginationBox" class="pagination__list">
+
+			</ul>
 		</div>
+		
 
  </article>
  </main>
@@ -167,9 +165,9 @@ function searchAccommos(page) {
 					if (pagination['prevPage']) {
 						block += "<li class='page-item'><a class='page-link' onclick='searchAccommos("
 								+ (pagination['beginPage'] - 1)
-								+ ")'> < </a></li>";
+								+ ")'> <i class='fas fa-chevron-left'></i> </a></li>";
 					} else {
-						block += "<li class='page-item disabled'><a class='page-link'> < </a></li>";
+						block += "<li class='page-item disabled'><a class='page-link'> <i class='fas fa-chevron-left'></i> </a></li>";
 					}
 
 					// 번호를 표시하는 부분
@@ -186,9 +184,9 @@ function searchAccommos(page) {
 					if (pagination['nextPage']) {
 						block += "<li class='page-item'><a class='page-link' onclick='searchAccommos("
 								+ (pagination['endPage'] + 1)
-								+ ")'>  > </a></li>";
+								+ ")'>  <i class='fas fa-chevron-right'></i> </a></li>";
 					} else {
-						block += "<li class='page-item disabled'><a class='page-link'> > </a></li>";
+						block += "<li class='page-item disabled'><a class='page-link'> <i class='fas fa-chevron-right'></i> </a></li>";
 					}
 					
 					$("#paginationBox").html(block);
