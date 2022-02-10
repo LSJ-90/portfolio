@@ -17,16 +17,17 @@
         -->
         <li class="nav__item"><a href="/logout">LOGOUT</a></li>
         <li class="nav__item">
-        <!-- 정수민
-        		메뉴 드롭박스 : 마이페이지/호스트페이지 이동 -> 미구현		
-         -->
-          <a href="#">
-            <img
-              src="../../resources/images/main/login_icon.png"
-              alt="pagechange-icon"
-              class="pagechange-icon"
-            />
-          </a>
+        
+          <div class="admin-nav__dropdown">
+           <button class="btn__dropdown">
+             <div class="dropdown__img"></div>
+           </button>
+           <ul class="admin-dropdown__menu">
+             <li class="dropdown__item"><a href="/mypage/myrevlist">마이페이지</a></li>
+	         <li class="dropdown__item"><a href="/mypage/hostingList">호스트페이지</a></li>
+           </ul>
+          </div>
+          
         </li>
       </ul>
     </nav>

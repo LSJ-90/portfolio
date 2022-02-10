@@ -6,7 +6,7 @@
 <main id="main">
   <article id="admin-user">
   <form
-      class="search-user__form"
+      class="search-user__form only-child"
       id="form-search-userQnA"
       method="get"
       action="user-qna"
@@ -15,7 +15,7 @@
       <ul class="search-bar">
       	<li>
       		<select
-          class="search__select accommoType"
+          class="search__select accommoType host"
           name="accommoType"
           onchange="searchDeniedAccommos()"
         >
@@ -66,13 +66,14 @@
 
 	<table class="user-list-table">
 		<colgroup>
-	        <col style="width: 10%" />
-	        <col style="width: 10%" />
-	        <col style="width: 10%" />
-	        <col style="width: 10%" />
-	        <col style="width: 10%" />
-	        <col style="width: 10%" />
-	        <col style="width: 10%" />
+	        <col style="width: 7%" />
+	        <col style="width: 15%" />
+	        <col style="width: 9%" />
+	        <col style="width: 7%" />
+	        <col style="width: 12%" />
+	        <col style="width: 11%" />
+	        <col style="width: 15%" />
+	        <col style="width: 14%" />
 	        <col style="width: 10%" />
       </colgroup>
       <thead>
@@ -94,21 +95,16 @@
 		</table>
 
 		<!-- 페이지 내비게이션 표시 -->
-		<!-- 페이지 내비게이션 표시 -->
-		<div class="row mb-3">
-			<div class="col">
-				<div class="pagination">
-					<ul id="paginationBox" class="pagination">
-		
-					</ul>
-				</div>
-			</div>
+		<div id="pagination">
+			<ul id="paginationBox" class="pagination__list">
+
+			</ul>
 		</div>
 
  </article>
   <article id="admin-user">
   <form
-      class="search-user__form"
+      class="search-user__form only-child"
       id="form-search-userQnA"
       method="get"
       action="user-qna"
@@ -117,7 +113,7 @@
       <ul class="search-bar">
       	<li>
       		<select
-          class="search__select accommoType"
+          class="search__select accommoType host"
           name="accommoType1"
           onchange="searchEndedAccommos()"
         >
@@ -168,13 +164,14 @@
 
 	<table class="user-list-table">
 		<colgroup>
-	        <col style="width: 10%" />
-	        <col style="width: 10%" />
-	        <col style="width: 10%" />
-	        <col style="width: 10%" />
-	        <col style="width: 10%" />
-	        <col style="width: 10%" />
-	        <col style="width: 10%" />
+	        <col style="width: 7%" />
+	        <col style="width: 15%" />
+	        <col style="width: 9%" />
+	        <col style="width: 7%" />
+	        <col style="width: 12%" />
+	        <col style="width: 11%" />
+	        <col style="width: 15%" />
+	        <col style="width: 14%" />
 	        <col style="width: 10%" />
       </colgroup>
       <thead>
@@ -196,21 +193,16 @@
 		</table>
 
 		<!-- 페이지 내비게이션 표시 -->
-		<!-- 페이지 내비게이션 표시 -->
-		<div class="row mb-3">
-			<div class="col">
-				<div class="pagination">
-					<ul id="paginationBox1" class="pagination">
-		
-					</ul>
-				</div>
-			</div>
+		<div id="pagination">
+			<ul id="paginationBox1" class="pagination__list">
+
+			</ul>
 		</div>
 
  </article>
   <article id="admin-user">
   <form
-      class="search-user__form"
+      class="search-user__form only-child"
       id="form-search-userQnA"
       method="get"
       action="user-qna"
@@ -219,7 +211,7 @@
       <ul class="search-bar">
       	<li>
       		<select
-          class="search__select accommoType"
+          class="search__select accommoType host"
           name="accommoType2"
           onchange="searchClosedAccommos()"
         >
@@ -270,13 +262,14 @@
 
 	<table class="user-list-table">
 		<colgroup>
-	        <col style="width: 10%" />
-	        <col style="width: 10%" />
-	        <col style="width: 10%" />
-	        <col style="width: 10%" />
-	        <col style="width: 10%" />
-	        <col style="width: 10%" />
-	        <col style="width: 10%" />
+	        <col style="width: 7%" />
+	        <col style="width: 15%" />
+	        <col style="width: 9%" />
+	        <col style="width: 7%" />
+	        <col style="width: 12%" />
+	        <col style="width: 11%" />
+	        <col style="width: 15%" />
+	        <col style="width: 14%" />
 	        <col style="width: 10%" />
       </colgroup>
       <thead>
@@ -298,15 +291,10 @@
 		</table>
 
 		<!-- 페이지 내비게이션 표시 -->
-		<!-- 페이지 내비게이션 표시 -->
-		<div class="row mb-3">
-			<div class="col">
-				<div class="pagination">
-					<ul id="paginationBox2" class="pagination">
-		
-					</ul>
-				</div>
-			</div>
+		<div id="pagination">
+			<ul id="paginationBox2" class="pagination__list">
+
+			</ul>
 		</div>
 
  </article>
@@ -367,9 +355,9 @@ function searchDeniedAccommos(page) {
 					if (pagination['prevPage']) {
 						block += "<li class='page-item'><a class='page-link' onclick='searchDeniedAccommos("
 								+ (pagination['beginPage'] - 1)
-								+ ")'> < </a></li>";
+								+ ")'> <i class='fas fa-chevron-left'></i> </a></li>";
 					} else {
-						block += "<li class='page-item disabled'><a class='page-link'> < </a></li>";
+						block += "<li class='page-item disabled'><a class='page-link'> <i class='fas fa-chevron-left'></i> </a></li>";
 					}
 
 					// 번호를 표시하는 부분
@@ -386,9 +374,9 @@ function searchDeniedAccommos(page) {
 					if (pagination['nextPage']) {
 						block += "<li class='page-item'><a class='page-link' onclick='searchDeniedAccommos("
 								+ (pagination['endPage'] + 1)
-								+ ")'>  > </a></li>";
+								+ ")'>  <i class='fas fa-chevron-right'></i> </a></li>";
 					} else {
-						block += "<li class='page-item disabled'><a class='page-link'> > </a></li>";
+						block += "<li class='page-item disabled'><a class='page-link'> <i class='fas fa-chevron-right'></i> </a></li>";
 					}
 					
 					$("#paginationBox").html(block);
@@ -439,9 +427,9 @@ function searchEndedAccommos(page) {
 					if (pagination['prevPage']) {
 						block += "<li class='page-item'><a class='page-link' onclick='searchEndedAccommos("
 								+ (pagination['beginPage'] - 1)
-								+ ")'> < </a></li>";
+								+ ")'> <i class='fas fa-chevron-left'></i> </a></li>";
 					} else {
-						block += "<li class='page-item disabled'><a class='page-link'> < </a></li>";
+						block += "<li class='page-item disabled'><a class='page-link'> <i class='fas fa-chevron-left'></i> </a></li>";
 					}
 
 					// 번호를 표시하는 부분
@@ -458,9 +446,9 @@ function searchEndedAccommos(page) {
 					if (pagination['nextPage']) {
 						block += "<li class='page-item'><a class='page-link' onclick='searchEndedAccommos("
 								+ (pagination['endPage'] + 1)
-								+ ")'>  > </a></li>";
+								+ ")'> <i class='fas fa-chevron-right'></i> </a></li>";
 					} else {
-						block += "<li class='page-item disabled'><a class='page-link'> > </a></li>";
+						block += "<li class='page-item disabled'><a class='page-link'> <i class='fas fa-chevron-right'></i> </a></li>";
 					}
 					
 					$("#paginationBox1").html(block);
@@ -511,9 +499,9 @@ function searchClosedAccommos(page) {
 					if (pagination['prevPage']) {
 						block += "<li class='page-item'><a class='page-link' onclick='searchClosedAccommos("
 								+ (pagination['beginPage'] - 1)
-								+ ")'> < </a></li>";
+								+ ")'> <i class='fas fa-chevron-left'></i> </a></li>";
 					} else {
-						block += "<li class='page-item disabled'><a class='page-link'> < </a></li>";
+						block += "<li class='page-item disabled'><a class='page-link'> <i class='fas fa-chevron-left'></i> </a></li>";
 					}
 
 					// 번호를 표시하는 부분
@@ -530,9 +518,9 @@ function searchClosedAccommos(page) {
 					if (pagination['nextPage']) {
 						block += "<li class='page-item'><a class='page-link' onclick='searchClosedAccommos("
 								+ (pagination['endPage'] + 1)
-								+ ")'>  > </a></li>";
+								+ ")'>  <i class='fas fa-chevron-right'></i> </a></li>";
 					} else {
-						block += "<li class='page-item disabled'><a class='page-link'> > </a></li>";
+						block += "<li class='page-item disabled'><a class='page-link'> <i class='fas fa-chevron-right'></i> </a></li>";
 					}
 					
 					$("#paginationBox2").html(block);

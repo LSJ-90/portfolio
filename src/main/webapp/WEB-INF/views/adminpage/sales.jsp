@@ -5,94 +5,131 @@
     <script src="../../resources/js/datepicker.js"></script>
     <script src="../../resources/js/datepicker.min.js"></script>
     <script src="../../resources/js/datepickerutil/datepicker.ko.js"></script>
-<style>
-.cal-search {border: 1px solid black;}
-</style>
-
-
 
  <main id="main">
-      <article id="user-list">
-        <form class="search-user__form" id="form-search-user" method="get" action="user-list">
+      <article id="admin-user">
+          <div class="total-profit">
+          <table class="total-profit-table">
+            <thead>
+              <tr>
+                <th>총 입금액</th>
+                <th>총 출금액</th>
+                <th>총 순익</th>
+              </tr>
+            </thead>
+            <tbody id="salesdataSection">
+              
+            </tbody>
+          </table>
+         </div>
+         <form
+          class="search-user__form only-child"
+          id="form-search-user"
+          method="get"
+          action="user-list"
+         >
           <input type="hidden" name="page" value="1" />
-         	 <h3> 기간 조회하기 </h3>
-              <label class="" for="address">기간별 검색</label>
-		      <input class="cal-search" id="startDate" type="text" name="startDate" value="">-<input class="cal-search" id="endDate" type="text" name="endDate" value="">
-	          <button type="button" class="btn__search" id="btn-search-user">검색</button>
-	          <br/><br/><br/> 
-          <div> 
-	           <button type="button" name="filterDate" id="oneWeek">일주일</button> 
-	           <button type="button" name="filterDate" id="oneMonth">1개월</button> 
-	           <button type="button"name="filterDate" id="threeMonths">3개월</button> 
-	           <button type="button"name="filterDate" id="sixMonths">6개월</button>
-          </div>
+          <ul class="search-bar-sales">
+            <li class="flex-end">
+              <i class="fa-regular fa-calendar-check"></i>
+            </li>
+            <li class="flex-end filter-date">
+              <button
+                type="button"
+                name="filterDate"
+                id="oneWeek"
+                class="btn__filter-date"
+              >
+                일주일
+              </button>
+              <button
+                type="button"
+                name="filterDate"
+                id="oneMonth"
+                class="btn__filter-date"
+              >
+                1개월
+              </button>
+              <button
+                type="button"
+                name="filterDate"
+                id="threeMonths"
+                class="btn__filter-date"
+              >
+                3개월
+              </button>
+              <button
+                type="button"
+                name="filterDate"
+                id="sixMonths"
+                class="btn__filter-date"
+              >
+                6개월
+              </button>
+            </li>
+            <li>
+              <input
+                class="cal-search"
+                id="startDate"
+                type="text"
+                name="startDate"
+                value=""
+              />
+              <i class="fa-solid fa-minus"></i>
+              <input
+                class="cal-search"
+                id="endDate"
+                type="text"
+                name="endDate"
+                value=""
+              />
+              <button type="button" class="btn__search" id="btn-search-user">
+                검색
+              </button>
+            </li>
+          </ul>
         </form>
-        <div class="row mb-3">
-			<div class="col">
-				<table class="user-list-table">
-					<colgroup>
-						<col style="width: 35%;">
-						<col style="width: 35%;">
-						<col style="width: 30%;">
-					</colgroup>
-					<thead>
-						<tr>
-							<th>총 입금액</th>
-							<th>총 출금액</th>
-							<th>총 순익</th>
-						</tr>
-					</thead>
-					<tbody id="salesdataSection">
-				
-					</tbody>
-				</table>
-			</div>
-		</div>
-		<div class="row mb-3">
-			<div class="col">
-				<table class="user-list-table">
-					<colgroup>
-						<col style="width: 4%;">
-						<col style="width: 12%;">
-						<col style="width: 9%;">
-						<col style="width: 9%;">
-						<col style="width: 9%;">
-						<col style="width: 13%;">
-						<col style="width: 13%;">
-						<col style="width: 13%;">
-						<col style="width: 11%;">
-					</colgroup>
-					<thead>
-						<tr>
-							<th>No</th>
-							<th>종류</th>
-							<th>거래금액</th>
-							<th>(환불)회원번호</th>
-							<th>(출금)호스트번호</th>
-							<th>(입금)숙소예약번호</th>
-							<th>(입금)체험예약번호</th>
-							<th>누적액</th>
-							<th>거래일</th>
-						</tr>
-					</thead>
-					<tbody id="dataSection">
-				
-					</tbody>
-				</table>
-			</div>
-		</div>
+		
+		  <table class="user-list-table">
+			<colgroup>
+	          <col style="width: 7%" />
+	          <col style="width: 11%" />
+	          <col style="width: 12%" />
+	          <col style="width: 11%" />
+	          <col style="width: 11%" />
+	          <col style="width: 11%" />
+	          <col style="width: 11%" />
+	          <col style="width: 15%" />
+	          <col style="width: 11%" />
+	        </colgroup>
+			<thead>
+				<tr>
+					<th>No</th>
+					<th>종류</th>
+					<th>거래금액</th>
+					<th>(환불)회원번호</th>
+					<th>(출금)호스트번호</th>
+					<th>(입금)숙소예약번호</th>
+					<th>(입금)체험예약번호</th>
+					<th>누적액</th>
+					<th>거래일</th>
+				</tr>
+			</thead>
+			<tbody id="dataSection">
+		
+			</tbody>
+		</table>
+		
 <!-- 페이지 내비게이션 표시 -->		
 
 		<!-- 페이지 내비게이션 표시 -->
-		<div class="row mb-3">
-			<div class="col">
-				<div class="pagination">
-					<ul id="paginationBox" class="pagination">
 		
-					</ul>
-				</div>
+			<div id="pagination">
+				<ul id="paginationBox" class="pagination__list">
+	
+				</ul>
 			</div>
-		</div>
+			
       </article>
     </main>
 
@@ -270,7 +307,7 @@ function getTransaction(page) {
 					saledata +="<td>" + numberWithCommas(totalDeposit) +"원</td>";
 					saledata +="<td>" + numberWithCommas(totalWithdrawal) +"원</td>";
 					saledata +="<td>" + numberWithCommas(totalsales) +"원</td>";
-					saledata +="<tr>";
+					saledata +="</tr>";
 					
 					$("#salesdataSection").html(saledata);
 					
@@ -281,14 +318,14 @@ function getTransaction(page) {
 						data += "<tr>";
 						data += "<td>" + list[i].no + "</td>";
 						if (list[i]['type'] == '1') {
-							data += "<td style='color:red'>게스트입금</td>";
-						data += "<td style='color:red'> +" + numberWithCommas(list[i].amount) + "원</td>";
+							data += "<td class='amount-color'>게스트입금</td>";
+						data += "<td class='amount-color'> +" + numberWithCommas(list[i].amount) + "원</td>";
 						} else if (list[i]['type'] == '2') {
-								data += "<td style='color:blue'>호스트출금</td>";
-						data += "<td style='color:blue'> -" + numberWithCommas(list[i].amount) + "원</td>";
+								data += "<td class='withdrawal-color'>호스트출금</td>";
+						data += "<td class='withdrawal-color'> -" + numberWithCommas(list[i].amount) + "원</td>";
 						} else {
-							data += "<td style='color:green'>게스트환불</td>";
-						data += "<td style='color:green'> -" + numberWithCommas(list[i].amount) + "원</td>";
+							data += "<td class='refund-color'>게스트환불</td>";
+						data += "<td class='refund-color'> -" + numberWithCommas(list[i].amount) + "원</td>";
 						}
 						if (list[i]['toUserNo'] == '0') {
 						data += "<td> - </td>";
@@ -314,7 +351,7 @@ function getTransaction(page) {
 						else {
 							data += "<td>" + list[i].activityBookingNo + "</td>";
 						}
-						data += "<td style='color:red'>" + numberWithCommas(list[i].accumulatedMoney) + "원</td>";
+						data += "<td class='amount-color'>" + numberWithCommas(list[i].accumulatedMoney) + "원</td>";
 						data += "<td>" + list[i].createdDate + "</td>";
 					data += "</tr>";
 					}
@@ -329,9 +366,9 @@ function getTransaction(page) {
 					if (pagination['prevPage']) {
 						block += "<li class='page-item'><a class='page-link' href='javascript:getTransaction("
 								+ (pagination['beginPage'] - 1)
-								+ ")'> < </a></li>";
+								+ ")'> <i class='fas fa-chevron-left'></i> </a></li>";
 					} else {
-						block += "<li class='page-item disabled'><a class='page-link'> < </a></li>";
+						block += "<li class='page-item disabled'><a class='page-link'> <i class='fas fa-chevron-left'></i> </a></li>";
 					}
 
 					// 번호를 표시하는 부분
@@ -348,9 +385,9 @@ function getTransaction(page) {
 					if (pagination['nextPage']) {
 						block += "<li class='page-item'><a class='page-link' href='javascript:getTransaction("
 								+ (pagination['endPage'] + 1)
-								+ ")'>  > </a></li>";
+								+ ")'>  <i class='fas fa-chevron-right'></i> </a></li>";
 					} else {
-						block += "<li class='page-item disabled'><a class='page-link'> > </a></li>";
+						block += "<li class='page-item disabled'><a class='page-link'> <i class='fas fa-chevron-right'></i> </a></li>";
 					}
 					
 					$("#paginationBox").html(block);
