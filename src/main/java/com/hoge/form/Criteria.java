@@ -15,6 +15,7 @@ import lombok.ToString;
 @Builder
 public class Criteria {
 
+	private int no; //사용자: 성하민
 	private String opt; //사용자: 성하민
 	private String value; //사용자: 성하민
 	private String opt1; //사용자: 성하민
@@ -31,6 +32,8 @@ public class Criteria {
 	private String hostStatus2; //사용자: 성하민
 	private int hostNo; //사용자:성하민
 	private String bookedDate; //사용자:성하민
+	
+	private int accNo; //사용자:유상효
 	
 	private String addressValue;
 	private String opt2;

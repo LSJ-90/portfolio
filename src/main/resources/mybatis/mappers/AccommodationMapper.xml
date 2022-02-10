@@ -443,6 +443,36 @@
 		where
 			ROOM_BOOKING_NO = #{no}
 	</select>
+	<!--  성하민 호스트번호로 RoomBooking 가져오기
+		List<RoomBooking> getRoomBookingByHostNo(int no);
+	 -->
+	<select id="getRoomBookingByHostNo" parameterType="int" resultType="com.hoge.vo.accommo.RoomBooking">
+		select 
+			bk.ROOM_BOOKING_NO as no,
+			bk.ROOM_NO as roomNo,
+			bk.USER_NO as userNo,
+			r.room_name as roomName,
+			bk.CHECK_IN_DATE as checkInDate,
+			(bk.CHECK_OUT_DATE - 1) as checkOutDate,
+			bk.ROOM_BOOKING_STATUS as status,
+			bk.BOOKING_MADE_DATE as bookingMadeDate,
+			bk.ROOM_CANCELED_DATE as canceledDate,
+			bk.ROOM_CANCEL_REASON as cancelReason,
+			bk.ROOM_PAYMENT as payment,
+			bk.ROOM_TAX_INCLUDED_PRICE as taxIncludedPrice,
+			bk.ROOM_USED_PNT as usedPnt,
+			bk.ROOM_PAID_PRICE as paidPrice,
+			bk.ROOM_BOOKING_NAME as roomUserName,
+			bk.ROOM_BOOKING_TEL as roomUserTel,
+			bk.ROOM_EXTRA_PEOPLE as extraPeople,
+			bk.TID as TID
+		from
+			TB_FINAL_ROOM_BOOKINGS bk, tb_final_rooms r, tb_final_accommodations a
+		where bk.room_no = r.room_no
+		and r.accommo_no = a.accommo_no
+		and a.host_no = #{no}
+		and bk.ROOM_BOOKING_STATUS in (0, 1)
+	</select>
 	
 	<select id="searchMapAreaAccommoListDtos" resultType="com.hoge.dto.AccommoListDto">
 		select *
@@ -711,6 +741,139 @@
 		    and ava.booked_date = #{bookedDate} 
 	</select>
 	
+	
+
+	<!-- 유상효 숙소번호로 숙소정보 조회하기 -->
+	<select id="getAccDetailByAccNo" parameterType="int" resultType="com.hoge.dto.AccMainDto">
+		select
+			h.host_no as hostNo,
+			h.hosting_type as hostingType,
+			h.host_name as hostName,
+			h.host_tel as tel,
+			h.account_holder_name as accountHolderName,
+			h.bank_name as bankName,
+			h.account_number as accountNumber,
+			h.host_main_image as mainImage,
+			a.accommo_No as accNo,
+			a.accommo_type as accType,
+			a.accommo_name as accName,
+			a.accommo_web_address as accWebAddress,
+			a.accommo_intro_title as accIntroTitle,
+			a.accommo_intro_content as accIntroContent,
+			a.accommo_address as accAddress,
+			a.accommo_check_in_time as accCheckInTime,
+			a.accommo_check_out_time as accCheckOutime
+		from
+			tb_final_accommodations a, tb_final_hosts h
+		where
+			a.host_no = h.host_no
+		and a.accommo_no = #{value}
+	</select>
+	
+	<!-- 유상효 날짜 검색해서 룸리스트 조회하기 -->
+	<select id="getRoomListByDate" parameterType="com.hoge.form.Criteria" resultType="com.hoge.dto.RoomListDto">
+		select
+			r.room_no as no,
+			r.accommo_no as accommoNo,
+			r.room_name as name,
+			r.weekdays_price as weekdaysPrice,
+			r.weekend_price as weekendPrice,
+			r.peak_season_price as peakSeasonPrice,
+			r.standard_number as standardNumber,
+			r.maximum_number as maximumNumber,
+			r.price_per_person as pricePerPerson,
+			r.room_amenity as amenity,
+			r.room_feature as feature
+		from
+			tb_final_accommodations a, tb_final_rooms r
+		where
+			a.accommo_no = r.accommo_no
+		and
+			a.accommo_no = #{accNo}
+		and
+			r.room_no NOT IN (
+					  select a.room_no
+                      from tb_final_rooms a, tb_final_room_bookings b
+                      where a.room_no = b.room_no
+                      and b.check_in_date &gt;= TO_DATE(#{checkInDate}, 'YYYY-MM-DD')
+                      and b.check_out_date &lt;= TO_DATE(#{checkOutDate}, 'YYYY-MM-DD')
+                      )
+     </select>
+
+    
+    
+	<!--//성하민 호스트페이지 메인에서 최근 3일 예약건수 가져오기
+	int getRecentBookingCountByAccommoNo(int no);
+	 -->
+	 <select id="getRecentBookingCountByAccommoNo" parameterType="int" resultType="int">
+		select count(*)
+			from TB_FINAL_ROOM_BOOKINGS bk, TB_FINAL_rooms r
+			where BOOKING_MADE_DATE &gt;= trunc(sysdate-2)
+			and r.accommo_no = #{no}
+			and r.room_no = bk.room_no
+	</select>
+	
+	<!-- 	//성하민 호스트페이지 메인에서 최근 3일 예약데이터 가져오기
+	List<RoomBooking> getRecentBookingListByAccommoNo(Criteria criteria); 
+	
+	 -->
+	 <select id="getRecentBookingListByAccommoNo" parameterType="com.hoge.form.Criteria" resultType="com.hoge.vo.accommo.RoomBooking">
+	 select 
+			no,
+			roomNo,
+			userNo,
+			roomName,
+			checkInDate,
+			checkOutDate,
+			status,
+			bookingMadeDate,
+			canceledDate,
+			cancelReason,
+			payment,
+			taxIncludedPrice,
+			usedPnt,
+			paidPrice,
+			roomUserName,
+			roomUserTel,
+			extraPeople
+		from (select
+			bk.ROOM_BOOKING_NO as no,
+			bk.ROOM_NO as roomNo,
+			r.ROOM_Name as roomName,
+			bk.USER_NO as userNo,
+			bk.CHECK_IN_DATE as checkInDate,
+			bk.CHECK_OUT_DATE as checkOutDate,
+			bk.ROOM_BOOKING_STATUS as status,
+			bk.BOOKING_MADE_DATE as bookingMadeDate,
+			bk.ROOM_CANCELED_DATE as canceledDate,
+			bk.ROOM_CANCEL_REASON as cancelReason,
+			bk.ROOM_PAYMENT as payment,
+			bk.ROOM_TAX_INCLUDED_PRICE as taxIncludedPrice,
+			bk.ROOM_USED_PNT as usedPnt,
+			bk.ROOM_PAID_PRICE as paidPrice,
+			bk.ROOM_BOOKING_NAME as roomUserName,
+			bk.ROOM_BOOKING_TEL as roomUserTel,
+			bk.ROOM_EXTRA_PEOPLE as extraPeople,
+			row_number() over (order by bk.BOOKING_MADE_DATE desc) rn
+	from TB_FINAL_ROOM_BOOKINGS bk, TB_FINAL_rooms r
+			where BOOKING_MADE_DATE &gt;= trunc(sysdate-2)
+			and r.accommo_no = #{no}
+			and r.room_no = bk.room_no
+	)
+		where rn between #{beginIndex} and #{endIndex}
+	</select>
+	
+	 
+	 <!-- //성하민 호스트페이지 메인에서 오늘 예약건수 가져오기
+	int getTodayReviewCountByAccommoNo(int no);
+	 -->
+	<select id="getTodayBookingCountByAccommoNo" parameterType="int" resultType="int">
+		select count(*)
+			from TB_FINAL_ROOM_BOOKINGS bk, TB_FINAL_rooms r
+			where BOOKING_MADE_DATE &gt;= trunc(sysdate)
+			and r.accommo_no = #{no}
+			and r.room_no = bk.room_no
+	</select>
 	
 	
 	

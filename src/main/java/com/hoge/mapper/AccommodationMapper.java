@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.hoge.dto.AccMainDto;
 import com.hoge.dto.AccommoListDto;
 import com.hoge.dto.AdminAccommoListDto;
 import com.hoge.dto.MapArea;
@@ -79,6 +80,9 @@ public interface AccommodationMapper {
 	//성하민 방 예약정보 가져오기
 	RoomBooking getRoomBookingByRoomBookingNo(int no);
 	
+	//성하민 호스트번호로 방 예약정보 가져오기
+	List<RoomBooking> getRoomBookingByHostNo(int no);
+	
 	//성하민 방 예약+호스트정보+grade 정보 가져오기
 	List<RoomBookingBatchDto> getRoomBookingBatchDto();
 	
@@ -93,6 +97,26 @@ public interface AccommodationMapper {
 
 	//성하민 호스트페이지에서 예약된 룸정보 가져오기
 	List<RoomBookingDto> getBookedRoomInfo(Criteria criteria);
+	
+	// 유상효 숙소번호로 숙소정보 조회
+	AccMainDto getAccDetailByAccNo(int accNo);
+	
+	// 유상효  날짜 검색으로 룸리스트 가져오기
+	List<RoomListDto> getRoomListByDate(Criteria criteria);
+	
+	
+	//성하민 호스트페이지 메인에서 최근 3일 예약건수 가져오기
+	int getRecentBookingCountByAccommoNo(int no);
+	
+	//성하민 호스트페이지 메인에서 최근 3일 예약데이터 가져오기
+	List<RoomBooking> getRecentBookingListByAccommoNo(Criteria criteria); 
+	
+	//성하민 호스트페이지 메인에서 오늘 예약건수 가져오기
+	int getTodayBookingCountByAccommoNo(int no);
+	
+	
+	
+	
 	
 	
 }
