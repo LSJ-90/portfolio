@@ -100,6 +100,17 @@ public class AccommodationService {
 		c2.setTime(roomBooking.getCheckOutDate());
 		c2.add(Calendar.DATE, -1);
 		
+		Calendar c3 = Calendar.getInstance();
+		Calendar c4 = Calendar.getInstance();
+		c3.setTime(roomBooking.getCheckInDate());
+		c3.add(Calendar.HOUR_OF_DAY , 10); 
+		c4.setTime(roomBooking.getCheckOutDate());
+		c4.add(Calendar.HOUR_OF_DAY , 10); 
+		Date newCheckOutDate = new Date(c4.getTimeInMillis());
+		Date newCheckInDate = new Date(c3.getTimeInMillis());
+		roomBooking.setCheckInDate(newCheckInDate);
+		roomBooking.setCheckOutDate(newCheckOutDate);
+		
 		while (c1.compareTo(c2) != 1) {
 			dateList.add(c1.getTime());
 			c1.add(Calendar.DATE, 1);

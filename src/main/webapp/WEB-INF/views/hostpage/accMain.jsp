@@ -15,40 +15,131 @@
 	  	<div class="col-6">
 	  		<img src="/resources/images/hostMainImage/${accMainDto.mainImage}" width="600">
 	 	</div>
-	 	<div class="col-3">
+	 	<div class="col-6">
 	  		<h1>호스트 기본 정보</h1>
-	  		<table border="1"  align = "center" >
+	  		<table class="table table-bordered" border="1"  align = "center" >
 				    <tr align = "center">
 					<td>체크인</td>
 					<td>${accMainDto.accCheckInTime}</td>
-				    </tr>
-				    <tr align = "center">
 					<td>체크아웃</td>
 					<td>${accMainDto.accCheckOutime}</td>
+					<td colspan="2">연락처</td>
+					<td>${savedHost.tel}</td>
 				    </tr>
 				    <tr align = "center">
 					<td>주소</td>
-					<td>${accMainDto.accAddress}</td>
+					<td colspan="6">${accMainDto.accAddress}</td>
 				    </tr>
 				    <tr align = "center">
-					<td>방정보 아직 안함</td>
-					<td></td>
+					<td colspan="7">객실정보</td>
 				    </tr>
 				    <tr align = "center">
-					<td>방정보 아직 안함</td>
+					<td>객실</td>
+					<td>평일</td>
+					<td>주말</td>
+					<td>성수기</td>
+					<td>기준인원</td>
+					<td>최대인원</td>
+					<td>기준인원 초과시 인당가격</td>
 				    </tr>
+				      <c:forEach var="room" items="${roomList }" varStatus="loop">
+					<tr align = "center">
+		            <td>${room.name }</td>
+		            <td><fmt:formatNumber value="${room.weekdaysPrice}" pattern="#,###" /></td>
+		            <td><fmt:formatNumber value="${room.weekendPrice}" pattern="#,###" /></td>
+		            <td><fmt:formatNumber value="${room.peakSeasonPrice}" pattern="#,###" /></td>
+		            <td>${room.standardNumber }</td>
+		            <td>${room.maximumNumber }</td>
+		            <td><fmt:formatNumber value="${room.pricePerPerson}" pattern="#,###" /></td>
+         			 </tr>            
+        		   </c:forEach>
 				</table>
-	  		
-	 	</div>
-	 	<div class="col-3">
-	  		<h1>체크인 체크아웃</h1>
 	 	</div>
 	</div>
 	
 	<div class="row">
-	  	<div class="col-6">
-	  		<h1>최근 3일간 리뷰</h1>
-	  		 <table class="user-list-table" border="1">
+	 	<div class="col-12">
+	  		<h1>오늘 체크인 게스트</h1>
+	  		<c:if test="${empty todayCheckInList }">
+	  	<h4>체크인 예정인 게스트가 없습니다.</h4>
+	  	</c:if> 
+	  	<c:if test="${not empty todayCheckInList }"> 	
+	  		 <table class="table table-bordered" border="1">
+        <colgroup>
+          <col style="width: 27%" />
+          <col style="width: 20%" />
+          <col style="width: 20%" />
+          <col style="width: 20%" />
+          <col style="width: 10%" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>객실</th>
+            <th>기간</th>
+            <th>게스트</th>
+            <th>연락처</th>
+            <th>추가인원</th>
+          </tr>
+        </thead>
+        <tbody>
+          <c:forEach var="checkIn" items="${todayCheckInList }" varStatus="loop">
+			<tr>
+            <td>${checkIn.roomName }</td>
+            
+            <td><fmt:formatDate value="${checkIn.checkInDate }" pattern="yyyy-MM-dd" type="date"/> ~ 
+            <fmt:formatDate value="${checkIn.checkOutDate }" pattern="yyyy-MM-dd" type="date"/></td>
+            <td>${checkIn.roomUserName }</td>
+            <td>${checkIn.roomUserTel }</td>
+            <td>${checkIn.extraPeople }</td>
+          </tr>            
+           </c:forEach>
+        </tbody>
+         </table>
+      </c:if>
+	  		<h1>오늘 체크아웃 게스트</h1>
+	  	<c:if test="${empty todayCheckOutList}">
+	  	<h4>체크아웃 예정인 게스트가 없습니다.</h4>
+	  	</c:if> 
+	  	<c:if test="${not empty todayCheckOutList}"> 	
+	  		
+	  		 <table class="table table-bordered" border="1">
+        <colgroup>
+          <col style="width: 27%" />
+          <col style="width: 20%" />
+          <col style="width: 20%" />
+          <col style="width: 20%" />
+          <col style="width: 10%" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>객실</th>
+            <th>기간</th>
+            <th>게스트</th>
+            <th>연락처</th>
+            <th>추가인원</th>
+          </tr>
+        </thead>
+        <tbody>
+             <c:forEach var="checkOut" items="${todayCheckOutList }" varStatus="loop">
+			<tr>
+            <td>${checkOut.roomName }</td>
+             <td><fmt:formatDate value="${checkOut.checkInDate }" pattern="yyyy-MM-dd" type="date"/> ~ 
+            <fmt:formatDate value="${checkOut.checkOutDate }" pattern="yyyy-MM-dd" type="date"/></td>
+            <td>${checkOut.roomUserName }</td>
+            <td>${checkOut.roomUserTel }</td>
+            <td>${checkOut.extraPeople }</td>
+          </tr>            
+           </c:forEach>
+        </tbody>
+      </table>
+      </c:if>
+	 	</div>
+	 </div>
+	
+	<div class="row">
+	  	<div class="col-12">
+	  		<h1>최근 3일간 리뷰 today (+ ${todayReviewCount })</h1>
+	  		 <table class="table table-bordered" border="1">
         <colgroup>
           <col style="width: 27%" />
           <col style="width: 43%" />
@@ -75,9 +166,9 @@
         </ul>
       </div>
 	 	</div>
-	  	<div class="col-6">
-	  		<h1>최근 3일간 예약내역</h1>
-	  		 <table class="user-list-table" border="1">
+	  	<div class="col-12">
+	  		<h1>최근 3일간 예약내역 today (+ ${todayBookingCount })</h1>
+	  		 <table class="table table-bordered" border="1">
         <colgroup>
           <col style="width: 8%" />
           <col style="width: 15%" />

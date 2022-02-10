@@ -24,6 +24,7 @@ import com.hoge.dto.AdminHostQnADto;
 import com.hoge.dto.AdminUserQnADto;
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.LabelDataDto;
+import com.hoge.dto.PromotionDto;
 import com.hoge.dto.RoomBookingBatchDto;
 import com.hoge.dto.WithdrawalHostDto;
 import com.hoge.form.Criteria;
@@ -34,6 +35,7 @@ import com.hoge.service.AdminService;
 import com.hoge.service.AdminTransactionService;
 import com.hoge.service.HostService;
 import com.hoge.service.HostTransactionService;
+import com.hoge.service.PromotionService;
 import com.hoge.service.QnAService;
 import com.hoge.service.ReviewService;
 import com.hoge.service.ScheduleTaskService;
@@ -77,6 +79,8 @@ public class AdminController {
 	
 	@Autowired
 	private ScheduleTaskService scheduleTaskService;
+	@Autowired
+	private PromotionService promotionService;
 	
 	
 	@Autowired
@@ -229,6 +233,26 @@ public class AdminController {
 		return "adminpage/acc-ended-list.admintiles";
 	}
 	
+	@GetMapping("/promotion-list")
+	public String promotionListInit() {
+		
+		
+		return "adminpage/promotion-list.admintiles";
+	}
+	
+	@GetMapping("/promotion-waiting-list")
+	public String promotionWaitingListInit() {
+		
+		
+		return "adminpage/promotion-waiting-list.admintiles";
+	}
+	@GetMapping("/promotion-ended-list")
+	public String promotionendedListInit() {
+		
+		
+		return "adminpage/promotion-ended-list.admintiles";
+	}
+	
 	
 	
 	
@@ -271,6 +295,103 @@ public class AdminController {
 		
 		
 		List<AdminActivityReviewDto> list = reviewService.getActivityReviewsByCriteria(criteria);
+		logger.info("디티오 :" + list);
+		logger.info("페이지네이션 :" + pagination);
+		
+		result.put("pagination", pagination);
+		result.put("list", list);
+		
+		return result;
+	}
+	
+	//성하민
+	@PostMapping(value = "/searchAccDiscountPromotions.do", produces = "application/json")
+	public @ResponseBody HashMap<String, Object> searchAccDiscountPromotions(@RequestParam(name = "page", required = false, defaultValue="1") String page, Criteria criteria) throws Exception {
+		
+		
+		HashMap<String, Object> result = new HashMap<>();
+		criteria.setStatus("Y");
+		int totalRecords = promotionService.getAccDiscountPromotionCount(criteria);
+		logger.info("토탈레코드 :" + totalRecords);
+		Pagination pagination = new Pagination(page, totalRecords);
+		
+		criteria.setBeginIndex(pagination.getBegin());
+		criteria.setEndIndex(pagination.getEnd());
+		logger.info("검색조건 및 값 :" + criteria);
+		
+		List<PromotionDto> list = promotionService.getAccDiscountPromotions(criteria);
+		logger.info("디티오 :" + list);
+		logger.info("페이지네이션 :" + pagination);
+		
+		result.put("pagination", pagination);
+		result.put("list", list);
+		
+		return result;
+	}
+	//성하민
+	@PostMapping(value = "/searchActOfferPromotions.do", produces = "application/json")
+	public @ResponseBody HashMap<String, Object> searchActOfferPromotions(@RequestParam(name = "page", required = false, defaultValue="1") String page, Criteria criteria) throws Exception {
+		
+		
+		HashMap<String, Object> result = new HashMap<>();
+		criteria.setStatus("Y");
+		int totalRecords = promotionService.getActOfferPromotionCount(criteria);
+		logger.info("토탈레코드 :" + totalRecords);
+		Pagination pagination = new Pagination(page, totalRecords);
+		
+		criteria.setBeginIndex(pagination.getBegin());
+		criteria.setEndIndex(pagination.getEnd());
+		logger.info("검색조건 및 값 :" + criteria);
+		
+		List<PromotionDto> list = promotionService.getActOfferPromotions(criteria);
+		logger.info("디티오 :" + list);
+		logger.info("페이지네이션 :" + pagination);
+		
+		result.put("pagination", pagination);
+		result.put("list", list);
+		
+		return result;
+	}
+	//성하민
+	@PostMapping(value = "/searchActDiscountPromotions.do", produces = "application/json")
+	public @ResponseBody HashMap<String, Object> searchActDiscountPromotions(@RequestParam(name = "page", required = false, defaultValue="1") String page, Criteria criteria) throws Exception {
+		
+		
+		HashMap<String, Object> result = new HashMap<>();
+		criteria.setStatus("Y");
+		int totalRecords = promotionService.getActDiscountPromotionCount(criteria);
+		logger.info("토탈레코드 :" + totalRecords);
+		Pagination pagination = new Pagination(page, totalRecords);
+		
+		criteria.setBeginIndex(pagination.getBegin());
+		criteria.setEndIndex(pagination.getEnd());
+		logger.info("검색조건 및 값 :" + criteria);
+		
+		List<PromotionDto> list = promotionService.getActDiscountPromotions(criteria);
+		logger.info("디티오 :" + list);
+		logger.info("페이지네이션 :" + pagination);
+		
+		result.put("pagination", pagination);
+		result.put("list", list);
+		
+		return result;
+	}
+	//성하민
+	@PostMapping(value = "/searchAccOfferPromotions.do", produces = "application/json")
+	public @ResponseBody HashMap<String, Object> searchAccOfferPromotions(@RequestParam(name = "page", required = false, defaultValue="1") String page, Criteria criteria) throws Exception {
+		
+		
+		HashMap<String, Object> result = new HashMap<>();
+		criteria.setStatus("Y");
+		int totalRecords = promotionService.getAccOfferPromotionCount(criteria);
+		logger.info("토탈레코드 :" + totalRecords);
+		Pagination pagination = new Pagination(page, totalRecords);
+		
+		criteria.setBeginIndex(pagination.getBegin());
+		criteria.setEndIndex(pagination.getEnd());
+		logger.info("검색조건 및 값 :" + criteria);
+		
+		List<PromotionDto> list = promotionService.getAccOfferPromotions(criteria);
 		logger.info("디티오 :" + list);
 		logger.info("페이지네이션 :" + pagination);
 		

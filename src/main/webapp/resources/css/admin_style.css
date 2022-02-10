@@ -274,6 +274,7 @@ button {
 }
 
 .sub-nav__item.active,
+.sub-nav__item-main a.active,
 .tab__item a.active {
   padding-bottom: 5px;
   border-bottom: 2px solid var(--color-black);

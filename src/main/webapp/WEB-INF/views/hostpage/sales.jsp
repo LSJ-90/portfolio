@@ -210,6 +210,7 @@
 </div> <!-- 컨테이너 -->
   </body>
 <script type="text/javascript">
+activeMenu('매출관리');
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

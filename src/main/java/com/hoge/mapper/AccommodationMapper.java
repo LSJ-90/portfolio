@@ -114,6 +114,13 @@ public interface AccommodationMapper {
 	//성하민 호스트페이지 메인에서 오늘 예약건수 가져오기
 	int getTodayBookingCountByAccommoNo(int no);
 	
+	//성하민 호스트페이지 메인에서 오늘 체크아웃 가져오기
+	List<RoomBooking> getTodayCheckOutByAccommoNo(int no);
+	
+	//성하민 호스트페이지 메인에서 오늘 체크인가져오기
+	List<RoomBooking> getTodayCheckInByAccommoNo(int no);
+	
+	
 	
 	
 	

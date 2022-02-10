@@ -4,22 +4,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
   <meta charset="UTF-8">
   <title>객실 정보</title>
 </head>
-<body>
-
 <style>
 .contents {margin-left: 200px; }
 .roomInsert {margin-left: 1200px; }
 </style>
+<body>
+
 
 	<div class="roomInsert">
 		<a href="/host/insertRoom?hostNo=${param.hostNo }&hostingType=${param.hostingType }">객실 등록</a>
@@ -82,6 +75,7 @@
 
 </body>
 <script type="text/javascript">
+activeMenu('객실관리');
 
 $(function() {
  	$('.roomNo').on('click', function(e){
