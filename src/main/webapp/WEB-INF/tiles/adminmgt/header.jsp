@@ -97,6 +97,10 @@
   </div>
   
 <script type="text/javascript">
+$(".sub-nav__item a").click(function() {
+	$(".sub-nav__item-main a").removeClass('active');
+}) 
+
 function activeMenu(tabName, contentName) {
 	$('.tab__menu a').removeClass('active');
 	$(".tab__menu a:contains("+contentName+")").addClass('active');
@@ -104,10 +108,12 @@ function activeMenu(tabName, contentName) {
 	
 }
 function activeMenuTab(tabName) {
+	$(".sub-nav__item-main a").removeClass('active');
 	$(".sub-nav__item a:contains("+tabName+")")[0].click();
 	
 }
-function main() {
+
+function mainActive() {
 	$(".sub-nav__item-main a").addClass('active');
 	
 }

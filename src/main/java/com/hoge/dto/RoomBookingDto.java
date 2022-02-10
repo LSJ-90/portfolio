@@ -23,6 +23,7 @@ public class RoomBookingDto {
 	private int no;
 	private int roomBookingStatus;
 	private String roomBookingName;
+	private String roomBookingTel;
 	private int accommoNo;
 	private String name;
 	private long weekdaysPrice;
@@ -34,5 +35,6 @@ public class RoomBookingDto {
 	private String amenity;
 	private String feature;
 	private Date bookedDate;
+	private int extraPeople; 
 	
 }

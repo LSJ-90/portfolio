@@ -23,7 +23,7 @@ public class ScheduleTask {
 
 			
 	
-	@Scheduled(cron = "	0 1 0 * * ?")
+	@Scheduled(cron = "	0 1 10 * * ?")
 	public void sendHostPaidMoney() {
 		 List<RoomBookingBatchDto> roomBookingBatchDto = scheduleTaskService.getRoomBookingBatchDto();
 		 System.out.println(roomBookingBatchDto);

@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ include file="../common/tags.jsp" %>
-
 <main id="main">
+<c:set var="menu" value="qna"/>
   <article class="host-qna">
     <section class="host-qna__frequent">
       <div class="content-title">자주 묻는 질문</div>
@@ -216,6 +216,6 @@
 
 
 <script type="text/javascript">
-
+activeMenu('관리자문의');
 
 </script>
