@@ -29,6 +29,7 @@ public class AdminAccommoReviewDto {
 	private int hostNo;
 	private int accommoNo;
 	private String accommoName;
+	private String userName;
 	
 	private double cleanlinessStar;
 	private double communicationStar;

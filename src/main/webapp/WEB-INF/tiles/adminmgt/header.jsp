@@ -81,10 +81,13 @@
       </li>
       <li class="tab__content">
         <ul class="tab__menu">
-          <li class="tab__item"><a href="/admin/promotion-list">프로모션리스트</a></li>
-          <li class="tab__item"><a href="/admin/promotion-waiting-list">프로모션승인 대기</a></li>
+          <li class="tab__item"><a href="/admin/promotion-list">프로모션 리스트</a></li>
+          <li class="tab__item"><a href="/admin/promotion-waiting-list">승인대기</a></li>
           <li class="tab__item">
-            <a href="/admin/promotion-ended-list">프로모션승인 반려/종료</a>
+            <a href="/admin/promotion-denied-list">승인반려</a>
+          </li>
+          <li class="tab__item">
+            <a href="/admin/promotion-ended-list">프로모션 종료</a>
           </li>
         </ul>
       </li>

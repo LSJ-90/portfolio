@@ -7,19 +7,20 @@
  -->	
  <style>
 
-#mainImg { width: 450px; height:350px;}
+#mainImg { width: 1100px; height:500px;}
 </style>
 <main id="main">
     <article id="admin-user">
     	<div class="row">
-    		<div class="col-4">
+    		<div class="col-12">
     			 <img
 	              src="../../resources/images/hostMainImage/${host.mainImage }"
 	              id="mainImg"
 	            />
     		</div>
-    		<div class="col-8">
-		    	<p>호스트 기본 정보</p>
+    		<div class="col-12">
+		    	 <h1 class="section__title">호스트 기본정보</h1>
+		    	 <form>
 		 		<table class="user-list-table mt-2 mb-5">
 					<colgroup>
 		            <col style="width: 8%" />
@@ -48,13 +49,41 @@
 							<td>${host.userNo }</td>
 							<td>${host.tel }</td>
 							<td>${host.gradeName }</td>
-							<td>${host.status }</td>
-							<td>${host.statusDetail }</td>
+							<td>
+							<select class="search__select" name="approval">
+		            			   <option value="${host.status }" selected disabled="disabled">
+		            			   <c:if test="${host.status == 'Y'}">
+		            			   승인완료
+		            			   </c:if>
+		            			   <c:if test="${host.status == 'N'}">
+		            			   승인반려
+		            			   </c:if>
+		            			   <c:if test="${host.status == 'W'}">
+		            			   승인대기
+		            			   </c:if>
+		            			   <c:if test="${host.status == 'D'}">
+		            			   호스팅종료
+		            			   </c:if>
+		            			   <c:if test="${host.status == 'R'}">
+		            			   강제종료
+		            			   </c:if>
+		            			   </option>
+		           				   <option value="Y">승인완료</option>
+		            			   <option value="N">승인반려</option>
+             					   <option value="R">강제종료</option>
+							</select>
+							</td>
+							<td><input type="text" class="search-user" name="statusDetail" value="${host.statusDetail }" /></td>
 						</tr>
 					</tbody>
 				</table>
-				<p>출금정보</p>
-		 		<table class="user-list-table mt-2">
+					 </form>
+				  <button type="button" class="btn__search" id="btn-search-userQnA" onclick="modifyStatus()">
+	          		변경
+	        	</button>
+				
+				 <h1 class="section__title">출금 정보</h1>
+		 		<table class="user-list-table mt-2 mb-3">
 					<colgroup>
 		            <col style="width: 25%" />
 		            <col style="width: 25%" />
@@ -83,71 +112,72 @@
     	
     
     	
-    	<p>숙소정보</p>
-    	<div class="row">
-    		<div class="col-4">
+    	<div class="row mt-2">
+    	 <h1 class="section__title">숙소정보</h1>
+    		<div class="col-12">
+    		<table class="user-list-table" border="1"  align = "center" >
+				    <tr align = "center">
+					<td>체크인</td>
+					<td>${accMainDto.accCheckInTime}</td>
+					<td>체크아웃</td>
+					<td>${accMainDto.accCheckOutime}</td>
+					<td colspan="2">연락처</td>
+					<td>${host.tel}</td>
+				    </tr>
+				    <tr align = "center">
+					<td>주소</td>
+					<td colspan="6">${accMainDto.accAddress}</td>
+				    </tr>
+    		</table>
+    		
     		</div>
     		
     	</div>	
-    	
-    	<p>객실 리스트</p>
-    	<div class="row">
-    		<div class="col-4">
-				    		<table border="1" bordercolor="blue" width ="500" height="300" align = "center" >
-				    <tr bgcolor="blue" align ="center">
-					<p><td colspan = "3" span style="color:white">오늘의 수입/지출</td></p>
+    	<c:if test="${not empty roomList}">
+    	<div class="row mt-5">
+    	 <h1 class="section__title">객실리스트</h1>
+    		<div class="col-12">
+				 <table class="user-list-table" border="1"  align = "center" >
+				    <tr align = "center">
+					<td>객실</td>
+					<td>평일</td>
+					<td>주말</td>
+					<td>성수기</td>
+					<td>기준인원</td>
+					<td>최대인원</td>
+					<td>기준인원 초과시 인당가격</td>
 				    </tr>
-				    <tr align = "center" bgcolor="skybule">
-					<td>내용</td>
-					<td>수입</td>
-					<td>지출</td>
-					<td>지출</td>
-				    </tr>
-				    <tr>
-					<td>월급!</td>
-					<td>1,000,000</td>
-					<td></td>
-					<td></td>
-				    </tr>
-				    <tr>
-					<td>점심값</td>
-					<td></td>
-					<td>5,000</td>
-					<td>5,000</td>
-				    </tr>
-				    <tr>
-					<td>부모님선물</td>
-					<td></td>
-					<td>30,000</td>
-					<td>30,000</td>
-				    </tr>
-				    <tr>
-					<td rowspan="3" align = "center" bgcolor="skyblue">총계</td>
-					<td>수입</td>
-					<td>지출</td>
-					<td>지출</td>
-				    </tr>
-				    <tr>
-					<td>1,000,000</td>
-					<td>35,000</td>	
-					<td>35,000</td>	
-				    </tr>
-				    <tr>
-					<td>남은돈</td>
-					<td>965,000</td>	
-					<td>965,000</td>	
-				    </tr>
+				      <c:forEach var="room" items="${roomList }" varStatus="loop">
+					<tr align = "center">
+		            <td>${room.name }</td>
+		            <td><fmt:formatNumber value="${room.weekdaysPrice}" pattern="#,###" /></td>
+		            <td><fmt:formatNumber value="${room.weekendPrice}" pattern="#,###" /></td>
+		            <td><fmt:formatNumber value="${room.peakSeasonPrice}" pattern="#,###" /></td>
+		            <td>${room.standardNumber }</td>
+		            <td>${room.maximumNumber }</td>
+		            <td><fmt:formatNumber value="${room.pricePerPerson}" pattern="#,###" /></td>
+         			 </tr>    
+					 <c:if test="${not empty room.roomImages}">
+         			 <tr align = "center">
+         			 <c:forEach var="image" items="${room.roomImages}" varStatus="status">
+						<td><a href="#"><img src="/resources/images/room/${image.image }"  height="180" width="280" class="" alt="..."></a></td>
+					</c:forEach>
+				    </tr>        
+					</c:if>
+					 <c:if test="${empty room.roomImages}">
+						<h5>등록된 사진이 없습니다.</h5>
+					</c:if>
+        		   </c:forEach>
+         			        
 				</table>
     		</div>
     		
     	</div>	
+	</c:if>
+    	<c:if test="${empty roomList}">
+    	<h5>등록된 객실이 없습니다.</h5>
+	</c:if>
     	
-    	<p>출금정보</p>
-    	<div class="row">
-    		<div class="col-4">
-    		</div>
-    		
-    	</div>	
      	
 
   
@@ -158,8 +188,32 @@
 $(function(){
 	
 	activeMenuTab("숙소관리");
-	})
+})
 
+	
+function modifyStatus(){
+	var approval = $("select[name=approval]").val();
+	console.log(approval)
+	var statusDetail = $.trim($(":input[name=statusDetail]").val());
+	
+	$.ajax({
+		type: 'get',
+		url : "/admin/modify-status-host.do", //서비스 주소 
+		data : { //서비스 처리에 필요한 인자값
+			approval : approval,
+			statusDetail : statusDetail,
+			hostNo : ${host.no }
+		},
+		success :function(data) {
+			alert('변경완료');
+		},
+		error : function() {
+			alert("error");
+		}
+	});
+	
+
+}
 
 
 

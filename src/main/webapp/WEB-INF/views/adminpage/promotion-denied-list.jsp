@@ -5,7 +5,7 @@
  -->
 <main id="main">
   <article id="admin-user">
-  <h1 class="section__title">숙소 할인 프로모션</h1>
+  <h1 class="section__title">숙소 할인 프로모션 (반려)</h1>
   <form
       class="search-user__form review"
       id="form-search-userQnA"
@@ -75,7 +75,7 @@
 
  </article>
  <article id="admin-user">
- <h1 class="section__title">숙소 증정 프로모션</h1>
+ <h1 class="section__title">숙소 증정 프로모션 (반려)</h1>
   <form
       class="search-user__form review"
       id="form-search-userQnA"
@@ -147,7 +147,7 @@
  
  
  <article id="admin-user">
- <h1 class="section__title">체험 할인 프로모션</h1>
+ <h1 class="section__title">체험 할인 프로모션 (반려)</h1>
   <form
       class="search-user__form review"
       id="form-search-userQnA"
@@ -218,7 +218,7 @@
  </article>
  
  <article id="admin-user">
- <h1 class="section__title">체험 증정 프로모션</h1>
+ <h1 class="section__title">체험 증정 프로모션 (반려)</h1>
   <form
       class="search-user__form review"
       id="form-search-userQnA"
@@ -299,7 +299,7 @@
 <script type="text/javascript">
 $(function(){
 	
-	activeMenu("프로모션관리", "프로모션 리스트");
+	activeMenu("프로모션관리", "승인반려");
 	
 })
 searchAccDiscountPromotions();
@@ -315,7 +315,7 @@ function searchAccDiscountPromotions(page) {
 	
 			$.ajax({
 				type: 'POST',
-				url : "/admin/searchAccDiscountPromotions.do", //서비스 주소 
+				url : "/admin/searchDeniedAccDiscountPromotions.do", //서비스 주소 
 				data : { //서비스 처리에 필요한 인자값
 					page : page,
 					opt : opt,
@@ -383,7 +383,7 @@ function searchAccOfferPromotions(page) {
 	
 			$.ajax({
 				type: 'POST',
-				url : "/admin/searchAccOfferPromotions.do", //서비스 주소 
+				url : "/admin/searchDeniedAccOfferPromotions.do", //서비스 주소 
 				data : { //서비스 처리에 필요한 인자값
 					page : page,
 					opt : opt,
@@ -452,7 +452,7 @@ function searchActDiscountPromotions(page) {
 	
 			$.ajax({
 				type: 'POST',
-				url : "/admin/searchActDiscountPromotions.do", //서비스 주소 
+				url : "/admin/searchDeniedActDiscountPromotions.do", //서비스 주소 
 				data : { //서비스 처리에 필요한 인자값
 					page : page,
 					opt : opt,
@@ -520,7 +520,7 @@ function searchActOfferPromotions(page) {
 	
 			$.ajax({
 				type: 'POST',
-				url : "/admin/searchActOfferPromotions.do", //서비스 주소 
+				url : "/admin/searchDeniedActOfferPromotions.do", //서비스 주소 
 				data : { //서비스 처리에 필요한 인자값
 					page : page,
 					opt : opt,

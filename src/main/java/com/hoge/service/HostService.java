@@ -274,6 +274,8 @@ public class HostService {
 		}
 		
 		
-	
+		public void updateHost(Host host) {
+			hostMapper.updateHost(host);
+		}
 
 }

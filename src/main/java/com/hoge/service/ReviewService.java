@@ -72,4 +72,17 @@ public class ReviewService {
 	public void updateAccommReview(ReviewAccommo accommoReviewInfo) {
 		reviewMapper.updateAccommReview(accommoReviewInfo);
 	}
+	
+	 public AdminAccommoReviewDto getAccommoReviewsDtoByReviewNo(int no) {
+		 return reviewMapper.getAccommoReviewsDtoByReviewNo(no);
+	 }
+	
+	 public void answerUpdateAccommReview(ReviewAccommo reviewAccommo) {
+		 reviewMapper.answerUpdateAccommReview(reviewAccommo);
+	 }
+	 
+	 public ReviewAccommo getAccommoReviewByReviewNo(int no) {
+		 return reviewMapper.getAccommoReviewByReviewNo(no);
+	 }
+	
 }

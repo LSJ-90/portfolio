@@ -26,8 +26,11 @@ public interface ReviewMapper {
 	int getActivityReviewsTotalRows(Criteria criteria);
 	
 	
+	 AdminAccommoReviewDto getAccommoReviewsDtoByReviewNo(int no);
 		
-		
+	 void answerUpdateAccommReview(ReviewAccommo reviewAccommo);
+	 
+	 ReviewAccommo getAccommoReviewByReviewNo(int no);
 		
 		//성하민 호스트페이지 메인에서 최근 3일 리뷰건수 가져오기
 		int getRecentReviewCountByAccommoNo(int no);
@@ -49,4 +52,6 @@ public interface ReviewMapper {
 		
 		//이승준: 나의 리뷰 업데이트
 		void updateAccommReview(ReviewAccommo accommoReviewInfo);
+		
+		
 }

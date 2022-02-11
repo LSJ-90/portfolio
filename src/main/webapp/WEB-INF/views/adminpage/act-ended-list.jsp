@@ -259,7 +259,7 @@
 <script type="text/javascript">
 $(function(){
 	
-	activeMenu("숙소관리", "숙소승인 반려/종료");
+	activeMenu("체험관리", "체험승인 반려/종료");
 	})
 
 searchDeniedActivities();

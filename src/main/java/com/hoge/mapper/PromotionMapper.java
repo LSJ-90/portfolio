@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import com.hoge.dto.PromotionDto;
 import com.hoge.form.Criteria;
 import com.hoge.vo.other.PromotionDiscount;
+import com.hoge.vo.other.PromotionOffer;
 
 @Mapper
 public interface PromotionMapper {
@@ -28,6 +29,11 @@ public interface PromotionMapper {
 	int getActDiscountPromotionCount(Criteria criteria);
 	int getActOfferPromotionCount(Criteria criteria);
 	
+	PromotionDiscount getPromotionDiscountByPromotionNo(int no);
+	PromotionOffer getPromotionOfferByPromotionNo(int no);
+	
+	void updatePromotionDiscount(PromotionDiscount promotionDiscount);
+	void updatePromotionOffer(PromotionOffer promotionOffer);
 	
 	
 	

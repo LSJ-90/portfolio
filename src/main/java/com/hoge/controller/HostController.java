@@ -82,6 +82,7 @@ import com.hoge.vo.other.HostTransaction;
 import com.hoge.vo.other.Message;
 import com.hoge.vo.other.PromotionDiscount;
 import com.hoge.vo.other.PromotionOffer;
+import com.hoge.vo.other.ReviewAccommo;
 import com.hoge.vo.other.User;
 import com.hoge.vo.other.Withdrawal;
 
@@ -442,7 +443,7 @@ public class HostController {
 			List<RoomBooking> todayCheckOutList = hostService.getTodayCheckOutByAccommoNo(accMainDto.getAccNo());
 			List<RoomBooking> todayCheckInList = hostService.getTodayCheckInByAccommoNo(accMainDto.getAccNo());
 			List<RoomListDto> roomList = accommodationService.getRoomListByAccNo(accMainDto.getAccNo());
-			
+			model.addAttribute("roomList", roomList);
 			System.out.println("todayCheckOutList:" +todayCheckOutList);
 			System.out.println("todayCheckInList:" +todayCheckInList);
 			
@@ -483,6 +484,60 @@ public class HostController {
 			Host savedHost = hostService.getHostByNo(hostNo);
 			model.addAttribute("savedHost", savedHost);
 			return "hostpage/actBookingCalendar.hosttiles";
+		}
+	}
+	
+	//성하민
+		@GetMapping("/review-answer.do")							// 요청핸들러 메소드에 @ResponseBody를 붙인다.
+		public @ResponseBody AdminAccommoReviewDto reviewdetail(@RequestParam(name = "no",required = true) int no) {
+			AdminAccommoReviewDto reviewDto = reviewService.getAccommoReviewsDtoByReviewNo(no);
+			return reviewDto;
+		}
+		
+		
+		
+		@PostMapping("/review-answer-insert")
+		public String reviewAnswer(int hostNo, int hostingType, String answerContent, int reviewNo) throws IOException {
+			ReviewAccommo review = reviewService.getAccommoReviewByReviewNo(reviewNo);
+			review.setAnswerContent(answerContent);
+			reviewService.answerUpdateAccommReview(review);
+			
+			return "redirect:review?page=1&hostNo="+hostNo+"&hostingType="+hostingType;
+		}
+		
+	
+	// 성하민 호스트 리뷰관리 페이지
+	@GetMapping("/review")
+	public String review(String page, int hostNo, int hostingType, Model model) {
+		if (hostingType == 1) {
+
+			Criteria criteria = new Criteria();
+			criteria.setOpt("호스트번호");
+			String hostNoString = Integer.toString(hostNo);
+			criteria.setValue(hostNoString);
+			int totalrecords = reviewService.getAccommoReviewsTotalRows(criteria);
+			
+			Pagination pagination = new Pagination(page, totalrecords);
+			
+			criteria.setBeginIndex(pagination.getBegin());
+			criteria.setEndIndex(pagination.getEnd());
+			
+			List<AdminAccommoReviewDto> reviewList = reviewService.getAccommoReviewsByCriteria(criteria);
+			
+			model.addAttribute("pagination", pagination);
+			model.addAttribute("reviewList", reviewList);
+			AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
+			model.addAttribute("accMainDto", accMainDto);
+			Host savedHost = hostService.getHostByNo(hostNo);
+			model.addAttribute("savedHost", savedHost);
+			
+			return "hostpage/review.hosttiles";
+		} else {
+			ActMainDto actMainDto = hostService.getActMainByHostNo(hostNo);
+			model.addAttribute("actMainDto", actMainDto);
+			Host savedHost = hostService.getHostByNo(hostNo);
+			model.addAttribute("savedHost", savedHost);
+			return "hostpage/review.hosttiles";
 		}
 	}
 	

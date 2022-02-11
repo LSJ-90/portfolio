@@ -225,7 +225,7 @@ function setTotalPrice() {
 
 function checkboxArr() {
     var checkArr = [];     // 배열 초기화
-    $("input[name='withdrawal']:checked").each(function(i) {
+    $("#dataSection input[name='withdrawal']:checked").each(function(i) {
         checkArr.push($(this).val());     // 체크된 것만 값을 뽑아서 배열에 push
     })
  
