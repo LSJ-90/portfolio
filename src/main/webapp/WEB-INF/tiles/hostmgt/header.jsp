@@ -23,7 +23,7 @@
 			</c:choose>
 
 				<li class="host-nav__item"><a href="/host/mainPromotion?hostNo=${param.hostNo }&hostingType=${param.hostingType }">프로모션</a></li>
-				<li class="host-nav__item"><a href="">리뷰관리</a></li>
+				<li class="host-nav__item"><a href="/host/review?page=1&hostNo=${param.hostNo }&hostingType=${param.hostingType }">리뷰관리</a></li>
 				<li class="host-nav__item"><a href="/host/booking-calendar?hostNo=${param.hostNo }&hostingType=${param.hostingType }">예약관리</a></li>
 				<li class="host-nav__item"><a href="/host/sales?hostNo=${param.hostNo }&hostingType=${param.hostingType }">매출관리</a></li>
 

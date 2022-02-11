@@ -63,6 +63,10 @@
 			</if>
 	</select>
   
+  
+  
+  
+  
    <!-- // 성하민
   List<AdminActivityReviewDto> getActivityReviewsByCriteria(Criteria criteria);
 	 -->
@@ -133,6 +137,68 @@
 	</select> 
   
   <!-- // 성하민
+  ReviewAccommo getAccommoReviewByReviewNo(int no);
+		
+	 -->
+	<select id="getAccommoReviewByReviewNo" parameterType="int" resultType="com.hoge.vo.other.ReviewAccommo">
+		select 	
+			ACCOMMO_REVIEW_NO as no,
+			USER_NO	as userNo,
+		
+			ACCOMMO_NO as accommoNo,
+			
+		
+			REVIEW_CLEANLINESS_STAR	as cleanlinessStar,
+			REVIEW_COMMUNICATION_STAR as communicationStar,
+			REVIEW_ACCURACY_STAR as accuracyStar,
+			REVIEW_LOCATION_STAR as locationStar,
+
+			REVIEW_CONTENT as content,
+			REVIEW_CREATED_DATE	as createdDate,
+			REVIEW_DELETED as deleted,
+			REVIEW_UPDATED_DATE	as updatedDate,
+ 
+ 			REVIEW_ANSWERED	as answered,
+			ANSWER_CONTENT as answerContent,
+			ANSWER_DELETED as answerDeleted,
+			ANSWER_CREATED_DATE as answerCreatedDate
+		from TB_FINAL_ACCOMMO_REVIEWS
+		where ACCOMMO_REVIEW_NO = #{no}
+	</select> 
+  <!-- // 성하민
+  AdminAccommoReviewDto getAccommoReviewsDtoByReviewNo(int no);
+		
+	 -->
+	<select id="getAccommoReviewsDtoByReviewNo" parameterType="int" resultType="com.hoge.dto.AdminAccommoReviewDto">
+		select 	
+			r.ACCOMMO_REVIEW_NO as no,
+			r.USER_NO	as userNo,
+			u.USER_Name as userName,
+			
+			r.ACCOMMO_NO as accommoNo,
+			a.ACCOMMO_NAME as accommoName,
+				
+			r.REVIEW_CLEANLINESS_STAR	as cleanlinessStar,
+			r.REVIEW_COMMUNICATION_STAR as communicationStar,
+			r.REVIEW_ACCURACY_STAR as accuracyStar,
+			r.REVIEW_LOCATION_STAR as locationStar,
+
+			r.REVIEW_CONTENT as content,
+			r.REVIEW_CREATED_DATE	as createdDate,
+			r.REVIEW_DELETED as deleted,
+			r.REVIEW_UPDATED_DATE	as updatedDate,
+ 
+ 			r.REVIEW_ANSWERED	as answered,
+			r.ANSWER_CONTENT as answerContent,
+			r.ANSWER_DELETED as answerDeleted,
+			r.ANSWER_CREATED_DATE as answerCreatedDate
+		from TB_FINAL_ACCOMMO_REVIEWS R, TB_FINAL_ACCOMMODATIONS A, tb_final_users u
+		where R.ACCOMMO_NO = A.ACCOMMO_NO
+		AND U.USER_NO = R.USER_NO
+		and r.ACCOMMO_REVIEW_NO = #{no}
+	</select> 
+  
+  <!-- // 성하민
   List<AdminAccommoReviewDto> getAccommoReviewsByCriteria(Criteria criteria);
 		
 	 -->
@@ -140,6 +206,7 @@
 		select 	
 			ACCOMMO_REVIEW_NO as no,
 			USER_NO	as userNo,
+			USER_Name as userName,
 			HOST_NO	as hostNo,
 			
 			ACCOMMO_NO as accommoNo,
@@ -164,7 +231,7 @@
 			R.ACCOMMO_REVIEW_NO,
 			R.USER_NO,
 			A.HOST_NO,
-			
+			u.user_name,
 			R.ACCOMMO_NO,
 			A.ACCOMMO_NAME,
 				
@@ -183,8 +250,9 @@
 			R.ANSWER_DELETED,
 			R.ANSWER_CREATED_DATE,
 	 		row_number() over (order by R.REVIEW_CREATED_DATE desc) rn
-		from TB_FINAL_ACCOMMO_REVIEWS R, TB_FINAL_ACCOMMODATIONS A
+		from TB_FINAL_ACCOMMO_REVIEWS R, TB_FINAL_ACCOMMODATIONS A, tb_final_users u
 		where R.ACCOMMO_NO = A.ACCOMMO_NO
+		AND U.USER_NO = R.USER_NO
 			<if test="opt != null and value != null and opt != '' and value != ''">
 				<choose>
 					<when test="opt == '호스트번호'">
@@ -219,6 +287,7 @@
 		from TB_FINAL_ACCOMMO_REVIEWS
 		where review_created_date &gt;= trunc(sysdate-2)
 		and accommo_no = #{no}
+		and REVIEW_DELETED = 'N'
 	</select>
 	
 	<!--//성하민 호스트페이지 메인에서 오늘 리뷰건수 가져오기
@@ -229,6 +298,7 @@
 		from TB_FINAL_ACCOMMO_REVIEWS
 		where review_created_date &gt;= trunc(sysdate)
 		and accommo_no = #{no}
+		and REVIEW_DELETED = 'N'
 		</select>
 		
 	 
@@ -288,6 +358,7 @@
 		where R.ACCOMMO_NO = A.ACCOMMO_NO
 		and r.review_created_date &gt;= trunc(sysdate-2)
 		and r.accommo_no = #{no}
+		and REVIEW_DELETED = 'N'
 		)
 		where rn between #{beginIndex} and #{endIndex}
 	</select> 
@@ -351,7 +422,6 @@
 	
 	<!--이승준: 나의 해당숙소리뷰 조회
   		int reviewCheck(UserRevInfoDto userRevInfoDto);
-		
 	 -->
 	<select id="selectAccommoReview" parameterType="com.hoge.dto.UserRevInfoDto" resultType="com.hoge.vo.other.ReviewAccommo">
 		select
@@ -388,6 +458,19 @@
         and 
             check_out_date = #{checkOutDate}
 	</select>
+	
+	<!--성하민 리뷰 답변하기
+	 -->
+	<update id="answerUpdateAccommReview" parameterType="com.hoge.vo.other.ReviewAccommo">
+		update tb_final_accommo_reviews
+		<set>
+			review_answered = 'Y',
+            answer_content = #{answerContent},
+            answer_created_date = sysdate
+         </set>
+		where
+			accommo_review_no = #{no}
+	</update>  
 	
 	<update id="updateAccommReview" parameterType="com.hoge.vo.other.ReviewAccommo">
 		update tb_final_accommo_reviews

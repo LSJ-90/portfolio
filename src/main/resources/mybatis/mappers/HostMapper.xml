@@ -653,7 +653,7 @@
 	 		ACCUMULATED_MONEY as accumulatedMoney,
 	 		STATUS_DETAIL as statusDetail,
 			request as request,
-			status as hostStatus
+			status as status
 	 	from
 	 		tb_final_hosts
 	 	where 

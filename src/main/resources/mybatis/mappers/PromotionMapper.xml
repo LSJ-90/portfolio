@@ -19,6 +19,60 @@
 			and ((#{checkIn} between p.promotion_starting_date and p.promotion_ending_date) or 
 			(#{checkOut} between p.promotion_starting_date and p.promotion_ending_date))
 	</select>
+
+	
+	
+	<!--  void updatePromotionDiscount(PromotionDiscount promotionDiscount);-->
+	<update id="updatePromotionDiscount" parameterType="com.hoge.vo.other.PromotionDiscount">
+		update tb_final_discount_promotions
+		set status =  #{status}
+		where discount_promotion_no = #{no}
+	</update>	
+		
+	<!--  void updatePromotionOffer(PromotionOffer PromotionOffer);-->
+	<update id="updatePromotionOffer" parameterType="com.hoge.vo.other.PromotionOffer">
+		update TB_FINAL_OFFER_PROMOTIONS
+		set status =  #{status}
+		where offer_promotion_no = #{no}
+	</update>	
+		
+		
+		
+		
+	<!--  PromotionDiscount getPromotionDiscountByPromotionNo(int no);-->
+	<select id="getPromotionDiscountByPromotionNo" parameterType="int" resultType="com.hoge.vo.other.PromotionDiscount">
+		select 
+		discount_promotion_no as no,
+		promotion_intro_content as introContent,
+		weekdays_discount_rate as weekdaysDiscountRate,
+		weekend_discount_rate as weekendDiscountRate,
+		peak_season_discount_rate as peakSeasonDiscountRate,
+		promotion_starting_date as startingDate,
+		promotion_ending_date as endingDate,
+		host_no as hostNo,
+		PROMOTION_REGISTERED_DATE as registeredDate,
+		status as status
+		from 
+			tb_final_discount_promotions
+		where discount_promotion_no = #{no}
+	</select>
+		
+		
+	<!--  PromotionOffer getPromotionOfferByPromotionNo(int no);-->
+	<select id="getPromotionOfferByPromotionNo" parameterType="int" resultType="com.hoge.vo.other.PromotionOffer">
+		select 
+		OFFER_PROMOTION_NO as no,
+		promotion_intro_content as introContent,
+		OFFER_CONTENT as content,
+		promotion_starting_date as startingDate,
+		promotion_ending_date as endingDate,
+		host_no as hostNo,
+		PROMOTION_REGISTERED_DATE as registeredDate,
+		status as status
+		from 
+			TB_FINAL_OFFER_PROMOTIONS
+		where offer_promotion_no = #{no}
+	</select>
 	
 	
 	
@@ -58,7 +112,8 @@
 			registeredDate,
 			activityNo,
 			activityName,
-			status
+			status,
+			hostNo
 		from (select 
 			p.offer_promotion_no as no,
 			p.promotion_intro_content as introContent,
@@ -69,6 +124,7 @@
 			a.activity_no as activityNo,
 			a.activity_name as activityName,
 			p.status as status,
+			p.host_no as hostNo,
 			row_number() over (
 			<if test="order != null and order != ''">
 				<choose>
@@ -144,7 +200,8 @@
 			registeredDate,
 			activityNo,
 			activityName,
-			status
+			status,
+			hostNo
 		from (select 
 			p.discount_promotion_no as no,
 			p.promotion_intro_content as introContent,
@@ -157,6 +214,7 @@
 			a.activity_no as activityNo,
 			a.activity_name as activityName,
 			p.status as status,
+			p.host_no as hostNo,
 			row_number() over (
 			<if test="order != null and order != ''">
 				<choose>
@@ -229,7 +287,8 @@
 			registeredDate,
 			accommoNo,
 			accommoName,
-			status
+			status,
+			hostNo
 		from (select 
 			p.discount_promotion_no as no,
 			p.promotion_intro_content as introContent,
@@ -242,6 +301,7 @@
 			a.accommo_no as accommoNo,
 			a.accommo_name as accommoName,
 			p.status as status,
+			p.host_no as hostNo,
 			row_number() over (
 			<if test="order != null and order != ''">
 				<choose>
@@ -315,7 +375,8 @@
 			registeredDate,
 			accommoNo,
 			accommoName,
-			status
+			status,
+			hostNo
 		from (select 
 			p.offer_promotion_no as no,
 			p.promotion_intro_content as introContent,
@@ -326,6 +387,7 @@
 			a.accommo_no as accommoNo,
 			a.accommo_name as accommoName,
 			p.status as status,
+			p.host_no as hostNo,
 			row_number() over (
 			<if test="order != null and order != ''">
 				<choose>

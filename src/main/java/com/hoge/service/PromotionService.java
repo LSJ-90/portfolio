@@ -10,6 +10,7 @@ import com.hoge.dto.PromotionDto;
 import com.hoge.form.Criteria;
 import com.hoge.mapper.PromotionMapper;
 import com.hoge.vo.other.PromotionDiscount;
+import com.hoge.vo.other.PromotionOffer;
 
 @Service
 public class PromotionService {
@@ -52,4 +53,20 @@ public class PromotionService {
 	public int getActOfferPromotionCount(Criteria criteria) {
 		return promotionMapper.getActOfferPromotionCount(criteria);
 	}
+	
+
+	public PromotionDiscount getPromotionDiscountByPromotionNo(int no) {
+		return promotionMapper.getPromotionDiscountByPromotionNo(no);
+	}
+	public PromotionOffer getPromotionOfferByPromotionNo(int no) {
+		return promotionMapper.getPromotionOfferByPromotionNo(no);
+	}
+	
+	public void updatePromotionDiscount(PromotionDiscount promotionDiscount) {
+		promotionMapper.updatePromotionDiscount(promotionDiscount);
+	}
+	public void updatePromotionOffer(PromotionOffer promotionOffer) {
+		promotionMapper.updatePromotionOffer(promotionOffer);
+	}
+	
 }

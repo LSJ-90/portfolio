@@ -2,6 +2,104 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hoge.mapper.StatisticsMapper">
   
+  
+  
+   <!--  int getTodayJoinCount();//오늘 가입한 회원수 -->
+   <select id="getTodayJoinCount" resultType="int">
+   select count(*)
+	from tb_final_users
+	where USER_REGISTERED_DATE &gt;= trunc(sysdate)
+   </select>
+   
+   <!-- int getTodayLeftCount();//오늘 탈퇴한 회원수 -->
+   <select id="getTodayLeftCount" resultType="int">
+   select count(*)
+	from tb_final_users
+	where USER_DELEDTED_DATE &gt;= trunc(sysdate)
+   </select>
+   
+   
+   
+   <!-- int getTodayAccommoReviewCount(); //오늘 숙소리뷰 카운트 -->
+   <select id="getTodayAccommoReviewCount" resultType="int">
+     select count(*)
+	from TB_FINAL_ACCOMMO_REVIEWS
+	where REVIEW_CREATED_DATE &gt;= trunc(sysdate)
+   </select>
+   
+   <!-- int getTodayActivityReviewCount(); //오늘 체험리뷰 카운트 -->
+   <select id="getTodayActivityReviewCount" resultType="int">
+    select count(*)
+	from TB_FINAL_ACCOMMO_REVIEWS
+	where TB_FINAL_ACTIVITY_REVIEWS &gt;= trunc(sysdate)
+   </select>
+   
+   <!-- int getNotAnsweredUserQna(); 답변미완료된 유저질문 -->
+   <select id="getNotAnsweredUserQna" resultType="int">
+   select count(*)
+	from TB_FINAL_USER_QNAS
+	WHERE QUESTION_ANSWERED = 'N'
+   </select>
+   
+   
+   <!-- int getNotAnsweredHostQna(); 답변미완료된 호스트질문 -->
+   <select id="getNotAnsweredHostQna" resultType="int">
+   select count(*)
+	from TB_FINAL_HOST_QNAS
+	WHERE QUESTION_ANSWERED = 'N'
+   </select>
+   
+   <!-- int getTodayTransactionCount(); 오늘 거래-->
+   <select id="getTodayTransactionCount" resultType="int">
+     select count(*)
+	from TB_FINAL_TRANSACTIONS
+	where TRANSACTION_DATE &gt;= trunc(sysdate)
+	and TRANSACTION_TYPE = 1
+   </select>
+   
+   <!-- int getTodayCancelTransactionCount(); 오늘 결제취소-->
+   <select id="getTodayCancelTransactionCount" resultType="int">
+    select count(*)
+	from TB_FINAL_TRANSACTIONS
+	where TRANSACTION_DATE &gt;= trunc(sysdate)
+	and TRANSACTION_TYPE = 3
+   </select>
+   
+   <!-- int getAccommoWaitingCount(); 숙소대기리스트-->
+   <select id="getAccommoWaitingCount" resultType="int">
+   select count(*)
+	from TB_FINAL_HOSTS
+	where STATUS = 'W'
+	and HOSTING_TYPE = 1
+   </select>
+   
+   <!-- int getActivityWaitingCount(); 체험대기리스트-->
+   <select id="getActivityWaitingCount" resultType="int">
+   select count(*)
+	from TB_FINAL_HOSTS
+	where STATUS = 'W'
+	and HOSTING_TYPE = 2
+   </select>
+   
+   <!-- int getDiscountPromotionWaitingCount(); 프로모션대기리스트-->
+   <select id="getDiscountPromotionWaitingCount" resultType="int">
+   select count(*)
+	from TB_FINAL_DISCOUNT_PROMOTIONS
+	where STATUS = 'W'
+   </select>
+   
+   <!-- int getOfferPromotionWaitingCount(); 프로모션대기리스트-->
+   <select id="getOfferPromotionWaitingCount" resultType="int">
+      select count(*)
+	from TB_FINAL_OFFER_PROMOTIONS
+	where STATUS = 'W'
+   </select>
+   
+   
+   
+                
+
+
 
 	
   <!-- List<LabelDataDto> getRegisterCountPerDayDto(); -->

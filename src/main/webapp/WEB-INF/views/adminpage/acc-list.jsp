@@ -146,7 +146,7 @@ function searchAccommos(page) {
 					for (var i = 0; i < list.length; i++) {
 						data += "<tr>";
 						data += "<td>" + list[i].no + "</td>";
-						data += "<td>" + list[i].hostName + "</td>";
+						data += "<td><a href='/admin/accommo-detail?hostNo=" + list[i].hostNo + "' class='withdrawal-color'>"+list[i].hostName+"</a></td>";
 						data += "<td>" + list[i].gradeName + "</td>";
 						data += "<td>" + list[i].userNo + "</td>";
 						data += "<td>" + list[i].hostTel + "</td>";
