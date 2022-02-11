@@ -39,7 +39,7 @@
 						</div>	
 						<div class="row-2 d-flex">
 							<c:if test="${myRevInfo.roomBookingStatus eq 1 }">
-								<button id="" type="button" class="btn btn-dark me-2">예약취소</button>
+								<button id="" class="btn btn-dark me-2" onclick="creatingModal(${myRevInfo.roomBookingNo })">예약취소</button>
 							</c:if>
 							<c:if test="${myRevInfo.roomBookingStatus eq 2 }">
 								<button id="" type="button" class="btn btn-dark me-2">취소완료</button>
@@ -233,6 +233,104 @@
 		</c:forEach>
 	</div>
 </div>
+
+<div class="modal fade" id="modal-cancelRev" tabindex="-1" aria-labelledby="예약취소" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<article class="modal-content">
+			<header class="modal-title">
+				<p class="modal__title">예약 취소</p>
+			</header>
+			<main class="modal-main">
+				<p class="question__title" id="defaultTitle">기본정보</p>
+				<table class="user-list-table">
+					<colgroup>
+						<col style="width: 20%" />
+						<col style="width: 20%" />
+						<col style="width: 20%" />
+						<col style="width: 20%" />
+						<col style="width: 20%" />
+					</colgroup>
+					<thead>
+						<tr>
+							<th>예약번호</th>
+							<th>숙소이름</th>
+							<th>방이름</th>
+							<th>예약자</th>
+							<th>추가인원</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td id="roomBookingNo"></td>
+							<td id="accommoName"></td>
+							<td id="roomName"></td>
+							<td id="roomUserName"></td>
+							<td id="extraPeople"></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="modal-question">
+					<p class="question__title" id="detailTitle">결제정보</p>
+					<table class="user-list-table">
+						<colgroup>
+							<col style="width: 20%" />
+							<col style="width: 20%" />
+							<col style="width: 20%" />
+							<col style="width: 20%" />
+							<col style="width: 20%" />
+						</colgroup>
+						<thead>
+							<tr>
+								<th>결제일</th>
+								<th>결제타입</th>
+								<th>결제액</th>
+								<th>사용포인트</th>
+								<th>실 결제금액</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td id="bookingMadeDate"></td>
+								<td id="payment"></td>
+								<td id="roomTaxIncludedPrice"></td>
+								<td id="usedPnt"></td>
+								<td id="paidPrice"></td>
+							</tr>
+						</tbody>
+					</table>
+					<table class="user-list-table">
+						<colgroup>
+							<col style="width: 50%" />
+							<col style="width: 50%" />
+						</colgroup>
+						<thead>
+							<tr>
+								<th>예상 환불 포인트</th>
+								<th>예상 환불 금액</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td id="refundUsedPnt"></td>
+								<td id="refundpaidPrice"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<form id="cancel-form" method="post" action="/mypage/myrevlist/cancelrev">
+					<input type="hidden" name="roomBookingNo" value="" />
+					<div class="modal-answer">
+						<p class="answer__title">취소 사유</p>
+						<textarea class="answer__textarea" name="cancelReason" id="cancelRevContent"></textarea>
+					</div>
+					<div class="answer-btn">
+						<button type="button" class="btn__answer" id="cancelRevBtn" data-bs-dismiss="modal">예약 취소</button>
+					</div>
+				</form>
+			</main>
+		</article>
+	</div>
+</div>
 <script>
 $(function() {
 	/* 작성된 리뷰 별점셋팅 스타트 */
@@ -308,9 +406,7 @@ $(function() {
 			$("#form-update-review${myRevInfo.roomBookingNo }").submit();
 		});
 	</c:forEach>
-	
-	
-	
+
 	/* 리뷰 수정 보류
 	<c:forEach var="myRevInfo" items="${myRevList }">
 	
@@ -346,5 +442,43 @@ $(function() {
 	});
 	
 	</c:forEach>*/
+});
+
+function creatingModal(no) {
+	
+	let answeringModal = new bootstrap.Modal(document.getElementById('modal-cancelRev'), {
+		keyboard: false
+	
+	});
+	
+	
+	$.getJSON('/mypage/myrevlist/cancelrev', {no:no}, function(myRevInfoByBookingNo) {
+			$("#bookingMadeDate").text(myRevInfoByBookingNo.bookingMadeDate);
+			$('#roomBookingNo').text(myRevInfoByBookingNo.roomBookingNo);
+			$('#accommoName').text(myRevInfoByBookingNo.accommoName);
+			$('#roomName').text(myRevInfoByBookingNo.roomName);
+			$('#roomUserName').text(myRevInfoByBookingNo.roomUserName);
+			$('#extraPeople').text(myRevInfoByBookingNo.extraPeople);
+			$('#payment').text(myRevInfoByBookingNo.payment);
+			$('#paidPrice').text(myRevInfoByBookingNo.paidPrice);
+			$('#usedPnt').text(myRevInfoByBookingNo.usedPnt);
+			$('#roomTaxIncludedPrice').text(myRevInfoByBookingNo.roomTaxIncludedPrice);
+			$('#refundUsedPnt').text(myRevInfoByBookingNo.usedPnt);
+			$('#refundpaidPrice').text(myRevInfoByBookingNo.paidPrice);
+			$('input[name=roomBookingNo]').attr('value', myRevInfoByBookingNo.roomBookingNo);
+	});
+	
+	answeringModal.show();
+}
+$("#cancelRevBtn").click(function() {
+	
+	var roomBookingNo = $(":input[name=roomBookingNo]").val();
+	var cancelReason = $(":input[name=cancelReason]").val();
+	
+	console.log(roomBookingNo);
+	console.log(cancelReason);
+	
+	$("#cancel-form").trigger("submit");
+	
 });
 </script>

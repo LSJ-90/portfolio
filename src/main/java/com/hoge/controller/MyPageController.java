@@ -28,6 +28,7 @@ import com.hoge.config.auth.LoginedUser;
 import com.hoge.dto.AccListDto;
 import com.hoge.dto.AccommoListDto;
 import com.hoge.dto.ActListDto;
+import com.hoge.dto.AdminHostQnADto;
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.ChattingMessageDto;
 import com.hoge.dto.UserRevInfoDto;
@@ -81,7 +82,23 @@ public class MyPageController {
 		if (!(myRevList.isEmpty())) {
 			model.addAttribute("myRevList", myRevList);
 		}
+		
 		return "mypage/myRevList.mytiles";
+	}
+	
+	// 이승준: 마이페이지 예약 취소정보 조회
+	@GetMapping("/myrevlist/cancelrev")							
+	public @ResponseBody UserRevInfoDto getRevInfoByBookingNo(@RequestParam(name = "no",required = false) int no) {
+		
+		UserRevInfoDto myRevInfoByBookingNo = userService.getRevInfoByBookingNo(no);
+		return myRevInfoByBookingNo;
+	}
+	
+	// 이승준: 마이페이지 예약 취소 진행
+	@PostMapping("/myrevlist/cancelrev")							// 요청핸들러 메소드에 @ResponseBody를 붙인다.
+	public String cancelMyRev(@RequestParam(name = "no",required = false) int no) {
+		
+		return "redirect:/mypage/myrevlist";
 	}
 	
 	@GetMapping("/myrevlist/updatereview")

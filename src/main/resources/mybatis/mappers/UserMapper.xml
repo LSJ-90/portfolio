@@ -265,15 +265,36 @@
 		UserRevInfoDto getRevInfoByBookingNo(int roomBookingNo);
 	 -->
 	<select id="getRevInfoByBookingNo" resultType="com.hoge.dto.UserRevInfoDto" parameterType="int">
-		select 
+		select
+			bookings.user_no as userNo,
+			bookings.room_booking_name as roomUserName,
+			bookings.room_booking_tel as roomUserTel,
+			bookings.room_extra_people as extraPeople,
+			bookings.room_booking_no as roomBookingNo,
+            bookings.room_booking_status as roomBookingStatus,
+			accommos.accommo_no as accommoNo,
+			accommos.accommo_name as accommoName,
             rooms.room_no as roomNo,
+			rooms.room_name as roomName,
+			accommos.accommo_region_depth1 as accommoRegionDepth1,
+			accommos.accommo_region_depth2 as accommoRegionDepth2,
 			bookings.check_in_date as checkInDate,
-			bookings.check_out_date as checkOutDate
+			bookings.check_out_date as checkOutDate,
+			bookings.booking_made_date as bookingMadeDate,
+			bookings.room_canceled_date as canceledDate,
+			bookings.room_cancel_reason as cancelReason,
+			bookings.room_payment as payment,
+			bookings.room_tax_included_price as roomTaxIncludedPrice,
+			bookings.room_used_pnt as usedPnt,
+			bookings.room_paid_price as paidPrice
 		from 
-			tb_final_room_bookings bookings, tb_final_rooms rooms
+			tb_final_room_bookings bookings, tb_final_rooms rooms, tb_final_accommodations accommos
 		where 
-			rooms.room_no = bookings.room_no 
-        and room_booking_no = #{roomBookingNo}
+			rooms.accommo_no = accommos.accommo_no
+		and 
+			rooms.room_no = bookings.room_no
+        and 
+        	room_booking_no = #{roomBookingNo}
 	</select>
 	
 	<!-- 이승준
