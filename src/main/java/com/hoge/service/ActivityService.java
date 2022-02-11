@@ -15,9 +15,12 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.hoge.dto.ActivityBookingDto;
+import com.hoge.dto.ActivityListDto;
+import com.hoge.dto.MapArea;
 import com.hoge.form.AccommoReserveForm;
 import com.hoge.form.ActTimeForm;
 import com.hoge.form.ActivityReserveForm;
+import com.hoge.form.Criteria;
 import com.hoge.mapper.AccommodationMapper;
 import com.hoge.mapper.ActivityMapper;
 import com.hoge.vo.activities.Activity;
@@ -186,6 +189,17 @@ public class ActivityService {
 		activityMapper.modifyTimeTable(form);
 	}
 	
+	// 염주환
+	public int getTotalRows(MapArea mapArea) {
+		return activityMapper.getActivitiesTotalRows(mapArea);
+	}
 	
+	public List<ActivityListDto> getActivityDtos(MapArea mapArea, Criteria criteria) {
+		List<ActivityListDto> dtos = activityMapper.getActivityListDto(mapArea, criteria);
+		for (ActivityListDto dto : dtos) {
+			dto.setActivityImages(activityMapper.getActivityImageList(dto.getNo()));
+		}
+		return dtos;
+	}
 	
 }

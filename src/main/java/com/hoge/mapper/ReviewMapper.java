@@ -7,8 +7,8 @@ import org.apache.ibatis.annotations.Param;
 
 import com.hoge.dto.AdminAccommoReviewDto;
 import com.hoge.dto.AdminActivityReviewDto;
+import com.hoge.dto.UserRevInfoDto;
 import com.hoge.form.Criteria;
-import com.hoge.vo.accommo.RoomBooking;
 import com.hoge.vo.other.ReviewAccommo;
 
 
@@ -37,5 +37,16 @@ public interface ReviewMapper {
 		
 		//성하민 호스트페이지 메인에서 오늘 리뷰건수 가져오기
 		int getTodayReviewCountByAccommoNo(int no);
-	
+		
+		//이승준: 나의 리뷰인서트
+		void insertAccommoReview(ReviewAccommo accommoReviewInfo);
+		
+		//이승준: 나의 리뷰체크
+		int reviewCheck(UserRevInfoDto userRevInfoDto);
+		
+		//이승준: 나의 리뷰조회
+		ReviewAccommo selectAccommoReview(UserRevInfoDto userRevInfo);
+		
+		//이승준: 나의 리뷰 업데이트
+		void updateAccommReview(ReviewAccommo accommoReviewInfo);
 }

@@ -37,5 +37,7 @@ public class ReviewAccommo {
 	
 	private String answerCreatedDate;
 	
-	
+	private Date checkInDate;
+	private Date checkOutDate;
+	private int roomNo;
 }

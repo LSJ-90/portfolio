@@ -4,8 +4,15 @@
 
  <main id="main">
       <article id="admin-user">
-       <button type="button" class="btn__search" id="btn-waiting-withdrawal" onclick="location.href='/admin/withdrawal-waiting'">승인 대기 목록</button>
-        <form class="search-user__form" id="form-search-user" method="get" action="withdrawal">
+	    <button
+	      type="button"
+	      class="btn__approval-list"
+	      id="btn-waiting-withdrawal"
+	      onclick="location.href='/admin/withdrawal-waiting'"
+	      >
+	      승인 대기 목록
+	    </button>
+        <form class="search-user__form only-child" id="form-search-user" method="get" action="withdrawal">
           <input type="hidden" name="page" value="1" />
           <ul class="search-bar">
 	          <li>
@@ -28,39 +35,39 @@
         </form>
 		<table class="user-list-table">
 			<colgroup>
-				<col style="width: 8%;">
-				<col style="width: 15%;">
-				<col style="width: 15%;">
-				<col style="width: 11%;">
-				<col style="width: 8%;">
-				<col style="width: 13%;">
-				<col style="width: 16%;">
-			
+				<col style="width: 10%" />
+	            <col style="width: 16%" />
+	            <col style="width: 12%" />
+	            <col style="width: 12%" />
+	            <col style="width: 16%" />
+	            <col style="width: 12%" />
+	            <col style="width: 10%" />
+	            <col style="width: 12%" />
 			</colgroup>
 			<thead>
 				<tr>
-					<th class="style">호스트번호</th>
-					<th class="style">호스트이름</th>
-					<th class="style">금액</th>
-					<th class="style">예금주</th>
-					<th class="style">계좌번호</th>
-					<th class="style">은행</th>
-					<th class="style">승인</th>
-					<th class="style">출금신청일</th>
+				  <th>호스트번호</th>
+	              <th>호스트이름</th>
+	              <th>금액</th>
+	              <th>예금주</th>
+	              <th>계좌번호</th>
+	              <th>은행</th>
+	              <th>승인</th>
+	              <th>출금신청일</th>
 				</tr>
 			</thead>
 			<tbody>
 			<c:choose>
 			<c:when test="${empty list }">
 				<tr>
-					<td class="text-center" colspan="6">사용자 없음.</td>
+					<td style="height:200px;" colspan="8">출금 승인된 사용자가 없습니다.</td>
 				</tr>
 			</c:when>
 			<c:otherwise>
 				<c:forEach var="withdrawal" items="${list }" varStatus="loop">
 				<tr>
 					<td>${withdrawal.hostNo }</td>
-					<td>${withdrawal.hostName }</td>
+					<td class="text-overflow">${withdrawal.hostName }</td>
 					<td><fmt:formatNumber value="${withdrawal.amount }" pattern="#,###" />원</td>
 					<td>${withdrawal.accountHolderName }</td>
 					<td>${withdrawal.accountNumber }</td>

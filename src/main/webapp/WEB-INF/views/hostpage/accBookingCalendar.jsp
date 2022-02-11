@@ -72,6 +72,7 @@
 <div id='calendar'></div>
 </div>
 <script>
+activeMenu('예약관리');
 const hostNo = ${savedHost.no };
 document.addEventListener('DOMContentLoaded', function() { 
 	var calendarEl = document.getElementById('calendar'); 

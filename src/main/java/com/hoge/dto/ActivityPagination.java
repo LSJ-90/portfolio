@@ -3,7 +3,6 @@ package com.hoge.dto;
 import java.util.List;
 
 import com.hoge.pagination.Pagination;
-import com.hoge.vo.activities.Activity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,5 +20,5 @@ import lombok.ToString;
 public class ActivityPagination {
 	
 	private Pagination pagination;
-	private List<Activity> activityList;
+	private List<ActivityListDto> activities;
 }

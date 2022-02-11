@@ -27,6 +27,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   	<!-- 카카오 api -->
   	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+  	<!-- datepicker -->
+	<link rel="stylesheet" href="../../resources/css/datepickerAdmin.min.css">
+    <script src="../../resources/js/datepicker.js"></script>
+    <script src="../../resources/js/datepicker.min.js"></script>
+    <script src="../../resources/js/datepickerutil/datepicker.ko.js"></script>
   </head>
   <body>
 	<tiles:insertAttribute name="header" />

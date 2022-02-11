@@ -18,9 +18,11 @@ import com.hoge.exception.FindException;
 import com.hoge.exception.LoginException;
 import com.hoge.form.CriteriaAdminUser;
 import com.hoge.mapper.HostMapper;
+import com.hoge.mapper.ReviewMapper;
 import com.hoge.mapper.UserMapper;
 import com.hoge.util.SessionUtils;
 import com.hoge.vo.accommo.AccommoImage;
+import com.hoge.vo.other.ReviewAccommo;
 import com.hoge.vo.other.User;
 import com.hoge.vo.other.Wish;
 
@@ -39,6 +41,9 @@ public class UserService {
 	
 	@Autowired
 	private HostMapper hostMapper;
+	
+	@Autowired
+	private ReviewMapper reviewMapper;
 	
 	// 이승준 공용
 	public List<User> getAllUsers() {
@@ -183,10 +188,19 @@ public class UserService {
 	public List<UserRevInfoDto> getMyRevListByNo(int userNo) {
 		
 		List<UserRevInfoDto> userRevInfoList = userMapper.getMyRevListByNo(userNo);
+		int reviewStatus = 0; // 0: 리뷰없음 1: 리뷰있음
+		ReviewAccommo myReview = new ReviewAccommo();
 		
 		for (UserRevInfoDto userRevInfo : userRevInfoList) {
 			List<AccommoImage> accommoImages = hostMapper.getAccImagesByAccNo(userRevInfo.getAccommoNo());
 			userRevInfo.setAccommoImages(accommoImages);
+			userRevInfo.setUserNo(userNo);
+			
+			reviewStatus = reviewMapper.reviewCheck(userRevInfo);
+			myReview = reviewMapper.selectAccommoReview(userRevInfo);
+			
+			userRevInfo.setReviewStatus(reviewStatus);
+			userRevInfo.setMyReview(myReview);
 		}
 		
 		return userRevInfoList;
@@ -217,5 +231,9 @@ public class UserService {
 		}
 		
 		return myLoveList;
+	}
+
+	public UserRevInfoDto getRevInfoByBookingNo(int roomBookingNo) {
+		return userMapper.getRevInfoByBookingNo(roomBookingNo);
 	}
 }

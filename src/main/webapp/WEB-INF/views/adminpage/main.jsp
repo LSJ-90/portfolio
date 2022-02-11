@@ -186,10 +186,7 @@
 </div> <!-- container -->
 </body>
 <script type="text/javascript">
-$(function(){
-	
-main();	
-})
+mainActive();
 
 getUserNumberGraph();
 getTransactionAmountChart();

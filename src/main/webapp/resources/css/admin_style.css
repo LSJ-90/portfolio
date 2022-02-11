@@ -11,6 +11,9 @@
   --color-text-black: #333333;
   --color-title-black: #181818;
   --color-black: #000000;
+  --color-red: #dc3545;
+  --color-blue: #1313a3;
+  --color-green: #018a01;
 
   /* Font Family */
   --font-family-spoqa: "Spoqa Han Sans Neo", sans-serif;
@@ -164,15 +167,66 @@ button {
   color: var(--color-black);
 }
 
-.pagechange-icon {
-  width: 16px;
-  height: 16px;
-  margin-top: 3px;
-}
-
 .nav__item a {
   color: var(--color-black);
 }
+
+/* dropdown-menu */
+
+.admin-nav__dropdown {
+  position: relative;
+}
+
+.dropdown__img {
+  width: 16px;
+  height: 16px;
+  margin-top: 3px;
+  background-image: url("../../resources/images/main/login_icon.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.admin-dropdown__menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-borderline-gray);
+}
+
+.dropdown__item {
+  width: 120px;
+  height: 50px;
+  text-align: center;
+  padding: 14px 0;
+}
+
+.dropdown__item:first-child {
+  border-bottom: 1px solid var(--color-borderline-gray);
+}
+
+.dropdown__item a {
+  display: inline-block;
+  font-size: 15px;
+  font-weight: var(--weight-light);
+  color: var(--color-black);
+  padding-bottom: 2px;
+}
+
+.admin-nav__dropdown:hover .admin-dropdown__menu {
+  display: block;
+}
+
+.admin-nav__dropdown:hover .dropdown__img {
+  background-image: url("../../resources/images/main/login_icon_active.png");
+}
+
+.dropdown__item a:hover {
+  border-bottom: 2px solid var(--color-black);
+}
+
+/* sub-nav */
 
 .sub-nav {
   display: flex;
@@ -220,6 +274,7 @@ button {
 }
 
 .sub-nav__item.active,
+.sub-nav__item-main a.active,
 .tab__item a.active {
   padding-bottom: 5px;
   border-bottom: 2px solid var(--color-black);
@@ -273,11 +328,28 @@ button {
   padding-bottom: 50px;
 }
 
+.total-profit {
+  width: 450px;
+  padding-bottom: 110px;
+  margin: 0 auto;
+}
+
+.btn__approval-list {
+  font-size: 15px;
+  font-weight: var(--weight-regular);
+  text-decoration: underline;
+  margin-bottom: 30px;
+}
+
 .search-user__form {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
+}
+
+.search-user__form.only-child {
+  justify-content: flex-end;
 }
 
 .search-user__form.review {
@@ -295,13 +367,42 @@ button {
   margin: 0 30px 0 3px;
 }
 
-.search-bar {
+.search-bar,
+.withdrawal-bar,
+.search-bar-sales {
   display: flex;
   align-items: center;
 }
 
+.withdrawal-bar li {
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.withdrawal-bar li:last-child {
+  align-self: flex-end;
+}
+
+.withdrawal-amount {
+  font-weight: var(--weight-bold);
+  color: var(--color-red);
+}
+
 .search-bar li {
   margin-left: 10px;
+}
+
+.search-bar-sales li {
+  display: flex;
+  align-items: center;
+}
+
+.flex-end {
+  align-self: flex-end;
+}
+
+.filter-date {
+  margin: 0 10px 0 5px;
 }
 
 .search__select.category {
@@ -321,13 +422,32 @@ button {
   border-radius: 5px;
 }
 
-.search-bar input {
+.search-user,
+.cal-search {
   height: 40px;
   border: 1px solid var(--color-input-gray);
   padding: 0 10px;
   font-size: 14px;
   width: 250px;
   border-radius: 5px;
+}
+
+.cal-search {
+  width: 130px;
+  text-align: center;
+}
+
+.btn__filter-date {
+  font-size: 16px;
+  padding: 0 6px;
+}
+
+.fa-calendar-check {
+  font-size: 28px;
+}
+
+.fa-minus {
+  margin: 0 5px;
 }
 
 .btn__search {
@@ -339,7 +459,15 @@ button {
   margin-left: 5px;
 }
 
-.user-list-table {
+.btn__approval {
+  font-size: 14px;
+  border: 1px solid var(--color-black);
+  height: 40px;
+  padding: 0 20px;
+}
+
+.user-list-table,
+.total-profit-table {
   table-layout: fixed;
   width: 100%;
   font-size: 15px;
@@ -348,10 +476,17 @@ button {
 }
 
 .user-list-table th,
-.user-list-table td {
+.user-list-table td,
+.total-profit-table td {
   text-align: center;
   vertical-align: middle;
   height: 45px;
+}
+
+.total-profit-table th {
+  text-align: center;
+  vertical-align: middle;
+  height: 35px;
 }
 
 .text-overflow {
@@ -360,18 +495,31 @@ button {
   text-overflow: ellipsis;
 }
 
-.user-list-table th {
+.user-list-table th,
+.total-profit-table th {
   font-weight: var(--weight-regular);
   border-bottom: 1px solid var(--color-black);
 }
 
-.user-list-table td {
+.user-list-table td,
+.total-profit-table td {
   font-weight: var(--weight-light);
   padding: 0 3px;
   border-bottom: 1px solid var(--color-input-gray);
 }
 
-.user-list-table tr:last-child td {
+.total-profit-table th,
+.total-profit-table td {
+  border-right: 1px solid var(--color-input-gray);
+}
+
+.total-profit-table th:last-child,
+.total-profit-table td:last-child {
+  border-right: none;
+}
+
+.user-list-table tr:last-child td,
+.total-profit-table tr:last-child td {
   border-bottom: 1px solid var(--color-black);
 }
 
@@ -383,10 +531,21 @@ button {
   border: 1px solid var(--color-black);
 }
 
+.amount-color {
+  color: var(--color-red);
+}
+
+.withdrawal-color {
+  color: var(--color-blue);
+}
+
+.refund-color {
+  color: var(--color-green);
+}
+
 /* Modal */
 
 .modal-content {
-  margin: 0 auto;
   padding: 30px 20px;
   width: 800px;
   background-color: var(--color-white);

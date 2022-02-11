@@ -4,13 +4,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,10 +36,12 @@ import com.hoge.pagination.PaginationPerPage5;
 import com.hoge.service.ChatRoomService;
 import com.hoge.service.HostService;
 import com.hoge.service.QnAService;
+import com.hoge.service.ReviewService;
 import com.hoge.service.UserService;
 import com.hoge.util.SessionUtils;
 import com.hoge.vo.other.ChatRoom;
 import com.hoge.vo.other.Message;
+import com.hoge.vo.other.ReviewAccommo;
 import com.hoge.vo.other.User;
 import com.hoge.vo.other.UserQnA;
 
@@ -66,7 +68,11 @@ public class MyPageController {
 	@Autowired
 	private UserService userService;
 	
-	// 이승준: 마이페이지 메인 페이지로 리턴
+	@Autowired 
+	private ReviewService reviewService;
+	 
+	
+	// 이승준: 마이페이지 예약정보 페이지로 리턴
 	@GetMapping("/myrevlist")
 	public String myRevListInit(@LoginedUser User savedUser, Model model) { 
 		
@@ -75,8 +81,80 @@ public class MyPageController {
 		if (!(myRevList.isEmpty())) {
 			model.addAttribute("myRevList", myRevList);
 		}
-		
 		return "mypage/myRevList.mytiles";
+	}
+	
+	@GetMapping("/myrevlist/updatereview")
+	public String updateReview (@RequestParam(name = "cleanlinessStar") double cleanlinessStar,
+								@RequestParam(name = "communicationStar") double communicationStar, 
+								@RequestParam(name = "accuracyStar") double accuracyStar,
+								@RequestParam(name = "locationStar") double locationStar,
+								@RequestParam(name = "content") String content,
+								@RequestParam(name = "no") int no) {
+	
+		ReviewAccommo accommoReviewInfo = new ReviewAccommo();
+		accommoReviewInfo.setCleanlinessStar(cleanlinessStar);
+		accommoReviewInfo.setCommunicationStar(communicationStar);
+		accommoReviewInfo.setAccuracyStar(accuracyStar);
+		accommoReviewInfo.setLocationStar(locationStar);
+		accommoReviewInfo.setContent(content);
+		accommoReviewInfo.setNo(no);
+		
+		reviewService.updateAccommReview(accommoReviewInfo);
+		
+		return "redirect:/mypage/myrevlist";
+	}
+	
+	@GetMapping("/myrevlist/deletereview")
+	public String deleteReview (@RequestParam(name = "cleanlinessStar") double cleanlinessStar,
+								@RequestParam(name = "communicationStar") double communicationStar, 
+								@RequestParam(name = "accuracyStar") double accuracyStar,
+								@RequestParam(name = "locationStar") double locationStar,
+								@RequestParam(name = "content") String content,
+								@RequestParam(name = "no") int no) {
+	
+		ReviewAccommo accommoReviewInfo = new ReviewAccommo();
+		accommoReviewInfo.setCleanlinessStar(cleanlinessStar);
+		accommoReviewInfo.setCommunicationStar(communicationStar);
+		accommoReviewInfo.setAccuracyStar(accuracyStar);
+		accommoReviewInfo.setLocationStar(locationStar);
+		accommoReviewInfo.setContent(content);
+		accommoReviewInfo.setNo(no);
+		accommoReviewInfo.setDeleted("Y");
+		
+		reviewService.updateAccommReview(accommoReviewInfo);
+		
+		return "redirect:/mypage/myrevlist";
+    }
+	
+	@GetMapping("/myrevlist/insertreview")
+	public String insertAccommoReview(@LoginedUser User savedUser, 
+							 		  @RequestParam(name = "accommoNo") int accommoNo,
+							 		  @RequestParam(name = "cleanlinessStar") double cleanlinessStar,
+								      @RequestParam(name = "communicationStar") double communicationStar,
+									  @RequestParam(name = "accuracyStar") double accuracyStar,
+									  @RequestParam(name = "locationStar") double locationStar,
+									  @RequestParam(name = "content") String content,
+								      @RequestParam(name = "roomBookingNo") int roomBookingNo) {
+		
+		UserRevInfoDto revInfo = userService.getRevInfoByBookingNo(roomBookingNo);
+		
+		
+		ReviewAccommo accommoReviewInfo = new ReviewAccommo();
+			accommoReviewInfo.setUserNo(savedUser.getNo());
+			accommoReviewInfo.setAccommoNo(accommoNo);
+			accommoReviewInfo.setCleanlinessStar(cleanlinessStar);
+			accommoReviewInfo.setCommunicationStar(communicationStar);
+			accommoReviewInfo.setAccuracyStar(accuracyStar);
+			accommoReviewInfo.setLocationStar(locationStar);
+			accommoReviewInfo.setContent(content);
+			accommoReviewInfo.setCheckInDate(revInfo.getCheckInDate());
+			accommoReviewInfo.setCheckOutDate(revInfo.getCheckOutDate());
+			accommoReviewInfo.setRoomNo(revInfo.getRoomNo());
+		
+		reviewService.insertAccommoReview(accommoReviewInfo);
+		
+		return "redirect:/mypage/myrevlist";
 	}
 	
 	// 이승준: 마이페이지 위시리스트 리턴

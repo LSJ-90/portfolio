@@ -261,4 +261,19 @@ public class HostService {
 		
 		
 		
+
+		//성하민 호스트페이지 메인에서 오늘 체크아웃 가져오기
+		public List<RoomBooking> getTodayCheckOutByAccommoNo(int no){
+			return accommoMapper.getTodayCheckOutByAccommoNo(no);
+		}
+		
+		//성하민 호스트페이지 메인에서 오늘 체크인가져오기
+		public List<RoomBooking> getTodayCheckInByAccommoNo(int no){
+			return accommoMapper.getTodayCheckInByAccommoNo(no);
+			
+		}
+		
+		
+	
+
 }

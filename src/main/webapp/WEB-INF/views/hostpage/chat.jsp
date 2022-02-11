@@ -14,7 +14,6 @@
 #booking-info-on-selected-date {display:none;}
 
 </style>
-
 <main id="main">
   <article id="host-chat">
   
@@ -132,6 +131,8 @@
 
 
 <script type="text/javascript">
+
+activeMenu('게스트문의');
 $(document).ready(function () {
 	if (ws) {
 		ws.close();

@@ -155,7 +155,8 @@ public class HostController {
 	
 	//성하민
 		@PostMapping(value = "/transactionList.do", produces = "application/json")
-		public @ResponseBody HashMap<String, Object> getwithdrawalList(@RequestParam(name = "page", required = false, defaultValue="1") String page, String hostNo) throws Exception {
+		public @ResponseBody HashMap<String, Object> getwithdrawalList(@RequestParam(name = "page", required = false, defaultValue="1") String page, 
+				String hostNo) throws Exception {
 			
 			
 			logger.info("페이지 :" + page);
@@ -188,7 +189,8 @@ public class HostController {
 		}
 		//성하민
 		@PostMapping(value = "/getMainAccReviewList.do", produces = "application/json")
-		public @ResponseBody HashMap<String, Object> getMainAccReviewList(@RequestParam(name = "page", required = false, defaultValue="1") String page, Criteria criteria) throws Exception {
+		public @ResponseBody HashMap<String, Object> getMainAccReviewList(@RequestParam(name = "page", required = false, defaultValue="1")
+		String page, Criteria criteria) throws Exception {
 			
 			
 			logger.info("페이지 :" + page);
@@ -437,6 +439,26 @@ public class HostController {
 		if (hostingType == 1) {
 			AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
 			model.addAttribute("accMainDto", accMainDto);
+			List<RoomBooking> todayCheckOutList = hostService.getTodayCheckOutByAccommoNo(accMainDto.getAccNo());
+			List<RoomBooking> todayCheckInList = hostService.getTodayCheckInByAccommoNo(accMainDto.getAccNo());
+			List<RoomListDto> roomList = accommodationService.getRoomListByAccNo(accMainDto.getAccNo());
+			
+			System.out.println("todayCheckOutList:" +todayCheckOutList);
+			System.out.println("todayCheckInList:" +todayCheckInList);
+			
+			//성하민 호스트페이지 메인에서 오늘 예약건수 가져오기
+			int todayBookingCount = hostService.getTodayBookingCountByAccommoNo(accMainDto.getAccNo());
+			int todayReviewCount = reviewService.getTodayReviewCountByAccommoNo(accMainDto.getAccNo());
+			Host savedHost = hostService.getHostByNo(hostNo);
+			model.addAttribute("todayReviewCount", todayReviewCount);
+			model.addAttribute("todayBookingCount", todayBookingCount);
+			model.addAttribute("todayCheckOutList", todayCheckOutList);
+			model.addAttribute("todayCheckInList", todayCheckInList);
+			model.addAttribute("roomList", roomList);
+			model.addAttribute("savedHost", savedHost);
+					
+		
+			
 		return "hostpage/accMain.hosttiles";
 		} else {
 			ActMainDto actMainDto = hostService.getActMainByHostNo(hostNo);
