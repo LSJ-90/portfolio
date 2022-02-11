@@ -6,8 +6,9 @@
   	<div class="row">
 	  	<div class="col">
 	  		<h1>숙소</h1>
-	  		<button class="btn btn-primary" onclick="location.href='/host/modify?hostNo=${param.hostNo }&hostingType=${param.hostingType }'">호스트 수정</button>
-			<button class="btn btn-primary" onclick="location.href='/mypage/hostingList'">호스팅 리스트</button>
+	  		<button class="btn btn-outline-dark" onclick="location.href='/host/modify?hostNo=${param.hostNo }&hostingType=${param.hostingType }'">호스트 수정</button>
+			<button class="btn btn-outline-dark" onclick="location.href='/mypage/hostingList'">호스팅 리스트</button>
+			<button class="btn btn-outline-dark" onclick="location.href='/host/addAccInfo?hostNo=${param.hostNo }&hostingType=${param.hostingType }'">부대시설 안내 및 기타 안내 사항 등록</button>
 	 	</div>
 	</div>
 	

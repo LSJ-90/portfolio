@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,9 +57,15 @@ public class AccommodationController {
 		criteria.setCheckOutDate(checkout);
 		criteria.setAccNo(accNo);
 		List<RoomListDto> roomDto = accommodationService.getRoomListByDate(criteria);
-		model.addAttribute("roomListDto", roomDto);
+		model.addAttribute("roomSearchList", roomDto);
+		List<RoomListDto> roomListDto = accommodationService.getRoomListByAccNo(accNo);
+		model.addAttribute("roomListDto", roomListDto);
+		List<RoomListDto> roomInfoType1 = accommodationService.getRoomInfoType1(accNo);
+		model.addAttribute("roomInfoType1", roomInfoType1);
+		List<RoomListDto> roomInfoType2 = accommodationService.getRoomInfoType2(accNo);
+		model.addAttribute("roomInfoType2", roomInfoType2);
 	    
-		logger.info("결과값:" + roomDto);
+		logger.info("결과값:" + roomInfoType1);
 		
 		return "accommo/accDetail.tiles";
 	}

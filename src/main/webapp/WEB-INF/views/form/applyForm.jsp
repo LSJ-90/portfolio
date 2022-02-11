@@ -262,11 +262,31 @@
                 >주소</label
               >
               <input
+              	class="form-control"
+              	id="member_post"
+              	type="hidden"
+              	placeholder="우편번호"
+              	readonly
+              	onclick="findAddr1()"
+              />
+              <input
                 type="text"
+                style="width:270px;"
                 class="registration__value"
-                id="accAddress"
-                name="accAddress"
-                placeholder="숙소 주소를 입력해 주세요"
+                id="member_addr"
+                name="accMainAddress"
+                placeholder="주소를 입력해 주세요"
+                readonly
+                onclick="findAddr1()"
+              />
+              <br>
+              <input
+                type="text"
+                style="width:280px;"
+                class="registration__value"
+                id="detail_addr"
+                name="accDetailAddress"
+                placeholder="상세 주소를 입력해 주세요"
               />
             </li>
             <li class="registration__item">
@@ -490,11 +510,31 @@
                 >주소</label
               >
               <input
+              class="form-control"
+              id="member_post2"
+              type="hidden"
+              placeholder="우편번호"
+              readonly
+              onclick="findAddr2()"
+              />
+              <input
                 type="text"
+                style="width:270px;"
                 class="registration__value"
-                id="actAddress"
-                name="actAddress"
+                id="member_addr2"
+                name="actMainAddress"
                 placeholder="체험활동 주소를 입력해 주세요"
+                readonly
+                onclick="findAddr2()"
+              />
+              <br>
+              <input
+                type="text"
+                style="width:280px;"
+                class="registration__value"
+                id="detail_addr2"
+                name="actDetailAddress"
+                placeholder="상세 주소를 입력해 주세요"
               />
             </li>
             <li class="registration__item">
@@ -663,7 +703,48 @@
 </main>
 
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8606c7f07c8e2d80f27869dab7ebaec2"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
+
+// 주소 검색
+function findAddr1(){
+	new daum.Postcode({
+        oncomplete: function(data) {
+        	console.log(data);
+            var roadAddr = data.roadAddress; // 도로명 주소 변수
+            var jibunAddr = data.jibunAddress; // 지번 주소 변수
+            document.getElementById('member_post').value = data.zonecode;
+            if(roadAddr !== ''){
+                document.getElementById("member_addr").value = roadAddr;
+                document.getElementById("detail_addr").focus();
+            } 
+            else if(jibunAddr !== ''){
+                document.getElementById("member_addr").value = jibunAddr;
+                document.getElementById("detail_addr").focus();
+            }
+        }
+    }).open();
+}
+
+function findAddr2(){
+	new daum.Postcode({
+        oncomplete: function(data) {
+        	console.log(data);
+            var roadAddr = data.roadAddress; // 도로명 주소 변수
+            var jibunAddr = data.jibunAddress; // 지번 주소 변수
+            document.getElementById('member_post2').value = data.zonecode;
+            if(roadAddr !== ''){
+                document.getElementById("member_addr2").value = roadAddr;
+                document.getElementById("detail_addr2").focus();
+            } 
+            else if(jibunAddr !== ''){
+                document.getElementById("member_addr2").value = jibunAddr;
+                document.getElementById("detail_addr2").focus();
+            }
+        }
+    }).open();
+}
+
 
 function first() {
 	$("#applyType").val(1)
@@ -748,6 +829,9 @@ $(function(){
 			$("#actMaximumNumber").val(1);
 			$("#actPricePerPerson").val(1);
 			$("#actAddress").val(1);
+			$("#member_post2").val(1);
+			$("#member_addr2").val(1);
+			$("#detail_addr2").val(1);
 			$('#hostApply').submit()
 		})
 		
@@ -760,6 +844,9 @@ $(function(){
 			$("#accAddress").val(1);
 			$("#accCheckInTime").val(1);
 			$("#accCheckOutime").val(1);
+			$("#member_post").val(1);
+			$("#member_addr").val(1);
+			$("#detail_addr").val(1);
 			$('#hostApply').submit()
 		})
 			

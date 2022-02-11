@@ -65,7 +65,10 @@
 		accommo_web_address,
 		accommo_check_in_time,
 		accommo_check_out_time,
-		accommo_address
+		accommo_address,
+		accommo_region_depth1,
+		accommo_region_depth2,
+		accommo_region_depth3
 		)
 		values
 			(
@@ -78,7 +81,10 @@
 			#{webAddress},
 			#{checkInTime},
 			#{checkOutime},
-			#{address}
+			#{address},
+			#{regionDepth1},
+			#{regionDepth2},
+			#{regionDepth3}
 			)
 	</insert>
 
@@ -111,7 +117,10 @@
 		activity_name,
 		activity_address,
 		activity_intro_title,
-		activity_intro_content
+		activity_intro_content,
+		activity_region_depth1,
+		activity_region_depth2,
+		activity_region_depth3
 		)
 		values
 			(
@@ -122,7 +131,10 @@
 			#{name},
 			#{address},
 			#{introTitle},
-			#{introContent}
+			#{introContent},
+			#{regionDepth1},
+			#{regionDepth2},
+			#{regionDepth3}
 			)
 	</insert>
 	
@@ -647,5 +659,43 @@
 	 	where 
 	 		host_no = #{value} 
 	 </select>
+	 
+	 <!--  유상효 부대시설 및 기타 안내 등록 -->
+	 <insert id="addAccInfo" parameterType="com.hoge.form.AccInfoForm">
+	 	<selectKey keyProperty="no" resultType="int" order="BEFORE">
+	 		select final_accommo_info_no_seq.nextval
+	 		from dual
+	 	</selectKey>
+	 	insert into tb_final_accommo_etc_info
+	 	(
+	 	info_no,
+	 	info_title,
+	 	accommo_no,
+	 	info_type
+	 	)
+	 	values
+	 		(
+	 		#{no},
+	 		#{title},
+	 		#{accommoNo},
+	 		#{type}
+	 		)
+	 </insert>
+	 <insert id="addAccInfoDetail" parameterType="com.hoge.form.AccInfoForm">
+	 	insert into tb_final_accommo_etc_info_detail
+	 	(
+	 	info_content_no,
+	 	info_content,
+	 	info_no
+	 	)
+	 	values
+	 		(
+	 		#{contentNo},
+	 		#{content},
+	 		#{etcInfoNo}
+	 		)
+	 </insert>  
+	 
+	 
 
 </mapper>

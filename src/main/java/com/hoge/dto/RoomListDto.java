@@ -31,4 +31,10 @@ public class RoomListDto {
 	private String amenity;
 	private String feature;
 	private List<RoomImage> roomImages;
+	
+	private String infoTitle1;
+	private String infoContent1;
+	
+	private String infoTitle2;
+	private String infoContent2;
 }

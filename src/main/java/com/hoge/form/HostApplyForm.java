@@ -34,9 +34,14 @@ public class HostApplyForm {
 	private String accWebAddress;
 	private String accIntroTitle;
 	private String accIntroContent;
-	private String accAddress;
+	private String accMainAddress;
+	private String accDetailAddress;
 	private String accCheckInTime;
 	private String accCheckOutime;
+	
+	private String accRegionDepth1;
+	private String accRegionDepth2;
+	private String accRregionDepth3;
 	
 	// 숙소 사진
 	private List<MultipartFile> accImages;
@@ -47,7 +52,12 @@ public class HostApplyForm {
 	private String actIntroContent;
 	private int actMaximumNumber;
 	private int actPricePerPerson;
-	private String actAddress;
+	private String actMainAddress;
+	private String actDetailAddress;
+	
+	private String actRegionDepth1;
+	private String actRegionDepth2;
+	private String actRegionDepth3;
 	
 	// 체험 사진
 	private List<MultipartFile> actImages;
