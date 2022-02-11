@@ -1,4 +1,4 @@
-package com.hoge.vo.accommo;
+package com.hoge.form;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,10 +13,18 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AccommoEtcInfo {
+public class AccInfoForm {
+	
+	private int hostNo;
+	private int hostingType;
 	
 	private int no;
 	private String title;
 	private int accommoNo;
 	private int type;
+	
+	private int etcInfoNo;
+	private int contentNo;
+	private String content;
+
 }

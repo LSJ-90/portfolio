@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.StringTokenizer;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -45,6 +46,7 @@ import com.hoge.dto.RoomBookingDto;
 import com.hoge.dto.RoomDto;
 import com.hoge.dto.RoomListDto;
 import com.hoge.form.AccHostModifyForm;
+import com.hoge.form.AccInfoForm;
 import com.hoge.form.ActHostModifyForm;
 import com.hoge.form.Criteria;
 import com.hoge.form.HostApplyForm;
@@ -65,6 +67,7 @@ import com.hoge.service.StatisticsService;
 import com.hoge.service.HostService;
 import com.hoge.service.HostTransactionService;
 import com.hoge.util.SessionUtils;
+import com.hoge.vo.accommo.AccommoEtcInfo;
 import com.hoge.vo.accommo.AccommoImage;
 import com.hoge.vo.accommo.Accommodation;
 import com.hoge.vo.accommo.Room;
@@ -394,9 +397,18 @@ public class HostController {
 		acc.setWebAddress(form.getAccWebAddress());
 		acc.setIntroTitle(form.getAccIntroTitle());
 		acc.setIntroContent(form.getAccIntroContent());
-		acc.setAddress(form.getAccAddress());
+		String accMainAddress = form.getAccMainAddress();
+		String accDetailAddress = form.getAccDetailAddress();
+		acc.setAddress(accMainAddress + " " + accDetailAddress);
 		acc.setCheckInTime(form.getAccCheckInTime());
 		acc.setCheckOutime(form.getAccCheckOutime());
+		
+		
+		//StringTokenizer accDepth = new StringTokenizer(form.getAccMainAddress());
+		//acc.setRegionDepth1(accDepth.nextToken());
+		//acc.setRegionDepth2(accDepth.nextToken());
+		//acc.setRegionDepth3(accDepth.nextToken());
+		
 		
 		// 체험 정보 담기
 		Activity act = new Activity();
@@ -405,7 +417,17 @@ public class HostController {
 		act.setIntroContent(form.getActIntroContent());
 		act.setMaximumNumber(form.getActMaximumNumber());
 		act.setPricePerPerson(form.getActPricePerPerson());
-		act.setAddress(form.getActAddress());
+		String actMainAddress = form.getActMainAddress();
+		String actDetailAddress = form.getActDetailAddress();
+		act.setAddress(actMainAddress + " " + actDetailAddress);
+		
+		//StringTokenizer actDepth = new StringTokenizer(form.getActMainAddress());
+		//act.setRegionDepth1(actDepth.nextToken());
+		//act.setRegionDepth2(actDepth.nextToken());
+		//act.setRegionDepth3(actDepth.nextToken());
+		
+		logger.info("숙소정보" + acc);
+		logger.info("체험정보" + act);
 		
 		hostService.hostApply(host, acc, act, accImages, actImages);
 		return "redirect:../mypage/hostingList";
@@ -839,7 +861,30 @@ public class HostController {
 		
 		return "redirect:mainPromotion?hostNo="+form.getHostNo()+"&hostingType="+form.getHostingType();
 	}
+	
+	// 유상효 부대시설 및 기타 안내 등록 페이지 호출
+	@GetMapping("/addAccInfo")
+	public String addAccInfoForm(@RequestParam(name = "hostNo") int hostNo, @RequestParam(name = "hostingType") int hostingType, Model model) {
+		AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
+		model.addAttribute("accMainDto", accMainDto);
+		ActMainDto actMainDto = hostService.getActMainByHostNo(hostNo);
+		model.addAttribute("actMainDto", actMainDto);
 		
+		return "form/addAccInfoForm.hosttiles";
+	}
+	
+	// 유상효 부대시설 및 기타 안내 등록
+	@PostMapping("/addAccInfo")
+	public String addAccInfo(AccInfoForm form) {
+		//AccommoEtcInfo etcInfo = new AccommoEtcInfo();
+		//etcInfo.setTitle(form.getTitle());
+		//etcInfo.set
+		
+		hostService.addAccInfo(form);
+		return "redirect:/host/main?hostNo="+form.getHostNo()+"&hostingType="+form.getHostingType();
+	}
+	
+	
 		
 	
 	public ModelAndView MainReq() {

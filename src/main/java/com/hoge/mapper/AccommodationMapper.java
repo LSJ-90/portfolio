@@ -66,6 +66,8 @@ public interface AccommodationMapper {
 	void insertRoomImage(RoomImage roomImage);
 	// 유상효 accNo로 객실리스트 찾기
 	List<RoomListDto> getRoomListByAccNo(int accNo);
+	List<RoomListDto> getAccInfoType1ByAccNo(int accNo);
+	List<RoomListDto> getAccInfoType2ByAccNo(int accNo);
 	// 유상효  roomNo로 객실이미지 찾기
 	List<RoomImage> getRoomImagesByRoomNo(int roomNo);
 	// 유상효 roomNo로 객실정보 가져오기

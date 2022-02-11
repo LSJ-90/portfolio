@@ -839,6 +839,32 @@
                       and b.check_out_date &lt;= TO_DATE(#{checkOutDate}, 'YYYY-MM-DD')
                       )
      </select>
+     
+     <!--  유상효 accNo로 info type1 가져오기 -->
+	<select id="getAccInfoType1ByAccNo" parameterType="int" resultType="com.hoge.dto.RoomListDto">
+		select 
+			a.info_title as infoTitle1,
+			b.info_content as infoContent1
+		from
+			tb_final_accommo_etc_info a, tb_final_accommo_etc_info_detail b
+		where
+			accommo_no = #{value}
+		and a.info_no = b.info_no
+		and a.info_type = 1
+	</select>
+	
+     <!--  유상효 accNo로 info type2 가져오기 -->
+	<select id="getAccInfoType2ByAccNo" parameterType="int" resultType="com.hoge.dto.RoomListDto">
+		select 
+			a.info_title as infoTitle2,
+			b.info_content as infoContent2
+		from
+			tb_final_accommo_etc_info a, tb_final_accommo_etc_info_detail b
+		where
+			accommo_no = #{value}
+		and a.info_no = b.info_no
+		and a.info_type = 2
+	</select>
 
     
     

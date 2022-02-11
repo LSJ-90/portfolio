@@ -9,6 +9,7 @@ import com.hoge.dto.AccListDto;
 import com.hoge.dto.AccMainDto;
 import com.hoge.dto.ActListDto;
 import com.hoge.dto.ActMainDto;
+import com.hoge.form.AccInfoForm;
 import com.hoge.vo.accommo.AccommoImage;
 import com.hoge.vo.accommo.Accommodation;
 import com.hoge.vo.activities.Activity;
@@ -103,6 +104,10 @@ public interface HostMapper {
 	
 	//성하민
 	void updateHost(Host host);
+	
+	// 유상효 부대시설 및 기타 안내 등록
+	void addAccInfo(AccInfoForm form);
+	void addAccInfoDetail(AccInfoForm form);
 	
 
 }

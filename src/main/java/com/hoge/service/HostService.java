@@ -22,6 +22,7 @@ import com.hoge.dto.ActListDto;
 import com.hoge.dto.ActMainDto;
 import com.hoge.dto.RoomBookingDto;
 import com.hoge.dto.RoomDto;
+import com.hoge.form.AccInfoForm;
 import com.hoge.form.Criteria;
 import com.hoge.mapper.AccommodationMapper;
 import com.hoge.mapper.HostMapper;
@@ -247,8 +248,20 @@ public class HostService {
 		public int getTodayBookingCountByAccommoNo(int no) {
 			return accommoMapper.getTodayBookingCountByAccommoNo(no);
 		}
+
+
+		// 유상효 부대시설 및 기타 안내 등록
+		public void addAccInfo(AccInfoForm form) {
+			hostMapper.addAccInfo(form);
+			form.setEtcInfoNo(form.getNo()); // info 시퀀스 넣어주기
+			hostMapper.addAccInfoDetail(form);
+		}
+
 		
 		
+		
+		
+
 		//성하민 호스트페이지 메인에서 오늘 체크아웃 가져오기
 		public List<RoomBooking> getTodayCheckOutByAccommoNo(int no){
 			return accommoMapper.getTodayCheckOutByAccommoNo(no);
