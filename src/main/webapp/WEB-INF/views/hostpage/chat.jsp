@@ -502,7 +502,7 @@ function wsEvt() {
         			if (bookedRoomList.length == 0) {
         				bookedRoomData += "<tr>";
         				bookedRoomData += "<td colspan='3'>예약정보가 없습니다<td>";
-        				bookedRoomData += "<tr>";
+        				bookedRoomData += "</tr>";
         				
         			}else {
         			
