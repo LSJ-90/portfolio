@@ -379,20 +379,12 @@ input::placeholder {
   border-right: 1px solid var(--color-chat-line-gray);
 }
 
-.mychat__img {
-  align-self: center;
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  background-color: var(--color-faq-text-gray);
+.mychat__message {
+  flex-basis: 65%;
 }
 
 .mychat__sender-info {
   width: 125px;
-}
-
-.mychat__message {
-  flex-basis: 65%;
 }
 
 .mychat-message,
@@ -420,7 +412,8 @@ input::placeholder {
   margin: 0 auto;
 }
 
-.registration__btn {
+.registration__btn,
+.reservation__btn {
   display: flex;
   justify-content: center;
   padding: 100px 0 50px 0;

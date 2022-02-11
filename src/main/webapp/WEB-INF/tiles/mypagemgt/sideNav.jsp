@@ -331,7 +331,7 @@ function send() {
    function appendMessage(senderName, message, sendingTime, senderImg) {
    	var data ="";
    	data +=
-   	 "<li class='message__item left'><img src='../../resources/images/hostMainImage/"+senderImg+"' alt='sender-image' id='senderImg'/>";
+   	 "<li class='message__item left'><img src='../../resources/images/hostMainImage/"+senderImg+"' class='sender__img' id='senderImg'/>";
        data += "<div class='mychat-message-box'>";
        data += "<p class='sender'>"+senderName+"</p>";
        data += "<p class='mychat-message'>"+message+"</p>";

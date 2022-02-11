@@ -5,6 +5,7 @@
   --color-background-gray: #f5f5f5;
   --color-borderline-gray: #cccccc;
   --color-input-gray: #dddddd;
+  --color-text-gray: #999999;
   --color-faq-text-gray: #888888;
   --color-form-gray: #bbbbbb;
   --color-form-text: #676767;
@@ -70,7 +71,10 @@ input {
 h1,
 h2,
 h3,
-p {
+p,
+dl,
+dd,
+dt {
   padding: 0;
   margin: 0;
 }
@@ -85,9 +89,10 @@ input[type="checkbox"] {
 input[type="text"],
 input[type="password"],
 input[type="tel"],
-input[type="email"] {
+input[type="email"],
+input[type="date"] {
   color: var(--color-black);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: var(--weight-light);
 }
 
@@ -512,6 +517,334 @@ details[open] summary::after {
   line-height: 1.8;
   padding: 65px 0;
   text-align: center;
+}
+
+/* Accommo-Reservations */
+
+.accommo-reservation {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+.booking-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  border-bottom: 2px solid var(--color-input-gray);
+  margin-bottom: 50px;
+}
+
+.accommo-name,
+.accommo-price {
+  font-size: 26px;
+  font-weight: var(--weight-medium);
+}
+
+.form__date {
+  font-family: var(--font-family-spoqa);
+  text-align: center;
+  height: 40px;
+  padding: 0 10px;
+}
+
+.form__date::-webkit-calendar-picker-indicator {
+}
+
+.reservation-wrap {
+  padding-bottom: 60px;
+  border: 1px solid var(--color-header-gray);
+}
+
+.payment__title {
+  font-family: var(--font-family-abel);
+  font-size: 18px;
+  font-weight: var(--weight-bold);
+  letter-spacing: 18px;
+}
+
+.reservation__value {
+  font-size: 16px;
+  font-weight: var(--weight-light);
+}
+
+.reservation__value--people {
+  position: relative;
+  width: 550px;
+}
+
+.num-people-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.num-people label {
+  font-size: 14px;
+  margin-right: 4px;
+}
+
+.num-people {
+  margin-right: 15px;
+}
+
+.num-people__select {
+  text-align: center;
+  width: 70px;
+  height: 40px;
+  border: 1px solid var(--color-input-gray);
+  border-radius: 5px;
+}
+
+.member-text {
+  position: absolute;
+  top: 4px;
+  right: 0;
+  font-size: 12px;
+  font-weight: var(--weight-light);
+  color: var(--color-faq-text-gray);
+}
+
+#span-night {
+  padding-left: 7px;
+  margin-left: 7px;
+  border-left: 1px solid var(--color-text-gray);
+}
+
+#maximum-error {
+  font-size: 14px;
+  font-weight: var(--weight-light);
+  color: red;
+  padding-top: 10px;
+}
+
+.reservation-info-check {
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+
+.reservation-info-check label {
+  font-size: 15px;
+  font-weight: var(--weight-light);
+  margin-left: 7px;
+}
+
+.reservation-user {
+  margin-top: 10px;
+}
+
+.reservation-user label {
+  display: inline-block;
+  width: 70px;
+}
+
+.reservation__value--price {
+  display: flex;
+  flex-direction: column;
+}
+
+.reservation__value--price dl {
+  display: flex;
+  justify-content: space-between;
+  width: 550px;
+  padding: 4px 0;
+}
+
+.reservation__value--price dt,
+.reservation__value--price dd {
+  font-size: 13px;
+  font-weight: var(--weight-light);
+  color: var(--color-text-gray);
+}
+
+.reservation__value--price dd {
+  text-align: right;
+}
+
+.reservation__value--price input {
+  text-align: right;
+  width: 100px;
+  height: 30px;
+  border: 1px solid var(--color-input-gray);
+  border-radius: 5px;
+}
+
+#reservation-total-price,
+.reservation-total-price {
+  font-size: 24px;
+  font-weight: var(--weight-medium);
+  color: var(--color-black);
+}
+
+#point-error {
+  color: red;
+  padding-top: 7px;
+}
+
+.reservation-radio {
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+}
+
+.reservation-radio label {
+  position: relative;
+  font-size: 15px;
+  margin-left: 7px;
+}
+
+.kakao-pay {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 30px;
+}
+
+.refund-box {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.refund-box:last-child {
+  margin-bottom: 0;
+}
+
+.refund-title {
+  flex-basis: 15%;
+  font-size: 16px;
+  color: var(--color-faq-text-gray);
+}
+
+.refund-content {
+  flex-basis: 85%;
+}
+
+.refund-content li {
+  list-style-type: disc;
+  font-size: 14px;
+  color: var(--color-faq-text-gray);
+}
+
+.refund-content li::marker {
+  color: var(--color-faq-text-gray);
+}
+
+.refund-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.refund-table td {
+  text-align: center;
+  vertical-align: middle;
+  height: 36px;
+  border: 1px solid var(--color-text-black);
+}
+
+.refund-table tr:first-child td {
+  font-weight: var(--weight-medium);
+}
+
+.btn__reservation {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0 30px 0;
+}
+
+/* Accommo-completepayment */
+
+.reservation-complete-text {
+  text-align: center;
+  font-size: 22px;
+  font-weight: var(--weight-regular);
+  padding-bottom: 70px;
+}
+
+.reservation-box {
+  width: 850px;
+  border-top: 3px solid var(--color-black);
+  padding: 60px 40px 0;
+  margin: 0 auto;
+}
+
+.accommo-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 60px;
+}
+
+.accommo-info__description {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 220px;
+}
+
+.accommo-text {
+  font-size: 16px;
+  font-weight: var(--weight-light);
+}
+
+.accommo-info__text p:first-child {
+  margin-bottom: 5px;
+}
+
+.accommo-payment {
+  font-size: 20px;
+  font-weight: var(--weight-regular);
+}
+
+.accommo-info__img {
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  width: 340px;
+  height: 220px;
+}
+
+.accommo-user {
+  display: flex;
+  padding: 30px 0;
+  border-top: 1px solid var(--color-input-gray);
+  border-bottom: 1px solid var(--color-input-gray);
+}
+
+.accommo-user dl {
+  flex-basis: 25%;
+}
+
+.accommo-user dt {
+  font-size: 13px;
+  font-weight: var(--weight-light);
+  margin-bottom: 5px;
+}
+
+.accommo-user dd {
+  font-size: 16px;
+  font-weight: var(--weight-regular);
+}
+
+.reservation-check__btn {
+  text-align: center;
+  padding: 30px 0;
+}
+
+.btn__reservation-check,
+.btn__reservation-cancel {
+  width: 230px;
+  height: 55px;
+  font-size: 15px;
+  font-weight: var(--weight-light);
+}
+
+.btn__reservation-check {
+  color: var(--color-white);
+  background-color: var(--color-black);
+  margin-right: 10px;
+}
+
+.btn__reservation-cancel {
+  border: 1px solid var(--color-black);
 }
 
 /* Footer */
