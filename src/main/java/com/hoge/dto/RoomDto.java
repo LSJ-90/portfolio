@@ -28,5 +28,7 @@ public class RoomDto {
 	private long pricePerPerson;
 	private String amenity;
 	private String feature;
+	private String checkInTime;
+	private String checkOutTime;
 
 }

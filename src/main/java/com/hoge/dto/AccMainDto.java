@@ -33,5 +33,7 @@ public class AccMainDto {
 	private String accAddress;
 	private String accCheckInTime;
 	private String accCheckOutime;
+	private String dept1;
+	private String dept2;
 	
 }
