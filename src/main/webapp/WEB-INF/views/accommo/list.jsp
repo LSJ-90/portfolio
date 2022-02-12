@@ -42,12 +42,13 @@
        </div>
     </div>
 </div>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8606c7f07c8e2d80f27869dab7ebaec2&libraries=services"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8606c7f07c8e2d80f27869dab7ebaec2&libraries=services,clusterer"></script>
 <script>
 $(function() {
 	
    	// 페이지내비게이션의 링크를 클릭했을 때 실행될 이벤트핸들러 함수를 등록한다.
 	$(document).on("click", ".pagination button", function (e) {
+		clusterer.clear();
     	// 클릭한 페이지내비게이션의 페이지번호 조회하기
         // var pageNo = $(this).attr("data-page");
         // 검색폼의 히든필드에 클릭한 페이지내비게이션의 페이지번호 설정
@@ -129,6 +130,7 @@ $(function() {
    
    // 지도 영역 변화 이벤트를 등록한다
    kakao.maps.event.addListener(map, 'bounds_changed', function () {
+	   clusterer.clear();
 	   var bounds = map.getBounds();
 	   
       // 영역의 남서쪽 좌표를 얻어옵니다 
@@ -283,7 +285,7 @@ $(function() {
       });
    }
    
-   
+   var clusterer = new kakao.maps.MarkerClusterer({});
    
    // 마커 생성 기능
     function markerAdd(positions) {
@@ -312,7 +314,7 @@ $(function() {
            image : markerImage
        });
        
-
+       clusterer.addMarker(marker);
        
        var iwContent = '<div class="row" style="padding:5px; width:400px; height:130px;">';
        iwContent += '<div class="col-8">';

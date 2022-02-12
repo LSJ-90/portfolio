@@ -15,14 +15,14 @@
       <div class="accommo-info">
         <div class="accommo-info__description">
           <div class="accommo-info__text">
-            <p class="accommo-name">${room.name }</p>
+            <p class="accommo-name">${book.accommoName }</p>
             <p class="accommo-text">
               <fmt:formatDate value="${book.checkInDate }" pattern="yyyy-MM-dd"/>~<fmt:formatDate value="${book.checkOutDate }" pattern="yyyy-MM-dd"/>
             </p>
             <p class="accommo-text">인원 : ${room.standardNumber + book.extraPeople }명</p>
           </div>
           <div class="accommo-info__text">
-            <p class="accommo-payment">￦${book.paidPrice }</p>
+            <p class="accommo-payment">￦<fmt:formatNumber value="${book.paidPrice }"/></p>
             <p class="accommo-text">결제 완료(<fmt:formatDate value="${book.bookingMadeDate }" pattern="yyyy-MM-dd"/>)</p>
           </div>
         </div>

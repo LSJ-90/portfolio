@@ -39,6 +39,7 @@ public class RoomBooking {
 	private String roomUserTel;
 	private int extraPeople; //초과 인원 수
 	private String TID;
+	private String accommoName;
 	
 
 }

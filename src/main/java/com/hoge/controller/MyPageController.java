@@ -188,16 +188,10 @@ public class MyPageController {
 	}
 	
 	
-	// 이승준: 마이페이지 다녀온페이지 리턴
+	// 염주환: 마이페이지 다녀온페이지 리턴
 	@GetMapping("/mytourlist")
-	public String myTourListInit(@LoginedUser User savedUser, Model model) { 
+	public String myTourListInit() { 
 		
-		List<UserRevInfoDto> myTourList = userService.getMyTourListByNo(savedUser.getNo());
-
-		if (!(myTourList.isEmpty())) {
-			model.addAttribute("myTourList", myTourList);
-		}
-
 		return "mypage/myTourList.mytiles";
 	}
 	

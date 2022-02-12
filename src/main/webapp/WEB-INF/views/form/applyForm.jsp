@@ -13,6 +13,8 @@
       method="post"
       enctype="multipart/form-data"
     >
+    <input type="hidden" name="xce">
+    <input type="hidden" name="yce">
     <input type="hidden" name="hostingType" id="applyType" value="">
     
 <!-- first -->
@@ -702,6 +704,7 @@
   </article>
 </main>
 
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8606c7f07c8e2d80f27869dab7ebaec2&libraries=services"></script>
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8606c7f07c8e2d80f27869dab7ebaec2"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
@@ -710,17 +713,21 @@
 function findAddr1(){
 	new daum.Postcode({
         oncomplete: function(data) {
-        	console.log(data);
+        	//console.log(data);
             var roadAddr = data.roadAddress; // 도로명 주소 변수
             var jibunAddr = data.jibunAddress; // 지번 주소 변수
+            var geocoder = new kakao.maps.services.Geocoder();
             document.getElementById('member_post').value = data.zonecode;
-            if(roadAddr !== ''){
+            if(roadAddr !== '') {
                 document.getElementById("member_addr").value = roadAddr;
                 document.getElementById("detail_addr").focus();
+                geocoder.addressSearch(roadAddr, callback);
             } 
             else if(jibunAddr !== ''){
                 document.getElementById("member_addr").value = jibunAddr;
                 document.getElementById("detail_addr").focus();
+                console.log("jibunAddr" + jibunAddr);
+                geocoder.addressSearch(jibunAddr, callback);
             }
         }
     }).open();
@@ -732,18 +739,28 @@ function findAddr2(){
         	console.log(data);
             var roadAddr = data.roadAddress; // 도로명 주소 변수
             var jibunAddr = data.jibunAddress; // 지번 주소 변수
+            var geocoder = new kakao.maps.services.Geocoder();
             document.getElementById('member_post2').value = data.zonecode;
             if(roadAddr !== ''){
                 document.getElementById("member_addr2").value = roadAddr;
                 document.getElementById("detail_addr2").focus();
+                geocoder.addressSearch(roadAddr, callback);
             } 
             else if(jibunAddr !== ''){
                 document.getElementById("member_addr2").value = jibunAddr;
                 document.getElementById("detail_addr2").focus();
+                geocoder.addressSearch(jibunAddr, callback);
             }
         }
     }).open();
 }
+
+var callback = function(result, status) {
+    if (status === kakao.maps.services.Status.OK) {
+        $("input[name=xce]").val(result[0].x);
+        $("input[name=yce]").val(result[0].y);
+    }
+};
 
 
 function first() {
@@ -851,28 +868,6 @@ $(function(){
 		})
 			
 		}
-	});
-	
-	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-    mapOption = {
-        center: new kakao.maps.LatLng(37.56508, 126.97852), // 지도의 중심좌표
-        level: 5, // 지도의 확대 레벨
-        mapTypeId : kakao.maps.MapTypeId.ROADMAP // 지도종류
-    }; 
-
-	// 지도를 생성한다 
-	var map = new kakao.maps.Map(mapContainer, mapOption); 
-	
-	// 지도에 확대 축소 컨트롤을 생성한다
-	var zoomControl = new kakao.maps.ZoomControl();
-	
-	// 지도의 우측에 확대 축소 컨트롤을 추가한다
-	map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-	
-	// 지도에 마커를 생성하고 표시한다
-	var marker = new kakao.maps.Marker({
-	    position: new kakao.maps.LatLng(37.56682, 126.97865), // 마커의 좌표
-	    map: map // 마커를 표시할 지도 객체
 	});
 	
 });

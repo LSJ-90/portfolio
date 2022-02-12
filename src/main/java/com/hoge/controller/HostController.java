@@ -403,6 +403,8 @@ public class HostController {
 		acc.setAddress(accMainAddress + " " + accDetailAddress);
 		acc.setCheckInTime(form.getAccCheckInTime());
 		acc.setCheckOutime(form.getAccCheckOutime());
+		acc.setXce(form.getXce());
+		acc.setYce(form.getYce());
 		
 		StringTokenizer accDepth = new StringTokenizer(form.getAccMainAddress());
 		acc.setRegionDepth1(accDepth.nextToken());
@@ -420,6 +422,8 @@ public class HostController {
 		String actMainAddress = form.getActMainAddress();
 		String actDetailAddress = form.getActDetailAddress();
 		act.setAddress(actMainAddress + " " + actDetailAddress);
+		act.setXce(form.getXce());
+		act.setYce(form.getYce());
 		
 		StringTokenizer actDepth = new StringTokenizer(form.getActMainAddress());
 		act.setRegionDepth1(actDepth.nextToken());

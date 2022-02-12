@@ -68,7 +68,9 @@
 		accommo_address,
 		accommo_region_depth1,
 		accommo_region_depth2,
-		accommo_region_depth3
+		accommo_region_depth3,
+		accommo_xce,
+		accommo_yce
 		)
 		values
 			(
@@ -84,7 +86,9 @@
 			#{address},
 			#{regionDepth1},
 			#{regionDepth2},
-			#{regionDepth3}
+			#{regionDepth3},
+			#{xce},
+			#{yce}
 			)
 	</insert>
 
@@ -120,7 +124,9 @@
 		activity_intro_content,
 		activity_region_depth1,
 		activity_region_depth2,
-		activity_region_depth3
+		activity_region_depth3,
+		activity_xce,
+		activity_yce
 		)
 		values
 			(
@@ -134,7 +140,9 @@
 			#{introContent},
 			#{regionDepth1},
 			#{regionDepth2},
-			#{regionDepth3}
+			#{regionDepth3},
+			#{xce},
+			#{yce}
 			)
 	</insert>
 	
