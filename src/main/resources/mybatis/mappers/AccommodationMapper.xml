@@ -802,7 +802,9 @@
 			a.accommo_intro_content as accIntroContent,
 			a.accommo_address as accAddress,
 			a.accommo_check_in_time as accCheckInTime,
-			a.accommo_check_out_time as accCheckOutime
+			a.accommo_check_out_time as accCheckOutime,
+			a.accommo_region_depth1 as dept1,
+			a.accommo_region_depth2 as dept2
 		from
 			tb_final_accommodations a, tb_final_hosts h
 		where

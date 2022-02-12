@@ -48,8 +48,8 @@ public class ReservationController {
 	// 염주환
 	@GetMapping("/accommo")
 	public String accommoForm(@RequestParam("no") int no, @RequestParam("roomNo") int roomNo,
-			@RequestParam("checkIn") @DateTimeFormat(pattern = "yyyyMMdd") Date checkIn,
-			@RequestParam("checkOut") @DateTimeFormat(pattern = "yyyyMMdd") Date checkOut,
+			@RequestParam("checkIn") @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkIn,
+			@RequestParam("checkOut") @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkOut,
 			@LoginedUser User user, Model model) {
 		
 		ReserveAccommoDto reserveAccommoDto = accommodationService.getReserveAccommoDto(no, roomNo);

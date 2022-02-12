@@ -4,129 +4,166 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<!-- datepicker -->
-	<link rel="stylesheet" href="../../resources/css/datepickerAdmin.min.css">
-    <script src="../../resources/js/datepicker.js"></script>
-    <script src="../../resources/js/datepicker.min.js"></script>
-    <script src="../../resources/js/datepickerutil/datepicker.ko.js"></script>
-	<meta charset="UTF-8">
+<meta charset="UTF-8">
+<title>객실 디테일</title>
 <style>
-	.target { display: inline-block; width: 1000px; }
-	A:link {text-decoration:none; color:#646464;}
-	A:visited {text-decoration:none; color:#646464;}
-	A:active {text-decoration:none; color:#646464;}
-	A:hover {text-decoration:none; color:#646464;}
+	A:link {text-decoration:none; color:#000000;}
+	A:visited {text-decoration:none; color:#000000;}
+	A:active {text-decoration:none; color:#000000;}
+	A:hover {text-decoration:none; color:#000000;}
+	#box1 { text-align: right; }
+	#box2 { text-align: center; }
 </style>
-<title>메인페이지-숙소</title>
 </head>
 <body>
-<div class="col-6" style=margin-left:50px"><a>${accMainDto.accName}</a></div>
-<div style="float:right; margin-right:50px"><a href="javascript:history.back()"><img src="/resources/images/common/back.JPG">돌아가기</a></div>
-	<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-	  <div class="carousel-indicators">
-	  <c:forEach var="image" items="${accImages}" varStatus="status">
-	  		<c:choose>
-				<c:when test="${status.index == 0}">
-	    			<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="${status.index}" class="active" aria-current="true"></button>
-	    		</c:when>
-				<c:otherwise>
-	    			<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="${status.index}"></button>
-	    		</c:otherwise>
-			</c:choose>
-		</c:forEach>
-	  </div>
-	  
-		<div class="carousel-inner">
-			<c:forEach var="image" items="${accImages}" varStatus="status">
-				<c:choose>
-					<c:when test="${status.index == 0}">
-						<div class="carousel-item active">
-					</c:when>
-					<c:otherwise>
-						<div class="carousel-item">
-					</c:otherwise>
-				</c:choose>
-						<img src="/resources/images/accommodation/${image.image }" class="d-block w-100" alt="...">
-						<div class="carousel-caption d-none d-md-block">
-							<h2>"${accMainDto.accIntroTitle}"   <${accMainDto.accName}></h2><h6>${accMainDto.dept1} / ${accMainDto.dept2}</h6>
-						</div>
-					</div>
-			</c:forEach>
+<div class="container">
+	<div class="row justify-content-md-center">
+		<div class="col text-center">
+			<h4 style="margin-top:80px;">B O O K I N G</h4>
 		</div>
-	</div>
-	  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-	    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-	    <span class="visually-hidden">Previous</span>
-	  </button>
-	  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-	    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-	    <span class="visually-hidden">Next</span>
-	  </button>
-	</div>
-	
-	<div class="row text-center" style="margin-top:80px; margin-bottom:150px;">
+		<div class="w-100"></div>
+		
 		<div class="col">
-			<c:choose>
-				<c:when test="${param.days == null}">
-					<h3>날짜를 선택해주세요.</h3>
-				</c:when>
-				<c:otherwise>
-					<h3>${param.check_in } ~ ${param.check_out } [${param.days }박]</h3>
-				</c:otherwise>
-			</c:choose>	
-			<form method="post" action="search" method="post">
-				<input type="hidden" name="accNo" value="${accMainDto.accNo }">
-				<input id="checkInBox1" type="text" name="check_in" > ~ <input id="checkOutBox1" type="text" name="check_out" >
-				<button class="btn btn-outline-dark btn-lg" type="submit">검색</button>
-			</form>
-			<hr style="margin-top:50px;" width="100%" align="right" size="4px">
+			<a style="float:right; margin-top:30px; margin-bottom:30px" href="javascript:history.back()"><img src="/resources/images/common/back.JPG">돌아가기</a>
+		</div>
+		<div class="w-100"></div>
+		
+		<div class="col-3">
+			<a href="/accommo/detail?accNo=${param.accNo }&check_in=${param.check_in }&check_out=${param.check_out }&days=${param.days }">
+				<h3>${accMainDto.accName}</h3>
+			</a>
+		</div>
+		<div class="col-6 text-center">
+			<h5>${param.check_in} ~ ${param.check_in} [${param.days }박]</h5>
+		</div>
+		<div class="col-3" id="box1">
+			<a href="/reserve/accommo?no=${param.accNo }&roomNo=${roomDto.no }&checkIn=${param.check_in }&checkOut=${param.check_out }">
+				<img src="/resources/images/common/booking.JPG">
+			</a>
+		</div>
+		<div class="w-100"></div>
+		
+		<div class="col">
+			<hr style="margin-bottom:50px;" size="4px">
+		</div>
+		<div class="w-100"></div>
+	</div>
+</div>
+
+<div class="container">
+	<div class="row">
+		<div class="col-4">
+			<p>ROOM INFORMATION</p>
+			<h1 style="margin-top:35px;">${roomDto.name}</h1>
+			<h3 style="margin-top:40px;">-</h3>
+			<p style="margin-top:240px;">평일 ₩<fmt:formatNumber value="${roomDto.weekdaysPrice }" pattern="##,###"/></p>
+			<p style="margin-top:5px;">주말 ₩<fmt:formatNumber value="${roomDto.weekdaysPrice }" pattern="##,###"/></p>
+			<p style="margin-top:5px;">성수기 ₩<fmt:formatNumber value="${roomDto.weekdaysPrice }" pattern="##,###"/></p>
+			<p style="margin-top:5px;">체크인 ${accMainDto.accCheckInTime} / 체크아웃 ${accMainDto.accCheckOutime}</p>
+			<p style="margin-top:5px;">기준 ${roomDto.standardNumber }명 (최대 ${roomDto.maximumNumber }명)</p>
+		</div>
+		<div class="col-8">
+			<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+				<div class="carousel-inner">
+					<c:forEach var="image" items="${roomImages }" varStatus="status">
+						<c:choose>
+							<c:when test="${status.index == 0}">
+								<div class="carousel-item active">
+							</c:when>
+							<c:otherwise>
+								<div class="carousel-item">
+							</c:otherwise>
+						</c:choose>
+									<img src="/resources/images/room/${image.image }" class="d-block w-100" alt="...">
+								</div>
+					</c:forEach>
+				</div>
+				<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Previous</span>
+				</button>
+				<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Next</span>
+				</button>
+			</div>
 		</div>
 	</div>
-	
-		<!-- <input type="date" value="${param.check_in }" name="check_in"> ~ <input type="date" value="${param.check_out }" name="check_out"> -->
-	
-	
+</div>
+
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<hr style="margin-top:70px; margin-bottom:50px;" size="3px">
+		</div>
+		<div class="w-100"></div>
+		
+		<div class="col-4">
+			<p>F E A T U R E S</p>
+		</div>
+		<div class="col-8">
+			<p id="feature">${roomDto.feature }</p>
+		</div>
+		
+		<div class="col-12">
+			<hr style="margin-top:55px; margin-bottom:55px;" size="3px">
+		</div>
+		<div class="w-100"></div>
+		
+		<div class="col-4">
+			<p>A M E N I T I E S</p>
+		</div>
+		<div class="col-8">
+			<p id="amenity">${roomDto.amenity }</p>
+		</div>
+		
+		<div class="col-12">
+			<hr style="margin-top:55px; margin-bottom:45px;" size="3px">
+		</div>
+		<div class="w-100"></div>
+		
+		<div class="col-12" id="box2">
+			<a href="/reserve/accommo?no=${param.accNo }&roomNo=${roomDto.no }&checkIn=${param.check_in }&checkOut=${param.check_out }">
+				<img src="/resources/images/common/booking2.JPG">
+			</a>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+	<div class="row justify-content-md-center">
+		<div class="col text-center">
+			<p style="margin-top:70px; margin-bottom:40px;">O T H E R&emsp;R O O M S</p>
+		</div>
+		<div class="w-100"></div>
+		
+		<c:forEach var="otherRoomDto" items="${otherRoomDto }">
+			<c:if test="${otherRoomDto.no ne roomDto.no }">
+				<div class="col-4 text-center">
+					<c:forEach var="image" items="${otherRoomDto.roomImages}" varStatus="status">
+						<c:if test="${status.index == 0}">
+							<a href="/accommo/roomDetail?accNo=${param.accNo }&check_in=${param.check_in }&check_out=${param.check_out }&roomNo=${otherRoomDto.no }&days=${param.days }">
+								<img width="380" src="/resources/images/room/${image.image }">
+							</a>
+						</c:if>
+					</c:forEach>
+					<p style="margin-top:30px; margin-bottom:5px; text-center;">${otherRoomDto.name }</p>
+					<p style="margin-bottom:5px; text-center;">-</p>
+					<p style="margin-bottom:50px; text-center;">기준 ${roomDto.standardNumber }명 (최대 ${roomDto.maximumNumber }명)</p>
+				</div>
+			</c:if>
+		</c:forEach>
+		
+		<div class="col-12">
+			<hr style="margin-bottom:150px;" size="4px">
+		</div>
+		
+	</div>
+</div>
+
+<div class="container">
 	<div class="row">
 		<div class="col-2">
-			<h1>ROOMS</h1>
-			<h1>____</h1>
-		</div>
-		<c:forEach var="roomSearchList" items="${roomSearchList}">
-			<div class="card col-3" style="width: 500px;">
-				<h2>${roomSearchList.name}</h2>
-				<c:forEach var="image" items="${roomSearchList.roomImages}" varStatus="status">
-					<c:if test="${status.index == 0}">
-						<a href="/accommo/roomDetail?accNo=${param.accNo }&check_in=${param.check_in }&check_out=${param.check_out }&roomNo=${roomSearchList.no }&days=${param.days }">
-							<img src="/resources/images/room/${image.image }" class="card-img-top" alt="...">
-						</a>
-					</c:if>
-				</c:forEach>
-				<div class="card-body">
-					<p>평일 ₩<fmt:formatNumber value="${roomSearchList.weekdaysPrice }" pattern="##,###"/></p>
-					<p>주말 ₩<fmt:formatNumber value="${roomSearchList.weekendPrice }" pattern="##,###"/></p>
-			        <p>성수기 ₩<fmt:formatNumber value="${roomSearchList.peakSeasonPrice }" pattern="##,###"/></p>
-			        <Strong>기준 ${roomSearchList.standardNumber }명(최대 ${roomSearchList.maximumNumber }명)</Strong>
-				</div>
-			</div>
-		</c:forEach>
-	</div>
-	
-	<div class="row">
-		<div class="col">
-			<div class="text-center" style="margin:100px 0;">
-				<h2>${accMainDto.accIntroTitle}</h2>
-				<h3>${accMainDto.accName}</h3>
-				<p>|</p>
-				<p>|</p>
-				<h4 class="target">${accMainDto.accIntroContent}</h4>
-				<p>${accMainDto.accName}의 주소는 [ ${accMainDto.accAddress} ]입니다.</p>
-			</div>
-		</div>
-	</div>
-	
-	
-	<div class="row">
-		<div class="col-1">
 		    <p style="margin-bottom:15px;">F A Q</p>
 		    <p style="margin-bottom:15px;"><a href="" class="" id="11">인원 및 금액</a></p>
 		    <p style="margin-bottom:15px;"><a href="" class="" id="22">예약 및 결제</a></p>
@@ -136,14 +173,14 @@
 		    <p style="margin-bottom:15px;"><a href="" class="" id="">호스트에게 문의</a></p>
 	    </div>
 	    
-		<div class="col-11" id="1">
+		<div class="col-10" id="1">
 			<h5 style="margin-bottom:30px;">FAQ를 통하여 예약에 관련된 더 자세한 내용들을 찾아보세요.</h5>
 			<h3 style="margin-bottom:20px;">인원 및 금액</h3>
 			<div class="row">
-				<div class="col-1">
+				<div class="col-2">
 					<h5>인원 기준</h5>
 				</div>
-				<div class="col-6">
+				<div class="col-8">
 					<table class="table" id="">
 						<thead>
 							<tr>
@@ -173,10 +210,10 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-1">
+				<div class="col-2">
 					<h5>요금 기준</h5>
 				</div>
-				<div class="col-6">
+				<div class="col-8">
 					<table class="table" id="">
 						<thead>
 							<tr>
@@ -207,11 +244,11 @@
 			</div>
 		</div>
 		
-		<div class="col-11" id="2">
+		<div class="col-10" id="2">
 			<h5 style="margin-bottom:30px;">FAQ를 통하여 예약에 관련된 더 자세한 내용들을 찾아보세요.</h5>
 			<h3 style="margin-bottom:20px;">예약 및 결제</h3>
 			<div class="row">
-				<div class="col-1">
+				<div class="col-2">
 					<h5>예약 안내</h5>
 				</div>
 				<div class="col-8">
@@ -225,10 +262,10 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-1">
+				<div class="col-2">
 					<h5>환불 규정</h5>
 				</div>
-				<div class="col-4">
+				<div class="col-6">
 					<p>• 환불 시 아래의 기준일에 따른 환불 금액을 드립니다.</p>
 					<table class="table" id="">
 						<thead>
@@ -294,7 +331,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-1">
+				<div class="col-2">
 					<h5>취소 안내</h5>
 				</div>
 				<div class="col-8">
@@ -303,7 +340,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-1">
+				<div class="col-2">
 					<h5>숙박권 양도</h5>
 				</div>
 				<div class="col-8">
@@ -313,11 +350,11 @@
 			</div>
 		</div>
 		
-		<div class="col-11" id="3">
+		<div class="col-10" id="3">
 			<h5 style="margin-bottom:30px;">FAQ를 통하여 예약에 관련된 더 자세한 내용들을 찾아보세요.</h5>
 			<h3 style="margin-bottom:20px;">이용 안내</h3>
 			<div class="row">
-				<div class="col-1">
+				<div class="col-2">
 					<h5>예약 전<br>확인사항</h5>
 				</div>
 				<div class="col-8">
@@ -333,89 +370,56 @@
 			</div>
 		</div>
 		
-		<div class="col-11" id="4">
+		<div class="col-10" id="4">
 			<h5 style="margin-bottom:30px;">FAQ를 통하여 예약에 관련된 더 자세한 내용들을 찾아보세요.</h5>
 			<h3 style="margin-bottom:20px;">부대시설 안내</h3>
 			<c:forEach var="roomInfoType1" items="${roomInfoType1}">
 				<div class="row">
-					<div class="col-1">
+					<div class="col-2">
 						<h5>${roomInfoType1.infoTitle1}</h5>
 					</div>
-					<div class="col-8">
+					<div class="col-10">
 						<pre><p style="margin-bottom:30px;"><strong>${roomInfoType1.infoContent1}</strong></p></pre>
 					</div>
 				</div>
 			</c:forEach>
 		</div>
 		
-		<div class="col-11" id="5">
+		<div class="col-10" id="5">
 			<h5 style="margin-bottom:30px;">FAQ를 통하여 예약에 관련된 더 자세한 내용들을 찾아보세요.</h5>
 			<h3 style="margin-bottom:20px;">기타 안내</h3>
 			<c:forEach var="roomInfoType2" items="${roomInfoType2}">
 				<div class="row">
-					<div class="col-1">
+					<div class="col-2">
 						<h5>${roomInfoType2.infoTitle2}</h5>
 					</div>
-					<div class="col-8">
+					<div class="col-10">
 						<pre><p style="margin-bottom:30px;"><strong>${roomInfoType2.infoContent2}</strong></p></pre>
 					</div>
 				</div>
 			</c:forEach>
 		</div>
-		
-		
 	</div>
+</div>
+
+
 </body>
-<script>
-
-datePickerSet($("#checkInBox1"), $("#checkOutBox1"));
-
-function datePickerSet(sDate, eDate) {
+<script type="text/javascript">
 	
-    var sDay = sDate.val();
-    var eDay = eDate.val();
-
-    // 체크인 달력 생성
-    if (!isValidStr(eDay)) {
-        sDate.datepicker({
-            maxDate: new Date(eDay)
-        });
-    }
-    
-    sDate.datepicker({
-        language: 'ko',
-        minDate: new Date(),
-        autoClose: true,
-        onSelect: function () {
-            datePickerSet(sDate, eDate);
-        }
-    });
-
-    // 체크아웃 달력 생성
-    if (!isValidStr(sDay)) {
-        eDate.datepicker({
-            minDate: new Date(sDay)
-        });
-    } 
-    
-    eDate.datepicker({
-        language: 'ko',
-        autoClose: true,
-        onSelect: function () {
-            datePickerSet(sDate, eDate);
-        }
-    });
-
-	//날짜 생성 여부
-	function isValidStr(str) {
-	    if (str == null || str == undefined || str == "")
-	        return true;
-	    else
-	        return false;
-	}
-}
-
 	$(function() {
+		var a = $('#feature').text();
+		var b = a.replaceAll(/,/gi, "\u00a0\u00a0\u00a0");
+		$('#feature').text(b);
+	})
+	
+	$(function() {
+		var a = $('#amenity').text();
+		var b = a.replaceAll(/,/gi, "\u00a0\u00a0\u00a0");
+		$('#amenity').text(b);
+	})
+	
+	
+		$(function() {
 		$("#2").hide();
 		$("#3").hide();
 		$("#4").hide();
@@ -470,8 +474,9 @@ function datePickerSet(sDate, eDate) {
 	
 	
 
-
-
+	
+	
+	
 
 </script>
 </html>

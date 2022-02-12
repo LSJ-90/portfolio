@@ -830,7 +830,7 @@ $(function(){
 			$("#actPricePerPerson").val(1);
 			$("#actAddress").val(1);
 			$("#member_post2").val(1);
-			$("#member_addr2").val(1);
+			$("#member_addr2").val('서울 서울 서울');
 			$("#detail_addr2").val(1);
 			$('#hostApply').submit()
 		})
@@ -845,7 +845,7 @@ $(function(){
 			$("#accCheckInTime").val(1);
 			$("#accCheckOutime").val(1);
 			$("#member_post").val(1);
-			$("#member_addr").val(1);
+			$("#member_addr").val('서울 서울 서울');
 			$("#detail_addr").val(1);
 			$('#hostApply').submit()
 		})

@@ -404,11 +404,10 @@ public class HostController {
 		acc.setCheckInTime(form.getAccCheckInTime());
 		acc.setCheckOutime(form.getAccCheckOutime());
 		
-		
-		//StringTokenizer accDepth = new StringTokenizer(form.getAccMainAddress());
-		//acc.setRegionDepth1(accDepth.nextToken());
-		//acc.setRegionDepth2(accDepth.nextToken());
-		//acc.setRegionDepth3(accDepth.nextToken());
+		StringTokenizer accDepth = new StringTokenizer(form.getAccMainAddress());
+		acc.setRegionDepth1(accDepth.nextToken());
+		acc.setRegionDepth2(accDepth.nextToken());
+		acc.setRegionDepth3(accDepth.nextToken());
 		
 		
 		// 체험 정보 담기
@@ -422,10 +421,10 @@ public class HostController {
 		String actDetailAddress = form.getActDetailAddress();
 		act.setAddress(actMainAddress + " " + actDetailAddress);
 		
-		//StringTokenizer actDepth = new StringTokenizer(form.getActMainAddress());
-		//act.setRegionDepth1(actDepth.nextToken());
-		//act.setRegionDepth2(actDepth.nextToken());
-		//act.setRegionDepth3(actDepth.nextToken());
+		StringTokenizer actDepth = new StringTokenizer(form.getActMainAddress());
+		act.setRegionDepth1(actDepth.nextToken());
+		act.setRegionDepth2(actDepth.nextToken());
+		act.setRegionDepth3(actDepth.nextToken());
 		
 		logger.info("숙소정보" + acc);
 		logger.info("체험정보" + act);
