@@ -1,184 +1,120 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-  	 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
-	 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
-	 
-	 
-	 <style type="text/css">
-	 
-	 .today-list-box {
-	  height:200px; background: pink; padding: 20px 20px; border: 1px solid rgba(201, 203, 207, 0.2);
-	  border-radius:16px; box-shadow: inset 0 0 8px #dep13a;
-	 }
-	 
-	 .todo-list-box {
-	 height:524px; background: rgba(201, 203, 207, 0.2); border-radius:16px; 
-	 padding: 20px 20px; border: 1px solid rgba(201, 203, 207, 0.2);
-	 }
-	 
-	 .count {font-size: 22px; color: red;}
-	 
-	 .chartbox {margin: 0 10px; background: rgba(100, 102, 255, 0.2); border: 1px solid rgba(201, 203, 207, 0.2); border-radius:16px; box-shadow: inset 0 0 8px #dep13a;
-	 }
-	 .today-box {eight:100px; margin: 0 10px; background: pink; border: 1px solid rgba(201, 203, 207, 0.2); border-radius:16px;
-	 }
-	 
-	 </style>
-	 
-	 
-</head>
-<body>
-<div class="container">
-	<div class='row'>
-		 <div class="col-3">
-			<div class="today-list-box">
-				<div class="row">
-					<div class="col-12">
-						회원 활동
-					</div>
-					<div class="col-12">
-						신규 회원
-	                    <span class="count" id="todayJoinMember">0</span>
-						명
-					</div>
-					<div class="col-12">
-						회원 탈퇴
-	                    <span class="count" id="todayJoinMember">0</span>
-						명
-					</div>
-					<div class="col-12">
-						숙소 리뷰
-						<span class="count" id="todayOrder">0</span>
-						건
-					</div>
-					<div class="col-12">
-						체험 리뷰
-	                    <span class="count" id="todayCanceledOrder">0</span>
-						건
-					</div>
-				</div>
-				</div>
-			</div>
-		<div class="col-3 mt-1">
-			<div class="today-list-box">
-				<div class="row">
-					<div class="col-12">
-						결제 내역
-					</div>
-					<div class="col-12">
-						신규 결제
-						<span class="count" id="todayOrder">0</span>
-						건
-					</div>
-					<div class="col-12">
-						결제 취소
-	                    <span class="count" id="todayCanceledOrder">0</span>
-						건
-					</div>
-					<div class="col-12">
-						출금 신청
-	                    <span class="count" id="todayCanceledOrder">0</span>
-						건
-					</div>
-				
-				</div>
-			</div>
-		</div>
-			<div class="col-3 mt-1">
-			<div class="today-list-box">
-				<div class="row">
-					<div class="col-12">
-						승인 대기 
-					</div>
-					<div class="col-12">
-						숙소 등록
-						<span class="count" id="todayOrder">0</span>
-						건
-					</div>
-					<div class="col-12">
-						체험 등록
-	                    <span class="count" id="todayCanceledOrder">0</span>
-						건
-					</div>
-					<div class="col-12">
-						프로모션 등록
-	                    <span class="count" id="todayCanceledOrder">0</span>
-						건
-					</div>
-				
-				</div>
-			</div>
-		</div>
-		<div class="col-3 mt-1">
-			<div class="today-list-box">
-				<div class="row">
-					<div class="col-12">
-						답변 미완료 문의 
-					</div>
-					<div class="col-12">
-						회원 문의
-						<span class="count" id="todayOrder">0</span>
-						건
-					</div>
-					<div class="col-12">
-						호스트 문의
-	                    <span class="count" id="todayCanceledOrder">0</span>
-						건
-					</div>
-				
-				</div>
-			</div>
-		</div>
-		</div>
-	
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
 
-	<div class="row mb-3">
-		<div class="col-12">
-		<h5>최근 1년간 월별 순이익</h5>
-		<canvas id="myChart" width="400" height="80"></canvas>
-			<div class="today-box">
-						입금액
-						<span class="count" id="todayOrder">8,000,000</span>
-						원
-						출금신청액
-						<span class="count" id="todayOrder">5,000,000</span>
-						원
-						예상순이익
-						<span class="count" id="todayOrder">3,000,000</span>
-						원
-						누적액
-						<span class="count" id="todayOrder">580,000,000</span>
-						원
-			</div>
-		</div>
-	</div>
-	<div class="row mb-3">
-		<div class="col-6">
-			<div class="row mb-3">
-				<div class="chartbox col mt-1">
-					<h5>일별 가입자수</h5>
-					<canvas id="lineChart" width="600" height="200"></canvas>
-				</div>
-			</div>
-			<div class="row mb-3">
-				<div class="chartbox col mt-1">
-					<h5>일별 거래금액 </h5>
-					<canvas id="transactionAmountChart" width="600" height="200"></canvas>
-				</div>
-			</div>
-		</div>
-		
-	</div>
-	</div>
-	
+ 
+<main id="main">
+  <article id="admin-main">
+    <article class="section-wrap">
+      <h1 class="section__title">TODAYS</h1>
+      <div class="todays-box">
+        <div class="todays-list">
+          <div class="todays-list-title">회원 활동</div>
+          <div class="todays-content">
+            <span class="todays-content-title">신규회원</span>
+            <span><span id="todayJoinMember"></span>명</span>
+          </div>
+          <div class="todays-content">
+            <span class="todays-content-title">회원탈퇴</span>
+            <span><span id="todayJoinMember"></span>명</span>
+          </div>
+          <div class="todays-content">
+            <span class="todays-content-title">숙소리뷰</span>
+            <span><span id="todayOrder"></span>건</span>
+          </div>
+          <div class="todays-content">
+            <span class="todays-content-title">체험리뷰</span>
+            <span><span id="todayCanceledOrder"></span>건</span>
+          </div>
+        </div>
+        <div class="todays-list">
+          <div class="todays-list-title">결제내역</div>
+          <div class="todays-content">
+            <span class="todays-content-title">신규 결제</span>
+            <span><span id="todayJoinMember"></span>건</span>
+          </div>
+          <div class="todays-content">
+            <span class="todays-content-title">결제 취소</span>
+            <span><span id="todayJoinMember"></span>건</span>
+          </div>
+          <div class="todays-content">
+            <span class="todays-content-title">출금 신청</span>
+            <span><span id="todayOrder"></span>건</span>
+          </div>
+        </div>
+        <div class="todays-list">
+          <div class="todays-list-title">승인 대기</div>
+          <div class="todays-content">
+            <span class="todays-content-title">숙소 등록</span>
+            <span><span id="todayJoinMember"></span>건</span>
+          </div>
+          <div class="todays-content">
+            <span class="todays-content-title">체험 등록</span>
+            <span><span id="todayJoinMember"></span>건</span>
+          </div>
+          <div class="todays-content">
+            <span class="todays-content-title">프로모션 등록</span>
+            <span><span id="todayOrder"></span>건</span>
+          </div>
+        </div>
+        <div class="todays-list">
+          <div class="todays-list-title">답변 미완료 문의</div>
+          <div class="todays-content">
+            <span class="todays-content-title">회원 문의</span>
+            <span><span id="todayJoinMember"></span>건</span>
+          </div>
+          <div class="todays-content">
+            <span class="todays-content-title">호스트 문의</span>
+            <span><span id="todayJoinMember"></span>건</span>
+          </div>
+        </div>
+      </div>
+    </article>
+    <article class="section-wrap">
+      <h1 class="section__title">월별 순이익</h1>
+      <canvas id="myChart" width="400" height="80"></canvas>
+      <ul class="profit__list">
+        <li class="profit__item">
+          입금액
+          <span id="todayOrder">8,000,000</span>원
+        </li>
+        <li class="profit__item">
+          출금신청액
+          <span id="todayOrder">5,000,000</span>원
+        </li>
+        <li class="profit__item">
+          예상순이익
+          <span id="todayOrder">3,000,000</span>원
+        </li>
+        <li class="profit__item">
+          누적액
+          <span id="todayOrder">580,000,000</span>원
+        </li>
+      </ul>
+    </article>
+    <article class="section-wrap">
+      <h1 class="section__title">일별 가입자수</h1>
+      <canvas id="lineChart" width="1400" height="200"></canvas>
+      
+    </article>
+    <article class="section-wrap">
+      <h1 class="section__title">일별 거래금액</h1>
+      <canvas id="transactionAmountChart" width="1400" height="200"></canvas>
+      
+    </article>
+  </article>
+</main>
 
-		
-	
 
-</div> <!-- container -->
+
+
+
+
+
+
 <script type="text/javascript">
 mainActive();
 

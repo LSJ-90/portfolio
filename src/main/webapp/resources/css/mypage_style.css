@@ -29,6 +29,9 @@
   --weight-regular: 400;
   --weight-medium: 500;
   --weight-bold: 700;
+
+  /* Animation */
+  --animation-duration: 300ms;
 }
 
 /* Universal tags */
@@ -237,7 +240,8 @@ input::placeholder {
   margin-top: 20px;
 }
 
-.host {
+.host,
+.host-change {
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -246,6 +250,12 @@ input::placeholder {
 
 .host a {
   font-size: 18px;
+  font-weight: var(--weight-light);
+  color: var(--color-text-black);
+}
+
+.host-change a {
+  font-size: 16px;
   font-weight: var(--weight-light);
   color: var(--color-text-black);
 }
@@ -995,6 +1005,79 @@ label,
 .page__prev,
 .page__next {
   margin: 0 10px;
+}
+
+/* Hosting-list */
+
+.hosting-list__item {
+  position: relative;
+  height: 400px;
+}
+
+.hosting-list__img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 70px;
+  font-weight: var(--weight-medium);
+  height: 100%;
+  color: var(--color-white);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.hosting-list__description {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-white);
+  background-color: var(--color-black);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: var(--animation-duration) ease-in;
+}
+
+.hosting-list__item:hover .hosting-list__description {
+  opacity: 0.85;
+  transform: translateY(0px);
+}
+
+.hosting-list__item:hover .hosting-list__img span {
+  display: none;
+}
+
+.hosting-list__type {
+  font-size: 20px;
+  font-weight: var(--weight-light);
+}
+
+.hosting-list__name {
+  font-size: 70px;
+  font-weight: var(--weight-medium);
+  padding: 10px 0;
+}
+
+.hosting-list__title {
+  font-size: 16px;
+  font-weight: var(--weight-light);
+  padding: 10px 0;
+}
+
+.hosting-list__btn {
+  font-size: 14px;
+  font-weight: var(--weight-light);
+  width: 135px;
+  height: 35px;
+  line-height: 33px;
+  text-align: center;
+  border: 1px solid var(--color-white);
+  margin-top: 25px;
 }
 
 /* Footer */
