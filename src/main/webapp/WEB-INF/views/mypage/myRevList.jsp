@@ -39,7 +39,7 @@
 						</div>	
 						<div class="row-2 d-flex">
 							<c:if test="${myRevInfo.roomBookingStatus eq 1 }">
-								<button id="" class="btn btn-dark me-2" onclick="creatingModal(${myRevInfo.roomBookingNo })">예약취소</button>
+								<button id="" class="btn btn-dark me-2" onclick="creatingModal(${myRevInfo.roomBookingNo })">예약정보 및 취소</button>
 							</c:if>
 							<c:if test="${myRevInfo.roomBookingStatus eq 2 }">
 								<button id="" type="button" class="btn btn-dark me-2">취소완료</button>
@@ -238,7 +238,7 @@
 	<div class="modal-dialog modal-lg">
 		<article class="modal-content">
 			<header class="modal-title">
-				<p class="modal__title">예약 취소</p>
+				<p class="modal__title">예약 정보</p>
 			</header>
 			<main class="modal-main">
 				<p class="question__title" id="defaultTitle">기본정보</p>
@@ -321,7 +321,7 @@
 					<input type="hidden" name="roomBookingNo" value="" />
 					<div class="modal-answer">
 						<p class="answer__title">취소 사유</p>
-						<textarea class="answer__textarea" name="cancelReason" id="cancelRevContent"></textarea>
+						<textarea class="answer__textarea" name="cancelReason" id="cancelReasonContent"></textarea>
 					</div>
 					<div class="answer-btn">
 						<button type="button" class="btn__answer" id="cancelRevBtn" data-bs-dismiss="modal">예약 취소</button>
@@ -444,7 +444,7 @@ $(function() {
 	</c:forEach>*/
 });
 
-function creatingModal(no) {
+function creatingModal(roomBookingNo) {
 	
 	let answeringModal = new bootstrap.Modal(document.getElementById('modal-cancelRev'), {
 		keyboard: false
@@ -452,7 +452,7 @@ function creatingModal(no) {
 	});
 	
 	
-	$.getJSON('/mypage/myrevlist/cancelrev', {no:no}, function(myRevInfoByBookingNo) {
+	$.getJSON('/mypage/myrevlist/cancelrev', {roomBookingNo:roomBookingNo}, function(myRevInfoByBookingNo) {
 			$("#bookingMadeDate").text(myRevInfoByBookingNo.bookingMadeDate);
 			$('#roomBookingNo').text(myRevInfoByBookingNo.roomBookingNo);
 			$('#accommoName').text(myRevInfoByBookingNo.accommoName);

@@ -14,6 +14,7 @@ import com.hoge.dto.RoomBookingBatchDto;
 import com.hoge.dto.RoomBookingDto;
 import com.hoge.dto.RoomDto;
 import com.hoge.dto.RoomListDto;
+import com.hoge.dto.UserRevInfoDto;
 import com.hoge.form.Criteria;
 import com.hoge.vo.accommo.AccommoImage;
 import com.hoge.vo.accommo.Accommodation;
@@ -55,6 +56,11 @@ public interface AccommodationMapper {
 	void insertTransactions(@Param("amount") long amount, @Param("accumulated") long accumulated, @Param("userNo") int userNo, @Param("no") int no);
 	// 염주환 user usedPnt
 	void updateUserPnt(@Param("userNo") int userNo, @Param("usedPnt") long usedPnt);
+	
+	// 예약취소
+	// 이승준
+	// void upadateRefundUserPnt(@Param("userNo") int refundtoUserNo, @Param("usedPnt") long refundPoint);
+	void deleteRoomAvailavility(int roomBookingNo);
 	
 	// 예약완료페이지
 	// 염주환 예약정보 가져오기
@@ -121,7 +127,6 @@ public interface AccommodationMapper {
 	
 	//성하민 호스트페이지 메인에서 오늘 체크인가져오기
 	List<RoomBooking> getTodayCheckInByAccommoNo(int no);
-	
 	
 	
 	

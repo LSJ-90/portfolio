@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.hoge.config.auth.LoginedUser;
 import com.hoge.controller.AdminController;
 import com.hoge.dto.AccommoListDto;
 import com.hoge.dto.KakaoUserDto;
@@ -17,12 +18,16 @@ import com.hoge.dto.UserRevInfoDto;
 import com.hoge.exception.FindException;
 import com.hoge.exception.LoginException;
 import com.hoge.form.CriteriaAdminUser;
+import com.hoge.mapper.AccommodationMapper;
 import com.hoge.mapper.HostMapper;
 import com.hoge.mapper.ReviewMapper;
+import com.hoge.mapper.TransactionMapper;
 import com.hoge.mapper.UserMapper;
 import com.hoge.util.SessionUtils;
 import com.hoge.vo.accommo.AccommoImage;
+import com.hoge.vo.accommo.RoomBooking;
 import com.hoge.vo.other.ReviewAccommo;
+import com.hoge.vo.other.Transaction;
 import com.hoge.vo.other.User;
 import com.hoge.vo.other.Wish;
 
@@ -44,6 +49,12 @@ public class UserService {
 	
 	@Autowired
 	private ReviewMapper reviewMapper;
+	
+	@Autowired
+	private TransactionMapper transactionMapper;
+	
+	@Autowired
+	private AccommodationMapper accommodationMapper;
 	
 	// 이승준 공용
 	public List<User> getAllUsers() {
@@ -235,5 +246,35 @@ public class UserService {
 
 	public UserRevInfoDto getRevInfoByBookingNo(int roomBookingNo) {
 		return userMapper.getRevInfoByBookingNo(roomBookingNo);
+	}
+
+	public void canceleReservation(@LoginedUser User savedUser, int roomBookingNo, String cancelReason, long accumulatedMoney) {
+		
+		RoomBooking myRevInfoByBookingNo = accommodationMapper.getRoomBookingByRoomBookingNo(roomBookingNo); // 고객부킹정보
+		myRevInfoByBookingNo.setCancelReason(cancelReason);
+		myRevInfoByBookingNo.setStatus(2);
+		
+		int refundtoUserNo = myRevInfoByBookingNo.getUserNo(); // 환불받을사람번호
+		long refundPrice = myRevInfoByBookingNo.getPaidPrice(); //환불 해야할 금액
+		long refundPoint = myRevInfoByBookingNo.getUsedPnt(); // 환불 해야할 포인트
+		
+		// 트랜젝션 환불처리
+		Transaction transaction = new Transaction();
+		transaction.setAmount(refundPrice);
+		transaction.setToUserNo(refundtoUserNo);
+		transaction.setAccumulatedMoney(accumulatedMoney - refundPrice); 
+		// transaction.setAccommoBookingNo(roomBookingNo);
+		transactionMapper.insertUserTransaction(transaction);
+		
+		// 포인트 환불
+		savedUser.setPnt(savedUser.getPnt() + refundPoint);
+		userMapper.updateUser(savedUser);
+		// accommodationMapper.upadateRefundUserPnt(refundtoUserNo, refundPoint);
+		
+		// booking status 변경 1>2, (cancelReason, cancelDate) update
+		accommodationMapper.updateRoomBooking(myRevInfoByBookingNo);
+		
+		// booking roomAvailability 삭제
+		accommodationMapper.deleteRoomAvailavility(roomBookingNo);
 	}
 }

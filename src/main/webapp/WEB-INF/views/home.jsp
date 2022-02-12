@@ -8,26 +8,40 @@
    - 이미지는 div에 background-image로 불러올 예정이기에 
    background-color를 임시로 넣어두고 사이즈 맞춰놨습니다.
  -->
-
 	<!-- 숙소 -->
 	<section id="stay">
 		<!-- 최신순 -->
 		<article id="stay-new">
-			<ul class="stay-new__list">
-				<li class="stay-new__item"><a href="">
-						<div class="stay-new__image"></div>
-						<div class="stay-new__info">
-							<p class="title">RYSE</p>
+		<div id="carouselNewStayControls" class="carousel slide" data-bs-ride="carousel">
+			<ul class="stay-new__list carousel-inner">
+			    <c:forEach var="newSixAccommoDto" items="${newSixAccommoDtos }">
+			    <li id="stay-new__item" class="stay-new__item carousel-item">
+				    <a href="/accommo/detail?accNo=${newSixAccommoDto.accNo }&check_in=&check_out=&days=">
+					    <div class="stay-new__image">
+					    	<img src="../resources/images/hostMainImage/${newSixAccommoDto.mainImage}"/>
+					    </div>
+					    <div class="stay-new__info">
+							<p class="title">${newSixAccommoDto.accName }</p>
 							<p class="info__description">
-								문화와 예술을 <br />공간에 녹여내다
+								${newSixAccommoDto.accIntroTitle }
 							</p>
-							<p class="event">LAUNCHING</p>
+							<p class="event">NEW LAUNCHING</p>
 							<p class="read-more">read more</p>
 						</div>
-				</a></li>
-			</ul>
+					</a>
+			    </li>
+			    </c:forEach>
+			 </ul>    
+			 <button class="carousel-control-prev" type="button" data-bs-target="#carouselNewStayControls" data-bs-slide="prev">
+			   <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			   <span class="visually-hidden">Previous</span>
+			 </button>
+			 <button class="carousel-control-next" type="button" data-bs-target="#carouselNewStayControls" data-bs-slide="next">
+			   <span class="carousel-control-next-icon" aria-hidden="true"></span>
+			   <span class="visually-hidden">Next</span>
+			 </button>
+		</div>
 		</article>
-
 		<!-- 전체 숙소 -->
 		<article id="stay-total">
 			<h1>S T A Y</h1>
@@ -96,10 +110,65 @@
 
 		<!-- 할인 -->
 		<article id="discount">
+		<div id="carouselDiscountAccControls" class="carousel slide" data-bs-ride="carousel">
+			<ul class="discount__list carousel-inner">
+			    <c:forEach var="homePromotionDiscountDto" items="${homePromotionDiscountDtos }">
+			    <li id="discount__item" class="discount__item carousel-item">
+				    <a href="#">
+					    <div class="discount__info">
+							<div class="info-top">
+								<p class="text">
+									${homePromotionDiscountDto.introContent }
+								</p>
+								<p class="event">
+									평일 숙박 
+									<fmt:formatNumber value="${homePromotionDiscountDto.weekdaysDiscountRate }" type="percent"/>
+									할인!!!
+								</p>
+							</div>
+							<div class="info-bottom">
+								<h2 class="info__title">${homePromotionDiscountDto.accommoName }</h2>
+								<p class="info__text">
+									${homePromotionDiscountDto.accommoRegionDepth1 } / 
+									${homePromotionDiscountDto.accommoRegionDepth2 } · 
+									<span>${homePromotionDiscountDto.accommoType }</span>
+									<br /> 
+									최소 ${homePromotionDiscountDto.minNumber }명 / 
+									최대 ${homePromotionDiscountDto.maxNumber }명 
+									<br />
+									<fmt:formatNumber value="${homePromotionDiscountDto.minPrice * (1-homePromotionDiscountDto.weekdaysDiscountRate)}" type="currency" currencySymbol="￦" />
+									 ~ 
+									<fmt:formatNumber value="${homePromotionDiscountDto.maxPrice * (1-homePromotionDiscountDto.peakSeasonDiscountRate)}" type="currency" currencySymbol="￦" />
+								</p>
+							</div>
+						</div>
+						<div class="discount__image">
+							<img src="../resources/images/hostMainImage/${homePromotionDiscountDto.mainImage }"/>
+						</div>
+						<div class="promotion-date">
+							${homePromotionDiscountDto.deadlineDate } DAYS <br />LEFT!
+						</div>
+					</a>
+			    </li>
+			    </c:forEach>
+			 </ul>    
+			 <button class="carousel-control-prev" type="button" data-bs-target="#carouselDiscountAccControls" data-bs-slide="prev">
+			   <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			   <span class="visually-hidden">Previous</span>
+			 </button>
+			 <button class="carousel-control-next" type="button" data-bs-target="#carouselDiscountAccControls" data-bs-slide="next">
+			   <span class="carousel-control-next-icon" aria-hidden="true"></span>
+			   <span class="visually-hidden">Next</span>
+			 </button>
+		</div>
+		</article>
+		
+		<!-- <article id="discount">
 			<div class="discount-wrap">
 				<h1>D I S C O U N T</h1>
 				<ul class="discount__list">
-					<li class="discount__item"><a href="">
+					<li class="discount__item">
+						<a href="">
 							<div class="discount__info">
 								<div class="info-top">
 									<p class="text">
@@ -119,10 +188,11 @@
 							<div class="promotion-date">
 								4 DAYS <br />LEFT!
 							</div>
-					</a></li>
+						</a>
+					</li>
 				</ul>
 			</div>
-		</article>
+		</article> -->
 
 		<!-- 증정 -->
 		<article id="event">
@@ -269,3 +339,10 @@
 		</article>
 	</section>
 </main>
+<script>
+$(function() {
+	$("#stay-new__item").attr("class","stay-new__item carousel-item active");
+	$("#discount__item").attr("class","discount__item carousel-item active");
+});
+
+</script>

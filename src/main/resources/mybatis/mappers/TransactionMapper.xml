@@ -13,7 +13,17 @@
 		values
 			(final_transaction_no_seq.nextval, 2, #{amount}, #{toHostNo}, #{accumulatedMoney}, sysdate)
 	</insert>
-
+	
+	<!-- 이승준
+	 	insertUserTransaction(Transaction transaction);
+	 	room_booking_no, #{accommoBookingNo}
+	-->
+	<insert id="insertUserTransaction" parameterType="com.hoge.vo.other.Transaction">
+		insert into tb_final_transactions
+			(transaction_no, transaction_type, transaction_amount, transaction_to_user_no, transaction_date, accumulated_money)
+		values
+			(final_transaction_no_seq.nextval, 3, #{amount}, #{toUserNo}, sysdate, #{accumulatedMoney})
+	</insert>
 
     <!-- // 성하민
 long getTotalDeposit(Criteria criteria);

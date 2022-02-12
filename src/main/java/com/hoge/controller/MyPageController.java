@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,12 +27,12 @@ import com.hoge.config.auth.LoginedUser;
 import com.hoge.dto.AccListDto;
 import com.hoge.dto.AccommoListDto;
 import com.hoge.dto.ActListDto;
-import com.hoge.dto.AdminHostQnADto;
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.ChattingMessageDto;
 import com.hoge.dto.UserRevInfoDto;
 import com.hoge.form.UserUpdateForm;
 import com.hoge.pagination.PaginationPerPage5;
+import com.hoge.service.AdminTransactionService;
 import com.hoge.service.ChatRoomService;
 import com.hoge.service.HostService;
 import com.hoge.service.QnAService;
@@ -43,6 +42,7 @@ import com.hoge.util.SessionUtils;
 import com.hoge.vo.other.ChatRoom;
 import com.hoge.vo.other.Message;
 import com.hoge.vo.other.ReviewAccommo;
+import com.hoge.vo.other.Transaction;
 import com.hoge.vo.other.User;
 import com.hoge.vo.other.UserQnA;
 
@@ -71,7 +71,9 @@ public class MyPageController {
 	
 	@Autowired 
 	private ReviewService reviewService;
-	 
+	
+	@Autowired 
+	private AdminTransactionService adminTransactionService;
 	
 	// 이승준: 마이페이지 예약정보 페이지로 리턴
 	@GetMapping("/myrevlist")
@@ -88,15 +90,24 @@ public class MyPageController {
 	
 	// 이승준: 마이페이지 예약 취소정보 조회
 	@GetMapping("/myrevlist/cancelrev")							
-	public @ResponseBody UserRevInfoDto getRevInfoByBookingNo(@RequestParam(name = "no",required = false) int no) {
+	public @ResponseBody UserRevInfoDto getRevInfoByBookingNo(@RequestParam(name = "roomBookingNo",required = false) int roomBookingNo) {
 		
-		UserRevInfoDto myRevInfoByBookingNo = userService.getRevInfoByBookingNo(no);
+		UserRevInfoDto myRevInfoByBookingNo = userService.getRevInfoByBookingNo(roomBookingNo);
+		
 		return myRevInfoByBookingNo;
 	}
 	
 	// 이승준: 마이페이지 예약 취소 진행
-	@PostMapping("/myrevlist/cancelrev")							// 요청핸들러 메소드에 @ResponseBody를 붙인다.
-	public String cancelMyRev(@RequestParam(name = "no",required = false) int no) {
+	@PostMapping("/myrevlist/cancelrev")							
+	public String cancelMyRev(@LoginedUser User savedUser, int roomBookingNo, String cancelReason) {
+		
+		System.out.println(roomBookingNo);
+		System.out.println(cancelReason);
+		
+		Transaction latestTransaction = adminTransactionService.getlatestTransaction(); // 가장 최근 트랜잭션
+		long accumulatedMoney = latestTransaction.getAccumulatedMoney(); // 마지막 누적액
+		
+		userService.canceleReservation(savedUser, roomBookingNo, cancelReason, accumulatedMoney);
 		
 		return "redirect:/mypage/myrevlist";
 	}
