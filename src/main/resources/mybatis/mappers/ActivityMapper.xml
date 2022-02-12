@@ -206,6 +206,70 @@
 			activity_time_no = #{no}
 	</update>
 	
+	<!-- 유상효 체험번호로 체험정보 조회하기-->
+	<select id="getActDetailByActNo" parameterType="int" resultType="com.hoge.dto.ActMainDto">
+		select
+			h.host_no as hostNo,
+			h.hosting_type as hostingType,
+			h.host_name as hostName,
+			h.host_tel as tel,
+			h.account_holder_name as accountHolderName,
+			h.bank_name as bankName,
+			h.account_number as accountNumber,
+			h.host_main_image as mainImage,
+			a.activity_no as actNo,
+			a.activity_name as actName,
+			a.activity_intro_title as actIntroTitle,
+			a.activity_intro_content as actIntroContent,
+			a.maximum_number as actMaximumNumber,
+			a.price_per_person as actPricePerPerson,
+			a.activity_address as actAddress,
+			a.activity_region_depth1 as dept1,
+			a.activity_region_depth2 as dept2
+		from
+			tb_final_activities a, tb_final_hosts h
+		where
+			a.host_no = h.host_no
+		and a.activity_no = #{value}
+	</select>
+	
+	<!--  유상효 accNo로 info type1 가져오기 -->
+	<select id="getActInfoType1ByActNo" parameterType="int" resultType="com.hoge.dto.ActMainDto">
+		select 
+			a.info_title as infoTitle1,
+			b.info_content as infoContent1
+		from
+			tb_final_activity_etc_info a, tb_final_activity_etc_info_detail b
+		where
+			activity_no = #{value}
+		and a.info_no = b.info_no
+		and a.info_type = 1
+	</select>
+	<select id="getActInfoType2ByActNo" parameterType="int" resultType="com.hoge.dto.ActMainDto">
+		select 
+			a.info_title as infoTitle2,
+			b.info_content as infoContent2
+		from
+			tb_final_activity_etc_info a, tb_final_activity_etc_info_detail b
+		where
+			activity_no = #{value}
+		and a.info_no = b.info_no
+		and a.info_type = 2
+	</select>
+	
+     <!--  유상효 accNo로 info type2 가져오기 -->
+	<select id="getActInfoType3ByActNo" parameterType="int" resultType="com.hoge.dto.ActMainDto">
+		select 
+			a.info_title as infoTitle3,
+			b.info_content as infoContent3
+		from
+			tb_final_activity_etc_info a, tb_final_activity_etc_info_detail b
+		where
+			activity_no = #{value}
+		and a.info_no = b.info_no
+		and a.info_type = 3
+	</select>
+	
 	
 	
 	

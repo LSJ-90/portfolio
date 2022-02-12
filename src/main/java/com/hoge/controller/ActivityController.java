@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hoge.dto.AccMainDto;
 import com.hoge.dto.ActMainDto;
+import com.hoge.dto.RoomListDto;
 import com.hoge.form.ActTimeForm;
 import com.hoge.form.Criteria;
 import com.hoge.service.ActivityService;
 import com.hoge.service.HostService;
+import com.hoge.vo.activities.ActivityImage;
 import com.hoge.vo.activities.ActivityTimeTable;
 import com.hoge.vo.other.PromotionOffer;
 
@@ -109,6 +111,27 @@ public class ActivityController {
 		activityService.modifyTimeTable(form);
 		
 		return "redirect:/activity/mainTime?hostNo="+form.getHostNo()+"&hostingType="+form.getHostingType();
+	}
+	
+	// 유상효 체험 디테일 페이지
+	@GetMapping("/detail")
+	public String actDetail(@RequestParam(name = "actNo") int actNo, Model model) throws Exception {
+		ActMainDto actMainDto = activityService.getActDetailByActNo(actNo);
+		model.addAttribute("actMainDto", actMainDto);
+		List<ActivityImage> actImages = hostService.getActImagesByHostNo(actMainDto.getHostNo());
+		model.addAttribute("actImages", actImages);
+		List<ActivityTimeTable> timeTableList = activityService.getTimeTableByActNo(actNo);
+		model.addAttribute("timeTableList", timeTableList);
+		List<ActMainDto> actInfoType1 = activityService.getActInfoType1(actNo);
+		model.addAttribute("actInfoType1", actInfoType1);
+		List<ActMainDto> actInfoType2 = activityService.getActInfoType2(actNo);
+		model.addAttribute("actInfoType2", actInfoType2);
+		List<ActMainDto> actInfoType3 = activityService.getActInfoType3(actNo);
+		model.addAttribute("actInfoType3", actInfoType3);
+		
+		logger.info("결과값:" );
+		
+		return "activities/actDetail.tiles";
 	}
 	
 	

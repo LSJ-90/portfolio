@@ -14,6 +14,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.hoge.dto.ActMainDto;
 import com.hoge.dto.ActivityBookingDto;
 import com.hoge.dto.ActivityListDto;
 import com.hoge.dto.MapArea;
@@ -200,6 +201,27 @@ public class ActivityService {
 			dto.setActivityImages(activityMapper.getActivityImageList(dto.getNo()));
 		}
 		return dtos;
+	}
+	
+	// 유상효 체험번호로 체험정보 조회
+	public ActMainDto getActDetailByActNo(int actNo) {
+		return activityMapper.getActDetailByActNo(actNo);
+	}
+	
+
+	// 유상효 actNo로 info type1 가져오기
+	public List<ActMainDto> getActInfoType1(int actNo) {
+		return activityMapper.getActInfoType1ByActNo(actNo);
+	}
+
+	// 유상효 actNo로 info type2 가져오기
+	public List<ActMainDto> getActInfoType2(int actNo) {
+		return activityMapper.getActInfoType2ByActNo(actNo);
+	}
+
+	// 유상효 actNo로 info type3 가져오기
+	public List<ActMainDto> getActInfoType3(int actNo) {
+		return activityMapper.getActInfoType3ByActNo(actNo);
 	}
 	
 }

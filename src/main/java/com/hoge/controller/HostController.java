@@ -916,7 +916,7 @@ public class HostController {
 		return "redirect:mainPromotion?hostNo="+form.getHostNo()+"&hostingType="+form.getHostingType();
 	}
 	
-	// 유상효 부대시설 및 기타 안내 등록 페이지 호출
+	// 유상효 숙소 부대시설 및 기타 안내 등록 페이지 호출
 	@GetMapping("/addAccInfo")
 	public String addAccInfoForm(@RequestParam(name = "hostNo") int hostNo, @RequestParam(name = "hostingType") int hostingType, Model model) {
 		AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
@@ -930,11 +930,25 @@ public class HostController {
 	// 유상효 부대시설 및 기타 안내 등록
 	@PostMapping("/addAccInfo")
 	public String addAccInfo(AccInfoForm form) {
-		//AccommoEtcInfo etcInfo = new AccommoEtcInfo();
-		//etcInfo.setTitle(form.getTitle());
-		//etcInfo.set
-		
 		hostService.addAccInfo(form);
+		return "redirect:/host/main?hostNo="+form.getHostNo()+"&hostingType="+form.getHostingType();
+	}
+	
+	// 유상효 체험 부대시설 및 기타 안내 등록 페이지 호출
+	@GetMapping("/addActInfo")
+	public String addActInfoForm(@RequestParam(name = "hostNo") int hostNo, @RequestParam(name = "hostingType") int hostingType, Model model) {
+		AccMainDto accMainDto = hostService.getAccMainByHostNo(hostNo);
+		model.addAttribute("accMainDto", accMainDto);
+		ActMainDto actMainDto = hostService.getActMainByHostNo(hostNo);
+		model.addAttribute("actMainDto", actMainDto);
+		
+		return "form/addActInfoForm.hosttiles";
+	}
+	
+	// 유상효 부대시설 및 기타 안내 등록
+	@PostMapping("/addActInfo")
+	public String addActInfo(AccInfoForm form) {
+		hostService.addActInfo(form);
 		return "redirect:/host/main?hostNo="+form.getHostNo()+"&hostingType="+form.getHostingType();
 	}
 	

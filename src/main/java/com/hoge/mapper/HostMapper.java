@@ -108,6 +108,8 @@ public interface HostMapper {
 	// 유상효 부대시설 및 기타 안내 등록
 	void addAccInfo(AccInfoForm form);
 	void addAccInfoDetail(AccInfoForm form);
+	void addActInfo(AccInfoForm form);
+	void addActInfoDetail(AccInfoForm form);
 	
 
 }

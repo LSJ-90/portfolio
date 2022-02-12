@@ -24,4 +24,5 @@ public class ActivityTimeTable {
 	private int soFarBookedNumberOfPeople;
 	private String closed; //체험 마감 여부
 	
+	
 }

@@ -20,6 +20,7 @@
 		<img src="/resources/images/hostMainImage/${actMainDto.mainImage}" width="800">
 		<button class="btn btn-primary" onclick="location.href='/host/modify?hostNo=${param.hostNo }&hostingType=${param.hostingType }'">호스트 수정</button>
 		<button class="btn btn-primary" onclick="location.href='/mypage/hostingList'">호스팅 리스트</button>
+		<button class="btn btn-outline-dark" onclick="location.href='/host/addActInfo?hostNo=${param.hostNo }&hostingType=${param.hostingType }'">호스트 소개 및 기타 안내 사항 등록</button>
 	</div>
 </body>
 </html>

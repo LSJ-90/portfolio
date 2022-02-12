@@ -18,7 +18,7 @@
 				</c:when>
 			<c:otherwise>
 
-					<li class="host-nav__item"><a href="/host/mainTime?hostNo=${param.hostNo }&hostingType=${param.hostingType }" class="">체험관리</a></li>
+					<li class="host-nav__item"><a href="/activity/mainTime?hostNo=${param.hostNo }&hostingType=${param.hostingType }" class="">체험관리</a></li>
 			</c:otherwise>
 			</c:choose>
 

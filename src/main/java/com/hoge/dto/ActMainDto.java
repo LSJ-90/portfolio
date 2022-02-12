@@ -31,5 +31,18 @@ public class ActMainDto {
 	private int actMaximumNumber;
 	private int actPricePerPerson;
 	private String actAddress;
+	private String dept1;
+	private String dept2;
+	private String amenity;
+	private String feature;
+	
+	private String infoTitle1;
+	private String infoContent1;
+	
+	private String infoTitle2;
+	private String infoContent2;
+	
+	private String infoTitle3;
+	private String infoContent3;
 
 }
