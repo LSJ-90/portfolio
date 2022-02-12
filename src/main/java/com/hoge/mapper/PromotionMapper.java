@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.hoge.dto.HomeAccommoDto;
 import com.hoge.dto.PromotionDto;
 import com.hoge.form.Criteria;
 import com.hoge.vo.other.PromotionDiscount;
@@ -35,6 +36,6 @@ public interface PromotionMapper {
 	void updatePromotionDiscount(PromotionDiscount promotionDiscount);
 	void updatePromotionOffer(PromotionOffer promotionOffer);
 	
-	
+	List<HomeAccommoDto> getAccPromotionsForHome();
 	
 }

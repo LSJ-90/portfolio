@@ -20,6 +20,7 @@ public interface TransactionMapper {
 	long getTotalWithdrawal(Criteria criteria);
 	
 	void insertHostTransaction(Transaction transaction);
+	void insertUserTransaction(Transaction transaction);
 	
 	Transaction getlatestTransaction();
 	
