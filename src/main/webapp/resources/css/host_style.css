@@ -29,6 +29,9 @@
   --weight-regular: 400;
   --weight-medium: 500;
   --weight-bold: 700;
+
+  /* Animation */
+  --animation-duration: 300ms;
 }
 
 /* Universal tags */
@@ -164,10 +167,13 @@ textarea {
   color: var(--color-black);
 }
 
-.host-nav__item a.active {
+.host-nav__item a:hover {
   font-weight: var(--weight-medium);
   border-bottom: 2px solid var(--color-black);
 }
+
+/* dropdown-menu */
+
 .host-nav__dropdown {
   position: absolute;
   right: 0;
@@ -319,7 +325,7 @@ textarea {
   text-align: center;
   color: var(--color-white);
   border-radius: 50%;
- /* background-color: var(--color-black);*/
+  background-color: var(--color-black);
 }
 
 .message__list {

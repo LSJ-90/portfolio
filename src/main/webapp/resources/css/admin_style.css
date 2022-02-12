@@ -274,8 +274,8 @@ button {
 }
 
 .sub-nav__item.active,
-.sub-nav__item-main a.active,
-.tab__item a.active {
+.tab__item a.active,
+.sub-nav__item-main a.active {
   padding-bottom: 5px;
   border-bottom: 2px solid var(--color-black);
 }
@@ -308,15 +308,21 @@ button {
   display: flex;
 }
 
-/* Admin-User */
-#admin-user {
+/* Admin */
+#admin-user,
+#admin-main {
   max-width: 1400px;
   margin: 0 auto;
   padding-top: 110px;
 }
 
-#accommo-review {
+#accommo-review,
+.section-wrap {
   margin-bottom: 150px;
+}
+
+.section-wrap:last-child {
+  margin-bottom: 0;
 }
 
 .section__title {
@@ -327,6 +333,57 @@ button {
   text-align: center;
   padding-bottom: 50px;
 }
+
+/* main */
+
+.todays-box {
+  display: flex;
+  justify-content: center;
+}
+
+.todays-list {
+  width: 180px;
+  padding: 0 20px 20px;
+  margin: 0 40px;
+  border-bottom: 1px solid var(--color-input-gray);
+}
+
+.todays-list-title {
+  font-size: 16px;
+  font-weight: var(--weight-regular);
+  margin-bottom: 10px;
+}
+
+.todays-content {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  font-weight: var(--weight-light);
+}
+
+.todays-content span:only-child {
+  font-weight: var(--weight-regular);
+  color: var(--color-red);
+}
+
+.profit__list {
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px;
+  margin-top: 15px;
+  background-color: var(--color-background-gray);
+}
+
+.profit__item {
+  margin-left: 25px;
+}
+
+.profit__item span {
+  padding-left: 5px;
+  color: var(--color-red);
+}
+
+/* user */
 
 .total-profit {
   width: 450px;
