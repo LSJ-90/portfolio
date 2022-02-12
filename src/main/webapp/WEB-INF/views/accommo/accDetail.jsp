@@ -107,7 +107,7 @@
 				<c:forEach var="image" items="${roomSearchList.roomImages}" varStatus="status">
 					<c:if test="${status.index == 0}">
 						<a href="/accommo/roomDetail?accNo=${param.accNo }&check_in=${param.check_in }&check_out=${param.check_out }&roomNo=${roomSearchList.no }&days=${param.days }">
-							<img id="image" src="/resources/images/room/${image.image }" class="card-img-top" alt="...">
+							<img src="/resources/images/room/${image.image }" class="card-img-top" alt="...">
 						</a>
 					</c:if>
 				</c:forEach>
@@ -481,10 +481,10 @@ function datePickerSet(sDate, eDate) {
 	})
 	
 	
-	$("#image").on("click", function(e) {
-		e.preventDefault();
+	$(".card-img-top").on("click", function(e) {
 		if (${param.check_in == null}) {
 			alert('날짜를 선택하세요.');
+			e.preventDefault();
 		}
 	})
 	
