@@ -6,76 +6,223 @@
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
-<div class="mypage__content">
-	<ul class="content__menu">
-		<li class="content__item"><a href="/mypage/myrevlist" class="active">STAY</a></li>
-		<li class="content__item"><a href="/mypage/myrevlist">ACTIVITY</a></li>
-	</ul>
-	<c:if test="${empty myTourList }">
-			<div class="mb-3 text-center alert alert-info">다녀오신 STAY가 없습니다.<br/> STAY를 예약하시고, HOGE와 함께 여행을 떠나세요!!! :)</div>
-	</c:if>
-	<div class="container">
-		<c:forEach var="myTourInfo" items="${myTourList }" >
-		<div class="row my-5 justify-content-center">
-			<div class="col-6 border-start border-top border-bottom bg-light">
-				<div class="row">
-					<div class="row ms-1 fs-2 fw-bold">
-						<a href="#">${myTourInfo.accommoName }</a>
-					</div>
-					<div class="row ms-1 mb-3">
-						<a href="#">${myTourInfo.roomName }</a>
-					</div>
-					<div class="row ms-1">
-						${myTourInfo.accommoRegionDepth1 }/${myTourInfo.accommoRegionDepth2 }
-					</div>					
-					<div class="row ms-1">CHECK IN ::
-						<fmt:formatDate value="${myTourInfo.checkInDate }" type="both" pattern="yyyy-MM-dd '/ PM' HH:mm" />
-					</div>					
-					<div class="row ms-1">CHECK OUT ::
-						<fmt:formatDate value="${myTourInfo.checkOutDate }" type="both" pattern="yyyy-MM-dd '/ AM' HH:mm" />
-					</div>					
-					<div class="row ms-1">PAY INFO ::
-						<fmt:formatNumber value="${myTourInfo.roomTaxIncludedPrice }" type="currency" currencySymbol="￦" />
-					</div>					
-					
-					<div class="row-2 d-flex">
-						<button type="button" class="btn btn-dark">리뷰작성</button>
-					</div>
-				</div>
-			</div>
-			<div class="col-4 me-0 border-top border-bottom border-end bg-light">
-				<div id="carouselExampleIndicators${myTourInfo.accommoNo }" class="carousel slide" data-bs-ride="carousel">
-					<div class="carousel-indicators">
-						<c:forEach var="accommoImage" items="${myTourInfo.accommoImages }" varStatus="status">
-							<button type="button" 
-									data-bs-target="#carouselExampleIndicators${myTourInfo.accommoNo }"
-									data-bs-slide-to="${status.index }" 
-									class="<c:if test="${status.index eq 0 }">active</c:if>" 
-									aria-current="true"
-									aria-label="Slide ${status.count }">
-							</button>
-						</c:forEach>
-					</div>
-					<div class="carousel-inner">
-						<c:forEach var="accommoImage" items="${myTourInfo.accommoImages }" varStatus="status">
-							<div class="carousel-item<c:if test="${status.index eq 0 }"> active</c:if>">
-								<img src="../../resources/images/accommoList/${accommoImage.image}" class="d-block w-100" alt="...">
-							</div>
-						</c:forEach>
-					</div>
-					<button class="carousel-control-prev" type="button"
-						data-bs-target="#carouselExampleIndicators${myTourInfo.accommoNo }" data-bs-slide="prev">
-						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-						<span class="visually-hidden">Previous</span>
-					</button>
-					<button class="carousel-control-next" type="button"
-						data-bs-target="#carouselExampleIndicators${myTourInfo.accommoNo }" data-bs-slide="next">
-						<span class="carousel-control-next-icon" aria-hidden="true"></span>
-						<span class="visually-hidden">Next</span>
-					</button>
-				</div>
-			</div>
-		</div>
-		</c:forEach>
-	</div>
-</div>
+<body>
+	<div id="map" style="width:950px;height:700px;"></div>
+
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8606c7f07c8e2d80f27869dab7ebaec2&libraries=services"></script>
+<script>
+$(function() {
+	function formatDate(date) {
+	    
+	    var d = new Date(date),
+	    
+	    month = '' + (d.getMonth() + 1) , 
+	    day = '' + d.getDate(), 
+	    year = d.getFullYear();
+	    
+	    if (month.length < 2) month = '0' + month; 
+	    if (day.length < 2) day = '0' + day; 
+	    
+	    return [year, month, day].join('.');
+	    
+	}
+	
+	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+	mapOption = {
+		center : new kakao.maps.LatLng(35.84351, 127.78032), 	// 지도의 중심좌표
+		level : 13, 											// 지도의 확대 레벨
+		mapTypeId : kakao.maps.MapTypeId.ROADMAP				// 지도종류
+	};
+
+	// 지도를 생성한다 
+	var map = new kakao.maps.Map(mapContainer, mapOption);
+
+	var positions = [];
+
+	$.ajax({
+		type : 'get',
+		url : '/rest/mypage/mytourlist',
+		dataType : 'json',
+		success : function(results) {
+			console.log(results);
+			$.each(results, function(index, result) {
+				
+				if (result.accommoImages != null) {
+					positions.push({
+						no : result.no,
+						name : result.name,
+						checkIn : formatDate(result.checkIn),
+						checkOut : formatDate(result.checkOut),
+						roomName : result.roomName,
+						price : result.price,
+						latlng: new kakao.maps.LatLng(result.xce, result.yce),
+						images : result.accommoImages
+					});
+				} else if (result.accommoImages == null && result.activityImages[0].image != null) {
+					positions.push({
+						no : result.no,
+						name : result.name,
+						checkIn : formatDate(result.checkIn),
+						price : result.price,
+						latlng: new kakao.maps.LatLng(result.xce, result.yce),
+						images : result.activityImages
+					});
+				} else {
+					positions.push({
+						name : result.name,
+						checkIn : formatDate(result.checkIn),
+						price : result.price,
+						latlng: new kakao.maps.LatLng(result.xce, result.yce),
+					});
+				}
+			});
+			
+			console.log(positions);
+			markerAdd(positions);
+		}, 
+		error : function(request,status,error){
+            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
+	})
+
+	// 마커 생성 기능
+	function markerAdd(positions) {
+		for (var i = 0; i < positions.length; i++) {
+			addMarker(positions[i]);
+		}
+	}
+
+	
+	var array = [];
+	// 마커를 생성하고 지도 위에 표시하고, 마커에 mouseover, mouseout, click 이벤트를 등록하는 함수입니다
+	function addMarker(position) {
+
+		// 마커 이미지의 이미지 크기 입니다
+		var imageSize = new kakao.maps.Size(24, 35);
+		if (position.checkOut) {
+			// 숙소 아이콘
+			var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+		} else {
+			// 체험 아이콘
+			var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+		}
+		// 마커 이미지 생성
+		var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+
+		// 마커를 생성합니다
+		var marker = new kakao.maps.Marker({
+			map : map,
+			position : position.latlng, // 마커를 표시할 위치
+			name : position.name,
+			image : markerImage
+		});
+
+		var iwContent = '<div class="row" style="padding:5px; width:400px; height:130px;">';
+		iwContent += '<div class="col-7">';
+		iwContent += '<h5>' + position.name + '</h5>';
+		if (position.checkOut) {
+			iwContent += '<h6>' + position.roomName + '</h6>';
+		} 
+		iwContent += '<div class="d-flex align-items-end">'
+		iwContent += '<p>' + position.checkIn;
+		if (position.checkOut) {
+			iwContent += ' ~ ' + position.checkOut;
+		} 
+		iwContent += '</br>' + parseInt(position.price).toLocaleString() + '</p>';
+		iwContent += '</div>';
+		iwContent += '</div>';
+		iwContent += '<div class="col-5 d-flex justify-content-end">';
+		
+		
+		if (position.images) {
+			iwContent += '<div id="carouselExampleIndicators'+position.no+'" class="carousel slide" data-bs-interval="false">';
+	      	iwContent += '<div class="carousel-indicators">';
+			$.each (position.images, function (index, image) {
+	      		if (index == 0) {
+	              	iwContent += '<button type="button" data-bs-target="#carouselExampleIndicators'+position.no+'" data-bs-slide-to="'+index+'" class="active" aria-current="true" aria-label="Slide '+index+'"></button>';
+	      		} else {
+	              	iwContent += '<button type="button" data-bs-target="#carouselExampleIndicators'+position.no+'" data-bs-slide-to="'+index+'" aria-label="Slide '+index+'"></button>';
+	      		}
+	      	});
+	      	iwContent += '</div>';
+	      	iwContent += '<div class="carousel-inner">';
+	      	if (position.checkOut) {
+		      	$.each (position.images, function (index, image) {
+		        	if (index == 0) {
+		            	iwContent += '<div class="carousel-item active">';
+		         	} else {
+		            	iwContent += '<div class="carousel-item">';
+		         	}
+			        iwContent += '<img width="139" height="115" src="/resources/images/accommoList/'+image.image+'" class="d-block w-100" alt="image">';
+			        iwContent += '</div>';
+		      	});
+	      	} else {
+	      		$.each (position.images, function (index, image) {
+		        	if (index == 0) {
+		            	iwContent += '<div class="carousel-item active">';
+		         	} else {
+		            	iwContent += '<div class="carousel-item">';
+		         	}
+			        iwContent += '<img width="100%" height="100%" src="/resources/images/activities/'+image.image+'" class="d-block w-100" alt="image">';
+			        iwContent += '</div>';
+		      	});
+	      	}
+	      	iwContent += '</div>';
+	      	iwContent += '<button class="carousel-control-prev" type="button" data-bs-target="carouselExampleIndicators'+position.no+'" data-bs-slide="prev">';
+	      	iwContent += '<span class="carousel-control-prev-icon" aria-hidden="true"></span>';
+	      	iwContent += '<span class="visually-hidden">Previous</span>';
+	     	iwContent += '</button>';
+	      	iwContent += '<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators'+position.no+'" data-bs-slide="next">';
+	      	iwContent += '<span class="carousel-control-next-icon" aria-hidden="true"></span>';
+	      	iwContent += '<span class="visually-hidden">Next</span>';
+	      	iwContent += '</button>';
+	      	iwContent += '</div>';
+		}
+		
+		
+		iwContent += '</div>';
+		iwContent += '</div>';
+
+		
+
+		function closeInfoWindow() {
+		    for(var idx=0; idx<array.length; idx++){
+		        array[idx].close();
+		    }
+		}
+		
+		var iwPosition = new kakao.maps.LatLng(position.latlng); //인포윈도우 표시 위치입니다
+
+		// 인포윈도우를 생성합니다
+		var infowindow = new kakao.maps.InfoWindow({
+			position : iwPosition,
+			content : iwContent
+		});
+		
+		array.push(infowindow);
+		
+		var isOpen = false;
+		// 마커에 mouseover 이벤트를 등록합니다
+		kakao.maps.event.addListener(marker, 'mouseover', function() {
+			// 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
+			
+		});
+
+		// 마커에 mouseout 이벤트를 등록합니다
+		kakao.maps.event.addListener(marker, 'mouseout', function() {
+			
+		});
+
+		// 마커에 click 이벤트를 등록합니다
+		kakao.maps.event.addListener(marker, 'click', function() {
+			closeInfoWindow();
+			infowindow.open(map, marker);
+		});
+
+	};
+	
+	
+})
+</script>
+</body>
+</html>

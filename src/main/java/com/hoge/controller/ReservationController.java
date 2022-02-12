@@ -117,6 +117,7 @@ public class ReservationController {
 		System.out.println(images);
 		
 		model.addAttribute("book", roomBooking);
+		System.out.println(roomBooking);
 		model.addAttribute("room", room);
 		model.addAttribute("images", images);
 		model.addAttribute("user", user);

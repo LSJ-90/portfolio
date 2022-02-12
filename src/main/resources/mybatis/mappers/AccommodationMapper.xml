@@ -348,13 +348,14 @@
 	
 	<select id="getRoomBookingByUserNO" parameterType="int" resultType="com.hoge.vo.accommo.RoomBooking">
 		select 
-			checkInDate,
-			checkOutDate, 
-			extraPeople, 
-			paidPrice, 
-			no,
-			roomNo,
-			bookingMadeDate
+			b.checkInDate,
+			b.checkOutDate, 
+			b.extraPeople, 
+			b.paidPrice, 
+			b.no,
+			b.roomNo,
+			b.bookingMadeDate,
+            a.accommo_name accommoName
 		from 
 			(select 
 				rownum, 
@@ -368,10 +369,14 @@
 			from 
 				tb_final_room_bookings
 			where 
-				user_no=#{value }
+				user_no=#{value}
 			order by 
-				booking_made_date desc)
+				booking_made_date desc) b,
+            tb_final_rooms r,
+            tb_final_accommodations a
 		where rownum = 1
+        and b.roomNo = r.room_no
+        and r.accommo_no = a.accommo_no
 	</select>
 
 	<update id="updateUserPnt">

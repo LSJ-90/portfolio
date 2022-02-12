@@ -62,6 +62,8 @@ public class HostApplyForm {
 	// 체험 사진
 	private List<MultipartFile> actImages;
 
-
+	// 염주환 좌표
+	private double xce;
+	private double yce;
 
 }
