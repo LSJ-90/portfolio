@@ -12,16 +12,24 @@
 	<meta charset="UTF-8">
 <style>
 	.target { display: inline-block; width: 1000px; }
-	A:link {text-decoration:none; color:#646464;}
-	A:visited {text-decoration:none; color:#646464;}
-	A:active {text-decoration:none; color:#646464;}
-	A:hover {text-decoration:none; color:#646464;}
+	A:link {text-decoration:none; color:#000000;}
+	A:visited {text-decoration:none; color:#000000;}
+	A:active {text-decoration:none; color:#000000;}
+	A:hover {text-decoration:none; color:#000000;}
+	#box1 {text-align: right;}
+	#box2 {text-align: center;}
 </style>
 <title>메인페이지-숙소</title>
 </head>
 <body>
-<div class="col-6" style=margin-left:50px"><a>${accMainDto.accName}</a></div>
-<div style="float:right; margin-right:50px"><a href="javascript:history.back()"><img src="/resources/images/common/back.JPG">돌아가기</a></div>
+<div class="container">
+	<div class="col-12" style=margin-top:50px">
+		<a style="margin=top:50px;">${accMainDto.accName}</a>
+		<a style="float:right; margin=bottom:100px;" href="javascript:history.back()"><img src="/resources/images/common/back.JPG">돌아가기</a>
+	</div>
+</div>
+
+<div class="container">
 	<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
 	  <div class="carousel-indicators">
 	  <c:forEach var="image" items="${accImages}" varStatus="status">
@@ -63,7 +71,9 @@
 	    <span class="visually-hidden">Next</span>
 	  </button>
 	</div>
-	
+</div>
+
+<div class="container">
 	<div class="row text-center" style="margin-top:80px; margin-bottom:150px;">
 		<div class="col">
 			<c:choose>
@@ -82,10 +92,10 @@
 			<hr style="margin-top:50px;" width="100%" align="right" size="4px">
 		</div>
 	</div>
-	
+</div>	
 		<!-- <input type="date" value="${param.check_in }" name="check_in"> ~ <input type="date" value="${param.check_out }" name="check_out"> -->
 	
-	
+<div class="container">	
 	<div class="row">
 		<div class="col-2">
 			<h1>ROOMS</h1>
@@ -97,7 +107,7 @@
 				<c:forEach var="image" items="${roomSearchList.roomImages}" varStatus="status">
 					<c:if test="${status.index == 0}">
 						<a href="/accommo/roomDetail?accNo=${param.accNo }&check_in=${param.check_in }&check_out=${param.check_out }&roomNo=${roomSearchList.no }&days=${param.days }">
-							<img src="/resources/images/room/${image.image }" class="card-img-top" alt="...">
+							<img id="image" src="/resources/images/room/${image.image }" class="card-img-top" alt="...">
 						</a>
 					</c:if>
 				</c:forEach>
@@ -110,7 +120,9 @@
 			</div>
 		</c:forEach>
 	</div>
-	
+</div>
+
+<div class="container">	
 	<div class="row">
 		<div class="col">
 			<div class="text-center" style="margin:100px 0;">
@@ -123,10 +135,11 @@
 			</div>
 		</div>
 	</div>
+</div>	
 	
-	
+<div class="container">
 	<div class="row">
-		<div class="col-1">
+		<div class="col-2">
 		    <p style="margin-bottom:15px;">F A Q</p>
 		    <p style="margin-bottom:15px;"><a href="" class="" id="11">인원 및 금액</a></p>
 		    <p style="margin-bottom:15px;"><a href="" class="" id="22">예약 및 결제</a></p>
@@ -136,15 +149,15 @@
 		    <p style="margin-bottom:15px;"><a href="" class="" id="">호스트에게 문의</a></p>
 	    </div>
 	    
-		<div class="col-11" id="1">
+		<div class="col-10" id="1">
 			<h5 style="margin-bottom:30px;">FAQ를 통하여 예약에 관련된 더 자세한 내용들을 찾아보세요.</h5>
 			<h3 style="margin-bottom:20px;">인원 및 금액</h3>
 			<div class="row">
-				<div class="col-1">
+				<div class="col-2">
 					<h5>인원 기준</h5>
 				</div>
-				<div class="col-6">
-					<table class="table" id="">
+				<div class="col-8">
+					<table class="table" id="box2">
 						<thead>
 							<tr>
 								<th>객실이름</th>
@@ -173,11 +186,11 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-1">
+				<div class="col-2">
 					<h5>요금 기준</h5>
 				</div>
-				<div class="col-6">
-					<table class="table" id="">
+				<div class="col-8">
+					<table class="table" id="box2">
 						<thead>
 							<tr>
 								<th>객실이름</th>
@@ -207,11 +220,11 @@
 			</div>
 		</div>
 		
-		<div class="col-11" id="2">
+		<div class="col-10" id="2">
 			<h5 style="margin-bottom:30px;">FAQ를 통하여 예약에 관련된 더 자세한 내용들을 찾아보세요.</h5>
 			<h3 style="margin-bottom:20px;">예약 및 결제</h3>
 			<div class="row">
-				<div class="col-1">
+				<div class="col-2">
 					<h5>예약 안내</h5>
 				</div>
 				<div class="col-8">
@@ -225,12 +238,12 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-1">
+				<div class="col-2">
 					<h5>환불 규정</h5>
 				</div>
-				<div class="col-4">
+				<div class="col-6">
 					<p>• 환불 시 아래의 기준일에 따른 환불 금액을 드립니다.</p>
-					<table class="table" id="">
+					<table class="table" id="box2">
 						<thead>
 							<tr>
 								<th></th>
@@ -294,7 +307,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-1">
+				<div class="col-2">
 					<h5>취소 안내</h5>
 				</div>
 				<div class="col-8">
@@ -303,7 +316,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-1">
+				<div class="col-2">
 					<h5>숙박권 양도</h5>
 				</div>
 				<div class="col-8">
@@ -313,11 +326,11 @@
 			</div>
 		</div>
 		
-		<div class="col-11" id="3">
+		<div class="col-10" id="3">
 			<h5 style="margin-bottom:30px;">FAQ를 통하여 예약에 관련된 더 자세한 내용들을 찾아보세요.</h5>
 			<h3 style="margin-bottom:20px;">이용 안내</h3>
 			<div class="row">
-				<div class="col-1">
+				<div class="col-2">
 					<h5>예약 전<br>확인사항</h5>
 				</div>
 				<div class="col-8">
@@ -333,38 +346,37 @@
 			</div>
 		</div>
 		
-		<div class="col-11" id="4">
+		<div class="col-10" id="4">
 			<h5 style="margin-bottom:30px;">FAQ를 통하여 예약에 관련된 더 자세한 내용들을 찾아보세요.</h5>
 			<h3 style="margin-bottom:20px;">부대시설 안내</h3>
 			<c:forEach var="roomInfoType1" items="${roomInfoType1}">
 				<div class="row">
-					<div class="col-1">
+					<div class="col-2">
 						<h5>${roomInfoType1.infoTitle1}</h5>
 					</div>
-					<div class="col-8">
+					<div class="col-10">
 						<pre><p style="margin-bottom:30px;"><strong>${roomInfoType1.infoContent1}</strong></p></pre>
 					</div>
 				</div>
 			</c:forEach>
 		</div>
 		
-		<div class="col-11" id="5">
+		<div class="col-10" id="5">
 			<h5 style="margin-bottom:30px;">FAQ를 통하여 예약에 관련된 더 자세한 내용들을 찾아보세요.</h5>
 			<h3 style="margin-bottom:20px;">기타 안내</h3>
 			<c:forEach var="roomInfoType2" items="${roomInfoType2}">
 				<div class="row">
-					<div class="col-1">
+					<div class="col-2">
 						<h5>${roomInfoType2.infoTitle2}</h5>
 					</div>
-					<div class="col-8">
+					<div class="col-10">
 						<pre><p style="margin-bottom:30px;"><strong>${roomInfoType2.infoContent2}</strong></p></pre>
 					</div>
 				</div>
 			</c:forEach>
 		</div>
-		
-		
-	</div>
+	</div>		
+</div>
 </body>
 <script>
 
@@ -468,6 +480,13 @@ function datePickerSet(sDate, eDate) {
 		$("#4").hide();
 	})
 	
+	
+	$("#image").on("click", function(e) {
+		e.preventDefault();
+		if (${param.check_in == null}) {
+			alert('날짜를 선택하세요.');
+		}
+	})
 	
 
 

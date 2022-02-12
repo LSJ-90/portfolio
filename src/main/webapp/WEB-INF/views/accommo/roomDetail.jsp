@@ -11,8 +11,8 @@
 	A:visited {text-decoration:none; color:#000000;}
 	A:active {text-decoration:none; color:#000000;}
 	A:hover {text-decoration:none; color:#000000;}
-	#box1 { text-align: right; }
-	#box2 { text-align: center; }
+	#box1 {text-align: right;}
+	#box2 {text-align: center;}
 </style>
 </head>
 <body>
@@ -181,7 +181,7 @@
 					<h5>인원 기준</h5>
 				</div>
 				<div class="col-8">
-					<table class="table" id="">
+					<table class="table" id="box2">
 						<thead>
 							<tr>
 								<th>객실이름</th>
@@ -214,7 +214,7 @@
 					<h5>요금 기준</h5>
 				</div>
 				<div class="col-8">
-					<table class="table" id="">
+					<table class="table" id="box2">
 						<thead>
 							<tr>
 								<th>객실이름</th>
@@ -267,7 +267,7 @@
 				</div>
 				<div class="col-6">
 					<p>• 환불 시 아래의 기준일에 따른 환불 금액을 드립니다.</p>
-					<table class="table" id="">
+					<table class="table" id="box2">
 						<thead>
 							<tr>
 								<th></th>
