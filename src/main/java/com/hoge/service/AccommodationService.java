@@ -279,11 +279,11 @@ public class AccommodationService {
 		return roomDtos;
 	}
 	
-	//유상효 accNo로 info type1 가져오기
+	// 유상효 accNo로 info type1 가져오기
 	public List<RoomListDto> getRoomInfoType1(int accNo) {
 		return accommoMapper.getAccInfoType1ByAccNo(accNo);
 	}
-	//유상효 accNo로 info type2 가져오기
+	// 유상효 accNo로 info type2 가져오기
 	public List<RoomListDto> getRoomInfoType2(int accNo) {
 		return accommoMapper.getAccInfoType2ByAccNo(accNo);
 	}

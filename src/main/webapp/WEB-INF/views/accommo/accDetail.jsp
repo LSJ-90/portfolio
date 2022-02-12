@@ -29,7 +29,6 @@
 	</div>
 </div>
 
-<div class="container">
 	<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
 	  <div class="carousel-indicators">
 	  <c:forEach var="image" items="${accImages}" varStatus="status">
@@ -71,7 +70,6 @@
 	    <span class="visually-hidden">Next</span>
 	  </button>
 	</div>
-</div>
 
 <div class="container">
 	<div class="row text-center" style="margin-top:80px; margin-bottom:150px;">
@@ -146,7 +144,7 @@
 		    <p style="margin-bottom:15px;"><a href="" class="" id="33">이용 안내</a></p>
 		    <p style="margin-bottom:15px;"><a href="" class="" id="44">부대시설 안내</a></p>
 		    <p style="margin-bottom:15px;"><a href="" class="" id="55">기타 안내</a></p>
-		    <p style="margin-bottom:15px;"><a href="" class="" id="">호스트에게 문의</a></p>
+		    <p style="margin-bottom:15px;"><a href="" class="" id="66">호스트에게 문의</a></p>
 	    </div>
 	    
 		<div class="col-10" id="1">
@@ -311,8 +309,8 @@
 					<h5>취소 안내</h5>
 				</div>
 				<div class="col-8">
-					<p>• 예약번호는 예약안내 문자를 통해 확인 가능합니다. 확인이 어려우신 경우 스테이폴리오 챗봇을 통해 예약번호를 문의해주시기 바랍니다.</p>
-					<p style="margin-bottom:40px;">• 취소를 원하시는 경우, 스테이폴리오 - ACCOUNT - 마이 페이지 - 예약 정보 - [취소 요청] 버튼을 눌러주시기 바랍니다.</p>
+					<p>• 예약번호는 예약안내 문자를 통해 확인 가능합니다. 확인이 어려우신 경우 호게 챗봇을 통해 예약번호를 문의해주시기 바랍니다.</p>
+					<p style="margin-bottom:40px;">• 취소를 원하시는 경우, 호게 - ACCOUNT - 마이 페이지 - 예약 정보 - [취소 요청] 버튼을 눌러주시기 바랍니다.</p>
 				</div>
 			</div>
 			<div class="row">
@@ -478,6 +476,10 @@ function datePickerSet(sDate, eDate) {
 		$("#2").hide();
 		$("#3").hide();
 		$("#4").hide();
+	})
+	
+	$('#66').click(function(e){
+		e.preventDefault();
 	})
 	
 	

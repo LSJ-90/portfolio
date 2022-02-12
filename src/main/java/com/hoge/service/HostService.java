@@ -250,13 +250,19 @@ public class HostService {
 		}
 
 
-		// 유상효 부대시설 및 기타 안내 등록
+		// 유상효 숙소 부대시설 및 기타 안내 등록
 		public void addAccInfo(AccInfoForm form) {
 			hostMapper.addAccInfo(form);
 			form.setEtcInfoNo(form.getNo()); // info 시퀀스 넣어주기
 			hostMapper.addAccInfoDetail(form);
 		}
-
+		
+		// 유상효 숙체험 부대시설 및 기타 안내 등록
+		public void addActInfo(AccInfoForm form) {
+			hostMapper.addActInfo(form);
+			form.setEtcInfoNo(form.getNo()); // info 시퀀스 넣어주기
+			hostMapper.addActInfoDetail(form);
+		}
 		
 		
 		
@@ -277,5 +283,9 @@ public class HostService {
 		public void updateHost(Host host) {
 			hostMapper.updateHost(host);
 		}
+
+
+
+		
 
 }

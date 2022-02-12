@@ -204,7 +204,7 @@ $(function() {
                      	} else {
                         	row += '<div class="carousel-item">';
                      	}
-                    row += '<img src="/resources/images/accommoList/'+image.image+'" class="d-block w-100" alt="image">';
+                    row += '<a href="/accommo/detail?accNo='+accommo.no+'&check_in=${criteria.checkInBoxValue}&check_out=${criteria.checkOutBoxValue}"><img src="/resources/images/accommoList/'+image.image+'" class="d-block w-100" alt="image"></a>';
                     row += '</div>';
                   	});
                   	row += '</div>';

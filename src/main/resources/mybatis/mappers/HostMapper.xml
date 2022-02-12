@@ -660,7 +660,7 @@
 	 		host_no = #{value} 
 	 </select>
 	 
-	 <!--  유상효 부대시설 및 기타 안내 등록 -->
+	 <!--  유상효 숙소 부대시설 및 기타 안내 등록 -->
 	 <insert id="addAccInfo" parameterType="com.hoge.form.AccInfoForm">
 	 	<selectKey keyProperty="no" resultType="int" order="BEFORE">
 	 		select final_accommo_info_no_seq.nextval
@@ -683,6 +683,42 @@
 	 </insert>
 	 <insert id="addAccInfoDetail" parameterType="com.hoge.form.AccInfoForm">
 	 	insert into tb_final_accommo_etc_info_detail
+	 	(
+	 	info_content_no,
+	 	info_content,
+	 	info_no
+	 	)
+	 	values
+	 		(
+	 		#{contentNo},
+	 		#{content},
+	 		#{etcInfoNo}
+	 		)
+	 </insert>  
+	 
+	 <!--  유상효 체험 부대시설 및 기타 안내 등록 -->
+	 <insert id="addActInfo" parameterType="com.hoge.form.AccInfoForm">
+	 	<selectKey keyProperty="no" resultType="int" order="BEFORE">
+	 		select final_activity_info_no_seq.nextval
+	 		from dual
+	 	</selectKey>
+	 	insert into tb_final_activity_etc_info
+	 	(
+	 	info_no,
+	 	info_title,
+	 	activity_no,
+	 	info_type
+	 	)
+	 	values
+	 		(
+	 		#{no},
+	 		#{title},
+	 		#{accommoNo},
+	 		#{type}
+	 		)
+	 </insert>
+	 <insert id="addActInfoDetail" parameterType="com.hoge.form.AccInfoForm">
+	 	insert into tb_final_activity_etc_info_detail
 	 	(
 	 	info_content_no,
 	 	info_content,
