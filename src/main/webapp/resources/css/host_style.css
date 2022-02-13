@@ -9,12 +9,16 @@
   --color-faq-text-gray: #888888;
   --color-form-gray: #bbbbbb;
   --color-form-text: #676767;
+  --color-label-gray: #999999;
   --color-text-black: #333333;
   --color-title-black: #181818;
   --color-chat-line-gray: #efeff0;
   --color-chat-gray: rgba(0, 0, 0, 0.05);
   --color-chat-black: #242424;
   --color-black: #000000;
+  --color-red: #dc3545;
+  --color-blue: #1313a3;
+  --color-green: #018a01;
 
   /* Font Family */
   --font-family-spoqa: "Spoqa Han Sans Neo", sans-serif;
@@ -225,6 +229,170 @@ textarea {
 
 .dropdown__item a:hover {
   border-bottom: 2px solid var(--color-black);
+}
+
+/* Host-Main */
+
+#host-main {
+  padding-top: 40px;
+}
+
+.host-main__info-box {
+  display: flex;
+  justify-content: space-between;
+}
+
+.host-main__img {
+  width: 800px;
+  height: 470px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-color: var(--color-background-gray);
+}
+
+.host-main__info {
+  width: 530px;
+}
+
+.accommo-info__btn {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.btn__accommo-modify {
+  font-size: 15px;
+  font-weight: var(--weight-light);
+  color: var(--color-white);
+  height: 45px;
+  padding: 0 30px;
+  background-color: var(--color-black);
+}
+
+.btn__accommo-addition {
+  font-size: 15px;
+  font-weight: var(--weight-light);
+  height: 45px;
+  padding: 0 30px;
+  border: 1px solid var(--color-black);
+}
+
+.accommo-info__list {
+  border-top: 2px solid var(--color-black);
+  margin-bottom: 20px;
+}
+
+.accommo-info__item {
+  display: flex;
+  align-items: center;
+  font-weight: var(--weight-light);
+  min-height: 50px;
+  border-bottom: 1px solid var(--color-input-gray);
+}
+
+.accommo-info__label {
+  flex-basis: 120px;
+  font-size: 13px;
+  color: var(--color-label-gray);
+}
+
+.accommo-info__content {
+  font-size: 15px;
+}
+
+.accommo-info__table,
+.host-main__table {
+  width: 100%;
+  border-collapse: collapse;
+  border-top: 2px solid var(--color-black);
+}
+
+.accommo-info__table th,
+.accommo-info__table td {
+  font-size: 15px;
+  height: 50px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.host-main__table th {
+  font-size: 15px;
+  height: 35px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.host-main__table td {
+  font-size: 15px;
+  height: 45px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.accommo-info__table th,
+.host-main__table th {
+  font-weight: var(--weight-regular);
+  border-bottom: 1px solid var(--color-black);
+}
+
+.accommo-info__table td {
+  font-weight: var(--weight-light);
+  padding: 0 3px;
+  border-right: 1px solid var(--color-input-gray);
+  border-bottom: 1px solid var(--color-input-gray);
+}
+
+.host-main__table td {
+  font-weight: var(--weight-light);
+  padding: 0 3px;
+  border-bottom: 1px solid var(--color-input-gray);
+}
+
+.accommo-info__table tr:last-child td {
+  border-bottom: 1px solid var(--color-black);
+}
+
+.accommo-info__table td:last-child {
+  border-right: none;
+}
+
+.host-main__check-box {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 110px;
+}
+
+.accommo-check-in,
+.accommo-check-out {
+  width: 670px;
+}
+
+.host-main__title {
+  font-size: 18px;
+  font-weight: var(--weight-regular);
+  letter-spacing: 4px;
+  text-indent: 4px;
+  text-align: center;
+  padding-bottom: 30px;
+}
+
+.check-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 150px;
+  border: 1px solid var(--color-black);
+}
+
+.host-main__review-box,
+.host-main__reservation-box {
+  margin-top: 110px;
+}
+
+.host-main__title span {
+  color: var(--color-red);
 }
 
 /* Host-chat */
@@ -574,7 +742,7 @@ textarea {
 }
 
 .qna-modal__value.host {
-  height: 350px;
+  height: 320px;
 }
 
 /* Footer */

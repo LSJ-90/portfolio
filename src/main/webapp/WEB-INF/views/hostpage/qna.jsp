@@ -46,14 +46,7 @@
         </div>
       </article>
       <article class="my-qna">
-        <button
-          type="button"
-          class="btn__question"
-          onclick="creatingModal()"
-        >
-          문의하기
-        </button>
-        
+     
         <c:choose>
 		  <c:when test="${empty qnaList }">
 		    <div class="empty-host-qna">작성된 QnA가 없습니다.</div>
