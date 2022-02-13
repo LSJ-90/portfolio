@@ -75,7 +75,7 @@
 	<div class="row text-center" style="margin-top:80px; margin-bottom:150px;">
 		<div class="col">
 			<c:choose>
-				<c:when test="${param.days == null}">
+				<c:when test="${param.days eq ''}">
 					<h3>날짜를 선택해주세요.</h3>
 				</c:when>
 				<c:otherwise>
@@ -484,7 +484,7 @@ function datePickerSet(sDate, eDate) {
 	
 	
 	$(".card-img-top").on("click", function(e) {
-		if (${param.check_in == null}) {
+		if (${param.check_in == ''}) {
 			alert('날짜를 선택하세요.');
 			e.preventDefault();
 		}

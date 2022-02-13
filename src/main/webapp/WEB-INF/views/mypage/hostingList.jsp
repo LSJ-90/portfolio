@@ -26,12 +26,24 @@
                 <span>${accListDto.accName }</span>
               </div>
               <div class="hosting-list__description">
-                <div class="hosting-list__type">호텔</div>
+                <div class="hosting-list__type">${accListDto.accType }</div>
                 <div class="hosting-list__name">${accListDto.accName }</div>
-                <div class="hosting-list__title">
-                  천혜의 자연 경관을 갖춘 아난티 힐튼 부산
-                </div>
-                <div class="hosting-list__btn">SHOW NOW</div>
+                <div class="hosting-list__title">${accListDto.accIntroTitle }</div>
+                <div class="hosting-list__btn">확인</div>
+              </div>
+            </a>
+          </li>
+       </c:forEach>
+      <c:forEach var="actListDto" items="${actListDto }" >
+        <li class="hosting-list__item">
+            <a href="/host/main?hostNo=${actListDto.hostNo}&hostingType=${actListDto.hostingType }">
+              <div class="hosting-list__img" style='background-image: url("/resources/images/hostMainImage/${actListDto.mainImage}")'>
+                <span>${actListDto.actName }</span>
+              </div>
+              <div class="hosting-list__description">
+                <div class="hosting-list__name">${actListDto.actName }</div>
+                <div class="hosting-list__title">${actListDto.actIntroTitle }</div>
+                <div class="hosting-list__btn">확인</div>
               </div>
             </a>
           </li>
