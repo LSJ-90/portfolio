@@ -36,6 +36,10 @@ public interface StatisticsMapper {
 	int getDiscountPromotionWaitingCount();
 	int getOfferPromotionWaitingCount();
 	
+	long getCancelAmountThisMonth();
+	long getDepositAmountThisMonth();
+	long getWithdrawalAmountThisMonth();
+	
 	
 	   
 	

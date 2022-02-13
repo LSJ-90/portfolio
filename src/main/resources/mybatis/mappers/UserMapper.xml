@@ -126,7 +126,8 @@
 	 			user_image = #{image},
 	 		</if>
 	 			user_gender = #{gender},
-	 			user_reported_count = #{reportedCount}
+	 			user_reported_count = #{reportedCount},
+	 			USER_UPDATED_DATE = SYSDATE
 	 	</set>
 		where
 			user_no = #{no}

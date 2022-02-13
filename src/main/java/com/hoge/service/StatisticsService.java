@@ -88,6 +88,22 @@ public class StatisticsService {
 			return statisticsMapper.getOfferPromotionWaitingCount();
 			
 		}
+		
+		
+		
+		public long getCancelAmountThisMonth() {
+			return statisticsMapper.getCancelAmountThisMonth();
+			
+		}
+		public long getDepositAmountThisMonth() {
+			return statisticsMapper.getDepositAmountThisMonth();
+			
+		}
+		public long getWithdrawalAmountThisMonth() {
+			return statisticsMapper.getWithdrawalAmountThisMonth();
+			
+		}
 	 
+		
 	
 }
