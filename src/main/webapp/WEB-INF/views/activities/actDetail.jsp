@@ -52,12 +52,17 @@
 							<h2>"${actMainDto.actIntroTitle}"</h2>
 							<h6>${actMainDto.dept1} / ${actMainDto.dept2}</h6>
 							<c:choose>
-								<c:when test="${empty promotionDiscountList}">
-								</c:when>
-								<c:when test="${empty promotionOfferList}">
+								<c:when test="${not empty promotionDiscountList}">
+									<h6><프로모션 진행중></h6>
 								</c:when>
 								<c:otherwise>
-										<h6><프로모션 진행중></h6>
+									<c:choose>
+										<c:when test="${not empty promotionOfferList}">
+											<h6><프로모션 진행중></h6>
+										</c:when>
+										<c:otherwise>
+										</c:otherwise>
+									</c:choose>
 								</c:otherwise>
 							</c:choose>
 						</div>
@@ -80,12 +85,7 @@
 		<div class="col-8">
 			<h3 style="margin-top:50px;">${actMainDto.hostName}님이 호스팅하는 체험</h3>
 			<hr style="margin-top:30px;" size="4px">
-			<c:choose>
-				<c:when test="${empty promotionDiscountList}">
-				</c:when>
-				<c:when test="${empty promotionOfferList}">
-				</c:when>
-				<c:otherwise>
+				<c:if test="${not empty promotionDiscountList}">
 					<div class="col-4">
 						<p style="margin-top:50px;"></p>
 						<c:forEach var="promotionDiscountList" items="${promotionDiscountList }">
@@ -98,6 +98,8 @@
 							   <fmt:formatDate value="${promotionDiscountList.endingDate}" pattern="yyyy.MM.dd"/></p>
 						</c:forEach>
 					</div>
+				</c:if>
+				<c:if test="${not empty promotionOfferList}">
 					<div class="col-4">
 						<p style="margin-top:50px;"></p>
 						<c:forEach var="promotionOfferList" items="${promotionOfferList }">
@@ -108,12 +110,7 @@
 							   <fmt:formatDate value="${promotionOfferList.endingDate}" pattern="yyyy.MM.dd"/></p>
 						</c:forEach>
 					</div>
-					<div class="col-12">
-						<hr style="margin-top:50px; " size="3px">
-					</div>
-				<div class="w-100"></div>
-				</c:otherwise>
-			</c:choose>
+				</c:if>
 			<h4 style="margin-top:40px;">프로그램</h4>
 			<p style="margin-top:20px;">${actMainDto.actIntroContent}</p>
 			<p style="margin-top:30px;">해당 체험은 ${actMainDto.actAddress}에서 진행됩니다.</p>
