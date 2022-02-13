@@ -183,6 +183,11 @@
            
          </tbody>
        </table>
+       <div id="pagination">
+        <ul class="pagination__list" id="paginationBox">
+          
+        </ul>
+      </div>
      </section>
      <section class="host-main__reservation-box">
        <div class="host-main__title">
@@ -211,6 +216,11 @@
           
          </tbody>
        </table>
+       <div id="pagination">
+        <ul class="pagination__list" id="paginationBox1">
+          
+        </ul>
+      </div>
      </section>
    </article>
  </main>

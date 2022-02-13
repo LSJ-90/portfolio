@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 // import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hoge.exception.AdminException;
 // import com.hoge.dto.ResponseDto;
 import com.hoge.exception.CustomException;
 import com.hoge.exception.FindException;
@@ -71,6 +72,16 @@ public class ExceptionHandlerControllerAdvice {
 	 * 
 	 * return response; }
 	 */
+	
+	 // 성하민
+	 @ExceptionHandler(AdminException.class) 
+	 public String handleUpdateException(AdminException e, Model model) { 
+		 e.printStackTrace();
+		 model.addAttribute("error", e.getMessage()); 
+		 return "error/adminError.tiles"; 
+	 }
+	
+	
 	
 	// 이승준: 메세지를 포함하여 LoginException이 발생한 로그인폼 페이지로 리턴
 	@ExceptionHandler(LoginException.class) 

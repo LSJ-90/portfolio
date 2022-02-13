@@ -215,6 +215,16 @@
 			#{amount}
 			)
 	</insert>
+  	<!-- 성하민
+  int getWithdrawalwaitingAmountByHostNo(int no); 
+  	-->
+  	<select id="getWithdrawalwaitingAmountByHostNo" parameterType="int" resultType="_long">
+  	select sum(MONEY_AMOUNT)
+	from TB_FINAL_WITHDRAWALS
+	where WITHDRAWAL_STATUS = 'N'
+	and host_no = #{no}
+	group by host_no
+  	</select>
   
 
 </mapper>

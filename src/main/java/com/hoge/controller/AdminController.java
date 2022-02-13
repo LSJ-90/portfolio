@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hoge.config.auth.LoginedUser;
 import com.hoge.dto.AccMainDto;
 import com.hoge.dto.AdminAccommoListDto;
 import com.hoge.dto.AdminAccommoReviewDto;
@@ -29,6 +30,7 @@ import com.hoge.dto.PromotionDto;
 import com.hoge.dto.RoomBookingBatchDto;
 import com.hoge.dto.RoomListDto;
 import com.hoge.dto.WithdrawalHostDto;
+import com.hoge.exception.AdminException;
 import com.hoge.form.Criteria;
 import com.hoge.form.CriteriaAdminQnA;
 import com.hoge.form.CriteriaAdminUser;
@@ -241,7 +243,15 @@ public class AdminController {
 	}
 
 	@GetMapping("/main")
-	public String adminMainInit(Model model) {
+	public String adminMainInit(Model model, @LoginedUser User user) {
+		//if (user == null) {
+		//	throw new AdminException("로그인이 되어있지 않습니다.");
+		//}
+		
+		
+		//if (!"admin01".equals(user.getId()) && !"admin02".equals(user.getId())) {
+		//	throw new AdminException("접근이 제한된 주소입니다.");
+		//}
 		
 		int todayJoinCount = statisticsService.getTodayJoinCount();
 		int todayLeftCount = statisticsService.getTodayLeftCount();

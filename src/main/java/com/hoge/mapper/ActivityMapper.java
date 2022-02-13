@@ -6,7 +6,9 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.hoge.dto.ActMainDto;
+import com.hoge.dto.ActivityBookingBatchDto;
 import com.hoge.dto.ActivityBookingDto;
+import com.hoge.dto.ActivityBookingHostDto;
 import com.hoge.dto.ActivityListDto;
 import com.hoge.dto.AdminAccommoListDto;
 import com.hoge.dto.AdminActivityListDto;
@@ -14,6 +16,7 @@ import com.hoge.dto.MapArea;
 import com.hoge.form.ActTimeForm;
 import com.hoge.form.ActivityReserveForm;
 import com.hoge.form.Criteria;
+import com.hoge.vo.accommo.RoomBooking;
 import com.hoge.vo.activities.Activity;
 import com.hoge.vo.activities.ActivityBooking;
 import com.hoge.vo.activities.ActivityImage;
@@ -75,5 +78,20 @@ public interface ActivityMapper {
 	
 	//성하민 관리자페이지에서 체험 개수 가져오기
 	int getActivityCountForAdmin(Criteria criteria);
+	
+	//성하민 
+	void closeActivityTime();
 
+	//성하민 호스트페이지 메인에서 최근 3일 예약건수 가져오기
+		int getRecentBookingCountByActivityNo(int no);
+		
+		//성하민 호스트페이지 메인에서 최근 3일 예약데이터 가져오기
+		List<ActivityBookingHostDto> getRecentBookingListByActivityNo(Criteria criteria); 
+		
+		//성하민 호스트페이지 메인에서 오늘 예약건수 가져오기
+		int getTodayBookingCountByActivityNo(int no);
+	
+		void updateActivityBookingStatusByBookingNo(int no);
+		
+		List<ActivityBookingBatchDto> getActivityBookingBatchDto();
 }

@@ -41,6 +41,15 @@ public interface ReviewMapper {
 		//성하민 호스트페이지 메인에서 오늘 리뷰건수 가져오기
 		int getTodayReviewCountByAccommoNo(int no);
 		
+		//성하민 호스트페이지 메인에서 최근 3일 리뷰건수 가져오기
+		int getRecentReviewCountByActivityNo(int no);
+		
+		//성하민 호스트페이지 메인에서 최근 3일 리뷰데이터 가져오기
+		List<AdminActivityReviewDto> getRecentReviewListByActivityNo(Criteria criteria); 
+		
+		//성하민 호스트페이지 메인에서 오늘 리뷰건수 가져오기
+		int getTodayReviewCountByActivityNo(int no);
+		
 		//이승준: 나의 리뷰인서트
 		void insertAccommoReview(ReviewAccommo accommoReviewInfo);
 		

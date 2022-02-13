@@ -35,7 +35,9 @@
    <section class="host-sales__withdrawal">
      <div class="host-main__title">출금신청내역</div>
      <div class="withdrawal-box">
-       <div class="total-amount">출금신청가능액: <fmt:formatNumber value="${savedHost.accumulatedMoney }" type="currency" currencySymbol="￦" />원</div>
+       <div class="total-amount">출금신청가능액: <fmt:formatNumber value="${savedHost.accumulatedMoney }" type="currency" currencySymbol="￦" />
+					 (누적액)- <fmt:formatNumber value="${appliedAmount}" type="currency" currencySymbol="￦" /> 
+					 (미승인 신청액) = <fmt:formatNumber value="${possibleAmount}" type="currency" currencySymbol="￦" /></div>
        <button class="btn__withdrawal" onclick="creatingModal()">
          출금신청
        </button>
@@ -132,7 +134,7 @@
                   />
                 </li>
                 <li class="qna-modal__item">
-                  <label for="qnaTitle"> 출금액 (가능금액: <span id="accumulatedMoney">7517000</span>원) </label>
+                  <label for="qnaTitle"> 출금액 (가능금액: <span id="accumulatedMoney"></span>원) </label>
                   <input
                     type="text"
                     class="qna-modal__value"
@@ -171,10 +173,6 @@
 
 
 
-
-
-
-
 <script type="text/javascript">
 activeMenu('매출관리');
 
@@ -186,14 +184,21 @@ function numberWithCommas(x) {
 
 const hostNo = "${savedHost.no }";
 
-$('#withFormsubmit').click(function() {
+
+
+$('#withFormsubmit').click(function(e) {
 	var amount = $.trim($(":input[name=amount]").val());
-	if (amount) {
-		$("#withdrawal-form").trigger("submit");
-	} else {
-		alert("출금액을 입력하세요");					
+	if (amount < 50000) {
+		alert("50000원 이상만 출금 가능합니다.");	
+		 e.preventDefault();
 	}
-	
+	if (amount > ${possibleAmount}) {
+		alert("신청가능금액 이상 출금할 수 없습니다.");	
+		 e.preventDefault();
+	}
+	if (amount < ${possibleAmount} && amount > 50000) {
+	$("#withdrawal-form").trigger("submit");
+	}
 });
 
 
@@ -470,7 +475,7 @@ function creatingModal() {
 		$('#hostNo').val("${savedHost.no}");
 		$('#hostingType').val("${savedHost.hostingType}");
 		console.log("${savedHost.accumulatedMoney}");
-		$('#accumulatedMoney').text("${savedHost.accumulatedMoney}");
+		$('#accumulatedMoney').text("<fmt:formatNumber value='${possibleAmount}' pattern='#,###' />");
 		withdrawalModal.show();
 }
 
