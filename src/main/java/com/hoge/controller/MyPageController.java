@@ -80,11 +80,13 @@ public class MyPageController {
 	public String myRevListInit(@LoginedUser User savedUser, Model model) { 
 		
 		List<UserRevInfoDto> myRevList = userService.getMyRevListByNo(savedUser.getNo());
-		
 		if (!(myRevList.isEmpty())) {
 			model.addAttribute("myRevList", myRevList);
 		}
 		
+		int cnt = userService.getTourListCnt(savedUser.getNo());
+		model.addAttribute("cnt", cnt);
+			
 		return "mypage/myRevList.mytiles";
 	}
 	

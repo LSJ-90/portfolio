@@ -383,4 +383,12 @@
             a.accommo_region_depth3, a.accommo_xce, a.accommo_yce,a.accommo_address
 	</select>
 	
+	<select id="getTourListCnt" resultType="int" parameterType="int">
+		select count(*) as cnt
+		from 
+			tb_final_room_bookings bookings
+		where bookings.user_no = #{value}
+		and  room_booking_status = 0
+	</select>
+	
 </mapper>

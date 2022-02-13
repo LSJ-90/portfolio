@@ -7,10 +7,10 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hoge.controller.AdminController;
 import com.hoge.dto.AccMainDto;
+import com.hoge.dto.ActMainDto;
 import com.hoge.dto.HomeAccommoDto;
-import com.hoge.form.Criteria;
+import com.hoge.dto.HomeActivityDto;
 import com.hoge.mapper.HomeMapper;
 import com.hoge.mapper.PromotionMapper;
 import com.hoge.vo.accommo.AccommoImage;
@@ -23,7 +23,7 @@ import com.hoge.vo.accommo.AccommoImage;
 @Service
 public class HomeService {
 	
-	static final Logger logger = LogManager.getLogger(AdminController.class);
+	static final Logger logger = LogManager.getLogger(HomeService.class);
 	
 	@Autowired
 	private HomeMapper homeMapper;
@@ -31,40 +31,64 @@ public class HomeService {
 	@Autowired
 	private PromotionMapper promotionMapper;
 	
+	public int getAllAccommodationTotalRows() {
+		return homeMapper.getAllAccommodationTotalRows();
+	}
+
+	public List<HomeAccommoDto> getAllAccommodation() {
+		return homeMapper.getAllAccommodation();
+	}
+	
 	public List<AccMainDto> getNewSixAccommoMainImages() {
 		return homeMapper.getNewSixAccommoMainImages();
 	}
+	
+	public List<ActMainDto> getNewSixActivityMainInfo() {
+		return homeMapper.getNewSixActivityMainInfo();
+	}
 
-	public List<HomeAccommoDto> getAccPromotionsForHome() {
+	public List<HomeAccommoDto> getAccDiscountPromotionsForHome() {
 		
-		List<HomeAccommoDto> homePromotionDiscountDtos = promotionMapper.getAccPromotionsForHome();
+		List<HomeAccommoDto> homePromotionDiscountDtos = promotionMapper.getAccDiscountPromotionsForHome();
 		
 		for (HomeAccommoDto homePromotionDiscountDto : homePromotionDiscountDtos) {
-			
+			// logger.info(homePromotionDiscountDto);
 			AccommoImage accommoImage = new AccommoImage();
 			accommoImage = homeMapper.getAccMainImage(homePromotionDiscountDto.getNo());
 			homePromotionDiscountDto.setMainImage(accommoImage.getImage());
-
+			
 			HomeAccommoDto minMaxDto = new HomeAccommoDto();
 			minMaxDto = homeMapper.getMinMaxByHostNo(homePromotionDiscountDto.getHostNo());
 			homePromotionDiscountDto.setMinPrice(minMaxDto.getMinPrice());
 			homePromotionDiscountDto.setMaxPrice(minMaxDto.getMaxPrice());
 			homePromotionDiscountDto.setMinNumber(minMaxDto.getMinNumber());
 			homePromotionDiscountDto.setMaxNumber(minMaxDto.getMaxNumber());
-			
-			logger.info(homePromotionDiscountDto);
 		}
 		
 		return homePromotionDiscountDtos;
 	}
-
-	public int getAllAccommodationTotalRows() {
-		return homeMapper.getAllAccommodationTotalRows();
-	}
-
-	public List<HomeAccommoDto> getAllAccommodation(Criteria criteria) {
-		return homeMapper.getAllAccommodation(criteria);
+	
+	public List<HomeAccommoDto> getAccOfferPromotionsForHome() {
+			
+		List<HomeAccommoDto> homePromotionOfferDtos = promotionMapper.getAccOfferPromotionsForHome();
+			
+		for (HomeAccommoDto homePromotionOfferDto : homePromotionOfferDtos) {
+				
+			AccommoImage accommoImage = new AccommoImage();
+			accommoImage = homeMapper.getAccMainImageByOfferNo(homePromotionOfferDto.getNo());
+			homePromotionOfferDto.setMainImage(accommoImage.getImage());
+				
+			// logger.info(homePromotionOfferDto);
+		}
+				
+		return homePromotionOfferDtos;
 	}
 	
-	
+	public List<HomeActivityDto> getActivityPromotion() {
+		
+		// List<HomeActivityDto> disCountPromotionNos = homeMapper.getDiscountPromotionNo();
+		// List<HomeActivityDto> offerPromotionNos = homeMapper.getOfferPromotionNo();
+				
+		return homeMapper.getActivityPromotion();
+	}
 }

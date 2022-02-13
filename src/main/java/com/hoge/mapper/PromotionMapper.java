@@ -36,6 +36,7 @@ public interface PromotionMapper {
 	void updatePromotionDiscount(PromotionDiscount promotionDiscount);
 	void updatePromotionOffer(PromotionOffer promotionOffer);
 	
-	List<HomeAccommoDto> getAccPromotionsForHome();
+	List<HomeAccommoDto> getAccDiscountPromotionsForHome();
+	List<HomeAccommoDto> getAccOfferPromotionsForHome();
 	
 }

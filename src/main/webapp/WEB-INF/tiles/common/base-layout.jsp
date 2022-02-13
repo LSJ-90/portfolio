@@ -31,6 +31,9 @@
     <script src="../../resources/js/datepicker.js"></script>
     <script src="../../resources/js/datepicker.min.js"></script>
     <script src="../../resources/js/datepickerutil/datepicker.ko.js"></script>
+    <!-- owl carousel -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
   </head>
   <body>
       <tiles:insertAttribute name="header"/> 

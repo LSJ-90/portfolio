@@ -365,7 +365,7 @@
 		<!--  
 		List<PromotionDto> getAccOfferPromotions(Criteria criteria);	
 	-->
-		<select id="getAccOfferPromotions" parameterType="com.hoge.form.Criteria" resultType="com.hoge.dto.PromotionDto">
+	<select id="getAccOfferPromotions" parameterType="com.hoge.form.Criteria" resultType="com.hoge.dto.PromotionDto">
 		select
 			no,
 			introContent,
@@ -424,29 +424,53 @@
 	</select>
 	
 	
-	<select id="getAccPromotionsForHome" resultType="com.hoge.dto.HomeAccommoDto">
+	<select id="getAccDiscountPromotionsForHome" resultType="com.hoge.dto.HomeAccommoDto">
 		select 
-				p.discount_promotion_no as no,
-				p.host_no as hostNo,
-				p.promotion_intro_content as introContent,
-				p.weekdays_discount_rate as weekdaysDiscountRate,
-				p.weekend_discount_rate as weekendDiscountRate,
-				p.peak_season_discount_rate as peakSeasonDiscountRate,
-				p.promotion_starting_date as startingDate,
-				p.promotion_ending_date as endingDate,
-				a.accommo_no as accommoNo,
-				a.accommo_type as accommoType,
-				a.accommo_name as accommoName,
-	            a.accommo_region_depth1 as accommoRegionDepth1,
-	            a.accommo_region_depth2 as accommoRegionDepth2,
-	            trunc(p.promotion_ending_date - p.promotion_starting_date) as deadlineDate
-			from 
-				tb_final_accommodations a,
-				tb_final_discount_promotions p
-			where 
-				a.host_no = p.host_no
-	        and p.status = 'Y'
-	        order by deadlineDate
+			p.discount_promotion_no as no,
+			p.host_no as hostNo,
+			p.promotion_intro_content as introContent,
+			p.weekdays_discount_rate as weekdaysDiscountRate,
+			p.weekend_discount_rate as weekendDiscountRate,
+			p.peak_season_discount_rate as peakSeasonDiscountRate,
+			p.promotion_starting_date as startingDate,
+			p.promotion_ending_date as endingDate,
+			a.accommo_no as accommoNo,
+			a.accommo_type as accommoType,
+			a.accommo_name as accommoName,
+            a.accommo_region_depth1 as accommoRegionDepth1,
+            a.accommo_region_depth2 as accommoRegionDepth2,
+            trunc(p.promotion_ending_date - p.promotion_starting_date) as deadlineDate
+		from 
+			tb_final_accommodations a,
+			tb_final_discount_promotions p
+		where 
+			a.host_no = p.host_no
+        and p.status = 'Y'
+        order by deadlineDate
+	</select>
+	
+	<select id="getAccOfferPromotionsForHome" resultType="com.hoge.dto.HomeAccommoDto">
+		select 
+			p.offer_promotion_no as no,
+			p.host_no as hostNo,
+			p.promotion_intro_content as introContent,
+			p.promotion_starting_date as startingDate,
+			p.promotion_ending_date as endingDate,
+			a.accommo_no as accommoNo,
+			a.accommo_type as accommoType,
+			a.accommo_name as accommoName,
+            a.accommo_region_depth1 as accommoRegionDepth1,
+            a.accommo_region_depth2 as accommoRegionDepth2,
+            trunc(p.promotion_ending_date - p.promotion_starting_date) as deadlineDate
+		from 
+			tb_final_accommodations a,
+			tb_final_offer_promotions p
+		where 
+			a.host_no = p.host_no
+        and 
+       		p.status = 'Y'
+        order by 
+        	deadlineDate
 	</select>
 	
 	
