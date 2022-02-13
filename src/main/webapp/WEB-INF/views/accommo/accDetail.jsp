@@ -58,12 +58,17 @@
 							<h2>"${accMainDto.accIntroTitle}"   <${accMainDto.accName}></h2>
 							<h6>${accMainDto.dept1} / ${accMainDto.dept2}</h6>
 							<c:choose>
-								<c:when test="${empty promotionDiscountList}">
-								</c:when>
-								<c:when test="${empty promotionOfferList}">
+								<c:when test="${not empty promotionDiscountList}">
+									<h6><프로모션 진행중></h6>
 								</c:when>
 								<c:otherwise>
-										<h6><프로모션 진행중></h6>
+									<c:choose>
+										<c:when test="${not empty promotionOfferList}">
+											<h6><프로모션 진행중></h6>
+										</c:when>
+										<c:otherwise>
+										</c:otherwise>
+									</c:choose>
 								</c:otherwise>
 							</c:choose>
 						</div>

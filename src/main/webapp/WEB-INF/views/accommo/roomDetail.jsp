@@ -60,14 +60,17 @@
 				<hr style="margin-top:20px; margin-bottom:20px" size="4px">
 			</div>
 			<c:choose>
-				<c:when test="${empty promotionDiscountList}">
-					<p></p>
-				</c:when>
-				<c:when test="${empty promotionOfferList}">
-					<p></p>
+				<c:when test="${not empty promotionDiscountList}">
+					<h6>- 프로모션 진행중</h6>
 				</c:when>
 				<c:otherwise>
-						<h6>- 프로모션 진행중</h6>
+					<c:choose>
+						<c:when test="${not empty promotionOfferList}">
+							<h6>- 프로모션 진행중</h6>
+						</c:when>
+						<c:otherwise>
+						</c:otherwise>
+					</c:choose>
 				</c:otherwise>
 			</c:choose>
 			
@@ -138,14 +141,25 @@
 		<div class="w-100"></div>
 		
 		<c:choose>
-			<c:when test="${empty promotionDiscountList}">
-			</c:when>
-			<c:when test="${empty promotionOfferList}">
-			</c:when>
-			<c:otherwise>
+			<c:when test="${not empty promotionDiscountList}">
 				<div class="col-4">
 					<p Style="margin-top:35px;">P R O M T I O N S</p>
 				</div>
+			</c:when>
+			<c:otherwise>
+				<c:choose>
+					<c:when test="${not empty promotionOfferList}">
+						<div class="col-4">
+							<p Style="margin-top:35px;">P R O M T I O N S</p>
+						</div>
+					</c:when>
+					<c:otherwise>
+					</c:otherwise>
+				</c:choose>
+			</c:otherwise>
+		</c:choose>
+		
+			<c:if test="${not empty promotionDiscountList}">
 				<div class="col-3">
 					<c:forEach var="promotionDiscountList" items="${promotionDiscountList }">
 						<h6><할인 프로모션 진행중></h6>
@@ -157,6 +171,8 @@
 						   <fmt:formatDate value="${promotionDiscountList.endingDate}" pattern="yyyy.MM.dd"/></p>
 					</c:forEach>
 				</div>
+			</c:if>
+			<c:if test="${not empty promotionOfferList}">
 				<div class="col-3">
 					<c:forEach var="promotionOfferList" items="${promotionOfferList }">
 						<h6><증정 프로모션 진행중></h6>
@@ -166,12 +182,7 @@
 						   <fmt:formatDate value="${promotionOfferList.endingDate}" pattern="yyyy.MM.dd"/></p>
 					</c:forEach>
 				</div>
-				<div class="col-12">
-					<hr style="margin-top:20px; " size="3px">
-				</div>
-			<div class="w-100"></div>
-			</c:otherwise>
-		</c:choose>
+			</c:if>
 		
 		<div class="col-12" id="box2">
 			<a href="/reserve/accommo?no=${param.accNo }&roomNo=${roomDto.no }&checkIn=${param.check_in }&checkOut=${param.check_out }">
