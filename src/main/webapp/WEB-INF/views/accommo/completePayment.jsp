@@ -50,12 +50,16 @@
         </dl>
       </div>
       <div class="reservation-check__btn">
-        <button type="button" class="btn__reservation-check">
+        <a href="/mypage/myrevlist">
+        <button  type="button" class="btn__reservation-check">
           예약 상세 확인
         </button>
+        </a>
+        <a href="/mypage/myrevlist">
         <button type="button" class="btn__reservation-cancel">
           예약 취소
         </button>
+        </a>
       </div>
     </div>
   </article>

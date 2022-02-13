@@ -289,7 +289,45 @@ public class AccommodationService {
 	}
 	
 	
-	
+	// 염주환
+    public String kakaoPayCancele(RoomBooking myRevInfoByBookingNo, int roomBookingNo) {
+ 
+    	RestTemplate restTemplate = new RestTemplate();
+    	 
+        // 서버로 요청할 Header
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "KakaoAK " + "c277cac726afbf7195ddff52bb03e946");
+        headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
+        headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
+        
+        // 서버로 요청할 Body
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+        params.add("cid", "TC0ONETIME");
+        params.add("tid", myRevInfoByBookingNo.getTID());
+        params.add("cancel_amount", Long.toString(myRevInfoByBookingNo.getPaidPrice()));
+        params.add("cancel_vat_amount", Long.toString(myRevInfoByBookingNo.getPaidPrice()));
+ 
+        HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+ 
+        try {
+        	kakaoPayApprovalVO = restTemplate.postForObject(new URI(HOST + "/v1/payment/cancel"), body, KakaoPayApprovalVO.class);
+            
+            accommoMapper.updateRoomBooking(myRevInfoByBookingNo);
+            accommoMapper.deleteRoomAvailavility(roomBookingNo);
+            
+            return "redirect:/mypage/myrevlist";
+ 
+        } catch (RestClientException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        return "/pay";
+        
+    }
     
     
     

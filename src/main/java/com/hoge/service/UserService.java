@@ -56,6 +56,9 @@ public class UserService {
 	@Autowired
 	private AccommodationMapper accommodationMapper;
 	
+	@Autowired
+	private AccommodationService accommodationService;
+	
 	// 이승준 공용
 	public List<User> getAllUsers() {
 		return userMapper.getAllUsers();
@@ -271,10 +274,15 @@ public class UserService {
 		userMapper.updateUser(savedUser);
 		// accommodationMapper.upadateRefundUserPnt(refundtoUserNo, refundPoint);
 		
-		// booking status 변경 1>2, (cancelReason, cancelDate) update
-		accommodationMapper.updateRoomBooking(myRevInfoByBookingNo);
+		if (myRevInfoByBookingNo.getPayment() == "카드") {
+			// booking status 변경 1>2, (cancelReason, cancelDate) update
+			accommodationMapper.updateRoomBooking(myRevInfoByBookingNo);
+			// booking roomAvailability 삭제
+			accommodationMapper.deleteRoomAvailavility(roomBookingNo);
+		} else {
+			accommodationService.kakaoPayCancele(myRevInfoByBookingNo, roomBookingNo);
+		}
 		
-		// booking roomAvailability 삭제
-		accommodationMapper.deleteRoomAvailavility(roomBookingNo);
+		
 	}
 }
