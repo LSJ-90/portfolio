@@ -49,7 +49,17 @@
 				</c:choose>
 						<img src="/resources/images/activities/${image.image }" class="d-block w-100" alt="...">
 						<div class="carousel-caption d-none d-md-block">
-							<h2>"${actMainDto.actIntroTitle}"</h2><h6>${actMainDto.dept1} / ${actMainDto.dept2}</h6>
+							<h2>"${actMainDto.actIntroTitle}"</h2>
+							<h6>${actMainDto.dept1} / ${actMainDto.dept2}</h6>
+							<c:choose>
+								<c:when test="${empty promotionDiscountList}">
+								</c:when>
+								<c:when test="${empty promotionOfferList}">
+								</c:when>
+								<c:otherwise>
+										<h6><프로모션 진행중></h6>
+								</c:otherwise>
+							</c:choose>
 						</div>
 					</div>
 			</c:forEach>
@@ -69,8 +79,42 @@
 	<div class="row">
 		<div class="col-8">
 			<h3 style="margin-top:50px;">${actMainDto.hostName}님이 호스팅하는 체험</h3>
-			<hr style="margin-bottom:50px; margin-top:30px;" size="4px">
-			<h4>프로그램</h4>
+			<hr style="margin-top:30px;" size="4px">
+			<c:choose>
+				<c:when test="${empty promotionDiscountList}">
+				</c:when>
+				<c:when test="${empty promotionOfferList}">
+				</c:when>
+				<c:otherwise>
+					<div class="col-4">
+						<p style="margin-top:50px;"></p>
+						<c:forEach var="promotionDiscountList" items="${promotionDiscountList }">
+							<h6><할인 프로모션 진행중></h6>
+							<p>${promotionDiscountList.introContent }</p>
+							<p>평일:<strong><fmt:formatNumber value="${promotionDiscountList.weekdaysDiscountRate}" type="percent"/></strong>&emsp;
+							주말:<strong><fmt:formatNumber value="${promotionDiscountList.peakSeasonDiscountRate}" type="percent"/></strong>&emsp;
+							성수기:<strong><fmt:formatNumber value="${promotionDiscountList.peakSeasonDiscountRate}" type="percent"/></strong></p>
+							<p>기간 : <fmt:formatDate value="${promotionDiscountList.startingDate}" pattern="yyyy.MM.dd"/> ~
+							   <fmt:formatDate value="${promotionDiscountList.endingDate}" pattern="yyyy.MM.dd"/></p>
+						</c:forEach>
+					</div>
+					<div class="col-4">
+						<p style="margin-top:50px;"></p>
+						<c:forEach var="promotionOfferList" items="${promotionOfferList }">
+							<h6><증정 프로모션 진행중></h6>
+							<p>${promotionOfferList.introContent }</p>
+							<p>증정품 : <strong>${promotionOfferList.content}</strong></p>
+							<p>기간 : <fmt:formatDate value="${promotionOfferList.startingDate}" pattern="yyyy.MM.dd"/> ~
+							   <fmt:formatDate value="${promotionOfferList.endingDate}" pattern="yyyy.MM.dd"/></p>
+						</c:forEach>
+					</div>
+					<div class="col-12">
+						<hr style="margin-top:50px; " size="3px">
+					</div>
+				<div class="w-100"></div>
+				</c:otherwise>
+			</c:choose>
+			<h4 style="margin-top:40px;">프로그램</h4>
 			<p style="margin-top:20px;">${actMainDto.actIntroContent}</p>
 			<p style="margin-top:30px;">해당 체험은 ${actMainDto.actAddress}에서 진행됩니다.</p>
 		</div>

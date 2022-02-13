@@ -55,7 +55,17 @@
 				</c:choose>
 						<img src="/resources/images/accommodation/${image.image }" class="d-block w-100" alt="...">
 						<div class="carousel-caption d-none d-md-block">
-							<h2>"${accMainDto.accIntroTitle}"   <${accMainDto.accName}></h2><h6>${accMainDto.dept1} / ${accMainDto.dept2}</h6>
+							<h2>"${accMainDto.accIntroTitle}"   <${accMainDto.accName}></h2>
+							<h6>${accMainDto.dept1} / ${accMainDto.dept2}</h6>
+							<c:choose>
+								<c:when test="${empty promotionDiscountList}">
+								</c:when>
+								<c:when test="${empty promotionOfferList}">
+								</c:when>
+								<c:otherwise>
+										<h6><프로모션 진행중></h6>
+								</c:otherwise>
+							</c:choose>
 						</div>
 					</div>
 			</c:forEach>
@@ -78,6 +88,9 @@
 				<c:when test="${param.days eq ''}">
 					<h3>날짜를 선택해주세요.</h3>
 				</c:when>
+				<c:when test="${param.days == null}">
+					<h3>날짜를 선택해주세요.</h3>
+				</c:when>
 				<c:otherwise>
 					<h3>${param.check_in } ~ ${param.check_out } [${param.days }박]</h3>
 				</c:otherwise>
@@ -95,12 +108,44 @@
 	
 <div class="container">	
 	<div class="row">
-		<div class="col-2">
+		<div class="col-3">
 			<h1>ROOMS</h1>
-			<h1>____</h1>
+			<div class="col-8">
+				<hr style="margin-top:50px; margin-bottom:50px" size="4px">
+			</div>
+			<c:choose>
+				<c:when test="${empty promotionDiscountList}">
+					<p></p>
+				</c:when>
+				<c:otherwise>
+					<c:forEach var="promotionDiscountList" items="${promotionDiscountList }">
+						<h6><할인 프로모션 진행중></h6>
+						<p>${promotionDiscountList.introContent }</p>
+						<p>평일:<strong><fmt:formatNumber value="${promotionDiscountList.weekdaysDiscountRate}" type="percent"/></strong>&emsp;
+						주말:<strong><fmt:formatNumber value="${promotionDiscountList.peakSeasonDiscountRate}" type="percent"/></strong>&emsp;
+						성수기:<strong><fmt:formatNumber value="${promotionDiscountList.peakSeasonDiscountRate}" type="percent"/></strong></p>
+						<p>기간 : <fmt:formatDate value="${promotionDiscountList.startingDate}" pattern="yyyy.MM.dd"/> ~
+						   <fmt:formatDate value="${promotionDiscountList.endingDate}" pattern="yyyy.MM.dd"/></p>
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
+			<c:choose>
+				<c:when test="${empty promotionOfferList}">
+					<p></p>
+				</c:when>
+				<c:otherwise>
+					<c:forEach var="promotionOfferList" items="${promotionOfferList }">
+						<h6 style="margin-top:30px;"><증정 프로모션 진행중></h6>
+						<p>${promotionOfferList.introContent }</p>
+						<p>증정품 : <strong>${promotionOfferList.content}</strong></p>
+						<p>기간 : <fmt:formatDate value="${promotionOfferList.startingDate}" pattern="yyyy.MM.dd"/> ~
+						   <fmt:formatDate value="${promotionOfferList.endingDate}" pattern="yyyy.MM.dd"/></p>
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
 		</div>
 		<c:forEach var="roomSearchList" items="${roomSearchList}">
-			<div class="card col-3" style="width: 500px;">
+			<div class="card col-4" style="width: 400px;">
 				<h2>${roomSearchList.name}</h2>
 				<c:forEach var="image" items="${roomSearchList.roomImages}" varStatus="status">
 					<c:if test="${status.index == 0}">
@@ -485,6 +530,9 @@ function datePickerSet(sDate, eDate) {
 	
 	$(".card-img-top").on("click", function(e) {
 		if (${param.check_in == ''}) {
+			alert('날짜를 선택하세요.');
+			e.preventDefault();
+		} else if (${param.check_in == null}) {
 			alert('날짜를 선택하세요.');
 			e.preventDefault();
 		}

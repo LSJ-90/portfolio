@@ -23,6 +23,7 @@ import com.hoge.service.ActivityService;
 import com.hoge.service.HostService;
 import com.hoge.vo.activities.ActivityImage;
 import com.hoge.vo.activities.ActivityTimeTable;
+import com.hoge.vo.other.PromotionDiscount;
 import com.hoge.vo.other.PromotionOffer;
 
 @Controller
@@ -117,9 +118,11 @@ public class ActivityController {
 	@GetMapping("/detail")
 	public String actDetail(@RequestParam(name = "actNo") int actNo, Model model) throws Exception {
 		ActMainDto actMainDto = activityService.getActDetailByActNo(actNo);
+		int hostNo = actMainDto.getHostNo();
 		model.addAttribute("actMainDto", actMainDto);
-		List<ActivityImage> actImages = hostService.getActImagesByHostNo(actMainDto.getHostNo());
+		List<ActivityImage> actImages = hostService.getActImagesByHostNo(hostNo);
 		model.addAttribute("actImages", actImages);
+		
 		List<ActivityTimeTable> timeTableList = activityService.getTimeTableByActNo(actNo);
 		model.addAttribute("timeTableList", timeTableList);
 		List<ActMainDto> actInfoType1 = activityService.getActInfoType1(actNo);
@@ -128,6 +131,11 @@ public class ActivityController {
 		model.addAttribute("actInfoType2", actInfoType2);
 		List<ActMainDto> actInfoType3 = activityService.getActInfoType3(actNo);
 		model.addAttribute("actInfoType3", actInfoType3);
+		
+		List<PromotionDiscount> promotionDiscountList = hostService.getPromotionDiscountByHostNoAndStatusY(hostNo);
+		model.addAttribute("promotionDiscountList", promotionDiscountList);
+		List<PromotionOffer> promotionOfferList = hostService.getPromotionOfferByHostNoAndStatusY(hostNo);
+		model.addAttribute("promotionOfferList", promotionOfferList);
 		
 		logger.info("결과값:" );
 		
