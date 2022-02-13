@@ -2,6 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hoge.mapper.ActivityMapper">
 
+	<!-- 성하민 타임테이블 시간 지난거 closed로 변경-->
+	<update id="closeActivityTime">
+		update
+			tb_final_activity_times 
+		set 
+			activity_closed = 'Y' 
+		where 
+			activity_time &lt;= sysdate
+	</update>
+
 	<!-- 염주환 -->
 	<select id="getActivityByNo" parameterType="int" resultType="com.hoge.vo.activities.Activity">
 		select
@@ -427,4 +437,109 @@
                 and a.activity_yce between #{swLng} and #{neLng}
 		    )
 	</select>
+	
+	
+	<!--//성하민 호스트페이지 메인에서 최근 3일 예약건수 가져오기
+	int getRecentBookingCountByActivityNo(int no);
+	 -->
+	 <select id="getRecentBookingCountByActivityNo" parameterType="int" resultType="int">
+		select count(*)
+			from TB_FINAL_ACTIVITY_BOOKINGS bk, TB_FINAL_ACTIVITY_TIMES t
+			where BOOKING_MADE_DATE &gt;= trunc(sysdate-2)
+			and t.ACTIVITY_NO = #{no}
+			and t.ACTIVITY_TIME_NO = bk.ACTIVITY_TIME_NO
+	</select>
+	
+	<!-- 	//성하민 호스트페이지 메인에서 최근 3일 예약데이터 가져오기
+	List<ActivityBookingHostDto> getRecentBookingListByActivityNo(Criteria criteria); 
+	
+	 -->
+	 <select id="getRecentBookingListByActivityNo" parameterType="com.hoge.form.Criteria" resultType="com.hoge.dto.ActivityBookingHostDto">
+	 select 
+		no,
+		activityTimeNo,
+		userNo,
+		activityTime,
+		status,
+		bookingMadeDate,
+		 canceledDate,
+		cancelReason,
+		participantName,
+		 participantTel,
+		numberOfPeople
+		from (select
+			bk.ACTIVITY_BOOKING_NO as no,
+			bk.ACTIVITY_TIME_NO as activityTimeNo,
+			bk.USER_NO as userNo,
+			t.ACTIVITY_TIME as activityTime,
+			bk.ACTIVITY_BOOKING_STATUS as status,
+			bk.BOOKING_MADE_DATE as bookingMadeDate,
+			bk.ACTIVITY_CANCELED_DATE as canceledDate,
+			bk.ACTIVITY_CANCEL_REASON as cancelReason,
+			bk.ACTIVITY_BOOKING_NAME as participantName,
+			bk.ACTIVITY_BOOKING_TEL as participantTel,
+			bk.NUMBER_OF_PEOPLE as numberOfPeople,
+			row_number() over (order by bk.BOOKING_MADE_DATE desc) rn
+	from TB_FINAL_ACTIVITY_BOOKINGS bk, TB_FINAL_ACTIVITY_TIMES t
+			where BOOKING_MADE_DATE &gt;= trunc(sysdate-2)
+			and t.ACTIVITY_NO = #{no}
+			and t.ACTIVITY_TIME_NO = bk.ACTIVITY_TIME_NO
+	)
+		where rn between #{beginIndex} and #{endIndex}
+	</select>
+	
+	 
+	 <!-- //성하민 호스트페이지 메인에서 오늘 예약건수 가져오기
+	int getTodayReviewCountByActivityNo(int no);
+	 -->
+	<select id="getTodayBookingCountByActivityNo" parameterType="int" resultType="int">
+		select count(*)
+			from TB_FINAL_ACTIVITY_BOOKINGS bk, TB_FINAL_ACTIVITY_TIMES t
+			where BOOKING_MADE_DATE &gt;= trunc(sysdate)
+			and t.ACTIVITY_NO = #{no}
+			and t.ACTIVITY_TIME_NO = bk.ACTIVITY_TIME_NO
+	</select>
+	
+	
+	<!-- 성하민 
+		void updateActivityBookingStatusByBookingNo(int no);
+	-->
+	<update id="updateActivityBookingStatusByBookingNo" parameterType="int">
+		update TB_FINAL_ACTIVITY_BOOKINGS
+		<set>
+				ACTIVITY_BOOKING_STATUS = 0
+		</set>
+		where ACTIVITY_BOOKING_NO = #{no}
+	</update>
+	
+	<!--  성하민 체크아웃 시간 지나면서 예약상태인 예약정보 가져오기
+		ActivityBookingBatchDto getActivityBookingBatchDto();-->
+	<select id="getActivityBookingBatchDto" resultType="com.hoge.dto.ActivityBookingBatchDto">
+	select b.ACTIVITY_BOOKING_NO as activityBookingNo,
+		    b.USER_NO as userNo,
+		    t.ACTIVITY_TIME as activityTime,
+		    b.ACTIVITY_BOOKING_STATUS as status,
+		    b.ACTIVITY_TIME_NO as activityTimeNo,
+		    b.ACTIVITY_TAX_INCLUDED_PRICE as taxIncludedPrice,
+		    b.ACTIVITY_PAID_PRICE as paidPrice,
+		    a.ACTIVITY_NO as activityNo,
+		    h.host_no as hostNo,
+		    h.grade_name as GradeName,
+		    g.commission_rate as commissionRate
+		from 
+			TB_FINAL_ACTIVITY_BOOKINGS b, tb_final_hosts h, TB_FINAL_ACTIVITY_TIMES t, TB_FINAL_ACTIVITIES a, tb_final_grades g
+		WHERE t.ACTIVITY_TIME &lt; SYSDATE
+		and b.ACTIVITY_BOOKING_STATUS = 1
+		and b.ACTIVITY_TIME_NO = t.ACTIVITY_TIME_NO
+		and t.ACTIVITY_NO = a.ACTIVITY_NO
+		and a.host_no = h.host_no
+		and h.grade_name = g.grade_name
+	</select>
+	
+	
+	
+	
+	
+	
+	
 </mapper>

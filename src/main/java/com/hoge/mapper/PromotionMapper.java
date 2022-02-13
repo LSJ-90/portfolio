@@ -38,4 +38,7 @@ public interface PromotionMapper {
 	
 	List<HomeAccommoDto> getAccPromotionsForHome();
 	
+	void closeOfferPromotion();
+	void closeDiscountPromotion();
+	
 }

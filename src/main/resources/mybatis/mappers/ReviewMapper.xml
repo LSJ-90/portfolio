@@ -3,6 +3,89 @@
 <mapper namespace="com.hoge.mapper.ReviewMapper">
   
   
+   
+  
+		<!--//성하민 호스트페이지 메인에서 최근 3일 리뷰건수 가져오기
+		int getRecentReviewCountByActivityNo(int no);
+		-->
+	 <select id="getRecentReviewCountByActivityNo" parameterType="int" resultType="int">
+		select count(*)
+		from TB_FINAL_ACTIVITY_REVIEWS
+		where review_created_date &gt;= trunc(sysdate-2)
+		and activity_no = #{no}
+		and REVIEW_DELETED = 'N'
+	</select>
+	
+	<!--//성하민 호스트페이지 메인에서 오늘 리뷰건수 가져오기
+		int getTodayReviewCountByActivityNo(int no);
+		-->
+		<select id="getTodayReviewCountByActivityNo" parameterType="int" resultType="int">
+		select count(*)
+		from TB_FINAL_ACTIVITY_REVIEWS
+		where review_created_date &gt;= trunc(sysdate)
+		and activity_no = #{no}
+		and REVIEW_DELETED = 'N'
+		</select>
+		
+	 
+	 
+  <!-- // 성하민 호스트페이지 메인에서 최근 3일 리뷰데이터 가져오기
+  List<AdminActivityReviewDto> getRecentReviewListByActivityNo(Criteria criteria); 
+		
+	 -->
+	<select id="getRecentReviewListByActivityNo" parameterType="com.hoge.form.Criteria" resultType="com.hoge.dto.AdminActivityReviewDto">
+		select 	
+			ACtivity_REVIEW_NO as no,
+			USER_NO	as userNo,
+			HOST_NO	as hostNo,
+			
+			ACtivity_NO as activityNo,
+			ACtivity_NAME as activityName,
+				
+			REVIEW_STAR	as star,
+			
+			REVIEW_CONTENT as content,
+			REVIEW_CREATED_DATE	as createdDate,
+			REVIEW_DELETED as deleted,
+			REVIEW_UPDATED_DATE	as updatedDate,
+				
+			REVIEW_ANSWERED	as answered,
+			ANSWER_CONTENT as answerContent,
+			ANSWER_DELETED as answerDeleted,
+			ANSWER_CREATED_DATE as answerCreatedDate
+		from (
+			select 	
+			R.ACtivity_REVIEW_NO,
+			R.USER_NO,
+			A.HOST_NO,
+			
+			R.ACtivity_NO,
+			A.ACtivity_NAME,
+				
+			R.REVIEW_STAR,
+		
+				
+			R.REVIEW_CONTENT,
+			R.REVIEW_CREATED_DATE,
+			R.REVIEW_DELETED,
+			R.REVIEW_UPDATED_DATE,
+				
+			R.REVIEW_ANSWERED,
+			R.ANSWER_CONTENT,
+			R.ANSWER_DELETED,
+			R.ANSWER_CREATED_DATE,
+	 		row_number() over (order by R.REVIEW_CREATED_DATE desc) rn
+		from TB_FINAL_ACTIVITY_REVIEWS R, TB_FINAL_ACtivities A
+		where R.ACtivity_NO = A.ACtivity_NO
+		and r.review_created_date &gt;= trunc(sysdate-2)
+		and r.ACtivity_NO = #{no}
+		and REVIEW_DELETED = 'N'
+		)
+		where rn between #{beginIndex} and #{endIndex}
+	</select> 
+	 
+  
+  
 	
   
   <!-- 성하민

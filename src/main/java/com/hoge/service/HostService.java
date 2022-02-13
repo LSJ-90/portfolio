@@ -57,6 +57,10 @@ public class HostService {
 	private AccommodationMapper accommoMapper;
 	
 	
+	public long getWithdrawalwaitingAmountByHostNo(int no) {
+		return withdrawalMapper.getWithdrawalwaitingAmountByHostNo(no);
+	}
+	
 	//성하민 호스트 예약관리
 	public List<RoomBooking> getRoomBookingByHostNo(int no) {
 		return accommoMapper.getRoomBookingByHostNo(no);

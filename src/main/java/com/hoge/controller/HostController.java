@@ -36,6 +36,7 @@ import com.hoge.config.auth.LoginedUser;
 import com.hoge.dto.AccMainDto;
 import com.hoge.dto.ActListDto;
 import com.hoge.dto.ActMainDto;
+import com.hoge.dto.ActivityBookingHostDto;
 import com.hoge.dto.AdminAccommoReviewDto;
 import com.hoge.dto.AdminActivityReviewDto;
 import com.hoge.dto.ChattingListDto;
@@ -60,6 +61,7 @@ import com.hoge.mapper.HostMapper;
 import com.hoge.pagination.Pagination;
 import com.hoge.pagination.PaginationPerPage5;
 import com.hoge.service.AccommodationService;
+import com.hoge.service.ActivityService;
 import com.hoge.service.ChatRoomService;
 import com.hoge.service.QnAService;
 import com.hoge.service.ReviewService;
@@ -75,6 +77,7 @@ import com.hoge.vo.accommo.RoomBooking;
 import com.hoge.vo.accommo.RoomImage;
 import com.hoge.vo.activities.Activity;
 import com.hoge.vo.activities.ActivityImage;
+import com.hoge.vo.activities.ActivityTimeTable;
 import com.hoge.vo.other.ChatRoom;
 import com.hoge.vo.other.Host;
 import com.hoge.vo.other.HostQnA;
@@ -107,6 +110,9 @@ public class HostController {
 	
 	@Autowired
 	private ReviewService reviewService;
+	
+	@Autowired
+	private ActivityService activityService;
 	
 	@Autowired
 	private StatisticsService statisticsService;
@@ -218,10 +224,40 @@ public class HostController {
 			
 			return result;
 		}
+		//성하민
+		@PostMapping(value = "/getMainActReviewList.do", produces = "application/json")
+		public @ResponseBody HashMap<String, Object> getMainActReviewList(@RequestParam(name = "page", required = false, defaultValue="1")
+		String page, Criteria criteria) throws Exception {
+			
+			
+			logger.info("페이지 :" + page);
+			HashMap<String, Object> result = new HashMap<>();
+			
+			int totalRecords = reviewService.getRecentReviewCountByActivityNo(criteria.getNo());
+			logger.info("토탈레코드 :" + totalRecords);
+			// 현재 페이지번호와 총 데이터 갯수를 전달해서 페이징 처리에 필요한 정보를 제공하는 Pagination객체 생성
+			PaginationPerPage5 pagination = new PaginationPerPage5(page, totalRecords);
+			
+			criteria.setBeginIndex(pagination.getBegin());
+			criteria.setEndIndex(pagination.getEnd());
+			
+			List<AdminActivityReviewDto> list = reviewService.getRecentReviewListByActivityNo(criteria);
+			
+			logger.info("디티오 :" + list);
+			logger.info("페이지네이션 :" + pagination);
+			
+			// 페이징
+			result.put("pagination", pagination);
+			
+			// 게시글 화면 출력
+			result.put("list", list);
+			
+			return result;
+		}
 	
 		//성하민
 		@PostMapping(value = "/getMainBookingList.do", produces = "application/json")
-		public @ResponseBody HashMap<String, Object> getwithdrawalList(@RequestParam(name = "page", required = false, defaultValue="1") String page, Criteria criteria) throws Exception {
+		public @ResponseBody HashMap<String, Object> getMainBookingList(@RequestParam(name = "page", required = false, defaultValue="1") String page, Criteria criteria) throws Exception {
 			
 			
 			logger.info("페이지 :" + page);
@@ -238,6 +274,37 @@ public class HostController {
 			
 			
 			List<RoomBooking> list = hostService.getRecentBookingListByAccommoNo(criteria);
+			
+			logger.info("디티오 :" + list);
+			logger.info("페이지네이션 :" + pagination);
+			
+			// 페이징
+			result.put("pagination", pagination);
+			
+			// 게시글 화면 출력
+			result.put("list", list);
+			
+			return result;
+		}
+		//성하민
+		@PostMapping(value = "/getMainActBookingList.do", produces = "application/json")
+		public @ResponseBody HashMap<String, Object> getMainActBookingList(@RequestParam(name = "page", required = false, defaultValue="1") String page, Criteria criteria) throws Exception {
+			
+			
+			logger.info("페이지 :" + page);
+			HashMap<String, Object> result = new HashMap<>();
+			
+			int totalRecords = activityService.getRecentBookingCountByActivityNo(criteria.getNo());
+			logger.info("토탈레코드 :" + totalRecords);
+			// 현재 페이지번호와 총 데이터 갯수를 전달해서 페이징 처리에 필요한 정보를 제공하는 Pagination객체 생성
+			PaginationPerPage5 pagination = new PaginationPerPage5(page, totalRecords);
+			
+			criteria.setBeginIndex(pagination.getBegin());
+			criteria.setEndIndex(pagination.getEnd());
+			
+			
+			
+			List<ActivityBookingHostDto> list = activityService.getRecentBookingListByActivityNo(criteria);
 			
 			logger.info("디티오 :" + list);
 			logger.info("페이지네이션 :" + pagination);
@@ -466,7 +533,15 @@ public class HostController {
 		return "hostpage/accMain.hosttiles";
 		} else {
 			ActMainDto actMainDto = hostService.getActMainByHostNo(hostNo);
+			List<ActivityTimeTable> actTimeList = activityService.getActivityTimeListByActivityNo(actMainDto.getActNo());
+			Host savedHost = hostService.getHostByNo(hostNo);
+			int todayReviewCount = reviewService.getTodayReviewCountByActivityNo(actMainDto.getActNo());
+			int todayBookingCount = activityService.getTodayBookingCountByActivityNo(actMainDto.getActNo());
+			model.addAttribute("todayBookingCount", todayBookingCount);
+			model.addAttribute("todayReviewCount", todayReviewCount);
 			model.addAttribute("actMainDto", actMainDto);
+			model.addAttribute("actTimeList", actTimeList);
+			model.addAttribute("savedHost", savedHost);
 		return "hostpage/actMain.hosttiles";
 		}
 	}
@@ -1011,7 +1086,11 @@ public class HostController {
 		
 		System.out.println(hostNo);
 		Host savedHost = hostService.getHostByNo(hostNo);
+		long appliedAmount = hostService.getWithdrawalwaitingAmountByHostNo(hostNo);
+		long possibleAmount = savedHost.getAccumulatedMoney()-appliedAmount;
 		mv.addObject("savedHost", savedHost);
+		mv.addObject("appliedAmount", appliedAmount);
+		mv.addObject("possibleAmount", possibleAmount);
 		
 		mv.setViewName("hostpage/sales.hosttiles");
 	

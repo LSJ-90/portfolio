@@ -31,4 +31,7 @@ public interface WithdrawalMapper {
 	 
 	 Withdrawal getWithdrawalByWithdrawalNo(int no);
 	 
+	  long getWithdrawalwaitingAmountByHostNo(int no); 
+	  	
+	 
 }

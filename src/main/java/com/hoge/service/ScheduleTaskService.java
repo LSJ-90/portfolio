@@ -5,13 +5,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hoge.dto.ActivityBookingBatchDto;
 import com.hoge.dto.AdminHostQnADto;
 import com.hoge.dto.AdminUserQnADto;
 import com.hoge.dto.RoomBookingBatchDto;
 import com.hoge.form.CriteriaAdminQnA;
 import com.hoge.form.CriteriaAdminUser;
 import com.hoge.mapper.AccommodationMapper;
+import com.hoge.mapper.ActivityMapper;
 import com.hoge.mapper.HostMapper;
+import com.hoge.mapper.PromotionMapper;
 import com.hoge.mapper.QnAMapper;
 import com.hoge.mapper.UserMapper;
 import com.hoge.vo.accommo.RoomBooking;
@@ -27,9 +30,23 @@ public class ScheduleTaskService {
 	@Autowired UserMapper userMapper;
 	@Autowired HostMapper hostMapper;
 	@Autowired AccommodationMapper accommodationMapper;
+	@Autowired ActivityMapper activityMapper;
+	@Autowired PromotionMapper promotionMapper;
 	
 	public List<RoomBookingBatchDto> getRoomBookingBatchDto() {
 		return accommodationMapper.getRoomBookingBatchDto();
+	}
+	
+	public List<ActivityBookingBatchDto> getActivityBookingBatchDto() {
+		return activityMapper.getActivityBookingBatchDto();
+	}
+	
+	/*
+	 * 체험 예약 상태를 종료로 바꾸는 메소드
+	 */
+	public void completeActBookingState(int bookingNo) {
+		activityMapper.updateActivityBookingStatusByBookingNo(bookingNo);
+		
 	}
 	
 	/*
@@ -60,4 +77,17 @@ public class ScheduleTaskService {
 		userMapper.updateUser(user);
 	}
 	
+	public void closeActivityTime() {
+		activityMapper.closeActivityTime();
+	}
+	
+	public void closePromotion() {
+		promotionMapper.closeDiscountPromotion();
+		promotionMapper.closeOfferPromotion();
+	}
+
+	
+	
 }
+
+

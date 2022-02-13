@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.hoge.dto.ActMainDto;
 import com.hoge.dto.ActivityBookingDto;
+import com.hoge.dto.ActivityBookingHostDto;
 import com.hoge.dto.ActivityListDto;
 import com.hoge.dto.MapArea;
 import com.hoge.form.AccommoReserveForm;
@@ -223,5 +224,22 @@ public class ActivityService {
 	public List<ActMainDto> getActInfoType3(int actNo) {
 		return activityMapper.getActInfoType3ByActNo(actNo);
 	}
+	
+
+	//성하민 호스트페이지 메인에서 최근 3일 예약건수 가져오기
+		public int getRecentBookingCountByActivityNo(int no) {
+			return activityMapper.getRecentBookingCountByActivityNo(no);
+		}
+		
+		//성하민 호스트페이지 메인에서 최근 3일 예약데이터 가져오기
+		public List<ActivityBookingHostDto> getRecentBookingListByActivityNo(Criteria criteria){
+			return activityMapper.getRecentBookingListByActivityNo(criteria);
+		}
+		
+		//성하민 호스트페이지 메인에서 오늘 예약건수 가져오기
+		public int getTodayBookingCountByActivityNo(int no) {
+			return activityMapper.getTodayBookingCountByActivityNo(no);
+		}
+	
 	
 }

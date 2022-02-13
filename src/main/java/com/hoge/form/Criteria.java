@@ -35,7 +35,8 @@ public class Criteria {
 	private String order; //사용자:성하민
 	private String status; //사용자:성하민
 	
-	private int accNo; //사용자:유상효
+	private int accNo; //사용자:유상효, 성하민
+	private int actNo; //사용자:유상효, 성하민
 	
 	private String addressValue;
 	private String opt2;
