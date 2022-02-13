@@ -159,30 +159,49 @@
 			</c:otherwise>
 		</c:choose>
 		
-			<c:if test="${not empty promotionDiscountList}">
-				<div class="col-3">
-					<c:forEach var="promotionDiscountList" items="${promotionDiscountList }">
-						<h6><할인 프로모션 진행중></h6>
-						<p>${promotionDiscountList.introContent }</p>
-						<p>평일:<strong><fmt:formatNumber value="${promotionDiscountList.weekdaysDiscountRate}" type="percent"/></strong>&emsp;
-						주말:<strong><fmt:formatNumber value="${promotionDiscountList.peakSeasonDiscountRate}" type="percent"/></strong>&emsp;
-						성수기:<strong><fmt:formatNumber value="${promotionDiscountList.peakSeasonDiscountRate}" type="percent"/></strong></p>
-						<p>기간 : <fmt:formatDate value="${promotionDiscountList.startingDate}" pattern="yyyy.MM.dd"/> ~
-						   <fmt:formatDate value="${promotionDiscountList.endingDate}" pattern="yyyy.MM.dd"/></p>
-					</c:forEach>
+		<c:if test="${not empty promotionDiscountList}">
+			<div class="col-3">
+				<c:forEach var="promotionDiscountList" items="${promotionDiscountList }">
+					<h6><할인 프로모션 진행중></h6>
+					<p>${promotionDiscountList.introContent }</p>
+					<p>평일:<strong><fmt:formatNumber value="${promotionDiscountList.weekdaysDiscountRate}" type="percent"/></strong>&emsp;
+					주말:<strong><fmt:formatNumber value="${promotionDiscountList.peakSeasonDiscountRate}" type="percent"/></strong>&emsp;
+					성수기:<strong><fmt:formatNumber value="${promotionDiscountList.peakSeasonDiscountRate}" type="percent"/></strong></p>
+					<p>기간 : <fmt:formatDate value="${promotionDiscountList.startingDate}" pattern="yyyy.MM.dd"/> ~
+					   <fmt:formatDate value="${promotionDiscountList.endingDate}" pattern="yyyy.MM.dd"/></p>
+				</c:forEach>
+			</div>
+		</c:if>
+		<c:if test="${not empty promotionOfferList}">
+			<div class="col-3">
+				<c:forEach var="promotionOfferList" items="${promotionOfferList }">
+					<h6><증정 프로모션 진행중></h6>
+					<p>${promotionOfferList.introContent }</p>
+					<p>증정품 : <strong>${promotionOfferList.content}</strong></p>
+					<p>기간 : <fmt:formatDate value="${promotionOfferList.startingDate}" pattern="yyyy.MM.dd"/> ~
+					   <fmt:formatDate value="${promotionOfferList.endingDate}" pattern="yyyy.MM.dd"/></p>
+				</c:forEach>
+			</div>
+		</c:if>
+			
+		<c:choose>
+			<c:when test="${not empty promotionDiscountList}">
+				<div class="col-12">
+					<hr style="margin-top:15px; margin-bottom:20px;" size="3px">
 				</div>
-			</c:if>
-			<c:if test="${not empty promotionOfferList}">
-				<div class="col-3">
-					<c:forEach var="promotionOfferList" items="${promotionOfferList }">
-						<h6><증정 프로모션 진행중></h6>
-						<p>${promotionOfferList.introContent }</p>
-						<p>증정품 : <strong>${promotionOfferList.content}</strong></p>
-						<p>기간 : <fmt:formatDate value="${promotionOfferList.startingDate}" pattern="yyyy.MM.dd"/> ~
-						   <fmt:formatDate value="${promotionOfferList.endingDate}" pattern="yyyy.MM.dd"/></p>
-					</c:forEach>
-				</div>
-			</c:if>
+			</c:when>
+			<c:otherwise>
+				<c:choose>
+					<c:when test="${not empty promotionOfferList}">
+						<div class="col-12">
+							<hr style="margin-top:15px; margin-bottom:20px;" size="3px">
+						</div>
+					</c:when>
+					<c:otherwise>
+					</c:otherwise>
+				</c:choose>
+			</c:otherwise>
+		</c:choose>
 		
 		<div class="col-12" id="box2">
 			<a href="/reserve/accommo?no=${param.accNo }&roomNo=${roomDto.no }&checkIn=${param.check_in }&checkOut=${param.check_out }">
