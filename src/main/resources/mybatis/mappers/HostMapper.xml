@@ -48,6 +48,15 @@
 			)
 	</insert>
 	
+	<!-- 유상효 호스트 등록시 유저 isHost 업데이트 -->
+	<update id="userIsHostUpdate" parameterType="int">
+		update tb_final_users
+		set
+			user_is_host = 'Y'
+		where
+			user_no = #{value}
+	</update>
+	
 	<!-- 유상효 숙소 등록하기 -->
 	<insert id="insertAcc" parameterType="com.hoge.vo.accommo.Accommodation">
 		<selectKey keyProperty="no" resultType="int" order="BEFORE">

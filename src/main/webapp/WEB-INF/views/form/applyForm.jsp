@@ -16,6 +16,7 @@
     <input type="hidden" name="xce">
     <input type="hidden" name="yce">
     <input type="hidden" name="hostingType" id="applyType" value="">
+    <input type="hidden" name="userNo" value="${param.userNo }" />
     
 <!-- first -->
       <div class="step-wrap" id="first">

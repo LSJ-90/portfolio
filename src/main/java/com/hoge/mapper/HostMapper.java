@@ -37,6 +37,8 @@ public interface HostMapper {
 	int getUserNoByUserId(String userId);
 	// 유상효 로그인세션에서 userId를 받아와서 hostNo 가져오기(hostNo중 가장 큰 넘버를 가져온다)
 	int getHostNoByUserId(String userId);
+	// 유상효 호스트 상태 업데이트
+	void userIsHostUpdate(int userNo);
 	
 	// 유상효 이미지 저장 & 이미지 불러오기
 	void insertAccImage(AccommoImage accommoImage);
@@ -110,6 +112,7 @@ public interface HostMapper {
 	void addAccInfoDetail(AccInfoForm form);
 	void addActInfo(AccInfoForm form);
 	void addActInfoDetail(AccInfoForm form);
+	
 	
 
 }

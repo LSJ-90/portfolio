@@ -174,4 +174,5 @@
 </body>
 <script type="text/javascript">
 activeMenu('프로모션');
+
 </script>

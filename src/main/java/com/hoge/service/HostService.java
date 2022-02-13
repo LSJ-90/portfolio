@@ -95,6 +95,11 @@ public class HostService {
 	    }
 	}
 	
+	// 유저 상태 업데이트
+	public void userIsHostUpdate(int userNo) {
+		hostMapper.userIsHostUpdate(userNo);
+	}
+	
 	// 호스트 수정(숙소)
 	public void accHostModify(Host host, Accommodation acc) {
 		hostMapper.modifyHostByHostNo(host);
@@ -287,6 +292,8 @@ public class HostService {
 		public void updateHost(Host host) {
 			hostMapper.updateHost(host);
 		}
+
+		
 
 
 
