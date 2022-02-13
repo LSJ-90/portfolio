@@ -176,7 +176,15 @@ $(function() {
                 var pageRow = "";
                 $.each(accommoPagination.accommos, function(index, accommo) {
                 	row += '<div class="accommo">'
-                    row += '<h3 class="accommo-no" data-no='+accommo.no+'>'+accommo.name+'</h3>';
+                	row += '<a href="/accommo/detail?accNo='+accommo.no+'&check_in=${criteria.checkInBoxValue}&check_out=${criteria.checkOutBoxValue}">'
+                    row += '<h3 class="accommo-no" data-no='+accommo.no+' style="display:inline;">'+accommo.name+'</h3></a>';
+                    if (accommo.isDiscountPromotion && accommo.isOfferPromotion) {
+                    	row += '<h6 style="display:inline;">Sale | Gifts</h6>';
+                    } else if (accommo.isDiscountPromotion) {
+                    	row += '<h6 style="display:inline;">Sale</h6>';
+                    } else if (accommo.isOfferPromotion) {
+                    	row += '<h6 style="display:inline;">Gifts</h6>';
+                    }
                     row += '<h6>'+accommo.type+'</h6>';
                     row += '<div class="row">';
                     row += '<div class="col-3">';
@@ -185,7 +193,7 @@ $(function() {
                     row += '<li>기준 '+accommo.minNumber+'명(최대 '+accommo.maxNumber+'명)</li>';
                     row += '<li>'+parseInt(accommo.minPrice).toLocaleString()+'~'+parseInt(accommo.maxPrice).toLocaleString()+'</li>';
                     row += '<li>'+accommo.averageStar+'</li>';
-                    row += '<li>예약하기</li>';
+                    row += '<li><a href="/accommo/detail?accNo='+accommo.no+'&check_in=${criteria.checkInBoxValue}&check_out=${criteria.checkOutBoxValue}">예약하기</a></li>';
                   	row += '</ul>';
                   	row += '</div>';
                   	row += '<div class="col-7">';

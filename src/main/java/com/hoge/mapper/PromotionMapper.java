@@ -16,9 +16,7 @@ import com.hoge.vo.other.PromotionOffer;
 public interface PromotionMapper {
 	
 	List<PromotionDiscount> getPromotionDiscount(@Param("accommoNo") int accommoNo, @Param("checkIn") Date checkIn, @Param("checkOut") Date checkOut);
-
-	
-	
+	List<Integer> getOfferPromotionNo(@Param("accommoNo") int accommoNo, @Param("checkIn") Date checkIn, @Param("checkOut") Date checkOut);
 	
 	List<PromotionDto> getAccDiscountPromotions(Criteria criteria);
 	List<PromotionDto> getAccOfferPromotions(Criteria criteria);

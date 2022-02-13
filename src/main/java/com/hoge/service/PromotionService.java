@@ -20,11 +20,12 @@ public class PromotionService {
 	
 	public List<PromotionDiscount> getPromotionDiscountDetail(int accommoNo, Date checkIn, Date checkOut) {
 		return promotionMapper.getPromotionDiscount(accommoNo, checkIn, checkOut);
-		
-	
 	}
-
 	
+	public boolean getIsOfferPromotion(int accommoNo, Date checkIn, Date checkOut) {
+		List<Integer> offerPromotionNos = promotionMapper.getOfferPromotionNo(accommoNo, checkIn, checkOut);
+		return !offerPromotionNos.isEmpty();
+	}
 
 	public List<PromotionDto> getAccDiscountPromotions(Criteria criteria){
 		return promotionMapper.getAccDiscountPromotions(criteria);
@@ -37,13 +38,12 @@ public class PromotionService {
 	}
 	public List<PromotionDto> getActOfferPromotions(Criteria criteria){
 		return promotionMapper.getActOfferPromotions(criteria);
-		
 	}
 
 	public int getAccDiscountPromotionCount(Criteria criteria) {
 		return promotionMapper.getAccDiscountPromotionCount(criteria);
-		
 	}
+
 	public int getAccOfferPromotionCount(Criteria criteria) {
 		return promotionMapper.getAccOfferPromotionCount(criteria);
 	}

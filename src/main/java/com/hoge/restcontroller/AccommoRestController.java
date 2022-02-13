@@ -346,8 +346,10 @@ public class AccommoRestController {
 			merge.setAverageStar((dto.getCleanlinessStar()+dto.getCommunicationStar()+dto.getAccuracyStar()+dto.getLocationStar())/4);
 			
 			if (!promotionDiscountDtos.isEmpty()) {
-				merge.setIsPromotion(true);
+				merge.setIsDiscountPromotion(true);
 			};
+			
+			merge.setIsOfferPromotion(promotionService.getIsOfferPromotion(dto.getNo(), date1, date2));
 			
 			mergeAccommoListDtos.add(merge);
 			// System.out.println(merge);
