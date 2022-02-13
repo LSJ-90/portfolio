@@ -1,12 +1,42 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../common/tags.jsp" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>프로모션 페이지</title>
-</head>
+
+
+<style type="text/css">
+.user-list-table {
+  table-layout: fixed;
+  width: 100%;
+  font-size: 15px;
+  border-collapse: collapse;
+  border-top: 2px solid var(--color-black);
+}
+
+.user-list-table th,
+.user-list-table td {
+  text-align: center;
+  vertical-align: middle;
+  height: 45px;
+}
+.user-list-table th {
+  font-weight: var(--weight-regular);
+  border-bottom: 1px solid var(--color-black);
+}
+
+.user-list-table td {
+  font-weight: var(--weight-light);
+  padding: 0 3px;
+  border-bottom: 1px solid var(--color-input-gray);
+}
+
+.user-list-table tr:last-child td {
+  border-bottom: 1px solid var(--color-black);
+}
+.chart {margin: 5px 0;}
+
+.sales-table > td {padding:2px 0 !important; text-align:center;}
+</style>   
+
 <body>
 
 <button class="btn btn-primary" onclick="location.href='/host/addPromotionDiscount?hostNo=${param.hostNo }&hostingType=${param.hostingType }'">할인 프로모션 추가</button>
@@ -20,7 +50,7 @@
 	<button class="btn btn-primary" onclick="location.href='/host/mainPromotion?hostNo=${param.hostNo }&hostingType=${param.hostingType }&status=D'">종료프로모션</button>
 </div>
 <div> 			
-	<table>
+	<table class="user-list-table">
 		<colgroup>
 			<col style="width: 5%" />
 			<col style="width: 55%" />
@@ -84,7 +114,7 @@
 	</table>
 </div>
 <div>
-	<table>
+	<table class="user-list-table">
 		<colgroup>
 			<col style="width: 5%" />
 			<col style="width: 40%" />
@@ -145,4 +175,3 @@
 <script type="text/javascript">
 activeMenu('프로모션');
 </script>
-</html>
