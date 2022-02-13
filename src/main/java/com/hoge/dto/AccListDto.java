@@ -25,5 +25,6 @@ public class AccListDto {
 	private String mainImage;
 	private int hostNo;
 	private String accType;
+	private String accIntroTitle;
 
 }

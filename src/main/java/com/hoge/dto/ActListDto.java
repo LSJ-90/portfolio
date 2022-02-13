@@ -22,5 +22,6 @@ public class ActListDto {
 	private int hostingType;
 	private String mainImage;
 	private int hostNo;
+	private String actIntroTitle;
 
 }

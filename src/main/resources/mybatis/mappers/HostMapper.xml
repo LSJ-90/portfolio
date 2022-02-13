@@ -214,7 +214,8 @@
 			h.host_main_image as mainImage,
 			h.hosting_type as hostingType,
 			h.host_no as hostNo,
-			a.accommo_type as accType
+			a.accommo_type as accType,
+			a.accommo_intro_title as accIntroTitle
 		from
 			tb_final_accommodations a, tb_final_hosts h, tb_final_users u 
 		where
@@ -230,7 +231,8 @@
 			a.activity_no as actNo,
 			h.host_main_image as mainImage,
 			h.hosting_type as hostingType,
-			h.host_no as hostNo
+			h.host_no as hostNo,
+			a.activity_intro_title as actIntroTitle
 		from
 			tb_final_activities a, tb_final_hosts h, tb_final_users u 
 		where

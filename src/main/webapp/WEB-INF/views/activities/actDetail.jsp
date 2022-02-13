@@ -96,12 +96,14 @@
 										<label class="form-label">총인원 ${actMainDto.actMaximumNumber}</label>
 									</div>
 									<div class="col-4">
+									<!-- 
 										<label class="form-label">인원 선택</label>
 										<select class="form-control text-center" name="type">
 											<c:forEach var="i" begin="0" end="${actMainDto.actMaximumNumber - timeTableList.soFarBookedNumberOfPeople}">
 												<option id="a" value="${i}"><c:out value="${i}"/>명</option>
 											</c:forEach>
 										</select>
+									 -->
 									</div>
 									<div class="col-4">
 										<label class="form-label">₩<fmt:formatNumber value="${actMainDto.actPricePerPerson}" pattern="##,###"/>/인</label>
