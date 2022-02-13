@@ -22,6 +22,8 @@ import com.hoge.service.AccommodationService;
 import com.hoge.service.HostService;
 import com.hoge.vo.accommo.AccommoImage;
 import com.hoge.vo.accommo.RoomImage;
+import com.hoge.vo.other.PromotionDiscount;
+import com.hoge.vo.other.PromotionOffer;
 
 
 @Controller
@@ -50,8 +52,9 @@ public class AccommodationController {
 	public String accDetail(@RequestParam(name = "accNo") int accNo, @RequestParam(name = "check_in", required = false) String checkin,
 			@RequestParam(name = "check_out", required = false) String checkout, Criteria criteria, Model model) throws Exception {
 		AccMainDto accMainDto = accommodationService.getAccDetailByAccNo(accNo);
+		int hostNo = accMainDto.getHostNo();
 		model.addAttribute("accMainDto", accMainDto);
-		List<AccommoImage> accImages = hostService.getAccImagesByHostNo(accMainDto.getHostNo());
+		List<AccommoImage> accImages = hostService.getAccImagesByHostNo(hostNo);
 		model.addAttribute("accImages", accImages);
 		criteria.setCheckInDate(checkin);
 		criteria.setCheckOutDate(checkout);
@@ -60,11 +63,17 @@ public class AccommodationController {
 		model.addAttribute("roomSearchList", roomDto);
 		List<RoomListDto> roomListDto = accommodationService.getRoomListByAccNo(accNo);
 		model.addAttribute("roomListDto", roomListDto);
+		
 		List<RoomListDto> roomInfoType1 = accommodationService.getRoomInfoType1(accNo);
 		model.addAttribute("roomInfoType1", roomInfoType1);
 		List<RoomListDto> roomInfoType2 = accommodationService.getRoomInfoType2(accNo);
 		model.addAttribute("roomInfoType2", roomInfoType2);
-
+		
+		List<PromotionDiscount> promotionDiscountList = hostService.getPromotionDiscountByHostNoAndStatusY(hostNo);
+		model.addAttribute("promotionDiscountList", promotionDiscountList);
+		List<PromotionOffer> promotionOfferList = hostService.getPromotionOfferByHostNoAndStatusY(hostNo);
+		model.addAttribute("promotionOfferList", promotionOfferList);
+		
 		logger.info("결과값:" + roomInfoType1);
 
 		return "accommo/accDetail.tiles";
@@ -75,6 +84,7 @@ public class AccommodationController {
 	public String roomDetail(@RequestParam(name = "accNo") int accNo, @RequestParam(name = "check_in", required = false) String checkin,
 			@RequestParam(name = "check_out", required = false) String checkout, @RequestParam(name = "roomNo", required = false) int roomNo, Criteria criteria, Model model) throws Exception {
 		AccMainDto accMainDto = accommodationService.getAccDetailByAccNo(accNo);
+		int hostNo = accMainDto.getHostNo();
 		model.addAttribute("accMainDto", accMainDto);
 		RoomDto roomDto = accommodationService.getRoomByRoomNo(roomNo);
 		roomDto.setCheckInTime(accMainDto.getAccCheckInTime());
@@ -94,6 +104,11 @@ public class AccommodationController {
 		model.addAttribute("roomInfoType1", roomInfoType1);
 		List<RoomListDto> roomInfoType2 = accommodationService.getRoomInfoType2(accNo);
 		model.addAttribute("roomInfoType2", roomInfoType2);
+		
+		List<PromotionDiscount> promotionDiscountList = hostService.getPromotionDiscountByHostNoAndStatusY(hostNo);
+		model.addAttribute("promotionDiscountList", promotionDiscountList);
+		List<PromotionOffer> promotionOfferList = hostService.getPromotionOfferByHostNoAndStatusY(hostNo);
+		model.addAttribute("promotionOfferList", promotionOfferList);
 
 		logger.info("결과값:" );
 
