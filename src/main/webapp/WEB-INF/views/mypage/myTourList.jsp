@@ -128,7 +128,7 @@ $(function() {
 		if (position.checkOut) {
 			iwContent += ' ~ ' + position.checkOut;
 		} 
-		iwContent += '</br>' + parseInt(position.price).toLocaleString() + '</p>';
+		iwContent += '</p>';
 		iwContent += '</div>';
 		iwContent += '</div>';
 		iwContent += '<div class="col-5 d-flex justify-content-end">';

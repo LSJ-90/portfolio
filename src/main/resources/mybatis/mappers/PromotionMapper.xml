@@ -39,6 +39,18 @@
 			and ((#{checkIn} between p.promotion_starting_date and p.promotion_ending_date) or 
 			(#{checkOut} between p.promotion_starting_date and p.promotion_ending_date))
 	</select>
+	
+	<select id="getOfferPromotionNo" resultType="int">
+		select 
+			p.offer_promotion_no as no
+		from 
+			tb_final_accommodations a,
+			tb_final_offer_promotions p
+		where a.host_no = p.host_no
+			and a.accommo_no = #{accommoNo}
+			and ((#{checkIn} between p.promotion_starting_date and p.promotion_ending_date) or 
+			(#{checkOut} between p.promotion_starting_date and p.promotion_ending_date))
+	</select>
 
 	
 	

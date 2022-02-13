@@ -32,6 +32,7 @@
 			<a href="/accommo/detail?accNo=${param.accNo }&check_in=${param.check_in }&check_out=${param.check_out }&days=${param.days }">
 				<h3>${accMainDto.accName}</h3>
 			</a>
+			
 		</div>
 		<div class="col-6 text-center">
 			<h5>${param.check_in} ~ ${param.check_in} [${param.days }박]</h5>
@@ -55,8 +56,25 @@
 		<div class="col-4">
 			<p>ROOM INFORMATION</p>
 			<h1 style="margin-top:35px;">${roomDto.name}</h1>
-			<h3 style="margin-top:40px;">-</h3>
-			<p style="margin-top:240px;">평일 ₩<fmt:formatNumber value="${roomDto.weekdaysPrice }" pattern="##,###"/></p>
+			<div class="col-4">
+				<hr style="margin-top:20px; margin-bottom:20px" size="4px">
+			</div>
+			<c:choose>
+				<c:when test="${not empty promotionDiscountList}">
+					<h6>- 프로모션 진행중</h6>
+				</c:when>
+				<c:otherwise>
+					<c:choose>
+						<c:when test="${not empty promotionOfferList}">
+							<h6>- 프로모션 진행중</h6>
+						</c:when>
+						<c:otherwise>
+						</c:otherwise>
+					</c:choose>
+				</c:otherwise>
+			</c:choose>
+			
+			<p style="margin-top:250px;">평일 ₩<fmt:formatNumber value="${roomDto.weekdaysPrice }" pattern="##,###"/></p>
 			<p style="margin-top:5px;">주말 ₩<fmt:formatNumber value="${roomDto.weekdaysPrice }" pattern="##,###"/></p>
 			<p style="margin-top:5px;">성수기 ₩<fmt:formatNumber value="${roomDto.weekdaysPrice }" pattern="##,###"/></p>
 			<p style="margin-top:5px;">체크인 ${accMainDto.accCheckInTime} / 체크아웃 ${accMainDto.accCheckOutime}</p>
@@ -118,13 +136,76 @@
 		</div>
 		
 		<div class="col-12">
-			<hr style="margin-top:55px; margin-bottom:45px;" size="3px">
+			<hr style="margin-top:55px; margin-bottom:20px;" size="3px">
 		</div>
 		<div class="w-100"></div>
 		
+		<c:choose>
+			<c:when test="${not empty promotionDiscountList}">
+				<div class="col-4">
+					<p Style="margin-top:35px;">P R O M T I O N S</p>
+				</div>
+			</c:when>
+			<c:otherwise>
+				<c:choose>
+					<c:when test="${not empty promotionOfferList}">
+						<div class="col-4">
+							<p Style="margin-top:35px;">P R O M T I O N S</p>
+						</div>
+					</c:when>
+					<c:otherwise>
+					</c:otherwise>
+				</c:choose>
+			</c:otherwise>
+		</c:choose>
+		
+		<c:if test="${not empty promotionDiscountList}">
+			<div class="col-3">
+				<c:forEach var="promotionDiscountList" items="${promotionDiscountList }">
+					<h6><할인 프로모션 진행중></h6>
+					<p>${promotionDiscountList.introContent }</p>
+					<p>평일:<strong><fmt:formatNumber value="${promotionDiscountList.weekdaysDiscountRate}" type="percent"/></strong>&emsp;
+					주말:<strong><fmt:formatNumber value="${promotionDiscountList.peakSeasonDiscountRate}" type="percent"/></strong>&emsp;
+					성수기:<strong><fmt:formatNumber value="${promotionDiscountList.peakSeasonDiscountRate}" type="percent"/></strong></p>
+					<p>기간 : <fmt:formatDate value="${promotionDiscountList.startingDate}" pattern="yyyy.MM.dd"/> ~
+					   <fmt:formatDate value="${promotionDiscountList.endingDate}" pattern="yyyy.MM.dd"/></p>
+				</c:forEach>
+			</div>
+		</c:if>
+		<c:if test="${not empty promotionOfferList}">
+			<div class="col-3">
+				<c:forEach var="promotionOfferList" items="${promotionOfferList }">
+					<h6><증정 프로모션 진행중></h6>
+					<p>${promotionOfferList.introContent }</p>
+					<p>증정품 : <strong>${promotionOfferList.content}</strong></p>
+					<p>기간 : <fmt:formatDate value="${promotionOfferList.startingDate}" pattern="yyyy.MM.dd"/> ~
+					   <fmt:formatDate value="${promotionOfferList.endingDate}" pattern="yyyy.MM.dd"/></p>
+				</c:forEach>
+			</div>
+		</c:if>
+			
+		<c:choose>
+			<c:when test="${not empty promotionDiscountList}">
+				<div class="col-12">
+					<hr style="margin-top:15px; margin-bottom:20px;" size="3px">
+				</div>
+			</c:when>
+			<c:otherwise>
+				<c:choose>
+					<c:when test="${not empty promotionOfferList}">
+						<div class="col-12">
+							<hr style="margin-top:15px; margin-bottom:20px;" size="3px">
+						</div>
+					</c:when>
+					<c:otherwise>
+					</c:otherwise>
+				</c:choose>
+			</c:otherwise>
+		</c:choose>
+		
 		<div class="col-12" id="box2">
 			<a href="/reserve/accommo?no=${param.accNo }&roomNo=${roomDto.no }&checkIn=${param.check_in }&checkOut=${param.check_out }">
-				<img src="/resources/images/common/booking2.JPG">
+				<img style="margin-top:40px;" src="/resources/images/common/booking2.JPG">
 			</a>
 		</div>
 	</div>

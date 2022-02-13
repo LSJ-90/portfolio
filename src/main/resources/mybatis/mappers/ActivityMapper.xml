@@ -78,7 +78,7 @@
 	</insert>
 
 	<!-- 염주환 -->
-	<insert id="updateActivityTimesClosed" parameterType="com.hoge.form.ActivityReserveForm">
+	<update id="updateActivityTimesClosed" parameterType="com.hoge.form.ActivityReserveForm">
 		update
 			tb_final_activity_times 
 		set 
@@ -86,7 +86,7 @@
 		where 
 			activity_time_no = ${activityReserveForm.activityTimeNo}
 			and activity_booked_number = (select maximum_number from tb_final_activities where activity_no = ${activityReserveForm.activityNo})
-	</insert>
+	</update>
 	
 	<!-- 염주환 -->
 	<insert id="insertTransaction">
