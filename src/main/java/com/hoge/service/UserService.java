@@ -285,4 +285,8 @@ public class UserService {
 		
 		
 	}
+
+	public int getTourListCnt(int Userno) {
+		return userMapper.getTourListCnt(Userno);
+	}
 }

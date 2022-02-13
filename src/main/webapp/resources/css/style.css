@@ -220,20 +220,13 @@ textarea {
   position: relative;
 }
 
-/* 이승준 주석처리 
+/* 이승준 수정 */
 .stay-new__image {
-  width: 100%;
-  height: 850px;
-  background-color: gray;
-} 
-*/
-
-.stay-new__image img{
   width: 100%;
   height: 850px;
   background-repeat : no-repeat;
   background-size : cover;
-}
+} 
 
 .stay-new__info {
   text-align: center;
@@ -247,24 +240,30 @@ textarea {
   background-color: var(--color-white);
 }
 
-/* 이승준 추가 */
-.stay-total__list {
- display: flex;
- 
-}
-
+/* 이승준 수정 */
 .stay-total__item-wrap {
-  display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
-/* .stay-total__image {
+/* 이승준 주석 
+.stay-total__image {
   width: 410px;
   height: 250px;
   background-color: gray;
-} */
+} 
+*/
 
+/* 이승준 주석
 .stay-total__image img{
+  width: 410px;
+  height: 250px;
+  background-repeat : no-repeat;
+  background-size : cover;
+} 
+*/
+
+/* 이승준 추가 */
+.stay-total__image {
   width: 410px;
   height: 250px;
   background-repeat : no-repeat;
@@ -291,12 +290,13 @@ textarea {
 }
 
 
-/* .discount__image {
+/* 이승준 주석
+.discount__image {
   width: 960px;
   height: 540px;
   background-color: gray; 
-}  */
-
+}  
+*/
 
 .discount__image img{
   width: 960px;
@@ -305,15 +305,16 @@ textarea {
   background-size : cover;
 }
 
+/* 이승준 수정 */
 .event__item-wrap {
-  display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .event__image {
   width: 410px;
   height: 250px;
-  background-color: gray;
+  background-repeat : no-repeat;
+  background-size : cover;
 }
 
 .activity-new__item a {
@@ -321,10 +322,19 @@ textarea {
   position: relative;
 }
 
+/* 이승준 주석 
 .activity-new__image {
   width: 100%;
   height: 650px;
   background-color: gray;
+}
+*/
+
+.activity-new__image img{
+  width: 100%;
+  height: 650px;
+  background-repeat : no-repeat;
+  background-size : cover;
 }
 
 .activity-new__info {
@@ -336,15 +346,17 @@ textarea {
   background-color: var(--color-white);
 }
 
+/* 이승준 수정 */
 .activity-total__item-wrap {
-  display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
+/* 이승준 수정 */
 .activity-total__image {
   width: 400px;
   height: 400px;
-  background-color: gray;
+  background-repeat : no-repeat;
+  background-size : cover;
 }
 
 /* Main-login, Join */

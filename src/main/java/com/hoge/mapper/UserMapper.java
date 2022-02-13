@@ -64,4 +64,7 @@ public interface UserMapper {
 	
 	// 이승준: 부킹넘버로 나의 예약정보 조회
 	UserRevInfoDto getRevInfoByBookingNo(int roomBookingNo);
+	
+	// 이승준: 다녀온 여행 카운트
+	int getTourListCnt(int userNo);
 }
