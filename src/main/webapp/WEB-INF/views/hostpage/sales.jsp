@@ -1,214 +1,180 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ include file="../common/tags.jsp" %>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-   <title></title>
-<style type="text/css">
-.user-list-table {
-  table-layout: fixed;
-  width: 100%;
-  font-size: 15px;
-  border-collapse: collapse;
-  border-top: 2px solid var(--color-black);
-}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 
-.user-list-table th,
-.user-list-table td {
-  text-align: center;
-  vertical-align: middle;
-  height: 45px;
-}
-.user-list-table th {
-  font-weight: var(--weight-regular);
-  border-bottom: 1px solid var(--color-black);
-}
+<main id="main">
+ <article id="host-sales">
+   <section class="host-sales__chart">
+     <div class="host-main__title">일일매출액</div>
+     <canvas id="line-chart-daily" width="1400" height="300"></canvas>
+   </section>
+   <section class="host-sales__table">
+     <div class="host-main__title">매출테이블</div>
+     <table class="host-table">
+       <thead>
+         <tr>
+           <th>거래일</th>
+           <th>거래유형</th>
+           <th>거래액</th>
+         </tr>
+       </thead>
+       <tbody id="dataSection2">
+         
+       </tbody>
+     </table>
+     
+   <!-- 페이지네이션 -->  
+     <div id="pagination">
+       <ul id="paginationBox2" class="pagination__list">
+         
+       </ul>
+     </div>
+   </section>
+   
+   <section class="host-sales__withdrawal">
+     <div class="host-main__title">출금신청내역</div>
+     <div class="withdrawal-box">
+       <div class="total-amount">출금신청가능액: <fmt:formatNumber value="${savedHost.accumulatedMoney }" type="currency" currencySymbol="￦" />원</div>
+       <button class="btn__withdrawal" onclick="creatingModal()">
+         출금신청
+       </button>
+     </div>
+     <div id="noticeWithdrawal">
+     <table class="host-table">
+       <colgroup>
+         <col width="20%" />
+         <col width="20%" />
+         <col width="20%" />
+         <col width="20%" />
+         <col width="20%" />
+       </colgroup>
+       <thead>
+         <tr>
+           <th>출금신청일</th>
+           <th>금액</th>
+           <th>상태</th>
+           <th>예금주</th>
+           <th>은행</th>
+         </tr>
+       </thead>
+       <tbody id="dataSection1">
+         
+       </tbody>
+     </table>
+     </div>
+     
+   <!-- 페이지네이션 -->  
+     <div id="pagination">
+       <ul id="paginationBox1" class="pagination__list">
+         
+        </ul>
+      </div>
+      
+   <!-- 출금 모달 -->   
+   	<div class="modal fade" id="modal-creating-withdrawal" tabindex="-1" aria-labelledby="출금신청" aria-hidden="true">
+	  <div class="modal-dialog modal-lg">  
+       <article class="modal-content qna">
+            <p class="qna-modal__title host-sales">출금신청</p>
+            <form id="withdrawal-form" method="post" action="/host/withdrawal">
+              <input type="hidden" name="hostNo" id="hostNo" value="0" />
+              <input
+                type="hidden"
+                name="hostingType"
+                id="hostingType"
+                value="0"
+              />
+              <ul class="qna-modal__list">
+                <li class="qna-modal__item host-sales">
+                  * 최소 출금가능액은 50,000원 입니다.
+                </li>
+                <li class="qna-modal__item">
+                  <label for="qnaCategory">은행</label>
+                  <select
+                    class="qna-modal__value"
+                    id="bankName"
+                    name="bankName"
+                  >
+                    <option value="농협">농협</option>
+                    <option value="국민은행">국민은행</option>
+                    <option value="신한은행">신한은행</option>
+                    <option value="우리은행">우리은행</option>
+                    <option value="기업은행">기업은행</option>
+                    <option value="하나은행">하나은행</option>
+                    <option value="대구은행">대구은행</option>
+                    <option value="부산은행">부산은행</option>
+                    <option value="우체국">우체국</option>
+                    <option value="SC제일은행">SC제일은행</option>
+                    <option value="광주은행">광주은행</option>
+                    <option value="경남은행">경남은행</option>
+                    <option value="수협">수협</option>
+                    <option value="케이뱅크">케이뱅크</option>
+                  </select>
+                </li>
+                <li class="qna-modal__item">
+                  <label for="qnaTitle">예금주</label>
+                  <input
+                    type="text"
+                    class="qna-modal__value"
+                    id="accName"
+                    name="accountHolderName"
+                    placeholder="예금주를 입력해 주세요"
+                  />
+                </li>
+                <li class="qna-modal__item">
+                  <label for="qnaTitle">계좌번호</label>
+                  <input
+                    type="text"
+                    class="qna-modal__value"
+                    id="hostAcc"
+                    name="accountNumber"
+                    placeholder="계좌번호를 입력해 주세요"
+                  />
+                </li>
+                <li class="qna-modal__item">
+                  <label for="qnaTitle"> 출금액 (가능금액: <span id="accumulatedMoney">7517000</span>원) </label>
+                  <input
+                    type="text"
+                    class="qna-modal__value"
+                    name="amount"
+                    id="amount"
+                    maxlength="30"
+                    placeholder="현재 보유액 이하로만 입력하실 수 있습니다"
+                  />
+                </li>
+              </ul>
+              <div class="host-sales-modal__btn">
+                <button
+                  type="button"
+                  class="btn__sales-modal"
+                  data-bs-dismiss="modal"
+                  id="withFormsubmit"
+                >
+                  신청
+                </button>
+                <button
+                  type="button"
+                  class="btn__sales-modal cancel"
+                  data-bs-dismiss="modal"
+                >
+                  취소
+                </button>
+              </div>
+            </form>
+          </article>
+        </div>
+      </div>
+      
+    </section>
+  </article>
+</main>	
 
-.user-list-table td {
-  font-weight: var(--weight-light);
-  padding: 0 3px;
-  border-bottom: 1px solid var(--color-input-gray);
-}
 
-.user-list-table tr:last-child td {
-  border-bottom: 1px solid var(--color-black);
-}
-.chart {margin: 5px 0;}
 
-.sales-table > td {padding:2px 0 !important; text-align:center;}
-</style>   
-     <meta charset="utf-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1">
-	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-</head>
-<body>
-<div class="container">
-	<div class="row mt-3">
-		<div class="col-12">
-			<div class="row mt-3">
-				<div class="col-12">
-				<strong>일일매출액</strong>
-					<div class=chart>
-						<canvas id="line-chart-daily" width="1300" height="200"></canvas>
-					</div>
-				</div>
-			</div>
-			<div class="row mb-3 mt-3">
-				<div class="col">
-					<div class="row mb-3">
-						<div class="col">
-						<strong>매출테이블</strong>
-					 		<table class="user-list-table">
-								 <colgroup>
-									<col width="35%">
-									<col width="30%">
-									<col width="35%">
-								</colgroup>
-								<thead>
-									<tr>
-										<th class="style">거래일</th>
-										<th class="style">거래유형</th>
-										<th class="style">거래액</th>
-									</tr>
-								</thead>
-							  <tbody id="dataSection2">
-							   
-							  </tbody>
-							</table>
-						</div>
-					</div>
-				
-					<!-- 페이지 내비게이션 표시 -->
-					<div class="row mb-3">
-						<div class="col">
-							<div class="pagination2">
-								<ul id="paginationBox2" class="pagination">
-					
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div> <!-- 매출 리스트 -->
-			<div class="row mt-3">
-				<div class="withdrawal">
-					<div class="mt-3 text-end">
-					<strong>출금신청가능액: <fmt:formatNumber value="${savedHost.accumulatedMoney }" type="currency" currencySymbol="￦" /> </strong>
-						<button type="button" class="btn btn-dark" onclick="creatingModal()">출금신청</button>
-					</div>
-				</div>
-			</div>
-			<div class="row mb-3 mt-3">
-				<div class="col">
-					<div class="row mb-3">
-						<div class="col">
-							<strong>출금신청내역</strong>
-							<div class="row mb-3">
-								<div class="col" id="noticeWithdrawal">
-								
-					 			<table class="user-list-table">
-								 <colgroup>
-									<col width="20%">
-									<col width="20%">
-									<col width="20%">
-									<col width="20%">
-									<col width="20%">
-								</colgroup>
-								<thead>
-									<tr>
-										<th class="style">출금신청일</th>
-										<th class="style">금액</th>
-										<th class="style">상태</th>
-										<th class="style">예금주</th>
-										<th class="style">은행</th>
-									</tr>
-								</thead>
-								<tbody id="dataSection1">
-									
-								</tbody>
-							</table>
-								</div>
-							</div>	
-						</div>
-					</div>
-				
-					<!-- 페이지 내비게이션 표시 -->
-					<div class="row mb-3">
-						<div class="col">
-							<div class="pagination1">
-								<ul id="paginationBox1" class="pagination">
-					
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div> <!-- 출금신청내역 리스트 -->
-		</div> 
-		
-	</div> <!-- row -->
-	
-	
-	<div class="modal fade" id="modal-creating-withdrawal" tabindex="-1" aria-labelledby="출금신청" aria-hidden="true">
-  		<div class="modal-dialog modal-lg">
-    		<div class="modal-content">
-      			<div class="modal-header">
-        			<h5 class="modal-title" id="exampleModalLabel">출금 신청</h5>
-      			</div>
-        			<strong class="p-3">최소 출금가능액은 50,000원 입니다.</strong>
-      			<div class="modal-body">
-					<form id="withdrawal-form" method="post" action="/host/withdrawal">
-						<input type="hidden" name="hostNo" id="hostNo" value="0">
-						<input type="hidden" name="hostingType" id="hostingType" value="0">
-					<div class="row mb-3 mt-2 order-font">
-					
-					<div class="mb-3">
-						<label class="form-label">은행 선택</label>
-							<select class="form-control" id="bankName" name="bankName">
-								<option value="농협">농협</option>
-								<option value="국민은행">국민은행</option>
-								<option value="신한은행">신한은행</option>
-								<option value="우리은행">우리은행</option>
-								<option value="기업은행">기업은행</option>
-								<option value="하나은행">하나은행</option>
-								<option value="대구은행">대구은행</option>
-								<option value="부산은행">부산은행</option>
-								<option value="우체국">우체국</option>
-								<option value="SC제일은행">SC제일은행</option>
-								<option value="광주은행">광주은행</option>
-								<option value="경남은행">경남은행</option>
-								<option value="수협">수협</option>
-								<option value="케이뱅크">케이뱅크</option>
-							</select>
-					</div>
-					<div class="mb-3">
-						<label class="form-label">예금주 입력</label>
-						<input type="text" class="form-control" id="accName" name="accountHolderName" />
-					</div>
-					<div class="mb-3">
-						<label class="form-label">계좌번호 입력</label>
-						<input type="text" class="form-control" id="hostAcc" name="accountNumber" />
-					</div>
-						<div class="title-box mb-3">
-							<label class="form-label mb-3" for="title"><span>출금액(출금액은 현재 보유액 이하로만 입력하실 수 있습니다.) 현재 보유액 : <strong id="accumulatedMoney"></strong>원</span></label>
-							<input type="text" class="form-control" name="amount" id="amount" maxlength="30">
-						</div>
-					 </div>
-				</form>
-      			</div>
-      			<div class="modal-footer">
-        			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="withFormsubmit">신청</button>
-        			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-      			</div>
-    		</div>
-  		</div>
-	</div>
-	
-	
-</div> <!-- 컨테이너 -->
-  </body>
+
+
+
+
 <script type="text/javascript">
 activeMenu('매출관리');
 
@@ -280,9 +246,9 @@ function getWithdrawalList(page) {
 					if (pagination['prevPage']) {
 						block += "<li class='page-item'><a class='page-link' href='javascript:getWithdrawalList("
 								+ (pagination['beginPage'] - 1)
-								+ ")'> < </a></li>";
+								+ ")'>  <i class='fas fa-chevron-left'></i> </a></li>";
 					} else {
-						block += "<li class='page-item disabled'><a class='page-link'> < </a></li>";
+						block += "<li class='page-item disabled'><a class='page-link'>  <i class='fas fa-chevron-left'></i> </a></li>";
 					}
 
 					// 번호를 표시하는 부분
@@ -299,9 +265,9 @@ function getWithdrawalList(page) {
 					if (pagination['nextPage']) {
 						block += "<li class='page-item'><a class='page-link' href='javascript:getWithdrawalList("
 								+ (pagination['endPage'] + 1)
-								+ ")'>  > </a></li>";
+								+ ")'>  <i class='fas fa-chevron-right'></i> </a></li>";
 					} else {
-						block += "<li class='page-item disabled'><a class='page-link'> > </a></li>";
+						block += "<li class='page-item disabled'><a class='page-link'> <i class='fas fa-chevron-right'></i> </a></li>";
 					}
 					
 					$("#paginationBox1").html(block);
@@ -339,10 +305,10 @@ function getTransactionList(page) {
 				
 				if (list[i]['type'] == '1') {
 					data += "<td>입금</td>";
-				data += "<td style='color:red'> +" + numberWithCommas(list[i].amount) + "원</td>";
+				data += "<td class='amount-color'> +" + numberWithCommas(list[i].amount) + "원</td>";
 					} else {
 						data += "<td>출금</td>";
-				data += "<td style='color:blue'> -" + numberWithCommas(list[i].amount) + "원</td>";
+				data += "<td class='withdrawal-color'> -" + numberWithCommas(list[i].amount) + "원</td>";
 					}
 				data += "</tr>";
 			}
@@ -352,9 +318,9 @@ function getTransactionList(page) {
 			if (pagination['prevPage']) {
 				block += "<li class='page-item'><a class='page-link' href='javascript:getTransactionList("
 						+ (pagination['beginPage'] - 1)
-						+ ")'> < </a></li>";
+						+ ")'> <i class='fas fa-chevron-left'></i> </a></li>";
 			} else {
-				block += "<li class='page-item disabled'><a class='page-link'> < </a></li>";
+				block += "<li class='page-item disabled'><a class='page-link'> <i class='fas fa-chevron-left'></i> </a></li>";
 			}
 
 			// 번호를 표시하는 부분
@@ -371,9 +337,9 @@ function getTransactionList(page) {
 			if (pagination['nextPage']) {
 				block += "<li class='page-item'><a class='page-link' href='javascript:getTransactionList("
 						+ (pagination['endPage'] + 1)
-						+ ")'>  > </a></li>";
+						+ ")'>  <i class='fas fa-chevron-right'></i> </a></li>";
 			} else {
-				block += "<li class='page-item disabled'><a class='page-link'> > </a></li>";
+				block += "<li class='page-item disabled'><a class='page-link'>  <i class='fas fa-chevron-right'></i> </a></li>";
 			}
 			
 			$("#paginationBox2").html(block);
