@@ -31,7 +31,8 @@ public class MergeAccommoListDto {
 	private long maxNumber;
 	private double xce;
 	private double yce;
-	private Boolean isPromotion = false;
+	private Boolean isDiscountPromotion = false;
+	private Boolean isOfferPromotion;
 	private List<AccommoImage> accommoImages;
 }
 

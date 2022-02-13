@@ -177,7 +177,7 @@ $(function() {
 	                var pageRow = "";
 	                $.each(activityPagination.activities, function(index, activity) {
 	                	row += '<div class="activity">'
-	                    row += '<h3 class="activity-no" data-no='+activity.no+'>'+activity.name+'</h3>';
+	                    row += '<a href="/activity/detail?actNo='+activity.no+'"><h3 class="activity-no" data-no='+activity.no+'>'+activity.name+'</h3></a>';
 	                    row += '<div class="row">';
 	                    row += '<div class="col-3">';
 	                    row += '<ul>';
@@ -185,7 +185,7 @@ $(function() {
 	                    row += '<li>최대 참여 가능 인원:'+activity.availableNumber+'명</li>';
 	                    row += '<li>'+parseInt(activity.pricePerPerson).toLocaleString()+'/인</li>';
 	                    row += '<li>'+activity.star+'</li>';
-	                    row += '<li>예약하기</li>';
+	                    row += '<li><a href="/activity/detail?actNo='+activity.no+'">예약하기</a></li>';
 	                  	row += '</ul>';
 	                  	row += '</div>';
 	                  	if (activity.activityImages[0].image != null) {
@@ -208,7 +208,7 @@ $(function() {
     	                     	} else {
     	                        	row += '<div class="carousel-item">';
     	                     	}
-    	                    row += '<img width="10" src="/resources/images/activities/'+image.image+'" class="d-block w-100" alt="image">';
+    	                    row += '<a href="/activity/detail?actNo='+activity.no+'"><img width="10" src="/resources/images/activities/'+image.image+'" class="d-block w-100" alt="image"></a>';
     	                    row += '</div>';
     	                  	});
     	                  	row += '</div>';
