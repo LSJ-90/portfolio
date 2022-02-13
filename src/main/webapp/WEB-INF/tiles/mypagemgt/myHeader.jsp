@@ -15,7 +15,7 @@
 <div class="host">
    <img src="../../resources/images/main/login_icon.png" alt="host-icon" class="host__icon" />
    <div class="host__registration">
-     <a href="/host/applyForm">호스트 등록</a>
+     <a href="/host/applyForm?userNo=${LOGIN_USER.no}">호스트 등록</a>
    </div>
    <div class="host__line"></div>
    <div class="host__change">

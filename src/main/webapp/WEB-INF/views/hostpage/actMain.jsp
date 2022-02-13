@@ -14,7 +14,7 @@
             onclick="location.href='/host/modify?hostNo=${param.hostNo }&hostingType=${param.hostingType }'"
             >호스트 수정</button>
            <button class="btn__accommo-addition"
-            onclick="location.href='/host/addAccInfo?hostNo=${param.hostNo }&hostingType=${param.hostingType }'"
+            onclick="location.href='/host/addActInfo?hostNo=${param.hostNo }&hostingType=${param.hostingType }'"
             >
              부대시설 및 기타 안내사항 등록
            </button>

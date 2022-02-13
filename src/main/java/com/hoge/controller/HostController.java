@@ -500,7 +500,9 @@ public class HostController {
 		logger.info("숙소정보" + acc);
 		logger.info("체험정보" + act);
 		
+		int userNo = form.getUserNo();
 		hostService.hostApply(host, acc, act, accImages, actImages);
+		hostService.userIsHostUpdate(userNo);
 		return "redirect:../mypage/hostingList";
 	}
 	

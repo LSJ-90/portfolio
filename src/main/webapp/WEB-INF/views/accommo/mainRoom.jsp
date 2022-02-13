@@ -27,11 +27,32 @@
 	        <c:if test="${status.first}">
 	          <div class="main-room__wrap ${roomListDto.no}" id="${roomListDto.no }">
 			      <div class="main-room__info-box">
-			        <c:forEach var="image" items="${roomListDto.roomImages}">
-				        <div class="main-room__img" 
-				          style='background-image: url("/resources/images/room/${image.image }")'>
-				        </div>
-			        </c:forEach>
+			        <div class="col-6">
+						<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+							<div class="carousel-inner">
+								<c:forEach var="image" items="${roomListDto.roomImages }" varStatus="status">
+									<c:choose>
+										<c:when test="${status.index == 0}">
+											<div class="carousel-item active">
+										</c:when>
+										<c:otherwise>
+											<div class="carousel-item">
+										</c:otherwise>
+									</c:choose>
+												<img src="/resources/images/room/${image.image }" class="d-block w-100" alt="...">
+											</div>
+								</c:forEach>
+							</div>
+							<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Previous</span>
+							</button>
+							<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+								<span class="carousel-control-next-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Next</span>
+							</button>
+						</div>
+					</div>
 			        <div class="main-room__info">
 			          <div class="main-room__name">${roomListDto.name }</div>
 			          <ul class="accommo-info__list">
@@ -99,11 +120,32 @@
 	        <c:if test="${!status.first}">
 	          <div class="main-room__wrap ${roomListDto.no} d-none" id="${roomListDto.no }">
 			      <div class="main-room__info-box">
-			        <c:forEach var="image" items="${roomListDto.roomImages}">
-				        <div class="main-room__img" 
-				          style='background-image: url("/resources/images/room/${image.image }")'>
-				        </div>
-			        </c:forEach>
+			        <div class="col-6">
+						<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+							<div class="carousel-inner">
+								<c:forEach var="image" items="${roomListDto.roomImages }" varStatus="status">
+									<c:choose>
+										<c:when test="${status.index == 0}">
+											<div class="carousel-item active">
+										</c:when>
+										<c:otherwise>
+											<div class="carousel-item">
+										</c:otherwise>
+									</c:choose>
+												<img src="/resources/images/room/${image.image }" class="d-block w-100" alt="...">
+											</div>
+								</c:forEach>
+							</div>
+							<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Previous</span>
+							</button>
+							<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+								<span class="carousel-control-next-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Next</span>
+							</button>
+						</div>
+					</div>
 			        <div class="main-room__info">
 			          <div class="main-room__name">${roomListDto.name }</div>
 			          <ul class="accommo-info__list">
@@ -179,18 +221,18 @@
 activeMenu('객실관리');
 
 $(function() {
- 	$('.roomNo').on('click', function(e){
-		var atagId = this.id;
-		
-		var li = $('#contents').find('.main-room__wrap')
-		$.each(li, function(index, item){
-			if(atagId == item.id){
-				$(item).attr('class', '');
-			} else {
-				$(item).attr('class', 'd-none');
-			}
-		});
-	});
+    $('.roomNo').on('click', function(e){
+      var atagId = this.id;
+      
+      var li = $('#contents').find('.main-room__wrap')
+      $.each(li, function(index, item){
+         if(atagId == item.id){
+            $(item).removeClass('d-none');
+         } else {
+            $(item).addClass('d-none');
+         }
+      });
+   });
 })
 
 $(function() {
