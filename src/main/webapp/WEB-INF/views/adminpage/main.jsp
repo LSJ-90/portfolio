@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ include file="../common/tags.jsp" %>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
@@ -15,60 +15,60 @@
           <div class="todays-list-title">회원 활동</div>
           <div class="todays-content">
             <span class="todays-content-title">신규회원</span>
-            <span><span id="todayJoinMember"></span>명</span>
+            <span><span id="todayJoinMember">${todayJoinCount }</span>명</span>
           </div>
           <div class="todays-content">
             <span class="todays-content-title">회원탈퇴</span>
-            <span><span id="todayJoinMember"></span>명</span>
+            <span><span id="todayJoinMember">${todayLeftCount }</span>명</span>
           </div>
           <div class="todays-content">
             <span class="todays-content-title">숙소리뷰</span>
-            <span><span id="todayOrder"></span>건</span>
+            <span><span id="todayOrder">${todayAccommoReviewCount }</span>건</span>
           </div>
           <div class="todays-content">
             <span class="todays-content-title">체험리뷰</span>
-            <span><span id="todayCanceledOrder"></span>건</span>
+            <span><span id="todayCanceledOrder">${todayActivityReviewCount }</span>건</span>
           </div>
         </div>
         <div class="todays-list">
           <div class="todays-list-title">결제내역</div>
           <div class="todays-content">
             <span class="todays-content-title">신규 결제</span>
-            <span><span id="todayJoinMember"></span>건</span>
+            <span><span id="todayJoinMember">${todayTransactionCount }</span>건</span>
           </div>
           <div class="todays-content">
             <span class="todays-content-title">결제 취소</span>
-            <span><span id="todayJoinMember"></span>건</span>
+            <span><span id="todayJoinMember">${todayCancelTransactionCount }</span>건</span>
           </div>
           <div class="todays-content">
             <span class="todays-content-title">출금 신청</span>
-            <span><span id="todayOrder"></span>건</span>
+            <span><span id="todayOrder">${todayAccommoReviewCount }</span>건</span>
           </div>
         </div>
         <div class="todays-list">
           <div class="todays-list-title">승인 대기</div>
           <div class="todays-content">
             <span class="todays-content-title">숙소 등록</span>
-            <span><span id="todayJoinMember"></span>건</span>
+            <span><span id="todayJoinMember">${accommoWaitingCount }</span>건</span>
           </div>
           <div class="todays-content">
             <span class="todays-content-title">체험 등록</span>
-            <span><span id="todayJoinMember"></span>건</span>
+            <span><span id="todayJoinMember">${activityWaitingCount }</span>건</span>
           </div>
           <div class="todays-content">
             <span class="todays-content-title">프로모션 등록</span>
-            <span><span id="todayOrder"></span>건</span>
+            <span><span id="todayOrder">${promotionWaitingCount }</span>건</span>
           </div>
         </div>
         <div class="todays-list">
           <div class="todays-list-title">답변 미완료 문의</div>
           <div class="todays-content">
             <span class="todays-content-title">회원 문의</span>
-            <span><span id="todayJoinMember"></span>건</span>
+            <span><span id="todayJoinMember">${notAnsweredUserQna }</span>건</span>
           </div>
           <div class="todays-content">
             <span class="todays-content-title">호스트 문의</span>
-            <span><span id="todayJoinMember"></span>건</span>
+            <span><span id="todayJoinMember">${notAnsweredHostQna }</span>건</span>
           </div>
         </div>
       </div>
@@ -79,19 +79,23 @@
       <ul class="profit__list">
         <li class="profit__item">
           입금액
-          <span id="todayOrder">8,000,000</span>원
+          <span id="todayOrder"><fmt:formatNumber value="${depositAmountThisMonth }" pattern="#,###" /></span>원
         </li>
         <li class="profit__item">
-          출금신청액
-          <span id="todayOrder">5,000,000</span>원
+          결제취소액
+          <span id="todayOrder"><fmt:formatNumber value="${cancelAmountThisMonth }" pattern="#,###" /></span>원
         </li>
         <li class="profit__item">
-          예상순이익
-          <span id="todayOrder">3,000,000</span>원
+          출금액
+          <span id="todayOrder"><fmt:formatNumber value="${withdrawalAmountThisMonth }" pattern="#,###" /></span>원
+        </li>
+        <li class="profit__item">
+          순이익
+          <span id="todayOrder"><fmt:formatNumber value="${profitThisMonth }" pattern="#,###" /></span>원
         </li>
         <li class="profit__item">
           누적액
-          <span id="todayOrder">580,000,000</span>원
+          <span id="todayOrder"><fmt:formatNumber value="${accumlatedMoney }" pattern="#,###" /></span>원
         </li>
       </ul>
     </article>
@@ -116,6 +120,11 @@
 
 
 <script type="text/javascript">
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+
 mainActive();
 
 getUserNumberGraph();
@@ -146,9 +155,26 @@ function getUserNumberGraph() {
 						 data: userNumberList,
 						 label: "가입자 수",
 						 backgroundColor: [
-								'rgba(0, 0, 0, 0)'
 							],
 						 borderColor: [
+								'rgba(75, 192, 192, 1)',
+								'rgba(255, 206, 86, 1)',
+								'rgba(54, 162, 235, 1)',
+								'rgba(255, 99, 132, 1)',
+								'rgba(153, 102, 255, 1)',
+								'rgba(255, 159, 64, 1)',
+								'rgba(255, 206, 86, 1)',
+								'rgba(75, 192, 192, 1)',
+								'rgba(54, 162, 235, 1)',
+								'rgba(255, 99, 132, 1)',
+								'rgba(153, 102, 255, 1)',
+								'rgba(255, 159, 64, 1)',
+								'rgba(255, 206, 86, 1)',
+								'rgba(75, 192, 192, 1)',
+								'rgba(54, 162, 235, 1)',
+								'rgba(255, 99, 132, 1)',
+								'rgba(153, 102, 255, 1)',
+								'rgba(255, 159, 64, 1)',
 								'rgba(255, 206, 86, 1)',
 								'rgba(75, 192, 192, 1)',
 								'rgba(54, 162, 235, 1)',
@@ -166,7 +192,7 @@ function getUserNumberGraph() {
 							onComplete: function () {
 								var chartInstance = this.chart,
 									ctx = chartInstance.ctx;
-								ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+								ctx.font = Chart.helpers.fontString(16, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
 								ctx.fillStyle = 'black';
 								ctx.textAlign = 'center';
 								ctx.textBaseline = 'bottom';
@@ -226,9 +252,26 @@ function getTransactionAmountChart() {
 						 data: transactionList,
 						 label: "가입자 수",
 						 backgroundColor: [
-								'rgba(0, 0, 0, 0)'
 							],
 						 borderColor: [
+								'rgba(255, 99, 132, 1)',
+								'rgba(54, 162, 235, 1)',
+								'rgba(255, 206, 86, 1)',
+								'rgba(153, 102, 255, 1)',
+								'rgba(255, 159, 64, 1)',
+								'rgba(153, 102, 255, 1)',
+								'rgba(54, 162, 235, 1)',
+								'rgba(255, 99, 132, 1)',
+								'rgba(255, 206, 86, 1)',
+								'rgba(153, 102, 255, 1)',
+								'rgba(255, 159, 64, 1)',
+								'rgba(153, 102, 255, 1)',
+								'rgba(54, 162, 235, 1)',
+								'rgba(255, 99, 132, 1)',
+								'rgba(255, 206, 86, 1)',
+								'rgba(153, 102, 255, 1)',
+								'rgba(255, 159, 64, 1)',
+								'rgba(153, 102, 255, 1)',
 								'rgba(54, 162, 235, 1)',
 								'rgba(255, 99, 132, 1)',
 								'rgba(255, 206, 86, 1)',
@@ -245,7 +288,7 @@ function getTransactionAmountChart() {
 							onComplete: function () {
 								var chartInstance = this.chart,
 									ctx = chartInstance.ctx;
-								ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+								ctx.font = Chart.helpers.fontString(16, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
 								ctx.fillStyle = 'black';
 								ctx.textAlign = 'center';
 								ctx.textBaseline = 'bottom';
@@ -253,7 +296,7 @@ function getTransactionAmountChart() {
 								this.data.datasets.forEach(function (dataset, i) {
 									var meta = chartInstance.controller.getDatasetMeta(i);
 									meta.data.forEach(function (bar, index) {
-										var data = dataset.data[index];							
+										var data = numberWithCommas(dataset.data[index])+"원";							
 										ctx.fillText(data, bar._model.x, bar._model.y - 5);
 									});
 								});
@@ -264,6 +307,7 @@ function getTransactionAmountChart() {
 								ticks: {
 									beginAtZero: true,
 									fontSize : 14,
+									max : 20000000
 								}
 							}]
 						},
@@ -303,16 +347,16 @@ new Chart(document.getElementById("myChart"), {
 	type: 'bar', 
 	data: { labels: dateList, 
 		datasets: [{ label: '월별 순이익', 
-			backgroundColor: ['rgba(255, 99, 132, 0.2)',  'rgba(255, 159, 64, 0.2)',  'rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)',
-			      'rgba(255, 159, 64, 0.2)',
-			      'rgba(255, 205, 86, 0.2)',
+			backgroundColor: ['rgba(87, 99, 132, 0.2)',  'rgba(25, 159, 64, 0.2)',  'rgba(75, 19, 192, 0.2)', 'rgba(215, 99, 132, 0.2)',
 			      'rgba(75, 192, 192, 0.2)',
-			      'rgba(255, 159, 64, 0.2)',
+			      'rgba(255, 19, 64, 0.2)',
 			      'rgba(255, 205, 86, 0.2)',
-			      'rgba(75, 192, 192, 0.2)',
+			      'rgba(75, 12, 192, 0.2)',
+			      'rgba(25, 159, 64, 0.2)',
+			      'rgba(255, 205, 86, 0.2)',
 			      'rgba(54, 162, 235, 0.2)',
-			      'rgba(153, 102, 255, 0.2)',
-			      'rgba(201, 203, 207, 0.2)'],
+			      'rgba(13, 12, 255, 0.2)',
+			      'rgba(201, 23, 207, 0.2)'],
 			borderColor: ['rgb(255, 99, 132)',
 				'rgb(255, 99, 132)',
 		      'rgb(255, 205, 86)'],
@@ -322,7 +366,7 @@ new Chart(document.getElementById("myChart"), {
 					onComplete: function () {
 						var chartInstance = this.chart,
 							ctx = chartInstance.ctx;
-						ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+						ctx.font = Chart.helpers.fontString(16, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
 						ctx.fillStyle = 'black';
 						ctx.textAlign = 'center';
 						ctx.textBaseline = 'bottom';
@@ -330,7 +374,7 @@ new Chart(document.getElementById("myChart"), {
 						this.data.datasets.forEach(function (dataset, i) {
 							var meta = chartInstance.controller.getDatasetMeta(i);
 							meta.data.forEach(function (bar, index) {
-								var data = dataset.data[index];							
+								var data = numberWithCommas(dataset.data[index])+"원";						
 								ctx.fillText(data, bar._model.x, bar._model.y - 5);
 							});
 						});
@@ -341,6 +385,7 @@ new Chart(document.getElementById("myChart"), {
 						ticks: {
 							beginAtZero: true,
 							fontSize : 14,
+							max : 50000000
 							
 						}
 					}]

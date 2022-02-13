@@ -255,7 +255,16 @@ public class AdminController {
 		int activityWaitingCount = statisticsService.getActivityWaitingCount();
 		int discountPromotionWaitingCount = statisticsService.getDiscountPromotionWaitingCount();
 		int offerPromotionWaitingCount = statisticsService.getOfferPromotionWaitingCount();
+		int promotionWaitingCount = discountPromotionWaitingCount+offerPromotionWaitingCount;
 		
+		
+		long cancelAmountThisMonth = statisticsService.getCancelAmountThisMonth();
+		long depositAmountThisMonth = statisticsService.getDepositAmountThisMonth();
+		long withdrawalAmountThisMonth = statisticsService.getWithdrawalAmountThisMonth();
+		long profitThisMonth = depositAmountThisMonth - cancelAmountThisMonth - withdrawalAmountThisMonth;
+		Transaction latestTransaction = adminTransactionService.getlatestTransaction();
+		long accumlatedMoney = latestTransaction.getAccumulatedMoney();
+	
 		model.addAttribute("todayJoinCount", todayJoinCount);
 		model.addAttribute("todayLeftCount", todayLeftCount);
 		model.addAttribute("todayAccommoReviewCount", todayAccommoReviewCount);
@@ -266,8 +275,12 @@ public class AdminController {
 		model.addAttribute("todayCancelTransactionCount", todayCancelTransactionCount);
 		model.addAttribute("accommoWaitingCount", accommoWaitingCount);
 		model.addAttribute("activityWaitingCount", activityWaitingCount);
-		model.addAttribute("discountPromotionWaitingCount", discountPromotionWaitingCount);
-		model.addAttribute("offerPromotionWaitingCount", offerPromotionWaitingCount);
+		model.addAttribute("promotionWaitingCount", promotionWaitingCount);
+		model.addAttribute("profitThisMonth", profitThisMonth);
+		model.addAttribute("accumlatedMoney", accumlatedMoney);
+		model.addAttribute("cancelAmountThisMonth", cancelAmountThisMonth);
+		model.addAttribute("depositAmountThisMonth", depositAmountThisMonth);
+		model.addAttribute("withdrawalAmountThisMonth", withdrawalAmountThisMonth);
 		
 		return "adminpage/main.admintiles";
 	}

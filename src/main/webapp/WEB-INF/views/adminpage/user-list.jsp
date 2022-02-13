@@ -86,13 +86,23 @@
 					<td>${user.no }</td>
 					<td>${user.id }</td>
 					<td>${user.name }</td>
+				<c:if test="${empty user.tel}">	
+					<td> - </td>
+				</c:if>	
+				<c:if test="${not empty user.tel}">	
 					<td>${user.tel }</td>
+				</c:if>	
+				<c:if test="${empty user.email}">	
+					<td> - </td>
+				</c:if>	
+				<c:if test="${not empty user.email}">	
 					<td>${user.email }</td>
+				</c:if>	
 					<td>${user.gender == 'female' ? '여' : '남'}</td>
-					<td>${user.pnt }</td>
+					<td><fmt:formatNumber value="${user.pnt }" pattern="#,###" /></td>
 					<td><fmt:formatDate value="${user.registeredDate }" pattern="yyyy.MM.dd"/></td>
 					<td>${user.isHost == 'N' ?  'X' :'O'}</td>
-					<td>${user.deleted }</td>
+					<td>${user.deleted == 'N' ? '이용중' : '탈퇴'}</td>
 					<td>${user.reportedCount }</td>
 				</tr>
 				</c:forEach>
