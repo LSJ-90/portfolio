@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.hoge.controller.AdminController;
 import com.hoge.dto.AccMainDto;
 import com.hoge.dto.HomeAccommoDto;
+import com.hoge.form.Criteria;
 import com.hoge.mapper.HomeMapper;
 import com.hoge.mapper.PromotionMapper;
 import com.hoge.vo.accommo.AccommoImage;
@@ -57,9 +58,12 @@ public class HomeService {
 		return homePromotionDiscountDtos;
 	}
 
-	public List<HomeAccommoDto> getAllAccommodation() {
-		
-		return homeMapper.getAllAccommodation();
+	public int getAllAccommodationTotalRows() {
+		return homeMapper.getAllAccommodationTotalRows();
+	}
+
+	public List<HomeAccommoDto> getAllAccommodation(Criteria criteria) {
+		return homeMapper.getAllAccommodation(criteria);
 	}
 	
 	

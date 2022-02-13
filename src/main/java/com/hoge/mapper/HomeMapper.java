@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.hoge.dto.AccMainDto;
 import com.hoge.dto.HomeAccommoDto;
+import com.hoge.form.Criteria;
 import com.hoge.vo.accommo.AccommoImage;
 
 /**
@@ -19,5 +20,6 @@ public interface HomeMapper {
 	List<AccMainDto> getNewSixAccommoMainImages();
 	AccommoImage getAccMainImage(int discountProMotionNo);
 	HomeAccommoDto getMinMaxByHostNo(int hostNo);
-	List<HomeAccommoDto> getAllAccommodation();
+	List<HomeAccommoDto> getAllAccommodation(Criteria criteria);
+	int getAllAccommodationTotalRows();
 }

@@ -48,54 +48,58 @@
 
 			<!-- 숙소 3개 묶어서 1개 슬라이드 화면 -->
 			<ul class="stay-total__list">
+			<c:forEach var="accommoDto" items="${accommoDtos }" varStatus="status">
 				<li class="stay-total__item-wrap">
 					<div class="stay-total__item">
 						<button class="btn__like">
 							<i class="far fa-heart"></i>
 						</button>
 						<a href="">
-							<div class="stay-total__image"></div>
-							<div class="stay-total__info">
-								<h2 class="info__title">오월학교</h2>
-								<p class="info__text">
-									강원/춘천시<span>₩230,000 ~ ₩370,000 </span>
-								</p>
-								<p class="read-more">read more</p>
+							<div class="stay-total__image">
+								<img src="../resources/images/hostMainImage/${accommoDto.mainImage }"/>
 							</div>
-						</a>
-					</div>
-					<div class="stay-total__item">
-						<button class="btn__like">
-							<i class="far fa-heart"></i>
-						</button>
-						<a href="">
-							<div class="stay-total__image"></div>
 							<div class="stay-total__info">
-								<h2 class="info__title">라이즈 오토그래프 컬렉션</h2>
+								<h2 class="info__title">${accommoDto.accommoName }</h2>
 								<p class="info__text">
-									서울/마포구<span>₩209,000 ~ ₩594,000 </span>
-								</p>
-								<p class="read-more">read more</p>
-							</div>
-						</a>
-					</div>
-					<div class="stay-total__item">
-						<button class="btn__like">
-							<i class="far fa-heart"></i>
-						</button>
-						<a href="">
-							<div class="stay-total__image"></div>
-							<div class="stay-total__info">
-								<h2 class="info__title">굿올데이즈 호텔</h2>
-								<p class="info__text">
-									부산/중구<span>₩150,000 ~ ₩280,000 </span>
+									${accommoDto.accommoRegionDepth1 }
+									 / 
+									${accommoDto.accommoRegionDepth2 }
+									<span>
+										<fmt:formatNumber value="${accommoDto.minPrice }" type="currency" currencySymbol="￦" />
+									~
+										<fmt:formatNumber value="${accommoDto.maxPrice }" type="currency" currencySymbol="￦" />
+									</span>
 								</p>
 								<p class="read-more">read more</p>
 							</div>
 						</a>
 					</div>
 				</li>
+				</c:forEach>
 			</ul>
+			<c:if test="${pagination.totalRecords gt 0 }">
+				<div id="pagination">
+		  			<ul class="pagination__list">
+		    			<li class="page__prev ${pagination.existPrev ? '' : 'disabled' }">
+		      				<a class="page-link" href="home?page=${pagination.prevPage }" data-page="${pagination.prevPage }">
+		      				 <i class="fas fa-chevron-left"></i>
+		      				</a>
+		    			</li>
+		
+		    			<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">
+			    			<li class="page__num ${pagination.pageNo eq num ? 'active' : '' }">
+			    				<a class="page-link" href="home?page=${num }" data-page="${num }">${num }</a>
+			    			</li>	    			
+		    			</c:forEach>
+		
+		    			<li class="page__next ${pagination.existNext ? '' : 'disabled' }">
+		      				<a class="page-link" href="home?page=${pagination.nextPage }" data-page="${pagination.nextPage }">
+		      				 <i class="fas fa-chevron-right"></i>
+		      				</a>
+		    			</li>
+		  			</ul>
+				</div>
+			</c:if>	
 		</article>
 	</section>
 
@@ -343,6 +347,13 @@
 $(function() {
 	$("#stay-new__item").attr("class","stay-new__item carousel-item active");
 	$("#discount__item").attr("class","discount__item carousel-item active");
+	
+	// 페이지내비게이션의 링크를 클릭했을 때 실행될 이벤트핸들러 함수를 등록한다.
+	$(".pagination a").click(function(event) {
+		event.preventDefault();
+		// 클릭한 페이지내비게이션의 페이지번호 조회하기
+		var pageNo = $(this).attr("data-page");
+	})
 });
 
 </script>

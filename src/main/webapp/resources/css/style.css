@@ -247,15 +247,28 @@ textarea {
   background-color: var(--color-white);
 }
 
+/* 이승준 추가 */
+.stay-total__list {
+ display: flex;
+ 
+}
+
 .stay-total__item-wrap {
   display: flex;
   justify-content: space-between;
 }
 
-.stay-total__image {
+/* .stay-total__image {
   width: 410px;
   height: 250px;
   background-color: gray;
+} */
+
+.stay-total__image img{
+  width: 410px;
+  height: 250px;
+  background-repeat : no-repeat;
+  background-size : cover;
 }
 
 .promotion-banner {

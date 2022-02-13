@@ -47,23 +47,22 @@
 			a.host_no
 	</select>
 	
-	<select id="getAllAccommodation" resultType="com.hoge.dto.HomeAccommoDto">
-		<!-- select rn, accommoNo, hostNo, accommoType, accommoName, 
-			   regionDepth1,regionDepth2,
-			   minWeekdaysPrice,maxPeakSeasonPrice,minNumber,maxNumber
+	<select id="getAllAccommodation" resultType="com.hoge.dto.HomeAccommoDto" parameterType="com.hoge.form.Criteria">
+		 select *
 		from
-			( -->
+			( 
 		select
 	   		row_number() over (order by a.accommo_no) rn,
 			a.accommo_no as accommoNo, 
 			a.host_no as hostNo, 
 			a.accommo_type as accommoType, 
 			a.accommo_name as accommoName, 
-			a.accommo_region_depth1 as regionDepth1, 
-			a.accommo_region_depth2 as regionDepth2,
+			a.accommo_region_depth1 as accommoRegionDepth1, 
+			a.accommo_region_depth2 as accommoRegionDepth2,
 	        h.status as status,
-	        min(r.weekdays_price) as minWeekdaysPrice,
-			max(r.peak_season_price) as maxPeakSeasonPrice,
+	        h.host_main_image as mainImage,
+	        min(r.weekdays_price) as minPrice,
+			max(r.peak_season_price) as maxPrice,
 	        min(r.standard_number) as minNumber,
 			max(r.maximum_number) as maxNumber
 		from
@@ -77,12 +76,47 @@
         and 
         	h.status = 'Y'
         group by 
-           a.accommo_no, a.host_no, a.accommo_type, a.accommo_name,a.accommo_region_depth1, a.accommo_region_depth2, h.status
-		        <!-- )
-		where rn between #{beginIndex} and #{endIndex} -->
+           a.accommo_no, a.host_no, a.accommo_type, 
+           a.accommo_name,a.accommo_region_depth1, a.accommo_region_depth2, 
+           h.status,h.host_main_image, a.accommo_registered_date
+        order by  
+           a.accommo_registered_date desc
+		         )
+		where rn between #{beginIndex} and #{endIndex} 
 	</select>
 	
-	
+	<select id="getAllAccommodationTotalRows" resultType="int">
+		select 
+			count(*)
+  		from(select      
+	   			row_number() over (order by a.accommo_no) rn,
+				a.accommo_no as accommoNo, 
+				a.host_no as hostNo, 
+				a.accommo_type as accommoType, 
+				a.accommo_name as accommoName, 
+				a.accommo_region_depth1 as regionDepth1, 
+				a.accommo_region_depth2 as regionDepth2,
+	        	h.status as status,
+           	 	h.host_main_image as mainImage,
+	        	min(r.weekdays_price) as minWeekdaysPrice,
+				max(r.peak_season_price) as maxPeakSeasonPrice,
+	        	min(r.standard_number) as minNumber,
+				max(r.maximum_number) as maxNumber
+			 from
+		        tb_final_accommodations a,
+		        tb_final_rooms r,
+		        tb_final_hosts h
+	         where 
+	        	a.accommo_no = r.accommo_no
+	         and 
+	        	a.host_no = h.host_no
+	         and 
+	        	h.status = 'Y'
+	         group by 
+	            a.accommo_no, a.host_no, a.accommo_type, a.accommo_name,
+	            a.accommo_region_depth1, a.accommo_region_depth2, 
+	            h.status,h.host_main_image)
+	</select>
 	
 	<!-- 이승준 테스트용
 		List<User> getAllUsers();
