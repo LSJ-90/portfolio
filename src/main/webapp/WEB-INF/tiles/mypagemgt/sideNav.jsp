@@ -135,7 +135,7 @@ function listopen() {
 			
 		var data ="";
 			data +=  "<li class='sender-list__item' onclick='enter("+value.chatRoomNo+")'>";
-			data +=  "<img src='../../resources/images/hostMainImage/"+value.image+"' id='userImg' class='mychat__img userImg rounded-circle' alt=''>";
+			data +=  "<img src='../../resources/images/hostMainImage/"+value.image+"' id='userImg' class='sender__img userImg rounded-circle' alt=''>";
 			data +=  "<div class='mychat__sender-info'>";
 			data +=  " <input type='hidden' id='hostNo' name='hostNo' value=''>";
 			data +=  " <input type='hidden' id='chatRoomNumber' name='chatRoomNumber' value='"+value.chatRoomNo+"'>";

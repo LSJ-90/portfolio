@@ -890,6 +890,181 @@ details[open] summary::after {
   border: 1px solid var(--color-black);
 }
 
+/* Accommo-room*/
+
+.back {
+	font-size: 13px;
+	font-weight: var(--weight-light);
+	margin: 10px 0;
+}
+
+.booking-summary {
+  border-bottom: 2px solid var(--color-input-gray);
+  margin-bottom: 50px;
+}
+
+.room-detail__date {
+	font-size: 16px;
+    font-weight: var(--weight-light);
+}
+
+.room-detail__title {
+	font-size: 26px;
+    font-weight: var(--weight-medium);
+	
+}
+
+.container.room-info {
+	padding-bottom: 50px;
+	border-bottom: 1px solid var(--color-input-gray);
+}
+
+.service-label {
+	flex-basis: 25%;
+	font-family: var(--font-family-abel);
+    font-size: 13px;
+    letter-spacing: 3.6px;
+}
+
+.service-content {
+	flex-basis: 75%;
+    font-size: 14px;
+    font-weight: var(--weight-light);
+    line-height: 33px;
+    padding-right: 20px;
+}
+
+.service-content.promo {
+	display: flex;
+}
+
+.promo-item {
+	margin-left :70px;
+}
+
+.room-service {
+	display: flex;
+    align-items: center;
+    padding: 35px 0;
+    border-bottom: 1px solid var(--color-input-gray);
+}
+
+.room-promotion {
+	font-size: 15px;
+	font-weight:var(--weight-regular);
+}
+
+.other-rooms__title {
+	font-family: var(--font-family-abel);
+	font-size: 12px;
+   	font-weight:var(--weight-bold);
+    letter-spacing: 11px;
+}
+
+.other-room__text {
+	font-size: 14px;
+    font-weight: var(--weight-light);
+}
+
+.room__left-text {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 522px;
+	padding-top: 35px;
+}
+
+.slid-img {
+	width: 960px;
+	height: 540px;
+}
+
+.room-detail__name{
+	font-size: 30px;
+	font-family: var(--font-family-mix);
+    font-weight: var(--weight-medium);
+}
+
+.room-detail__promo {
+	font-size: 16px;
+	font-weight: var(--weight-regular);
+	margin-bottom: 10px;
+}
+
+.room-detail__price {
+	font-size: 14px;
+    font-weight: var(--weight-light);
+    padding: 3px 0;
+}
+
+.faq {
+	margin-top: 100px;
+	background-color: var(--color-black);
+}
+
+.container.faq-content {
+	padding: 100px 0;
+	color: var(--color-faq-text-gray);
+	
+}
+
+.faq-title {
+	font-size: 18px;
+	font-family: var(--font-family-abel);
+	font-weight: var(--weight-bold);
+	color: var(--color-white);
+}
+
+.faq-sub-title {
+	font-size: 16px;
+	color: var(--color-white);
+	font-weight: var(--weight-regular);
+}
+
+.container.faq-content a{
+	font-size: 16px;
+	font-weight: var(--weight-light);
+	color: var(--color-borderline-gray);
+}
+
+.content-title {
+	font-size: 16px;
+	font-weight: var(--weight-light);
+}
+
+.faq-content-title{
+	font-size: 24px;
+	color: var(--color-white);
+	font-weight: var(--weight-regular);
+	
+}
+
+.container.faq-content table {
+	color: var(--color-faq-text-gray);
+	border-top: 1px solid var(--color-faq-text-gray);
+}
+
+.container.faq-content table th {
+	font-size: 14px;
+	border-bottom: 2px solid var(--color-faq-text-gray);
+}
+
+
+.container.faq-content table td {
+	font-size: 14px;
+	text-align: center;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--color-faq-text-gray);
+}
+
+.font-p {
+	font-size: 15px;
+	font-weight: var(--weight-regular);
+	font-family: var(--font-family-spoqa);
+}
+
+
+
 /* Footer */
 
 #footer {

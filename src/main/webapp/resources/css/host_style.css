@@ -628,6 +628,53 @@ textarea {
   background-color: var(--color-white);
 }
 
+/* Host-promotion */
+
+#host-promotion {
+  padding-top: 40px;
+}
+
+.promotion-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.promotion-check__list {
+  display: flex;
+  align-items: center;
+}
+
+.promotion-check__item {
+  padding: 0 8px;
+}
+
+.btn__promotion-check {
+  font-size: 16px;
+}
+
+.promotion-check__item.icon {
+  font-size: 20px;
+  padding: 0;
+}
+
+.promotion-check__item.all {
+  padding-left: 0;
+  border-right: 1px solid var(--color-input-gray);
+}
+
+.btn__promotion-add {
+  font-size: 15px;
+  color: var(--color-white);
+  height: 40px;
+  padding: 0 25px;
+  margin-left: 10px;
+  background-color: var(--color-black);
+}
+
+.promotion-discount,
+.promotion-event {
+  margin-top: 110px;
+}
 /* Host-chat */
 
 #host-chat {
