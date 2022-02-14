@@ -338,7 +338,7 @@
 		from 
 			tb_final_wishes
 		where 
-			user_no = 1061
+			user_no = #{value}
 		and 
 			accommo_no is not null
 	</select>
@@ -390,5 +390,24 @@
 		where bookings.user_no = #{value}
 		and  room_booking_status = 0
 	</select>
+	
+	<insert id="insertMyLovePage" parameterType="com.hoge.dto.MyLoveDto">
+		insert into tb_final_wishes (user_no, accommo_no)
+		values (#{userNo}, #{accommoNo})
+	</insert>
+	
+	<delete id="deleteMyLovePage" parameterType="com.hoge.dto.MyLoveDto">
+		delete from tb_final_wishes
+		where user_no = #{userNo}
+		and accommo_no = #{accommoNo}
+	</delete>
+	
+	<select id="getMyLoveListCnt" resultType="int" parameterType="com.hoge.dto.MyLoveDto">
+		select count(*)
+		from tb_final_wishes
+		where user_no = #{userNo}
+		and accommo_no = #{accommoNo}
+	</select>
+	
 	
 </mapper>

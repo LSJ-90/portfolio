@@ -29,6 +29,7 @@ import com.hoge.dto.AccommoListDto;
 import com.hoge.dto.ActListDto;
 import com.hoge.dto.ChattingListDto;
 import com.hoge.dto.ChattingMessageDto;
+import com.hoge.dto.MyLoveDto;
 import com.hoge.dto.UserRevInfoDto;
 import com.hoge.form.UserUpdateForm;
 import com.hoge.pagination.PaginationPerPage5;
@@ -199,7 +200,6 @@ public class MyPageController {
 		
 		return "mypage/myLoveList.mytiles";
 	}
-	
 	
 	// 염주환: 마이페이지 다녀온페이지 리턴
 	@GetMapping("/mytourlist")

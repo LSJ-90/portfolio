@@ -42,5 +42,6 @@ public class AccommoListDto {
 	private long minNumber;
 	private long maxNumber;
 	private List<AccommoImage> accommoImages;
+	private int cnt;
 
 }

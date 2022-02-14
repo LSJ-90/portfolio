@@ -52,4 +52,8 @@ public class Criteria {
 	private String checkOutDate;
 	private int beginIndex;  //사용자: 성하민
 	private int endIndex;  //사용자: 성하민
+	
+	// TODO: 이승준 추후에 동적으로 바꿔야함
+	private String accommoType3;
+	private String accommoType4;
 }

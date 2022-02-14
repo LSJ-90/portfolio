@@ -555,6 +555,22 @@
                     <if test="mapArea.number != ''">
                        and r.maximum_number &gt;= to_number(#{mapArea.number})
                     </if>
+					<if test="criteria.accommoType != null">
+						<choose>
+							<when test="criteria.accommoType == '호텔'">
+								and a.accommo_type = #{criteria.accommoType}
+							</when>
+							<when test="criteria.accommoType == '민박'">
+								and a.accommo_type = #{criteria.accommoType}
+							</when>
+							<when test="criteria.accommoType == '렌탈하우스'">
+								and a.accommo_type = #{criteria.accommoType}
+							</when>
+							<when test="criteria.accommoType == '한옥'">
+								and a.accommo_type = #{criteria.accommoType}
+							</when>
+						</choose>
+					</if>
 		        group by
 		            a.accommo_no, a.host_no, a.accommo_type, a.accommo_name, a.average_cleanliness_star, a.average_communication_star, 
 		            a.average_accuracy_star, a.average_location_star, a.accommo_region_depth1, a.accommo_region_depth2, 

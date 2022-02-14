@@ -52,6 +52,7 @@ public class AccommoRestController {
 		
 		criteria.setBeginIndex(pagination.getBegin());
 		criteria.setEndIndex(pagination.getEnd());
+		criteria.setAccommoType(mapArea.getAccommoType());
 		
 		List<AccommoListDto> accommoListDtos = accommodationService.searchAccommoListDto(mapArea, criteria);
 		
