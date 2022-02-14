@@ -40,4 +40,8 @@ public interface PromotionMapper {
 	void closeOfferPromotion();
 	void closeDiscountPromotion();
 	
+	// 유상효 체험 프로모션 조회
+	List<HomeAccommoDto> getActDiscountPromotion();
+	List<HomeAccommoDto> getActOfferPromotion();
+	
 }

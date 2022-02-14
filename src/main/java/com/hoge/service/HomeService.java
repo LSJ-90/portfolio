@@ -91,4 +91,13 @@ public class HomeService {
 				
 		return homeMapper.getActivityPromotion();
 	}
+	
+	// 유상효 체험 할인 프로모션 조회
+	public List<HomeAccommoDto> getActDiscountPromotions() {
+		return promotionMapper.getActDiscountPromotion();
+	}
+	// 유상효 체험 증정 프로모션 조회
+	public List<HomeAccommoDto> getActOfferPromotions() {
+		return promotionMapper.getActOfferPromotion();
+	}
 }

@@ -12,7 +12,7 @@
     </div>
     <nav id="nav">
       <ul class="nav__menu">
-        <li class="nav__item"><a href="">PROMOTION</a></li>
+        <li class="nav__item"><a href="/home/promotion">PROMOTION</a></li>
         <c:if test="${empty LOGIN_USER}">
         <li class="nav__item"><a href="/login">LOGIN</a></li> 
         </c:if>
