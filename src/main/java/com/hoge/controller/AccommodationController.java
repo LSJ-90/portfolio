@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hoge.dto.AccMainDto;
+import com.hoge.dto.AccReviewDto;
 import com.hoge.dto.RoomDto;
 import com.hoge.dto.RoomListDto;
 import com.hoge.form.Criteria;
 import com.hoge.service.AccommodationService;
 import com.hoge.service.HostService;
+import com.hoge.service.ReviewService;
 import com.hoge.vo.accommo.AccommoImage;
 import com.hoge.vo.accommo.RoomImage;
 import com.hoge.vo.other.PromotionDiscount;
@@ -34,8 +36,12 @@ public class AccommodationController {
 
 	@Autowired
 	private AccommodationService accommodationService;
+	
 	@Autowired
 	private HostService hostService;
+	
+	@Autowired
+	private ReviewService reviewService;
 
 	// 염주환
 	@GetMapping("/list")
@@ -74,6 +80,24 @@ public class AccommodationController {
 		List<PromotionOffer> promotionOfferList = hostService.getPromotionOfferByHostNoAndStatusY(hostNo);
 		model.addAttribute("promotionOfferList", promotionOfferList);
 		
+		List<AccReviewDto> getAccDetailReviews = reviewService.getAccDetailReviews(accNo);
+		model.addAttribute("getAccDetailReviews", getAccDetailReviews);
+		List<AccReviewDto> getAccDetailReviews6 = reviewService.getAccDetailReviews6(accNo);
+		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd"); 
+
+		model.addAttribute("getAccDetailReviews6", getAccDetailReviews6);
+		AccReviewDto getAccDetailStar = reviewService.getAccDetailStar(accNo);
+		double a = getAccDetailStar.getCleanlinessStar();
+		double b = getAccDetailStar.getCommunicationStar();
+		double c = getAccDetailStar.getAccuracyStar();
+		double d = getAccDetailStar.getLocationStar();
+		double e = (a*10)+(b*10)+(c*10)+(d*10);
+		double f = e/40;
+		getAccDetailStar.setTotalAverage(f);
+		model.addAttribute("getAccDetailStar", getAccDetailStar);
+		AccReviewDto getAccDetailReviewsTotal = reviewService.getAccDetailReviewsTotal(accNo);
+		model.addAttribute("getAccDetailReviewsTotal", getAccDetailReviewsTotal);
+		
 		logger.info("결과값:" + roomInfoType1);
 
 		return "accommo/accDetail.tiles";
@@ -109,6 +133,8 @@ public class AccommodationController {
 		model.addAttribute("promotionDiscountList", promotionDiscountList);
 		List<PromotionOffer> promotionOfferList = hostService.getPromotionOfferByHostNoAndStatusY(hostNo);
 		model.addAttribute("promotionOfferList", promotionOfferList);
+		
+		
 
 		logger.info("결과값:" );
 

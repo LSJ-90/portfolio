@@ -7,12 +7,19 @@
    <title></title>
      <meta charset="utf-8">
      <meta name="viewport" content="width=device-width, initial-scale=1">
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 <div class="container">
+	<!-- 승준추가 -->
+	<select class="form-select" aria-label="Default select example" name="accommoType">
+	  <option selected>숙소타입설정</option>
+	  <option value="호텔">호텔</option>
+	  <option value="민박">민박</option>
+	  <option value="렌탈하우스">렌탈하우스</option>
+	  <option value="한옥">한옥</option>
+	</select>
+	<!-- 승준추가 end -->
     <div class="row mb-3">
        <div class="col">
           <span id="span-address">${criteria.addressValue }</span>
@@ -143,22 +150,28 @@ $(function() {
        var checkIn = $("input[name=checkInDate]").val();
        var checkOut = $("input[name=checkOutDate]").val();
        var page = '1';
-      
-      mapAreaList(number, checkIn, checkOut, page, swLatLng.getLat(), swLatLng.getLng(), neLatLng.getLat(), neLatLng.getLng());
+       var accommoType = $("select[name=accommoType]").val();
+       console.log(accommoType);
+      mapAreaList(number, checkIn, checkOut, page, 
+    		      accommoType,  
+    		      swLatLng.getLat(), swLatLng.getLng(), neLatLng.getLat(), neLatLng.getLng());
 
    });
    
    var positions = [];
    
    // 지도 영역의 list 출력
-   function mapAreaList(number, checkIn, checkOut, page, swLat, swLng, neLat, neLng) {
+   function mapAreaList(number, checkIn, checkOut, page, 
+		   				accommoType,
+		   				swLat, swLng, neLat, neLng) {
       $.ajax({
          type: 'get',
          url: '/rest/accommo/mapArea',
-         data: {number: number, checkIn: checkIn, checkOut: checkOut, page: page, swLat: swLat, swLng: swLng, neLat: neLat, neLng: neLng},
+         data: {number: number, checkIn: checkIn, checkOut: checkOut, page: page, 
+        	 accommoType: accommoType,
+        	 swLat: swLat, swLng: swLng, neLat: neLat, neLng: neLng},
          dataType: 'json',
          success: function(accommoPagination) {
-            
             var $accommos = $('.accommos').empty();
             var $pagination = $('.pagination').empty();
             
@@ -229,12 +242,14 @@ $(function() {
                   	row += '</div>';
                   	row += '</div>';
                   	row += '<div class="col-2">';
+                  	row += '<button class="insertButton" onclick="handelHeart('+accommo.no+')">';
                   	row += '<span class="favorite">';
                   	row += '<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">';
                   	row += '<path d="M0 0h24v24H0z" fill="none"/>';
                   	row += '<path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3zm-4.4 15.55l-.1.1-.1-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05z"/>';
                   	row += '</svg>';
                   	row += '</span>';
+                  	row += '</button>';
                   	row += '</div>';
                   	row += '</div>';
                   
@@ -286,6 +301,19 @@ $(function() {
             console.log(positions);
             markerAdd(positions);
             
+            //heartscript
+            const favorites = document.querySelectorAll(".favorite")
+            favorites.forEach(favorite => {
+               favorite.addEventListener("click", () => {
+                  favorite.classList.toggle("active")
+                      if(favorite.classList.contains("active")) {
+                    	 favorite.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>'
+                      } else {
+                         favorite.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3zm-4.4 15.55l-.1.1-.1-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05z"/></svg>'
+                      }
+                 
+               })
+            });
          },
          error:function(request,status,error){
             console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -365,23 +393,6 @@ $(function() {
       
    };
    
-   
-   
-   
-   // heart script 이승준
-   const favorites = document.querySelectorAll(".favorite")
-   favorites.forEach(favorite => {
-      favorite.addEventListener("click", () => {
-         favorite.classList.toggle("active")
-         if(favorite.classList.contains("active")) {
-            favorite.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>'
-         } else {
-            favorite.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3zm-4.4 15.55l-.1.1-.1-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05z"/></svg>'
-         }
-      })
-   })
-   
-   
    datePickerSet($("#checkInBox"), $("#checkOutBox"));
 
    // 달력생성함수 sDate:시작일 eDate:종료일
@@ -429,7 +440,24 @@ $(function() {
                return false;
        }
    }
-})
+});
+
+function handelHeart(accommoNo) {
+ 	alert(accommoNo);
+ 	$.ajax({
+ 	    url: '/rest/mypage/mylovelist/insertlovelist',
+ 	    type: 'get',
+ 	    data: {"accommoNo" : accommoNo},
+ 	    success: function (result){
+ 	        alert("데이터전송 성공");
+ 	        console.log(result);
+ 	        
+ 	    },
+ 	    error: function (error){
+ 	        alert("에러");
+ 	    }
+    });
+}
 </script>
 
 </body>

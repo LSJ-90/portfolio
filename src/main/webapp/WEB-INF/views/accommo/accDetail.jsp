@@ -18,6 +18,11 @@
 	A:hover {text-decoration:none; color:#000000;}
 	#box1 {text-align: right;}
 	#box2 {text-align: center;}
+	.box3 {
+    width: 60px;
+    border-radius: 70%;
+    overflow: hidden;
+	}
 </style>
 <title>메인페이지-숙소</title>
 </head>
@@ -173,7 +178,7 @@
 <div class="container">	
 	<div class="row">
 		<div class="col">
-			<div class="text-center" style="margin:100px 0;">
+			<div class="text-center">
 				<h2>${accMainDto.accIntroTitle}</h2>
 				<h3>${accMainDto.accName}</h3>
 				<p>|</p>
@@ -183,8 +188,111 @@
 			</div>
 		</div>
 	</div>
-</div>	
-	
+</div>
+
+<!-- 리뷰 -->
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<hr style="margin-top:60px; margin-bottom:80px;" size="3px">
+		</div>
+		<div class="col-12">
+			<h4 style="margin-bottom:20px;"><img src="/resources/images/common/star.JPG">${getAccDetailStar.totalAverage } / 후기 ${getAccDetailReviewsTotal.total }개</h4>
+		</div>
+		<div class="col-3">
+			<p>청결도&emsp;&emsp;<strong>${getAccDetailStar.cleanlinessStar }</strong></p>
+		</div>
+		<div class="col-3">
+			<p>의사소통&emsp;&emsp;<strong>${getAccDetailStar.communicationStar }</strong></p>
+		</div>
+		<div class="col-3">
+			<p>정확도&emsp;&emsp;<strong>${getAccDetailStar.accuracyStar }</strong></p>
+		</div>
+		<div class="col-3">
+			<p>위치&emsp;&emsp;<strong>${getAccDetailStar.locationStar }</strong></p>
+		</div>
+		<div class="col-12">
+			<hr style="margin-top:20px; margin-bottom:10px;" size="3px">
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<c:forEach var="getAccDetailReviews6" items="${getAccDetailReviews6 }">
+			<div class="col-6">
+				<div class="row">
+					<div class="col-1">
+						<img class="box3" style="width:80px; margin-top:25px;" src="/resources/images/userprofiles/${getAccDetailReviews6.userImage }">
+					</div>
+					<div class="col-11">
+						<p style="margin-top:45px; margin-left:40px;"><strong>${getAccDetailReviews6.userName }</strong></p>
+						<p style="margin-left:40px;"><fmt:formatDate value="${getAccDetailReviews6.createdDate}" pattern="yyyy.MM.dd"/></p>
+					</div>
+					<div class="col-11">
+						<p style="margin-top:10px; margin-bottom:10px; margin-left:10px;">${getAccDetailReviews6.content }</p>
+					</div>
+				</div>
+			</div>
+		</c:forEach>
+	</div>
+</div>
+<div class="container">
+	<div class="row justify-content-md-center">
+		<div class="col-2">
+			<button id="btn" style="margin-top:40px; type="button" class="btn btn-dark">후기 ${getAccDetailReviewsTotal.total }개 모두 보기</button>
+		</div>
+	</div>
+	<div class="col-12">
+		<hr style="margin-top:40px; margin-bottom:150px;" size="3px">
+	</div>
+</div>
+
+<!-- 리뷰 모달 -->
+<div class="modal fade" id="modal-review" tabindex="-1" aria-labelledby="전체 리뷰" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-scrollable modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="container">
+					<div class="row">
+						<div class="col-5">
+							<h4 style="margin-bottom:10px;"><img src="/resources/images/common/star.JPG">${getAccDetailStar.totalAverage } / 후기${getAccDetailReviewsTotal.total }개</h4>
+							<hr style="margin-top:10px; margin-bottom:20px;" size="3px">
+							<p style="margin-bottom:10px;">청결도&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<strong>${getAccDetailStar.cleanlinessStar }</strong></p>
+							<p style="margin-bottom:10px;">의사소통&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<strong>${getAccDetailStar.communicationStar }</strong></p>
+							<p style="margin-bottom:10px;">정확도&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<strong>${getAccDetailStar.accuracyStar }</strong></p>
+							<p style="margin-bottom:10px;">접근성&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<strong>${getAccDetailStar.locationStar }</strong></p>
+							<hr style="margin-top:20px; margin-bottom:20px;" size="3px">
+						</div>
+						<div class="col-7">
+							<div class="row">
+							<p style="margin-top:5px;"></p>
+								<c:forEach var="getAccDetailReviews" items="${getAccDetailReviews }">
+										<div class="col-3">
+											<img class="box3" style="width:70px; margin-top:35px;" src="/resources/images/userprofiles/${getAccDetailReviews.userImage }">
+										</div>
+										<div class="col-9">
+											<p style="margin-top:45px;"><strong>${getAccDetailReviews.userName }</strong></p>
+											<p><fmt:formatDate value="${getAccDetailReviews.createdDate}" pattern="yyyy.MM.dd"/></p>
+										</div>
+										<div class="col-12">
+											<p style="margin-top:10px; margin-bottom:10px; margin-left:5px;">${getAccDetailReviews.content }</p>
+										</div>
+								</c:forEach>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
 <div class="container">
 	<div class="row">
 		<div class="col-2">
@@ -543,6 +651,14 @@ function datePickerSet(sDate, eDate) {
 		}
 	})
 	
+	var reviewModal = new bootstrap.Modal(document.getElementById('modal-review'), {
+		keyboard: false
+	});
+	
+	$('#btn').on('click', function(){
+		$('#modal-review').modal('show');
+	});
+
 
 
 

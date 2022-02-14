@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.hoge.dto.AccReviewDto;
 import com.hoge.dto.AdminAccommoReviewDto;
 import com.hoge.dto.AdminActivityReviewDto;
 import com.hoge.dto.UserRevInfoDto;
@@ -61,6 +62,13 @@ public interface ReviewMapper {
 		
 		//이승준: 나의 리뷰 업데이트
 		void updateAccommReview(ReviewAccommo accommoReviewInfo);
+		
+		// 유상효 숙소 디테일 리뷰 조회
+		List<AccReviewDto> getAccDetailReviews(int accNo);
+		List<AccReviewDto> getAccDetailReviews6(int accNo);
+		AccReviewDto getAccDetailStar(int accNo);
+		AccReviewDto getAccDetailReviewsTotal(int accNo);
+
 		
 		
 }

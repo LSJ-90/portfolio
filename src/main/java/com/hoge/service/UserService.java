@@ -14,6 +14,7 @@ import com.hoge.config.auth.LoginedUser;
 import com.hoge.controller.AdminController;
 import com.hoge.dto.AccommoListDto;
 import com.hoge.dto.KakaoUserDto;
+import com.hoge.dto.MyLoveDto;
 import com.hoge.dto.UserRevInfoDto;
 import com.hoge.exception.FindException;
 import com.hoge.exception.LoginException;
@@ -244,6 +245,8 @@ public class UserService {
 			myLoveList.add(userMapper.getAccommodationByNo(accommoNo.getAccommoNo()));	
 		}
 		
+		logger.info(myLoveList);
+		
 		return myLoveList;
 	}
 
@@ -288,5 +291,17 @@ public class UserService {
 
 	public int getTourListCnt(int Userno) {
 		return userMapper.getTourListCnt(Userno);
+	}
+
+	public void insertMyLovePage(MyLoveDto myLoveDto) {
+		userMapper.insertMyLovePage(myLoveDto);
+	}
+	
+	public void deleteMyLovePage(MyLoveDto myLoveDto) {
+		userMapper.deleteMyLovePage(myLoveDto);
+	}
+	
+	public int getMyLoveListCnt(MyLoveDto myLoveDto) {
+		return userMapper.getMyLoveListCnt(myLoveDto);
 	}
 }
