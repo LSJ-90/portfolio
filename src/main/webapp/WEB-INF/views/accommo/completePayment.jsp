@@ -28,7 +28,7 @@
         </div>
         <div
           class="accommo-info__img"
-          style="background-image: url('/resources/images/accommoList/${images[0].image}')"
+          style="background-image: url('/resources/images/accommodation/${images[0].image}')"
       ></div>
       </div>
       <div class="accommo-user">

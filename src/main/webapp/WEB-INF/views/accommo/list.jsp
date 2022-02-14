@@ -7,7 +7,9 @@
    <title></title>
      <meta charset="utf-8">
      <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 </head>
 <body>
 <div class="container">
@@ -22,10 +24,12 @@
 	<!-- 승준추가 end -->
     <div class="row mb-3">
        <div class="col">
-          <span id="span-address">${criteria.addressValue }</span>
-          <input id="checkInBox" type="text" name="checkInDate" autocomplete="off" value="${criteria.checkInBoxValue }"> -
-          <input id="checkOutBox" type="text" name="checkOutDate" autocomplete="off" value="${criteria.checkOutBoxValue }">
-          <input type="hidden" name="number" value="${criteria.maxStandardNumberValue }">
+       	  <form method="get" action="/accommo/detail">
+	          <span id="span-address">${criteria.addressValue }</span>
+	          <input id="checkInBox" type="text" name="checkInDate" autocomplete="off" placeholder="날짜 입력" > - 
+	          <input id="checkOutBox" type="text" name="checkOutDate" autocomplete="off" placeholder="날짜 입력" >
+	          <input type="hidden" name="number" value="${criteria.maxStandardNumberValue }">
+       	  </form>
        </div>
     </div>
     <div class="row mb-3">
@@ -50,9 +54,56 @@
     </div>
 </div>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8606c7f07c8e2d80f27869dab7ebaec2&libraries=services,clusterer"></script>
+
 <script>
 $(function() {
-	
+	datePickerSet($("input[name=checkInDate]"), $("input[name=checkOutDate]"));
+
+   	// 달력생성함수 sDate:시작일 eDate:종료일
+    function datePickerSet(sDate, eDate) {
+   		
+            var sDay = sDate.val();
+            var eDay = eDate.val();
+
+            // 체크인 달력 생성
+            if (!isValidStr(eDay)) {
+                sDate.datepicker({
+                    maxDate: new Date(eDay)
+                });
+            }
+            
+            sDate.datepicker({
+                language: 'ko',
+                minDate: new Date(),
+                autoClose: true,
+                onSelect: function () {
+                    datePickerSet(sDate, eDate);
+                }
+            });
+			
+            // 체크아웃 달력 생성
+            if (!isValidStr(sDay)) {
+                eDate.datepicker({
+                    minDate: new Date(sDay)
+                });
+            } 
+            
+            eDate.datepicker({
+                language: 'ko',
+                autoClose: true,
+                onSelect: function () {
+                    datePickerSet(sDate, eDate);
+                }
+            });
+            
+        //날짜 생성 여부
+        function isValidStr(str) {
+            if (str == null || str == undefined || str == "")
+                return true;
+            else
+                return false;
+        }
+    }
    	// 페이지내비게이션의 링크를 클릭했을 때 실행될 이벤트핸들러 함수를 등록한다.
 	$(document).on("click", ".pagination button", function (e) {
 		clusterer.clear();
@@ -72,8 +123,9 @@ $(function() {
         var checkIn = $("input[name=checkInDate]").val();
         var checkOut = $("input[name=checkOutDate]").val();
         var page = $(this).attr("data-page");
-      
-      	mapAreaList(number, checkIn, checkOut, page, swLatLng.getLat(), swLatLng.getLng(), neLatLng.getLat(), neLatLng.getLng());
+        var accommoType = $("select[name=accommoType]").val();
+        
+      	mapAreaList(number, checkIn, checkOut, page, accommoType, swLatLng.getLat(), swLatLng.getLng(), neLatLng.getLat(), neLatLng.getLng());
       
       	// 검색폼에 onsubmit 이벤트 발생시키기
       	// $("#form-search-accommo").trigger("submit");
@@ -176,14 +228,11 @@ $(function() {
             var $pagination = $('.pagination').empty();
             
             if (accommoPagination.accommos == "" || accommoPagination.accommos == null || accommoPagination.accommos == undefined || ( accommoPagination.accommos != null && typeof accommoPagination.accommos == "object" && !Object.keys(accommoPagination.accommos).length)) {
-               console.log("없음");
-               
                var row = '<tr>';
                row += '<td class="text-center" colspan="6">검색 조건에 맞는 숙소 정보가 없습니다.</td>';
                row += '</tr>';
                
             } else {
-                console.log("있음");
 				positions = [];
                 var row = "";
                 var pageRow = "";
@@ -362,7 +411,7 @@ $(function() {
        iwContent += '</div>';
        iwContent += '</div>';
        iwContent += '<div class="col-4 d-flex justify-content-end">';
-       iwContent += '<img src="/resources/images/accommoList/'+position.image+'" height="120" width="120" alt="image">';
+       iwContent += '<img src="/resources/images/accommodation/'+position.image+'" height="120" width="120" alt="image">';
        iwContent += '</div>';
        iwContent += '</div>';
        
@@ -388,58 +437,12 @@ $(function() {
 
        // 마커에 click 이벤트를 등록합니다
        kakao.maps.event.addListener(marker, 'click', function() {
-          
+    	   var checkIn = $("input[name=checkInDate]").val();
+    	   var checkOut = $("input[name=checkOutDate]").val();
+    	   location.replace('/accommo/detail?accNo='+position.no+'&check_in='+checkIn+'&check_out='+checkOut);
        });
-      
    };
    
-   datePickerSet($("#checkInBox"), $("#checkOutBox"));
-
-   // 달력생성함수 sDate:시작일 eDate:종료일
-   function datePickerSet(sDate, eDate) {
-
-        var sDay = sDate.val();
-        var eDay = eDate.val();
-
-        // 체크인 달력 생성
-        if (!isValidStr(eDay)) {
-            sDate.datepicker({
-                maxDate: new Date(eDay)
-            });
-        }
-        
-        sDate.datepicker({
-            language: 'ko',
-            minDate: new Date(),
-            autoClose: true,
-            onSelect: function () {
-                datePickerSet(sDate, eDate);
-            }
-        });
-
-        // 체크아웃 달력 생성
-        if (!isValidStr(sDay)) {
-            eDate.datepicker({
-                minDate: new Date(sDay)
-            });
-        } 
-        
-       eDate.datepicker({
-           language: 'ko',
-           autoClose: true,
-           onSelect: function () {
-               datePickerSet(sDate, eDate);
-           }
-       });
-      
-       //날짜 생성 여부
-       function isValidStr(str) {
-           if (str == null || str == undefined || str == "")
-               return true;
-           else
-               return false;
-       }
-   }
 });
 
 function handelHeart(accommoNo) {
@@ -458,6 +461,8 @@ function handelHeart(accommoNo) {
  	    }
     });
 }
+
+
 </script>
 
 </body>

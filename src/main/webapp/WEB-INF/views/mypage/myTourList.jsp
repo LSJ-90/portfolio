@@ -153,7 +153,7 @@ $(function() {
 		         	} else {
 		            	iwContent += '<div class="carousel-item">';
 		         	}
-			        iwContent += '<img width="139" height="115" src="/resources/images/accommoList/'+image.image+'" class="d-block w-100" alt="image">';
+			        iwContent += '<img width="139" height="115" src="/resources/images/accommodation/'+image.image+'" class="d-block w-100" alt="image">';
 			        iwContent += '</div>';
 		      	});
 	      	} else {
