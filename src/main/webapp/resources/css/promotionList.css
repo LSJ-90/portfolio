@@ -107,6 +107,7 @@ input::placeholder {
 
 .promotion-list__img {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   font-size: 50px;
@@ -120,15 +121,19 @@ input::placeholder {
 
 
 .promotion-main__left {
-  font-size: 15px;
-  margin-bottom: 30px;
+  font-size: 13px;
   font-weight: var(--weight-light);
+  padding: 6px 15px;
+  border: 1px solid var(--color-white);
 }
 
 .promotion-main__depth {
-  font-size: 17px;
-  margin-top: 30px;
+  font-size: 15px;
   font-weight: var(--weight-light);
+}
+
+.promo-title {
+	font-size: 40px;
 }
 
 .promotion-list__description {
@@ -152,7 +157,7 @@ input::placeholder {
   transform: translateY(0px);
 }
 
-.promotion-list__item:hover .promotion-list__img span {
+.promotion-list__item:hover .promotion-list__img div {
   display: none;
 }
 

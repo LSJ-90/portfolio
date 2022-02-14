@@ -56,12 +56,12 @@
 			  <div class="room__price">
 				<c:choose>
 					<c:when test="${not empty promotionDiscountList}">
-						<h6 class="room-detail__promo">프로모션 진행중</h6>
+						<div class="promo-info">프로모션 진행중</div>
 					</c:when>
 					<c:otherwise>
 						<c:choose>
 							<c:when test="${not empty promotionOfferList}">
-								<h6 class="room-detail__promo">프로모션 진행중</h6>
+								<div class="promo-info">프로모션 진행중</div>
 							</c:when>
 							<c:otherwise>
 							</c:otherwise>
