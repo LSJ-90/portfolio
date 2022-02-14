@@ -213,7 +213,7 @@
 						<div class="carousel-inner">
 							<c:forEach var="accommoImage" items="${myRevInfo.accommoImages }" varStatus="status">
 								<div class="carousel-item<c:if test="${status.index eq 0 }"> active</c:if>">
-									<img src="../../resources/images/accommoList/${accommoImage.image}" class="d-block w-100" alt="...">
+									<img src="../../resources/images/accommodation/${accommoImage.image}" class="d-block w-100" alt="...">
 								</div>
 							</c:forEach>
 						</div>

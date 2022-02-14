@@ -227,7 +227,7 @@ $(function() {
                      	} else {
                         	row += '<div class="carousel-item">';
                      	}
-                    row += '<a href="/accommo/detail?accNo='+accommo.no+'&check_in=${criteria.checkInBoxValue}&check_out=${criteria.checkOutBoxValue}"><img src="/resources/images/accommoList/'+image.image+'" class="d-block w-100" alt="image"></a>';
+                    row += '<a href="/accommo/detail?accNo='+accommo.no+'&check_in=${criteria.checkInBoxValue}&check_out=${criteria.checkOutBoxValue}"><img src="/resources/images/accommodation/'+image.image+'" class="d-block w-100" alt="image"></a>';
                     row += '</div>';
                   	});
                   	row += '</div>';
@@ -450,7 +450,7 @@ function handelHeart(accommoNo) {
  	    data: {"accommoNo" : accommoNo},
  	    success: function (result){
  	        alert("데이터전송 성공");
- 	        console.log(result);
+ 	        console.log(result)
  	        
  	    },
  	    error: function (error){
