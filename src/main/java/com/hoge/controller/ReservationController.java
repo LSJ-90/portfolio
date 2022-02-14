@@ -148,8 +148,9 @@ public class ReservationController {
 	// 염주환
 	@Transactional
 	@PostMapping("/activity/insert")
-	public String save(ActivityReserveForm activityReserveForm) throws IOException {
-		
+	public String save(ActivityReserveForm activityReserveForm, @LoginedUser User user) throws IOException {
+		activityReserveForm.setBookingName(user.getName());
+		activityReserveForm.setBookingTel(user.getTel());
 		activityService.addNewBooking(activityReserveForm);
 		
 		return "redirect:/reserve/activity/complete";
@@ -165,7 +166,7 @@ public class ReservationController {
     		@RequestParam("userNo") int userNo, @RequestParam("numberOfPeople") int numberOfPeople, 
     		@RequestParam("payment") String payment, @RequestParam("taxIncludedPrice") int taxIncludedPrice, 
     		@RequestParam("usedPnt") int usedPnt, @RequestParam("paidPrice") int paidPrice, 
-    		@RequestParam("pg_token") String pg_token) throws IOException, ParseException {
+    		@RequestParam("pg_token") String pg_token, @LoginedUser User user) throws IOException, ParseException {
 		
 		KakaoPayApprovalVO info = activityService.kakaoPayInfo(pg_token);
 		ActivityReserveForm form = new ActivityReserveForm();
@@ -179,7 +180,7 @@ public class ReservationController {
 		form.setPaidPrice(paidPrice);
 		form.setTid(info.getTid());
 		
-		return save(form);
+		return save(form, user);
     }
 	
 	@GetMapping("/activity/complete")

@@ -70,7 +70,9 @@ public class AccommoRestController {
 			}
 		}
 		
-		
+		for (MergeAccommoListDto dto : merges) {
+			System.out.println(dto);
+		}
 		accommoPagination.setAccommos(merges);
 		accommoPagination.setPagination(pagination);
 		

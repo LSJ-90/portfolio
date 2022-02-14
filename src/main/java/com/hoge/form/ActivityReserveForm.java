@@ -24,5 +24,7 @@ public class ActivityReserveForm {
 	private long usedPnt;
 	private long paidPrice;
 	private String tid;
+	private String bookingName;
+	private String bookingTel;
 
 }
