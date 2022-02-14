@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.hoge.dto.AccommoListDto;
 import com.hoge.dto.KakaoUserDto;
+import com.hoge.dto.MyLoveDto;
 import com.hoge.dto.UserRevInfoDto;
 import com.hoge.form.CriteriaAdminUser;
 import com.hoge.vo.other.User;
@@ -67,4 +68,8 @@ public interface UserMapper {
 	
 	// 이승준: 다녀온 여행 카운트
 	int getTourListCnt(int userNo);
+
+	void insertMyLovePage(MyLoveDto myLoveDto);
+	void deleteMyLovePage(MyLoveDto myLoveDto);
+	int getMyLoveListCnt(MyLoveDto myLoveDto);
 }
