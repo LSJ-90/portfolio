@@ -15,12 +15,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hoge.dto.AccMainDto;
+import com.hoge.dto.AccReviewDto;
 import com.hoge.dto.ActMainDto;
+import com.hoge.dto.ActReviewDto;
 import com.hoge.dto.RoomListDto;
 import com.hoge.form.ActTimeForm;
 import com.hoge.form.Criteria;
 import com.hoge.service.ActivityService;
 import com.hoge.service.HostService;
+import com.hoge.service.ReviewService;
 import com.hoge.vo.activities.ActivityImage;
 import com.hoge.vo.activities.ActivityTimeTable;
 import com.hoge.vo.other.PromotionDiscount;
@@ -34,8 +37,12 @@ public class ActivityController {
 	
 	@Autowired
 	private ActivityService activityService;
+	
 	@Autowired
 	private HostService hostService;
+	
+	@Autowired
+	private ReviewService reviewService;
 	
 	// 유상효 체험 타임테이블 페이지 호출
 	@GetMapping("/mainTime")
@@ -136,6 +143,15 @@ public class ActivityController {
 		model.addAttribute("promotionDiscountList", promotionDiscountList);
 		List<PromotionOffer> promotionOfferList = hostService.getPromotionOfferByHostNoAndStatusY(hostNo);
 		model.addAttribute("promotionOfferList", promotionOfferList);
+		
+		List<ActReviewDto> getActDetailReviews = reviewService.getActDetailReviews(actNo);
+		model.addAttribute("getActDetailReviews", getActDetailReviews);
+		List<ActReviewDto> getActDetailReviews6 = reviewService.getActDetailReviews6(actNo);
+		model.addAttribute("getActDetailReviews6", getActDetailReviews6);
+		ActReviewDto getActDetailStar = reviewService.getActDetailStar(actNo);
+		model.addAttribute("getActDetailStar", getActDetailStar);
+		ActReviewDto getActDetailReviewsTotal = reviewService.getActDetailReviewsTotal(actNo);
+		model.addAttribute("getActDetailReviewsTotal", getActDetailReviewsTotal);
 		
 		logger.info("결과값:" );
 		

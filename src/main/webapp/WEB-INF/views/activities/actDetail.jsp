@@ -13,6 +13,11 @@
 	A:hover {text-decoration:none; color:#000000;}
 	#box1 {text-align: right;}
 	#box2 {text-align: center;}
+	.box3 {
+    width: 60px;
+    border-radius: 70%;
+    overflow: hidden;
+	}
 </style>
 </head>
 <body>
@@ -137,7 +142,7 @@
 										<label class="form-label">총인원 ${actMainDto.actMaximumNumber}</label>
 									</div>
 									<div class="col-4">
-									<!-- 
+									<!-- 지우지말아주셰용 ㅠㅠㅠ
 										<label class="form-label">인원 선택</label>
 										<select class="form-control text-center" name="type">
 											<c:forEach var="i" begin="0" end="${actMainDto.actMaximumNumber - timeTableList.soFarBookedNumberOfPeople}">
@@ -171,6 +176,89 @@
 		</div>
 	</div>
 </div>
+
+<!-- 리뷰 -->
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<hr style="margin-top:40px; margin-bottom:80px;" size="3px">
+		</div>
+		<div class="col-12">
+			<h4 style="margin-bottom:10px;"><img src="/resources/images/common/star.JPG">${getActDetailStar.average } / 후기 ${getActDetailReviewsTotal.total }개</h4>
+		</div>
+		<div class="col-12">
+			<hr style="margin-top:10px; margin-bottom:10px;" size="3px">
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<c:forEach var="getActDetailReviews6" items="${getActDetailReviews6 }">
+			<div class="col-6">
+				<div class="row">
+					<div class="col-1">
+						<img class="box3" style="width:80px; margin-top:25px;" src="/resources/images/userprofiles/${getActDetailReviews6.userImage }">
+					</div>
+					<div class="col-11">
+						<p style="margin-top:45px; margin-left:40px;"><strong>${getActDetailReviews6.userName }</strong></p>
+						<p style="margin-left:40px;"><fmt:formatDate value="${getActDetailReviews6.createdDate}" pattern="yyyy.MM.dd"/></p>
+					</div>
+					<div class="col-11">
+						<p style="margin-top:10px; margin-bottom:10px; margin-left:10px;">${getActDetailReviews6.content }</p>
+					</div>
+				</div>
+			</div>
+		</c:forEach>
+	</div>
+</div>
+<div class="container">
+	<div class="row justify-content-md-center">
+		<div class="col-2">
+			<button id="btn" style="margin-top:40px; type="button" class="btn btn-dark">후기 ${getActDetailReviewsTotal.total }개 모두 보기</button>
+		</div>
+	</div>
+	<div class="col-12">
+		<hr style="margin-top:40px; margin-bottom:150px;" size="3px">
+	</div>
+</div>
+
+<!-- 리뷰 모달 -->
+<div class="modal fade" id="modal-review" tabindex="-1" aria-labelledby="전체 리뷰" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-scrollable modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="container">
+					<div class="row">
+						<div class="col-12">
+							<h4 style="margin-top:10px; margin-bottom:10px;"><img src="/resources/images/common/star.JPG">${getActDetailStar.average } / 후기${getActDetailReviewsTotal.total }개</h4>
+							<hr style="margin-top:10px; margin-bottom:10px;" size="3px">
+						</div>
+						<div class="col-12">
+							<div class="row">
+								<c:forEach var="getActDetailReviews" items="${getActDetailReviews }">
+										<div class="col-1">
+											<img class="box3" style="width:70px; margin-top:25px;" src="/resources/images/userprofiles/${getActDetailReviews.userImage }">
+										</div>
+										<div class="col-9">
+											<p style="margin-top:40px; margin-left:40px;"><strong>${getActDetailReviews.userName }</strong></p>
+											<p style="margin-left:40px;"><fmt:formatDate value="${getActDetailReviews.createdDate}" pattern="yyyy.MM.dd"/></p>
+										</div>
+										<div class="col-12">
+											<p style="margin-top:10px; margin-bottom:15px; margin-left:5px;">${getActDetailReviews.content }</p>
+										</div>
+								</c:forEach>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 
 <div class="container">
 	<div class="row justify-content-md-center">
@@ -341,63 +429,69 @@
 	
 
 	$(function() {
-	$("#2").hide();
-	$("#3").hide();
-	$("#4").hide();
-	$("#5").hide();
-})
+		$("#2").hide();
+		$("#3").hide();
+		$("#4").hide();
+		$("#5").hide();
+	})
 
 
-$('#11').click(function(e){
-	e.preventDefault(); // 이벤트 막아버림(새로고침, submit 등등)
-	$("#1").show();
-	$("#2").hide();
-	$("#3").hide();
-	$("#4").hide();
-	$("#5").hide();
-})
+	$('#11').click(function(e){
+		e.preventDefault(); // 이벤트 막아버림(새로고침, submit 등등)
+		$("#1").show();
+		$("#2").hide();
+		$("#3").hide();
+		$("#4").hide();
+		$("#5").hide();
+	})
+	
+	$('#22').click(function(e){
+		e.preventDefault();
+		$("#2").show();
+		$("#1").hide();
+		$("#3").hide();
+		$("#4").hide();
+		$("#5").hide();
+	})
+	
+	$('#33').click(function(e){
+		e.preventDefault();
+		$("#3").show();
+		$("#1").hide();
+		$("#2").hide();
+		$("#4").hide();
+		$("#5").hide();
+	})
+	
+	$('#44').click(function(e){
+		e.preventDefault();
+		$("#4").show();
+		$("#1").hide();
+		$("#2").hide();
+		$("#3").hide();
+		$("#5").hide();
+	})
+	
+	$('#55').click(function(e){
+		e.preventDefault();
+		$("#5").show();
+		$("#1").hide();
+		$("#2").hide();
+		$("#3").hide();
+		$("#4").hide();
+	})
+	
+	$('#66').click(function(e){
+		e.preventDefault();
+	})
 
-$('#22').click(function(e){
-	e.preventDefault();
-	$("#2").show();
-	$("#1").hide();
-	$("#3").hide();
-	$("#4").hide();
-	$("#5").hide();
-})
-
-$('#33').click(function(e){
-	e.preventDefault();
-	$("#3").show();
-	$("#1").hide();
-	$("#2").hide();
-	$("#4").hide();
-	$("#5").hide();
-})
-
-$('#44').click(function(e){
-	e.preventDefault();
-	$("#4").show();
-	$("#1").hide();
-	$("#2").hide();
-	$("#3").hide();
-	$("#5").hide();
-})
-
-$('#55').click(function(e){
-	e.preventDefault();
-	$("#5").show();
-	$("#1").hide();
-	$("#2").hide();
-	$("#3").hide();
-	$("#4").hide();
-})
-
-$('#66').click(function(e){
-	e.preventDefault();
-})
-
-
+	var reviewModal = new bootstrap.Modal(document.getElementById('modal-review'), {
+		keyboard: false
+	});
+	
+	$('#btn').on('click', function(){
+		$('#modal-review').modal('show');
+	});
 
 
 
