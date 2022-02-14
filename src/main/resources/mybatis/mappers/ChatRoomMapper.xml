@@ -43,6 +43,25 @@
 	
 	
 	<!-- 성하민
+void insertChatRoom(ChatRoom chatRoom);  
+	-->
+  	<insert id="insertChatRoom" parameterType="com.hoge.vo.other.ChatRoom">
+		INSERT into TB_FINAL_CHATROOMS
+		(
+		CHATROOM_NO,
+		HOST_NO,
+		USER_NO,
+		UPDATED_DATE
+		)
+		VALUES
+			(FINAL_CHATROOM_NO_SEQ.NEXTVAL,
+			#{hostNo},
+			#{userNo},
+			sysdate
+			)
+	</insert>
+	
+	<!-- 성하민
   	void insertMessage(Message message);
   	-->
   	<insert id="insertMessage" parameterType="com.hoge.vo.other.Message">
