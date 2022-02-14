@@ -12,7 +12,7 @@
 <main id="main">
 	<div class="row">
 		<div class="col-12">
-			<h3 class="text-center" style="margin-top:50px; margin-bottom:0px;">숙소 할인 프로모션</h3>
+			<h3 class="text-center" style="margin-top:50px; margin-bottom:0px;">S T A Y&ensp;할인 프로모션</h3>
 		</div>
 		<div class="col-12">
 			<hr class="text-center" style="margin-bottom:20px;" size="3px">
@@ -55,7 +55,7 @@
 			<hr class="text-center" style="margin-top:20px;" size="3px">
 		</div>
 		<div class="col-12">
-			<h3 class="text-center" style="margin-top:50px; margin-bottom:0px;">숙소 증정 프로모션</h3>
+			<h3 class="text-center" style="margin-top:50px; margin-bottom:0px;">S T A Y&ensp;증정 프로모션</h3>
 		</div>
 		<div class="col-12">
 			<hr class="text-center" style="margin-bottom:20px;" size="3px">
@@ -94,7 +94,7 @@
 			<hr class="text-center" style="margin-top:20px;" size="3px">
 		</div>
 		<div class="col-12">
-			<h3 class="text-center" style="margin-top:50px; margin-bottom:0px;">체험 증정 프로모션</h3>
+			<h3 class="text-center" style="margin-top:50px; margin-bottom:0px;">A C T I V I T Y&ensp;증정 프로모션</h3>
 		</div>
 		<div class="col-12">
 			<hr class="text-center" style="margin-bottom:20px;" size="3px">
@@ -137,7 +137,7 @@
 			<hr class="text-center" style="margin-top:20px;" size="3px">
 		</div>
 		<div class="col-12">
-			<h3 class="text-center" style="margin-top:50px; margin-bottom:0px;">체험 증정 프로모션</h3>
+			<h3 class="text-center" style="margin-top:50px; margin-bottom:0px;">A C T I V I T Y&ensp;증정 프로모션</h3>
 		</div>
 		<div class="col-12">
 			<hr class="text-center" style="margin-bottom:20px;" size="3px">
