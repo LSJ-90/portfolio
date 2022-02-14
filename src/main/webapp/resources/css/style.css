@@ -12,6 +12,7 @@
   --color-text-black: #333333;
   --color-title-black: #181818;
   --color-black: #000000;
+  --color-review-red: #ff385c;
 
   /* Font Family */
   --font-family-spoqa: "Spoqa Han Sans Neo", sans-serif;
@@ -224,9 +225,9 @@ textarea {
 .stay-new__image {
   width: 100%;
   height: 850px;
-  background-repeat : no-repeat;
-  background-size : cover;
-} 
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
 .stay-new__info {
   text-align: center;
@@ -266,8 +267,8 @@ textarea {
 .stay-total__image {
   width: 410px;
   height: 250px;
-  background-repeat : no-repeat;
-  background-size : cover;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .promotion-banner {
@@ -289,7 +290,6 @@ textarea {
   display: flex;
 }
 
-
 /* 이승준 주석
 .discount__image {
   width: 960px;
@@ -298,11 +298,11 @@ textarea {
 }  
 */
 
-.discount__image img{
+.discount__image img {
   width: 960px;
   height: 540px;
-  background-repeat : no-repeat;
-  background-size : cover;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 /* 이승준 수정 */
@@ -313,8 +313,8 @@ textarea {
 .event__image {
   width: 410px;
   height: 250px;
-  background-repeat : no-repeat;
-  background-size : cover;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .activity-new__item a {
@@ -330,11 +330,11 @@ textarea {
 }
 */
 
-.activity-new__image img{
+.activity-new__image img {
   width: 100%;
   height: 650px;
-  background-repeat : no-repeat;
-  background-size : cover;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .activity-new__info {
@@ -355,8 +355,8 @@ textarea {
 .activity-total__image {
   width: 400px;
   height: 400px;
-  background-repeat : no-repeat;
-  background-size : cover;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 /* Main-login, Join */
@@ -890,12 +890,412 @@ details[open] summary::after {
   border: 1px solid var(--color-black);
 }
 
+/* Accommo-detail */
+
+#accommo-detail {
+  padding-top: 80px;
+}
+
+.width-wrap {
+  width: 1300px;
+  margin: 0 auto;
+}
+
+.accommo-detail__header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: var(--weight-light);
+  margin-bottom: 30px;
+}
+
+.accommo-back {
+  font-size: 13px;
+  color: var(--color-black);
+}
+
+.accommo-detail__title {
+  font-size: 15px;
+}
+
+.img-slide {
+  height: 650px;
+}
+
+.accommo-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  border-bottom: 2px solid var(--color-input-gray);
+  margin: 80px 0 70px 0;
+}
+
+.accommo-detail__name {
+  font-size: 26px;
+  font-weight: var(--weight-regular);
+}
+
+.accommo-deatil__form {
+  text-align: center;
+}
+
+.date-search-form {
+  text-align: center;
+  width: 110px;
+  height: 40px;
+  border: 1px solid var(--color-input-gray);
+  border-radius: 5px;
+}
+
+.btn__date-search {
+  font-size: 14px;
+  color: var(--color-white);
+  height: 40px;
+  padding: 0 20px;
+  background-color: var(--color-black);
+}
+
+.accommo-detail__room {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 700px;
+  margin-bottom: 110px;
+}
+
+.background-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background-color: var(--color-background-gray);
+  z-index: -1;
+}
+
+.slide-wrap {
+  display: flex;
+  width: 1300px;
+  height: 460px;
+  margin: 0 auto;
+}
+
+.slide__info {
+  width: 330px;
+}
+
+.slide__title {
+  font-size: 40px;
+  font-weight: var(--weight-bold);
+  margin-top: 35px;
+}
+
+.hr {
+  width: 80px;
+  height: 4px;
+  background-color: var(--color-black);
+  margin-top: 30px;
+}
+
+.promo-info-wrap {
+  margin-top: 35px;
+}
+
+.promo-info {
+  font-size: 15px;
+  font-weight: var(--weight-light);
+  text-align: center;
+  width: 140px;
+  padding: 5px;
+  margin-bottom: 5px;
+  border: 1px solid var(--color-black);
+}
+
+.slide__content.owl-carousel {
+  width: 970px;
+}
+
+.slide__item {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  width: 460px;
+  height: 460px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.slide__item a {
+  position: relative;
+  display: inline-block;
+  width: 460px;
+  height: 460px;
+}
+
+.slide__background {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 140px;
+  background-color: var(--color-black);
+  opacity: 0.8;
+}
+
+.owl-nav {
+  position: absolute;
+  top: 70%;
+  left: -340px;
+  display: block !important;
+}
+
+.owl-nav i {
+  font-size: 60px;
+  padding: 0 8px;
+}
+
+.room__text {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 460px;
+  height: 140px;
+  padding: 30px;
+  background-color: var(--color-black);
+  opacity: 0.8;
+  z-index: 5;
+}
+
+.room__text-box {
+  display: flex;
+  justify-content: space-between;
+  color: var(--color-white);
+}
+
+.room__name {
+  font-size: 24px;
+}
+
+.room__price {
+  font-size: 21px;
+}
+
+.room__num-people {
+  font-size: 16px;
+  font-weight: var(--weight-light);
+}
+
+.room__book {
+  font-family: var(--font-family-abel);
+  font-size: 18px;
+  border-bottom: 2px solid var(--color-white);
+}
+
+.accommo-detail__info {
+  width: 1300px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.detail-info__title {
+  font-size: 25px;
+  font-weight: var(--weight-regular);
+}
+
+.detail-info__name {
+  font-size: 14px;
+  font-weight: var(--weight-light);
+  margin-top: 15px;
+}
+
+.after::after {
+  content: "";
+  display: block;
+  width: 1px;
+  height: 40px;
+  background-color: var(--color-black);
+  margin: 25px auto 0;
+}
+
+.detail-info__text {
+  width: 780px;
+  font-size: 16px;
+  font-weight: var(--weight-light);
+  line-height: 2.2;
+  margin: 20px auto 0;
+}
+
+.detail-info__address {
+  font-size: 14px;
+  font-weight: var(--weight-light);
+  line-height: 2;
+  width: 780px;
+  margin: 50px auto 0;
+}
+
+.accommo-detail__review {
+  width: 1300px;
+  margin: 110px auto 0;
+  border-top: 1px solid var(--color-input-gray);
+}
+
+.review-title-box {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+}
+
+.detail-review__title {
+  font-size: 22px;
+}
+
+.fa-star {
+  color: var(--color-review-red);
+}
+
+.detail-review__star {
+  display: flex;
+}
+
+.star__item {
+  display: flex;
+  align-items: center;
+  margin-left: 40px;
+}
+
+.star-title {
+  font-size: 16px;
+  font-weight: var(--weight-light);
+  padding-right: 15px;
+}
+
+.star-count {
+  font-size: 14px;
+  font-weight: var(--weight-medium);
+}
+
+.detail-review__content {
+  width: 1300px;
+  margin-top: 50px;
+}
+
+.review-content-box {
+  display: inline-block;
+  width: 590px;
+  padding-bottom: 70px;
+}
+
+.review-content-box:nth-child(even) {
+  margin-left: 116px;
+}
+
+.review__info {
+  display: flex;
+}
+
+.review__user-img {
+  width: 80px;
+  height: 80px;
+  background-color: var(--color-background-gray);
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.user-wrap {
+  align-self: flex-end;
+  margin-left: 15px;
+}
+
+.review__user-name {
+  font-size: 16px;
+  font-weight: var(--weight-regular);
+}
+
+.review__date {
+  font-size: 14px;
+  font-weight: var(--weight-light);
+  color: var(--color-faq-text-gray);
+}
+
+.review__text {
+  font-size: 16px;
+  font-weight: var(--weight-light);
+  padding: 0 10px;
+  margin-top: 15px;
+}
+
+.detail-review__btn {
+  text-align: center;
+  margin-bottom: 110px;
+}
+
+.btn__review {
+  font-size: 15px;
+  font-weight: var(--weight-light);
+  width: 300px;
+  height: 45px;
+  border: 1px solid var(--color-black);
+}
+
+.modal-wrap {
+  width: 1300px;
+  margin: 0 auto;
+}
+
+.detail-review__modal {
+  width: 700px;
+  height: 800px;
+  padding: 20px;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-borderline-gray);
+  border-radius: 10px;
+}
+
+.modal-title-wrap {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--color-input-gray);
+  font-size: 28px;
+}
+
+.modal-review-wrap {
+  display: flex;
+}
+
+.review-left {
+  flex-basis: 25%;
+  padding-top: 20px;
+}
+
+.modal-star__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+}
+
+.review-right {
+  flex-basis: 75%;
+  height: 707px;
+  padding: 20px 0 0 45px;
+  overflow: scroll;
+}
+
+.modal-content-box {
+  margin-bottom: 50px;
+}
+
 /* Accommo-room*/
 
 .back {
-	font-size: 13px;
-	font-weight: var(--weight-light);
-	margin: 10px 0;
+  font-size: 13px;
+  font-weight: var(--weight-light);
+  margin: 10px 0;
 }
 
 .booking-summary {
@@ -904,166 +1304,160 @@ details[open] summary::after {
 }
 
 .room-detail__date {
-	font-size: 16px;
-    font-weight: var(--weight-light);
+  font-size: 16px;
+  font-weight: var(--weight-light);
 }
 
 .room-detail__title {
-	font-size: 26px;
-    font-weight: var(--weight-medium);
-	
+  font-size: 26px;
+  font-weight: var(--weight-medium);
 }
 
 .container.room-info {
-	padding-bottom: 50px;
-	border-bottom: 1px solid var(--color-input-gray);
+  padding-bottom: 50px;
+  border-bottom: 1px solid var(--color-input-gray);
 }
 
 .service-label {
-	flex-basis: 25%;
-	font-family: var(--font-family-abel);
-    font-size: 13px;
-    letter-spacing: 3.6px;
+  flex-basis: 25%;
+  font-family: var(--font-family-abel);
+  font-size: 13px;
+  letter-spacing: 3.6px;
 }
 
 .service-content {
-	flex-basis: 75%;
-    font-size: 14px;
-    font-weight: var(--weight-light);
-    line-height: 33px;
-    padding-right: 20px;
+  flex-basis: 75%;
+  font-size: 14px;
+  font-weight: var(--weight-light);
+  line-height: 33px;
+  padding-right: 20px;
 }
 
 .service-content.promo {
-	display: flex;
+  display: flex;
 }
 
 .promo-item {
-	margin-left :70px;
+  margin-left: 70px;
 }
 
 .room-service {
-	display: flex;
-    align-items: center;
-    padding: 35px 0;
-    border-bottom: 1px solid var(--color-input-gray);
+  display: flex;
+  align-items: center;
+  padding: 35px 0;
+  border-bottom: 1px solid var(--color-input-gray);
 }
 
 .room-promotion {
-	font-size: 15px;
-	font-weight:var(--weight-regular);
+  font-size: 15px;
+  font-weight: var(--weight-regular);
 }
 
 .other-rooms__title {
-	font-family: var(--font-family-abel);
-	font-size: 12px;
-   	font-weight:var(--weight-bold);
-    letter-spacing: 11px;
+  font-family: var(--font-family-abel);
+  font-size: 12px;
+  font-weight: var(--weight-bold);
+  letter-spacing: 11px;
 }
 
 .other-room__text {
-	font-size: 14px;
-    font-weight: var(--weight-light);
+  font-size: 14px;
+  font-weight: var(--weight-light);
 }
 
 .room__left-text {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	height: 522px;
-	padding-top: 35px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 522px;
+  padding-top: 35px;
 }
 
 .slid-img {
-	width: 960px;
-	height: 540px;
+  width: 960px;
+  height: 540px;
 }
 
-.room-detail__name{
-	font-size: 30px;
-	font-family: var(--font-family-mix);
-    font-weight: var(--weight-medium);
+.room-detail__name {
+  font-size: 30px;
+  font-family: var(--font-family-mix);
+  font-weight: var(--weight-medium);
 }
 
 .room-detail__promo {
-	font-size: 16px;
-	font-weight: var(--weight-regular);
-	margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: var(--weight-regular);
+  margin-bottom: 10px;
 }
 
 .room-detail__price {
-	font-size: 14px;
-    font-weight: var(--weight-light);
-    padding: 3px 0;
+  font-size: 14px;
+  font-weight: var(--weight-light);
+  padding: 3px 0;
 }
 
 .faq {
-	margin-top: 100px;
-	background-color: var(--color-black);
+  margin-top: 100px;
+  background-color: var(--color-black);
 }
 
 .container.faq-content {
-	padding: 100px 0;
-	color: var(--color-faq-text-gray);
-	
+  padding: 100px 0;
+  color: var(--color-faq-text-gray);
 }
 
 .faq-title {
-	font-size: 18px;
-	font-family: var(--font-family-abel);
-	font-weight: var(--weight-bold);
-	color: var(--color-white);
+  font-size: 18px;
+  font-family: var(--font-family-abel);
+  font-weight: var(--weight-bold);
+  color: var(--color-white);
 }
 
 .faq-sub-title {
-	font-size: 16px;
-	color: var(--color-white);
-	font-weight: var(--weight-regular);
+  font-size: 16px;
+  color: var(--color-white);
+  font-weight: var(--weight-regular);
 }
 
-.container.faq-content a{
-	font-size: 16px;
-	font-weight: var(--weight-light);
-	color: var(--color-borderline-gray);
+.container.faq-content a {
+  font-size: 16px;
+  font-weight: var(--weight-light);
+  color: var(--color-borderline-gray);
 }
 
 .content-title {
-	font-size: 16px;
-	font-weight: var(--weight-light);
+  font-size: 16px;
+  font-weight: var(--weight-light);
 }
 
-.faq-content-title{
-	font-size: 24px;
-	color: var(--color-white);
-	font-weight: var(--weight-regular);
-	
+.faq-content-title {
+  font-size: 24px;
+  color: var(--color-white);
+  font-weight: var(--weight-regular);
 }
 
 .container.faq-content table {
-	color: var(--color-faq-text-gray);
-	border-top: 1px solid var(--color-faq-text-gray);
+  color: var(--color-faq-text-gray);
+  border-top: 1px solid var(--color-faq-text-gray);
 }
 
 .container.faq-content table th {
-	font-size: 14px;
-	border-bottom: 2px solid var(--color-faq-text-gray);
+  font-size: 14px;
+  border-bottom: 2px solid var(--color-faq-text-gray);
 }
 
-
 .container.faq-content table td {
-	font-size: 14px;
-	text-align: center;
-    vertical-align: middle;
-    border-bottom: 1px solid var(--color-faq-text-gray);
+  font-size: 14px;
+  text-align: center;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--color-faq-text-gray);
 }
 
 .font-p {
-	font-size: 15px;
-	font-weight: var(--weight-regular);
-	font-family: var(--font-family-spoqa);
+  font-size: 15px;
+  font-weight: var(--weight-regular);
+  font-family: var(--font-family-spoqa);
 }
-
-
 
 /* Footer */
 

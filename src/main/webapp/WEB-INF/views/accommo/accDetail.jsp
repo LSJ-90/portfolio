@@ -1,15 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../common/tags.jsp" %>
-<!DOCTYPE html>
-<html>
-<head>
-	<!-- datepicker -->
-	<link rel="stylesheet" href="../../resources/css/datepickerAdmin.min.css">
-    <script src="../../resources/js/datepicker.js"></script>
-    <script src="../../resources/js/datepicker.min.js"></script>
-    <script src="../../resources/js/datepickerutil/datepicker.ko.js"></script>
-	<meta charset="UTF-8">
+
 <style>
 	.target { display: inline-block; width: 1000px; }
 	A:link {text-decoration:none; color:#000000;}
@@ -23,31 +15,20 @@
     border-radius: 70%;
     overflow: hidden;
 	}
+	#footer {
+	margin: 0;}
 </style>
-<title>메인페이지-숙소</title>
-</head>
-<body>
-<div class="container">
-	<div class="col-12" style=margin-top:50px">
-		<a style="margin=top:50px;">${accMainDto.accName}</a>
-		<a style="float:right; margin=bottom:100px;" href="javascript:history.back()"><img src="/resources/images/common/back.JPG">돌아가기</a>
-	</div>
-</div>
 
-	<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-	  <div class="carousel-indicators">
-	  <c:forEach var="image" items="${accImages}" varStatus="status">
-	  		<c:choose>
-				<c:when test="${status.index == 0}">
-	    			<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="${status.index}" class="active" aria-current="true"></button>
-	    		</c:when>
-				<c:otherwise>
-	    			<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="${status.index}"></button>
-	    		</c:otherwise>
-			</c:choose>
-		</c:forEach>
-	  </div>
-	  
+
+ <main>
+      <article id="accommo-detail">
+        <div class="width-wrap">
+          <div class="accommo-detail__header">
+            <div class="accommo-detail__title">${accMainDto.accName}</div>
+            <a class="accommo-back" href="javascript:history.back()"><img src="/resources/images/common/back.JPG">돌아가기</a>
+          </div>
+
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
 		<div class="carousel-inner">
 			<c:forEach var="image" items="${accImages}" varStatus="status">
 				<c:choose>
@@ -58,7 +39,7 @@
 						<div class="carousel-item">
 					</c:otherwise>
 				</c:choose>
-						<img src="/resources/images/accommodation/${image.image }" class="d-block w-100" alt="...">
+						<img src="/resources/images/accommodation/${image.image }" class="d-block w-100" alt="..." style="height: 650px;">
 						<div class="carousel-caption d-none d-md-block">
 							<h2>"${accMainDto.accIntroTitle}"   <${accMainDto.accName}></h2>
 							<h6>${accMainDto.dept1} / ${accMainDto.dept2}</h6>
@@ -80,223 +61,220 @@
 					</div>
 			</c:forEach>
 		</div>
-	</div>
-	  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-	    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-	    <span class="visually-hidden">Previous</span>
-	  </button>
-	  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-	    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-	    <span class="visually-hidden">Next</span>
-	  </button>
-	</div>
-
-<div class="container">
-	<div class="row text-center" style="margin-top:80px; margin-bottom:150px;">
-		<div class="col">
-			<c:choose>
+         
+          <div class="accommo-summary">
+            <div class="accommo-detail__name">${accMainDto.accName}</div>
+            <div class="accommo-detail__form">
+              <c:choose>
 				<c:when test="${param.days eq ''}">
-					<h3>날짜를 선택해주세요.</h3>
+					날짜를 선택해주세요.
 				</c:when>
 				<c:when test="${param.days == null}">
-					<h3>날짜를 선택해주세요.</h3>
+					날짜를 선택해주세요.
 				</c:when>
 				<c:otherwise>
-					<h3>${param.check_in } ~ ${param.check_out } [${param.days }박]</h3>
+					${param.check_in } ~ ${param.check_out } [${param.days }박]
 				</c:otherwise>
 			</c:choose>	
-			<form method="post" action="search" method="post">
-				<input type="hidden" name="accNo" value="${accMainDto.accNo }">
-				<input id="checkInBox1" type="text" name="check_in" > ~ <input id="checkOutBox1" type="text" name="check_out" >
-				<button class="btn btn-outline-dark btn-lg" type="submit">검색</button>
-			</form>
-			<hr style="margin-top:50px;" width="100%" align="right" size="4px">
-		</div>
-	</div>
-</div>	
-		<!-- <input type="date" value="${param.check_in }" name="check_in"> ~ <input type="date" value="${param.check_out }" name="check_out"> -->
-	
-<div class="container">	
-	<div class="row">
-		<div class="col-3">
-			<h1>ROOMS</h1>
-			<div class="col-8">
-				<hr style="margin-top:50px; margin-bottom:50px" size="4px">
-			</div>
-			<c:choose>
-				<c:when test="${empty promotionDiscountList}">
-					<p></p>
-				</c:when>
-				<c:otherwise>
-					<c:forEach var="promotionDiscountList" items="${promotionDiscountList }">
-						<h6><할인 프로모션 진행중></h6>
-						<p>${promotionDiscountList.introContent }</p>
-						<p>평일:<strong><fmt:formatNumber value="${promotionDiscountList.weekdaysDiscountRate}" type="percent"/></strong>&emsp;
-						주말:<strong><fmt:formatNumber value="${promotionDiscountList.peakSeasonDiscountRate}" type="percent"/></strong>&emsp;
-						성수기:<strong><fmt:formatNumber value="${promotionDiscountList.peakSeasonDiscountRate}" type="percent"/></strong></p>
-						<p>기간 : <fmt:formatDate value="${promotionDiscountList.startingDate}" pattern="yyyy.MM.dd"/> ~
-						   <fmt:formatDate value="${promotionDiscountList.endingDate}" pattern="yyyy.MM.dd"/></p>
-					</c:forEach>
-				</c:otherwise>
-			</c:choose>
-			<c:choose>
-				<c:when test="${empty promotionOfferList}">
-					<p></p>
-				</c:when>
-				<c:otherwise>
-					<c:forEach var="promotionOfferList" items="${promotionOfferList }">
-						<h6 style="margin-top:30px;"><증정 프로모션 진행중></h6>
-						<p>${promotionOfferList.introContent }</p>
-						<p>증정품 : <strong>${promotionOfferList.content}</strong></p>
-						<p>기간 : <fmt:formatDate value="${promotionOfferList.startingDate}" pattern="yyyy.MM.dd"/> ~
-						   <fmt:formatDate value="${promotionOfferList.endingDate}" pattern="yyyy.MM.dd"/></p>
-					</c:forEach>
-				</c:otherwise>
-			</c:choose>
-		</div>
-		<c:forEach var="roomSearchList" items="${roomSearchList}">
-			<div class="card col-4" style="width: 400px;">
-				<h2>${roomSearchList.name}</h2>
-				<c:forEach var="image" items="${roomSearchList.roomImages}" varStatus="status">
-					<c:if test="${status.index == 0}">
-						<a href="/accommo/roomDetail?accNo=${param.accNo }&check_in=${param.check_in }&check_out=${param.check_out }&roomNo=${roomSearchList.no }&days=${param.days }">
-							<img src="/resources/images/room/${image.image }" class="card-img-top" alt="...">
-						</a>
-					</c:if>
+            </div>
+            <form method="post" action="search" method="post">
+              <input type="hidden" name="accNo" value="${accMainDto.accNo }" />
+              <input
+                class="date-search-form"
+                id="checkInBox1"
+                type="text"
+                name="check_in"
+              />
+              ~
+              <input
+                class="date-search-form"
+                id="checkOutBox1"
+                type="text"
+                name="check_out"
+              />
+              <button class="btn__date-search" type="submit">검색</button>
+            </form>
+          </div>
+        </div>
+       </div> 
+        <section class="accommo-detail__room">
+          <div class="background-img"></div>
+          <div class="slide-wrap">
+            <div class="slide__info">
+              <div class="slide__title">ROOMS</div>
+              <div class="hr"></div>
+              <div class="promo-info-wrap">
+                
+                <c:choose>
+					<c:when test="${empty promotionDiscountList}">
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="promotionDiscountList" items="${promotionDiscountList }">
+		                  <div class="promo-info">할인 프로모션</div>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
+              
+                <c:choose>
+					<c:when test="${empty promotionOfferList}">
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="promotionOfferList" items="${promotionOfferList }">
+		                  <div class="promo-info">증정 프로모션</div>
+						</c:forEach>
+					</c:otherwise>
+			    </c:choose>
+              </div>
+            </div>
+            <div class="slide__content owl-carousel owl-theme">
+              <c:forEach var="roomSearchList" items="${roomSearchList}">
+                <c:forEach var="image" items="${roomSearchList.roomImages}" varStatus="status">
+				  <c:if test="${status.index == 0}">
+		              <div class="slide__item" style="background-image: url('/resources/images/room/${image.image }')">
+		                <a href="/accommo/roomDetail?accNo=${param.accNo }&check_in=${param.check_in }&check_out=${param.check_out }&roomNo=${roomSearchList.no }&days=${param.days }">
+		                  <div class="room__text">
+		                    <div class="room__text-box">
+		                      <div class="room__name">${roomSearchList.name}</div>
+		                      <div class="room__price">&#8361;<fmt:formatNumber value="${roomSearchList.weekdaysPrice }" pattern="##,###"/> ~</div>
+		                    </div>
+		                    <div class="room__text-box">
+		                      <div class="room__num-people">${roomSearchList.standardNumber }명(최대 ${roomSearchList.maximumNumber }명)</div>
+		                      <div class="room__book">book</div>
+		                    </div>
+		                  </div>
+		                </a>
+		              </div>
+	              </c:if>
 				</c:forEach>
-				<div class="card-body">
-					<p>평일 ₩<fmt:formatNumber value="${roomSearchList.weekdaysPrice }" pattern="##,###"/></p>
-					<p>주말 ₩<fmt:formatNumber value="${roomSearchList.weekendPrice }" pattern="##,###"/></p>
-			        <p>성수기 ₩<fmt:formatNumber value="${roomSearchList.peakSeasonPrice }" pattern="##,###"/></p>
-			        <Strong>기준 ${roomSearchList.standardNumber }명(최대 ${roomSearchList.maximumNumber }명)</Strong>
-				</div>
-			</div>
-		</c:forEach>
+              </c:forEach>
+            </div>
+            <i class="fa-solid fa-circle-chevron-left"></i>
+            <i class="fa-solid fa-circle-chevron-right"></i>
+          </div>
+        </section>
+        <section class="accommo-detail__info">
+          <div class="detail-info__title">${accMainDto.accIntroTitle}</div>
+          <div class="detail-info__name">${accMainDto.accName}</div>
+          <div class="after"></div>
+          <p class="detail-info__text">
+            ${accMainDto.accIntroContent}
+          </p>
+          <div class="detail-info__address">
+            ${accMainDto.accName}의 주소는 [ ${accMainDto.accAddress}
+            ]입니다.
+          </div>
+        </section>
+        <section class="accommo-detail__review">
+          <div class="review-title-box">
+            <div class="detail-review__title">
+              <i class="fa-solid fa-star"></i> ${getAccDetailStar.totalAverage } / 후기 ${getAccDetailReviewsTotal.total }개
+            </div>
+            <ul class="detail-review__star">
+              <li class="star__item">
+                <div class="star-title">청결도</div>
+                <div class="star-count">${getAccDetailStar.cleanlinessStar }</div>
+              </li>
+              <li class="star__item">
+                <div class="star-title">의사소통</div>
+                <div class="star-count">${getAccDetailStar.communicationStar }</div>
+              </li>
+              <li class="star__item">
+                <div class="star-title">정확도</div>
+                <div class="star-count">${getAccDetailStar.accuracyStar }</div>
+              </li>
+              <li class="star__item">
+                <div class="star-title">위치</div>
+                <div class="star-count">${getAccDetailStar.locationStar }</div>
+              </li>
+            </ul>
+          </div>
+          <div class="detail-review__content">
+            <c:forEach var="getAccDetailReviews6" items="${getAccDetailReviews6 }">
+	            <div class="review-content-box">
+	              <div class="review__info">
+	                <div
+	                  class="review__user-img"
+	                  style="background-image: url('/resources/images/userprofiles/${getAccDetailReviews6.userImage }')"
+	                ></div>
+	                <div class="user-wrap">
+	                  <div class="review__user-name">${getAccDetailReviews6.userName }</div>
+	                  <div class="review__date"><fmt:formatDate value="${getAccDetailReviews6.createdDate}" pattern="yyyy.MM.dd"/></div>
+	                </div>
+	              </div>
+	              <div class="review__text">
+	               ${getAccDetailReviews6.content }
+	              </div>
+	            </div>
+            </c:forEach>
+          </div>
+          <div class="detail-review__btn">
+            <button id="btn" class="btn__review">후기 ${getAccDetailReviewsTotal.total }개 모두 보기</button>
+          </div>
+        </section>
+        
+   
+   <!-- 모달 -->
+    <div class="modal fade" id="modal-review" tabindex="-1" aria-labelledby="전체 리뷰" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+		
+          <article class="modal-content detail-review__modal">
+            <div class="modal-title-wrap">
+              <div class="modal-review__title">
+                <i class="fa-solid fa-star"></i> ${getAccDetailStar.totalAverage }
+              </div>
+              <div class="moda-review__count">후기 ${getAccDetailReviewsTotal.total }개</div>
+            </div>
+            <div class="modal-review-wrap">
+              <section class="review-left">
+                <ul class="modal-review__star">
+                  <li class="modal-star__item">
+                    <div class="star-title">청결도</div>
+                    <div class="star-count">${getAccDetailStar.cleanlinessStar }</div>
+                  </li>
+                  <li class="modal-star__item">
+                    <div class="star-title">의사소통</div>
+                    <div class="star-count">${getAccDetailStar.communicationStar }</div>
+                  </li>
+                  <li class="modal-star__item">
+                    <div class="star-title">정확도</div>
+                    <div class="star-count">${getAccDetailStar.accuracyStar }</div>
+                  </li>
+                  <li class="modal-star__item">
+                    <div class="star-title">위치</div>
+                    <div class="star-count">${getAccDetailStar.locationStar }</div>
+                  </li>
+                </ul>
+              </section>
+              <section class="review-right">
+                <c:forEach var="getAccDetailReviews" items="${getAccDetailReviews }">
+	                <div class="modal-content-box">
+	                  <div class="review__info">
+	                    <div
+	                      class="review__user-img"
+	                      style="background-image: url('/resources/images/userprofiles/${getAccDetailReviews.userImage }')"
+	                    ></div>
+	                    <div class="user-wrap">
+	                      <div class="review__user-name">${getAccDetailReviews.userName }</div>
+	                      <div class="review__date"><fmt:formatDate value="${getAccDetailReviews.createdDate}" pattern="yyyy.MM.dd"/></div>
+	                    </div>
+	                  </div>
+	                  <div class="review__text">
+	                    ${getAccDetailReviews.content }
+	                  </div>
+	                </div>
+                 </c:forEach>
+              </section>
+            </div>
+          </article>
+		
+	  </div>
 	</div>
-</div>
-
-<div class="container">	
+        
+     <div class="faq">
+  <div class="container faq-content" >
 	<div class="row">
-		<div class="col">
-			<div class="text-center">
-				<h2>${accMainDto.accIntroTitle}</h2>
-				<h3>${accMainDto.accName}</h3>
-				<p>|</p>
-				<p>|</p>
-				<h4 class="target">${accMainDto.accIntroContent}</h4>
-				<p>${accMainDto.accName}의 주소는 [ ${accMainDto.accAddress} ]입니다.</p>
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- 리뷰 -->
-<div class="container">
-	<div class="row">
-		<div class="col-12">
-			<hr style="margin-top:60px; margin-bottom:80px;" size="3px">
-		</div>
-		<div class="col-12">
-			<h4 style="margin-bottom:20px;"><img src="/resources/images/common/star.JPG">${getAccDetailStar.totalAverage } / 후기 ${getAccDetailReviewsTotal.total }개</h4>
-		</div>
-		<div class="col-3">
-			<p>청결도&emsp;&emsp;<strong>${getAccDetailStar.cleanlinessStar }</strong></p>
-		</div>
-		<div class="col-3">
-			<p>의사소통&emsp;&emsp;<strong>${getAccDetailStar.communicationStar }</strong></p>
-		</div>
-		<div class="col-3">
-			<p>정확도&emsp;&emsp;<strong>${getAccDetailStar.accuracyStar }</strong></p>
-		</div>
-		<div class="col-3">
-			<p>위치&emsp;&emsp;<strong>${getAccDetailStar.locationStar }</strong></p>
-		</div>
-		<div class="col-12">
-			<hr style="margin-top:20px; margin-bottom:10px;" size="3px">
-		</div>
-	</div>
-</div>
-<div class="container">
-	<div class="row">
-		<c:forEach var="getAccDetailReviews6" items="${getAccDetailReviews6 }">
-			<div class="col-6">
-				<div class="row">
-					<div class="col-1">
-						<img class="box3" style="width:80px; margin-top:25px;" src="/resources/images/userprofiles/${getAccDetailReviews6.userImage }">
-					</div>
-					<div class="col-11">
-						<p style="margin-top:45px; margin-left:40px;"><strong>${getAccDetailReviews6.userName }</strong></p>
-						<p style="margin-left:40px;"><fmt:formatDate value="${getAccDetailReviews6.createdDate}" pattern="yyyy.MM.dd"/></p>
-					</div>
-					<div class="col-11">
-						<p style="margin-top:10px; margin-bottom:10px; margin-left:10px;">${getAccDetailReviews6.content }</p>
-					</div>
-				</div>
-			</div>
-		</c:forEach>
-	</div>
-</div>
-<div class="container">
-	<div class="row justify-content-md-center">
-		<div class="col-2">
-			<button id="btn" style="margin-top:40px; type="button" class="btn btn-dark">후기 ${getAccDetailReviewsTotal.total }개 모두 보기</button>
-		</div>
-	</div>
-	<div class="col-12">
-		<hr style="margin-top:40px; margin-bottom:150px;" size="3px">
-	</div>
-</div>
-
-<!-- 리뷰 모달 -->
-<div class="modal fade" id="modal-review" tabindex="-1" aria-labelledby="전체 리뷰" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-scrollable modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<div class="container">
-					<div class="row">
-						<div class="col-5">
-							<h4 style="margin-bottom:10px;"><img src="/resources/images/common/star.JPG">${getAccDetailStar.totalAverage } / 후기${getAccDetailReviewsTotal.total }개</h4>
-							<hr style="margin-top:10px; margin-bottom:20px;" size="3px">
-							<p style="margin-bottom:10px;">청결도&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<strong>${getAccDetailStar.cleanlinessStar }</strong></p>
-							<p style="margin-bottom:10px;">의사소통&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<strong>${getAccDetailStar.communicationStar }</strong></p>
-							<p style="margin-bottom:10px;">정확도&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<strong>${getAccDetailStar.accuracyStar }</strong></p>
-							<p style="margin-bottom:10px;">접근성&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<strong>${getAccDetailStar.locationStar }</strong></p>
-							<hr style="margin-top:20px; margin-bottom:20px;" size="3px">
-						</div>
-						<div class="col-7">
-							<div class="row">
-							<p style="margin-top:5px;"></p>
-								<c:forEach var="getAccDetailReviews" items="${getAccDetailReviews }">
-										<div class="col-3">
-											<img class="box3" style="width:70px; margin-top:35px;" src="/resources/images/userprofiles/${getAccDetailReviews.userImage }">
-										</div>
-										<div class="col-9">
-											<p style="margin-top:45px;"><strong>${getAccDetailReviews.userName }</strong></p>
-											<p><fmt:formatDate value="${getAccDetailReviews.createdDate}" pattern="yyyy.MM.dd"/></p>
-										</div>
-										<div class="col-12">
-											<p style="margin-top:10px; margin-bottom:10px; margin-left:5px;">${getAccDetailReviews.content }</p>
-										</div>
-								</c:forEach>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-
-
-
-<div class="container">
-	<div class="row">
-		<div class="col-2">
-		    <p style="margin-bottom:15px;">F A Q</p>
+		<div class="col-2 ">
+		    <p class="faq-title" style="margin-bottom:15px;">F A Q</p>
 		    <p style="margin-bottom:15px;"><a href="" class="" id="11">인원 및 금액</a></p>
 		    <p style="margin-bottom:15px;"><a href="" class="" id="22">예약 및 결제</a></p>
 		    <p style="margin-bottom:15px;"><a href="" class="" id="33">이용 안내</a></p>
@@ -306,11 +284,11 @@
 	    </div>
 	    
 		<div class="col-10" id="1">
-			<h5 style="margin-bottom:30px;">FAQ를 통하여 예약에 관련된 더 자세한 내용들을 찾아보세요.</h5>
-			<h3 style="margin-bottom:20px;">인원 및 금액</h3>
-			<div class="row">
+			<h5 class="faq-sub-title" style="margin-bottom:30px;">FAQ를 통하여 예약에 관련된 더 자세한 내용들을 찾아보세요.</h5>
+			<h3 class="faq-content-title" style="margin-bottom:20px;">인원 및 금액</h3>
+			<div class="row faq-p">
 				<div class="col-2">
-					<h5>인원 기준</h5>
+					<h5 class="content-title">인원 기준</h5>
 				</div>
 				<div class="col-8">
 					<table class="table" id="box2">
@@ -321,6 +299,7 @@
 								<th>기준인원</th>
 								<th></th>
 								<th>최대인원</th>
+								<th></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -335,15 +314,15 @@
 					</table>
 					<c:forEach var="roomListDto" items="${roomListDto}">
 						<c:if test="${roomListDto.pricePerPerson ne 0}">
-							<p>• ${roomListDto.name } 객실 : 기준 인원 외의 인원은 1박당 <fmt:formatNumber value="${roomListDto.pricePerPerson }" pattern="##,###"/>원의 추가 비용이 적용됩니다.</p>
+							<p class="font-p">• ${roomListDto.name } 객실 : 기준 인원 외의 인원은 1박당 <fmt:formatNumber value="${roomListDto.pricePerPerson }" pattern="##,###"/>원의 추가 비용이 적용됩니다.</p>
 						</c:if>
 					</c:forEach>
-					<p style="margin-bottom:40px;">• 최대인원을 초과하는 인원 및 방문객의 입실은 불가합니다.</p>
+					<p class="font-p" style="margin-bottom:40px;">• 최대인원을 초과하는 인원 및 방문객의 입실은 불가합니다.</p>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row faq-p">
 				<div class="col-2">
-					<h5>요금 기준</h5>
+					<h5 class="content-title">요금 기준</h5>
 				</div>
 				<div class="col-8">
 					<table class="table" id="box2">
@@ -356,6 +335,7 @@
 								<th>주말(금-토)</th>
 								<th></th>
 								<th>성수기</th>
+								<th></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -369,21 +349,21 @@
 							</c:forEach>
 						</tbody>
 					</table>
-					<p>• 성수기 : 7. 15 - 8. 14/ 12월 특정 일자(12. 24, 12. 31)</p>
-					<p>• 공휴일 전날은 주말요금이 적용됩니다.</p>
-					<p style="margin-bottom:40px;">• 예약 변경 및 기타 문의사항은 ${accMainDto.accName}(${accMainDto.tel})로 연락 주시기 바랍니다.</p>
+					<p class="font-p">• 성수기 : 7. 15 - 8. 14/ 12월 특정 일자(12. 24, 12. 31)</p>
+					<p class="font-p">• 공휴일 전날은 주말요금이 적용됩니다.</p>
+					<p class="font-p" style="margin-bottom:40px;">• 예약 변경 및 기타 문의사항은 ${accMainDto.accName}(${accMainDto.tel})로 연락 주시기 바랍니다.</p>
 				</div>
 			</div>
 		</div>
 		
 		<div class="col-10" id="2">
-			<h5 style="margin-bottom:30px;">FAQ를 통하여 예약에 관련된 더 자세한 내용들을 찾아보세요.</h5>
-			<h3 style="margin-bottom:20px;">예약 및 결제</h3>
+			<h5 class="faq-sub-title" style="margin-bottom:30px;">FAQ를 통하여 예약에 관련된 더 자세한 내용들을 찾아보세요.</h5>
+			<h3 class="faq-content-title" style="margin-bottom:20px;">예약 및 결제</h3>
 			<div class="row">
 				<div class="col-2">
-					<h5>예약 안내</h5>
+					<h5 class="content-title">예약 안내</h5>
 				</div>
-				<div class="col-8">
+				<div class="col-8 font-p">
 					<p>• 예약신청 후 결제방식에 따라 결제가 완료되면, 예약이 확정됩니다.</p>
 					<p>• 신청 후 12시간 이내에 입금되지 않을 경우, 예약이 취소됩니다.</p>
 					<p>• 한 날짜에 예약신청이 중복될 경우, 입금 순서가 아닌 신청 순서로 예약이 확정됩니다.</p>
@@ -393,103 +373,80 @@
 					<p style="margin-bottom:40px;">• 상업적 용도의 촬영은 별도 대관료를 책정하여 운영하고 있습니다.</p>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row faq-p">
 				<div class="col-2">
-					<h5>환불 규정</h5>
+					<h5 class="content-title">환불 규정</h5>
 				</div>
-				<div class="col-6">
-					<p>• 환불 시 아래의 기준일에 따른 환불 금액을 드립니다.</p>
-					<table class="table" id="box2">
-						<thead>
-							<tr>
-								<th></th>
-								<th>이용 10일전까지</th>
-								<th></th>
-								<th>총 결제금액의 100% 환불</th>
-							</tr>
-						</thead>
+				<div class="col-8">
+					<p class="font-p" style="margin-bottom: 10px;">• 환불 시 아래의 기준일에 따른 환불 금액을 드립니다.</p>
+					<table class="table refund" id="box2">
 						<tbody>
 							<tr>
-								<th></th>
-								<td><strong>이용 9일전까지</strong><td>
-								<td><strong>총 결제금액의 90% 환불</strong><td>
+								<td><strong>이용 10일전까지</strong></td>
+								<td><strong>총 결제금액의 100% 환불</strong></td>
 							</tr>
-						</tbody>
-						<tbody>
 							<tr>
-								<th></th>
-								<td><strong>이용 8일전까지</strong><td>
-								<td><strong>총 결제금액의 80% 환불</strong><td>
+								<td>이용 9일전까지</td>
+								<td>총 결제금액의 90% 환불</td>
 							</tr>
-						</tbody>
-						<tbody>
 							<tr>
-								<th></th>
-								<td><strong>이용 7일전까지</strong><td>
-								<td><strong>총 결제금액의 70% 환불</strong><td>
+								<td>이용 8일전까지</td>
+								<td>총 결제금액의 80% 환불</td>
 							</tr>
-						</tbody>
-						<tbody>
 							<tr>
-								<th></th>
-								<td><strong>이용 6일전까지</strong><td>
-								<td><strong>총 결제금액의 60% 환불</strong><td>
+								<td>이용 7일전까지</td>
+								<td>총 결제금액의 70% 환불</td>
 							</tr>
-						</tbody>
-						<tbody>
 							<tr>
-								<th></th>
-								<td><strong>이용 5일전까지</strong><td>
-								<td><strong>총 결제금액의 50% 환불</strong><td>
+								<td>이용 6일전까지</td>
+								<td>총 결제금액의 60% 환불</td>
 							</tr>
-						</tbody>
-						<tbody>
 							<tr>
-								<th></th>
-								<td><strong>이용 4일전까지</strong><td>
-								<td><strong>총 결제금액의 40% 환불</strong><td>
+								<td>이용 5일전까지</td>
+								<td>총 결제금액의 50% 환불</td>
 							</tr>
-						</tbody>
-						<tbody>
 							<tr>
-								<th></th>
-								<td><strong>이용 3일전까지</strong><td>
-								<td><strong>변경/환불 불가</strong><td>
+								<td>이용 4일전까지</td>
+								<td>총 결제금액의 40% 환불</td>
+							</tr>
+							<tr>
+								<td>이용 3일전까지</td>
+								<td>변경/환불 불가</td>
 							</tr>
 						</tbody>
 					</table>
-					<p>• 예약의 확정은 위 사항을 모두 숙지하였고 모든 사항에 동의함을 의미합니다.</p>
-					<p style="margin-bottom:40px;">• 자세한 문의사항은 ${accMainDto.accName}(${accMainDto.tel})로 연락주시기 바랍니다.</p>
+					<p class="font-p">• 예약의 확정은 위 사항을 모두 숙지하였고 모든 사항에 동의함을 의미합니다.</p>
+					<p class="font-p" style="margin-bottom:40px;">• 자세한 문의사항은 ${accMainDto.accName}(${accMainDto.tel})로 연락주시기 바랍니다.</p>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row faq-p">
 				<div class="col-2">
-					<h5>취소 안내</h5>
+					<h5 class="content-title">취소 안내</h5>
 				</div>
-				<div class="col-8">
+				<div class="col-8 font-p">
 					<p>• 예약번호는 예약안내 문자를 통해 확인 가능합니다. 확인이 어려우신 경우 호게 챗봇을 통해 예약번호를 문의해주시기 바랍니다.</p>
 					<p style="margin-bottom:40px;">• 취소를 원하시는 경우, 호게 - ACCOUNT - 마이 페이지 - 예약 정보 - [취소 요청] 버튼을 눌러주시기 바랍니다.</p>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-2">
-					<h5>숙박권 양도</h5>
+					<h5 class="content-title">숙박권 양도</h5>
 				</div>
-				<div class="col-8">
+				<div class="col-8 font-p">
 					<p>• 숙박권의 재판매를 비롯하여 양도, 양수, 교환을 금지합니다.</p>
 					<p style="margin-bottom:40px;">• 예약자의 부득이한 사유로 인해 본인 이용이 어려울 경우 가족에 한해 가족관계임을 증명할 수 있는 서류(가족관계증명서 등)와 실제 이용하시는 분의 신분증을 해당 스테이에 제시 후 이용이 가능합니다.</p>
 				</div>
 			</div>
 		</div>
 		
-		<div class="col-10" id="3">
-			<h5 style="margin-bottom:30px;">FAQ를 통하여 예약에 관련된 더 자세한 내용들을 찾아보세요.</h5>
-			<h3 style="margin-bottom:20px;">이용 안내</h3>
+		<div class="col-10 faq-p" id="3">
+			<h5 class="faq-sub-title" style="margin-bottom:30px;">FAQ를 통하여 예약에 관련된 더 자세한 내용들을 찾아보세요.</h5>
+			<h3 class="faq-content-title" style="margin-bottom:20px;">이용 안내</h3>
 			<div class="row">
 				<div class="col-2">
-					<h5>예약 전<br>확인사항</h5>
+					<h5 class="content-title">예약 전<br>확인사항</h5>
 				</div>
-				<div class="col-8">
+				<div class="col-8 font-p">
 					<p>• 체크인은 ${accMainDto.accCheckInTime}, 체크아웃은 ${accMainDto.accCheckOutime}입니다.</p>
 					<p>• 객실 정리를 위해 체크아웃 시간을 지켜주시길 부탁드립니다.</p>
 					<p>• 예약하신 당일 오전에 체크인 안내 문자를 보내드립니다.</p>
@@ -502,39 +459,73 @@
 			</div>
 		</div>
 		
-		<div class="col-10" id="4">
-			<h5 style="margin-bottom:30px;">FAQ를 통하여 예약에 관련된 더 자세한 내용들을 찾아보세요.</h5>
-			<h3 style="margin-bottom:20px;">부대시설 안내</h3>
+		<div class="col-10 faq-p" id="4">
+			<h5 class="faq-sub-title" style="margin-bottom:30px;">FAQ를 통하여 예약에 관련된 더 자세한 내용들을 찾아보세요.</h5>
+			<h3 class="faq-content-title" style="margin-bottom:20px;">부대시설 안내</h3>
 			<c:forEach var="roomInfoType1" items="${roomInfoType1}">
 				<div class="row">
 					<div class="col-2">
-						<h5>${roomInfoType1.infoTitle1}</h5>
+						<h5 class="content-title">${roomInfoType1.infoTitle1}</h5>
 					</div>
 					<div class="col-10">
-						<pre><p style="margin-bottom:30px;"><strong>${roomInfoType1.infoContent1}</strong></p></pre>
+						<pre class="font-p"><p style="margin-bottom:30px;">${roomInfoType1.infoContent1}</p></pre>
 					</div>
 				</div>
 			</c:forEach>
 		</div>
 		
-		<div class="col-10" id="5">
-			<h5 style="margin-bottom:30px;">FAQ를 통하여 예약에 관련된 더 자세한 내용들을 찾아보세요.</h5>
-			<h3 style="margin-bottom:20px;">기타 안내</h3>
+		<div class="col-10 faq-p" id="5">
+			<h5 class="faq-sub-title" style="margin-bottom:30px;">FAQ를 통하여 예약에 관련된 더 자세한 내용들을 찾아보세요.</h5>
+			<h3 class="faq-content-title" style="margin-bottom:20px;">기타 안내</h3>
 			<c:forEach var="roomInfoType2" items="${roomInfoType2}">
 				<div class="row">
 					<div class="col-2">
-						<h5>${roomInfoType2.infoTitle2}</h5>
+						<h5 class="content-title">${roomInfoType2.infoTitle2}</h5>
 					</div>
 					<div class="col-10">
-						<pre><p style="margin-bottom:30px;"><strong>${roomInfoType2.infoContent2}</strong></p></pre>
+					<pre class="font-p"><p style="margin-bottom:30px;">${roomInfoType2.infoContent2}</p></pre>
 					</div>
 				</div>
 			</c:forEach>
 		</div>
-	</div>		
-</div>
-</body>
+	</div>
+  </div>
+</div>   
+        
+        
+        
+      </article>
+    </main>
+
+
+
+
 <script>
+
+	// owl-carousel
+	
+	var owl = $(".owl-carousel");
+	owl.owlCarousel({
+	  loop: true,
+	  nav: true,
+	  margin: 50,
+	  navText: [$(".fa-circle-chevron-left"), $(".fa-circle-chevron-right")],
+	  responsive: {
+	    0: {
+	      items: 1,
+	    },
+	    600: {
+	      items: 1,
+	    },
+	    1200: {
+	      items: 2,
+	    },
+	  },
+	});
+
+
+
+
 
 datePickerSet($("#checkInBox1"), $("#checkOutBox1"));
 
@@ -664,4 +655,3 @@ function datePickerSet(sDate, eDate) {
 
 
 </script>
-</html>
