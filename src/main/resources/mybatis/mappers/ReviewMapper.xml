@@ -1,9 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hoge.mapper.ReviewMapper">
+
+		<!-- 유상효 숙소 디테일 리뷰 조회 -->
+		<select id="getAccDetailReviews" parameterType="int" resultType="com.hoge.dto.AccReviewDto">
+			select
+				r.review_content as content,
+				r.review_created_date as createdDate,
+				u.user_name as userName,
+				u.user_image as userImage
+			from
+				tb_final_users u, tb_final_accommo_reviews r
+			where
+				u.user_no = r.user_no
+			and r.accommo_no = #{value}
+			order by r.review_created_date desc
+		</select>
+		
+		<!-- 유상효 숙소 디테일 리뷰 조회 6개까지 -->
+		<select id="getAccDetailReviews6" parameterType="int" resultType="com.hoge.dto.AccReviewDto">
+			select
+				review_content as content,
+				review_created_date as createdDate,
+				user_name as userName,
+				user_image as userImage
+			from
+				(select r.review_content, r.review_created_date, u.user_name, u.user_image
+			     from tb_final_users u, tb_final_accommo_reviews r
+			     where u.user_no = r.user_no
+			     and r.accommo_no = #{value}
+			     order by r.review_created_date desc)
+			where
+				rownum &lt;= 6
+		</select>
+		
+		<!-- 유상효 숙소 디테일 평점 조회 -->
+		<select id="getAccDetailStar" parameterType="int" resultType="com.hoge.dto.AccReviewDto">
+			select
+				average_cleanliness_star as cleanlinessStar,
+				average_communication_star as communicationStar,
+				average_accuracy_star as accuracyStar,
+				average_location_star as locationStar
+			from
+				tb_final_accommodations
+			where
+				accommo_no = #{value}
+		</select>
+		
+		<!-- 유상효 숙소 디테일 리뷰 갯수조회 -->
+		<select id="getAccDetailReviewsTotal" parameterType="int" resultType="com.hoge.dto.AccReviewDto">
+			select
+				count(*) as total
+			from
+				tb_final_users u, tb_final_accommo_reviews r
+			where
+				u.user_no = r.user_no
+			and r.accommo_no = #{value}
+		</select>
   
-  
-   
   
 		<!--//성하민 호스트페이지 메인에서 최근 3일 리뷰건수 가져오기
 		int getRecentReviewCountByActivityNo(int no);
