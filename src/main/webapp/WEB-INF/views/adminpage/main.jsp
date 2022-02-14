@@ -385,7 +385,7 @@ new Chart(document.getElementById("myChart"), {
 						ticks: {
 							beginAtZero: true,
 							fontSize : 14,
-							max : 50000000
+							max : 40000000
 							
 						}
 					}]

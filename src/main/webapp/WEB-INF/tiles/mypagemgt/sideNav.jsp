@@ -88,7 +88,7 @@ let ws;
 $(document).ready(function () {
 
     var modalWidth = $('#modal-creating-chatting').width();
-    $('#modal-creating-chatting').css("left", "50%");
+    $('#modal-creating-chatting').css("left", "35%");
     $('#modal-creating-chatting').css("width", modalWidth);
     $('#modal-creating-chatting').css("margin", (modalWidth/2)*-1);
     
@@ -101,7 +101,7 @@ $(document).ready(function () {
 
 //모달창 마우스 드래그로 움직일 수 있게
 $("#modal-creating-chatting").draggable({
-    handle: ".modal-header"
+    handle: ".modal-dialog"
 });
 
 
@@ -134,13 +134,24 @@ function listopen() {
 		$.each(chatList, function(index, value) {
 			
 		var data ="";
-			data +=  "<li class='sender-list__item' onclick='enter("+value.chatRoomNo+")'>";
+			data +=  "<li class='sender-list__item' id='box-"+value.chatRoomNo+"' onclick='enter("+value.chatRoomNo+")'>";
 			data +=  "<img src='../../resources/images/hostMainImage/"+value.image+"' id='userImg' class='sender__img userImg rounded-circle' alt=''>";
 			data +=  "<div class='mychat__sender-info'>";
 			data +=  " <input type='hidden' id='hostNo' name='hostNo' value=''>";
 			data +=  " <input type='hidden' id='chatRoomNumber' name='chatRoomNumber' value='"+value.chatRoomNo+"'>";
-			data +=  "<p class='userName' id='userName'>"+value.name+"</p>";
+			
+			if (value.hostingType == 1) {
+			data +=  "<p class='userName' id='userName'>"+value.name+"<small>(숙소)</small></p>";
+			}
+			if (value.hostingType == 2) {
+			data +=  "<p class='userName' id='userName'>"+value.name+"<small>(체험)</small></p>";
+			}
+			if (value.lastMessage) {
 			data += "<p class='lastmessage' id='lastmessage-"+value.chatRoomNo+"'>"+value.lastMessage+"</p>";
+			}
+			if (!value.lastMessage) {
+			data += "<p class='lastmessage' id='lastmessage-"+value.chatRoomNo+"'><small style='color: red'>new</small></p>";
+			}
 			data += "<p class='lastSendingTime' id='lastSendingTime-"+value.chatRoomNo+"'>"+value.updatedDate+"</p>";
 			if (value.unreadCount != 0) {
 			data += "</div><div class='unreadcount' id='unreadcount-"+value.chatRoomNo+"'>"+value.unreadCount+"</div></li>";
@@ -213,7 +224,7 @@ function wsEvt() {
 			if (msg.roomNumber == $("#roomNumber").val()) {
 				console.log('4');
 				
-			$(".readStatus small").text("읽음");
+			$(".readStatus").text("(읽음)");
 			}
 		}else{
 			console.warn("unknown type!")
@@ -352,6 +363,8 @@ function send() {
     	//var ChatRoomNo = $('div.chat-list:not(.format) div.input[name="roomNumber"]').val();
     	//var ChatRoomNo = $("input[name='roomNumber']").val();
     	
+    	$(".sender-list__item").css("border","1px solid var(--color-input-gray)");
+		$("#box-"+ChatRoomNo).css("border","3px solid black");
     	
 	    	console.log('함수버튼 눌렀을 때 받아온 룸넘버');
 	    	console.log(ChatRoomNo);

@@ -27,6 +27,7 @@ public class ChattingListDto {
 	
 	private int chatRoomNo;
 	private int hostNo;
+	private int hostingType;
 	private int userNo;
 	
 	private String name; //유저이름 or 호스트이름

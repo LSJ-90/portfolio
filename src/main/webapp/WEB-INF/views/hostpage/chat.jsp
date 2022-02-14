@@ -29,7 +29,8 @@
 		<c:otherwise>
 	      <ul class="sender-list__menu">
 		    <c:forEach var="chatRoom" items="${chatList }" varStatus="loop">
-	          <li class="sender-list__item" onclick="enter(${chatRoom.chatRoomNo })">
+		     <c:if test="${not empty chatRoom.lastMessage }">
+	          <li class="sender-list__item" id="box-${chatRoom.chatRoomNo }" onclick="enter(${chatRoom.chatRoomNo })">
 	            <img
 	              src="../../resources/images/userprofiles/${chatRoom.image }"
 	              class="sender__img"
@@ -48,6 +49,7 @@
 	              ${chatRoom.unreadCount }
 	            </div>
 	          </li>
+	          </c:if>
         	</c:forEach>
 	      </ul>
 		</c:otherwise>
@@ -334,6 +336,9 @@ function wsEvt() {
     
     
     function enter(ChatRoomNo) {
+
+    	$(".sender-list__item").css("border","1px solid var(--color-input-gray)");
+		$("#box-"+ChatRoomNo).css("border","3px solid black");
     	
     	
     	if (ChatRoomNo != $("#roomNumber").val()) {

@@ -74,6 +74,7 @@
                 type="text"
                 name="startDate"
                 value=""
+                autocomplete="off"
               />
               <i class="fa-solid fa-minus"></i>
               <input
@@ -82,6 +83,7 @@
                 type="text"
                 name="endDate"
                 value=""
+                 autocomplete="off"
               />
               <button type="button" class="btn__search" id="btn-search-user">
                 검색
