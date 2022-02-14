@@ -24,7 +24,7 @@ public class ScheduleTask {
 
 			
 	
-	@Scheduled(cron = "	0 1 10 * * ?")
+	@Scheduled(cron = "	0 1 * * * ?")
 	public void sendHostPaidMoney() {
 		//관리자 앞으로 입금된 금액을 호스트에게 보낸다
 				//방 체크인 익일 12시에 보냄

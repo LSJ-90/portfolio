@@ -407,7 +407,7 @@ function getDailyHostSalesGraph() {
 							onComplete: function () {
 								var chartInstance = this.chart,
 									ctx = chartInstance.ctx;
-								ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+								ctx.font = Chart.helpers.fontString(17, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
 								ctx.fillStyle = 'black';
 								ctx.textAlign = 'center';
 								ctx.textBaseline = 'bottom';
@@ -415,7 +415,7 @@ function getDailyHostSalesGraph() {
 								this.data.datasets.forEach(function (dataset, i) {
 									var meta = chartInstance.controller.getDatasetMeta(i);
 									meta.data.forEach(function (bar, index) {
-										var data = dataset.data[index];							
+										var data = numberWithCommas(dataset.data[index])+"원";							
 										ctx.fillText(data, bar._model.x, bar._model.y - 5);
 									});
 								});

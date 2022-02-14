@@ -36,6 +36,8 @@ public interface ChatRoomMapper {
 	void updateChatRoomCount(ChatRoom chatRoom);
 
 	
+	void insertChatRoom(ChatRoom chatRoom);
+	
 	ChatRoom getChatRoomByChatRoomNo(int no);
 	
 	

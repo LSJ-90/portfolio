@@ -237,12 +237,17 @@ function checkboxArr() {
         	withdrawalNoList: checkArr
         }
     });
+    
+    $("#dataSection input[name='withdrawal']:checked").closest('tr').hide();
+    
+    
+    
 }
 
 
 $("#btn-withdrawal-submit").click(function(){
 	
 	checkboxArr();
-	getWithdrawal();
+	//getWithdrawal();
 });
 </script>
