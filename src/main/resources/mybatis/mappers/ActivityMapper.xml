@@ -50,11 +50,11 @@
 		insert into 
 			tb_final_activity_bookings
 			(activity_booking_no, user_no, activity_time_no, number_of_people, activity_payment,
-			activity_tax_included_price, activity_used_pnt, activity_paid_price, tid)
+			activity_tax_included_price, activity_used_pnt, activity_paid_price, activity_booking_name, activity_booking_tel, tid)
 		values 
 			(#{activityBookingNo}, #{activityReserveForm.userNo}, #{activityReserveForm.activityTimeNo}, #{activityReserveForm.numberOfPeople}, 
 			#{activityReserveForm.payment}, #{activityReserveForm.taxIncludedPrice}, #{activityReserveForm.usedPnt}, #{activityReserveForm.paidPrice},
-			#{activityReserveForm.tid})
+			#{activityReserveForm.bookingName}, #{activityReserveForm.bookingTel}, #{activityReserveForm.tid})
 	</insert>
 	
 	<!-- 염주환 -->

@@ -14,6 +14,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.hoge.config.auth.LoginedUser;
 import com.hoge.dto.ActMainDto;
 import com.hoge.dto.ActivityBookingDto;
 import com.hoge.dto.ActivityListDto;
@@ -31,6 +32,7 @@ import com.hoge.vo.activities.ActivityTimeTable;
 import com.hoge.vo.other.KakaoPayApprovalVO;
 import com.hoge.vo.other.KakaoPayReadyVO;
 import com.hoge.vo.other.Transaction;
+import com.hoge.vo.other.User;
 
 @Service
 public class ActivityService {

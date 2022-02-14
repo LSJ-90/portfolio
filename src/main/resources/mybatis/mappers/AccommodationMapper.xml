@@ -535,7 +535,7 @@
 				from
 		            tb_final_accommodations a,
 		            tb_final_rooms r
-		        where a.accommo_no = r.accommo_no
+		        where a.accommo_no = r.accommo_no(+)
 		        	   and a.accommo_xce between #{mapArea.swLat} and #{mapArea.neLat}
                        and a.accommo_yce between #{mapArea.swLng} and #{mapArea.neLng}
                     <if test="mapArea.checkIn != '' and mapArea.checkOut !=''">
@@ -571,7 +571,7 @@
               	tb_final_accommodations a,
               	tb_final_rooms r
               where 
-              	a.accommo_no = r.accommo_no
+              	a.accommo_no = r.accommo_no(+)
               	and a.accommo_xce between #{swLat} and #{neLat}
                 and a.accommo_yce between #{swLng} and #{neLng}
                 <if test="checkIn != '' and checkOut !=''">
