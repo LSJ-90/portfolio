@@ -83,10 +83,10 @@ public class AccommodationController {
 		List<AccReviewDto> getAccDetailReviews = reviewService.getAccDetailReviews(accNo);
 		model.addAttribute("getAccDetailReviews", getAccDetailReviews);
 		List<AccReviewDto> getAccDetailReviews6 = reviewService.getAccDetailReviews6(accNo);
-		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd"); 
-
 		model.addAttribute("getAccDetailReviews6", getAccDetailReviews6);
+		
 		AccReviewDto getAccDetailStar = reviewService.getAccDetailStar(accNo);
+		// 평점 계산
 		double a = getAccDetailStar.getCleanlinessStar();
 		double b = getAccDetailStar.getCommunicationStar();
 		double c = getAccDetailStar.getAccuracyStar();
@@ -98,7 +98,7 @@ public class AccommodationController {
 		AccReviewDto getAccDetailReviewsTotal = reviewService.getAccDetailReviewsTotal(accNo);
 		model.addAttribute("getAccDetailReviewsTotal", getAccDetailReviewsTotal);
 		
-		logger.info("결과값:" + roomInfoType1);
+		logger.info("결과값:");
 
 		return "accommo/accDetail.tiles";
 	}

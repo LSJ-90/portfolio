@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hoge.dto.AccReviewDto;
+import com.hoge.dto.ActReviewDto;
 import com.hoge.dto.AdminAccommoReviewDto;
 import com.hoge.dto.AdminActivityReviewDto;
 import com.hoge.dto.UserRevInfoDto;
@@ -114,6 +115,21 @@ public class ReviewService {
 	}
 	public AccReviewDto getAccDetailReviewsTotal(int accNo) {
 		return reviewMapper.getAccDetailReviewsTotal(accNo);
+	}
+
+
+	// 유상효 객실 디테일 리뷰 조회
+	public List<ActReviewDto> getActDetailReviews(int actNo) {
+		return reviewMapper.getActDetailReviews(actNo);
+	}
+	public List<ActReviewDto> getActDetailReviews6(int actNo) {
+		return reviewMapper.getActDetailReviews6(actNo);
+	}
+	public ActReviewDto getActDetailStar(int actNo) {
+		return reviewMapper.getActDetailStar(actNo);
+	}
+	public ActReviewDto getActDetailReviewsTotal(int actNo) {
+		return reviewMapper.getActDetailReviewsTotal(actNo);
 	}
 
 

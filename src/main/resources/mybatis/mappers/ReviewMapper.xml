@@ -57,7 +57,62 @@
 				u.user_no = r.user_no
 			and r.accommo_no = #{value}
 		</select>
-  
+		
+		<!-- 유상효 체험 디테일 리뷰 조회 -->
+		<select id="getActDetailReviews" parameterType="int" resultType="com.hoge.dto.ActReviewDto">
+			select
+				r.review_content as content,
+				r.review_created_date as createdDate,
+				u.user_name as userName,
+				u.user_image as userImage
+			from
+				tb_final_users u, tb_final_activity_reviews r
+			where
+				u.user_no = r.user_no
+			and r.activity_no = #{value}
+			order by r.review_created_date desc
+		</select>
+		
+		<!-- 유상효 체험 디테일 리뷰 조회 6개까지 -->
+		<select id="getActDetailReviews6" parameterType="int" resultType="com.hoge.dto.ActReviewDto">
+			select
+				review_content as content,
+				review_created_date as createdDate,
+				user_name as userName,
+				user_image as userImage
+			from
+				(select r.review_content, r.review_created_date, u.user_name, u.user_image
+			     from tb_final_users u, tb_final_activity_reviews r
+			     where u.user_no = r.user_no
+			     and r.activity_no = #{value}
+			     order by r.review_created_date desc)
+			where
+				rownum &lt;= 6
+		</select>
+		
+		<!-- 유상효 체험 디테일 평점 조회 -->
+		<select id="getActDetailStar" parameterType="int" resultType="com.hoge.dto.ActReviewDto">
+			select
+				average_star as average
+			from
+				tb_final_activities
+			where
+				activity_no = #{value}
+		</select>
+		
+		<!-- 유상효 체험 디테일 리뷰 갯수조회 -->
+		<select id="getActDetailReviewsTotal" parameterType="int" resultType="com.hoge.dto.ActReviewDto">
+			select
+				count(*) as total
+			from
+				tb_final_users u, tb_final_activity_reviews r
+			where
+				u.user_no = r.user_no
+			and r.activity_no = #{value}
+		</select>
+		
+		
+		
   
 		<!--//성하민 호스트페이지 메인에서 최근 3일 리뷰건수 가져오기
 		int getRecentReviewCountByActivityNo(int no);

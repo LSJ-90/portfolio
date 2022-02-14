@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.hoge.dto.AccReviewDto;
+import com.hoge.dto.ActReviewDto;
 import com.hoge.dto.AdminAccommoReviewDto;
 import com.hoge.dto.AdminActivityReviewDto;
 import com.hoge.dto.UserRevInfoDto;
@@ -68,6 +69,12 @@ public interface ReviewMapper {
 		List<AccReviewDto> getAccDetailReviews6(int accNo);
 		AccReviewDto getAccDetailStar(int accNo);
 		AccReviewDto getAccDetailReviewsTotal(int accNo);
+		
+		// 유상효 객실 디테일 리뷰 조회
+		List<ActReviewDto> getActDetailReviews(int actNo);
+		List<ActReviewDto> getActDetailReviews6(int actNo);
+		ActReviewDto getActDetailStar(int actNo);
+		ActReviewDto getActDetailReviewsTotal(int actNo);
 
 		
 		
