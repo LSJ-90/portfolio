@@ -46,8 +46,12 @@
 	              <td>${review.locationStar }</td>
 	              <td class="text-overflow">${review.content }</td>
 	              <td><fmt:formatDate value="${review.createdDate }" pattern="yyyy.MM.dd"/></td>
-	              <td>${review.deleted }</td>
-	              
+	             <c:if test = "${review.deleted == 'Y'}">
+	              <td>삭제된 리뷰</td>
+	              </c:if>
+	             <c:if test = "${review.deleted == 'N'}">
+	              <td> - </td>
+	              </c:if>
 	                <c:choose>
 						<c:when test="${review.answered eq 'N'}">
 						  <td>

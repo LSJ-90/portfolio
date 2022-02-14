@@ -346,8 +346,28 @@ function creatingModal(no) {
 			$("#hostNo").text(QnaDto.hostNo);
 			$("#hostName").text(QnaDto.hostName);
 			
-			$("#hostType").text(QnaDto.hostType);
-			$("#hostStatus").text(QnaDto.hostStatus);
+			if (QnaDto.hostType == 1) {
+			$("#hostType").text("숙소");
+			}
+			if (QnaDto.hostType == 2) {
+			$("#hostType").text("체험");
+			}
+			if (QnaDto.hostStatus == 'W') {
+			$("#hostStatus").text("승인대기");
+			}
+			if (QnaDto.hostStatus == 'Y') {
+			$("#hostStatus").text("승인");
+			}
+			if (QnaDto.hostStatus == 'N') {
+			$("#hostStatus").text("승인반려");
+			}
+			if (QnaDto.hostStatus == 'D') {
+			$("#hostStatus").text("호스팅종료");
+			}
+			if (QnaDto.hostStatus == 'R') {
+			$("#hostStatus").text("강제종료");
+			}
+			
 			$("#statusDetail").text(QnaDto.statusDetail);
 			$("#gradeName").text(QnaDto.gradeName);
 			

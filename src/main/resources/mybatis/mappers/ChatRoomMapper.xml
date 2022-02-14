@@ -106,6 +106,7 @@ void insertChatRoom(ChatRoom chatRoom);
 		 c.host_no as hostNo, 
 		 c.user_no as userNo,
     	h.host_name as name, 
+    	h.hosting_type as hostingType,
     	h.HOST_MAIN_IMAGE as image,
     	c.user_unread_count as unreadCount
     from TB_FINAL_CHATROOMS c, TB_FINAL_USERS u, TB_FINAL_hosts h

@@ -24,7 +24,7 @@
 
 				<li class="host-nav__item"><a href="/host/mainPromotion?hostNo=${param.hostNo }&hostingType=${param.hostingType }">프로모션</a></li>
 				<li class="host-nav__item"><a href="/host/review?page=1&hostNo=${param.hostNo }&hostingType=${param.hostingType }">리뷰관리</a></li>
-				<li class="host-nav__item"><a href="/host/booking-calendar?hostNo=${param.hostNo }&hostingType=${param.hostingType }">예약관리</a></li>
+				<li class="host-nav__item"><a href="/host/booking-calendar?hostNo=${param.hostNo }&hostingType=${param.hostingType }">예약캘린더</a></li>
 				<li class="host-nav__item"><a href="/host/sales?hostNo=${param.hostNo }&hostingType=${param.hostingType }">매출관리</a></li>
 
 				<li class="host-nav__item"><a href="/host/chat?hostNo=${param.hostNo }&hostingType=${param.hostingType }">게스트문의</a></li>
@@ -37,7 +37,7 @@
 	            </button>
 	            <ul class="host-dropdown__menu">
 	              <li class="dropdown__item"><a href="/mypage/myrevlist">마이페이지</a></li>
-	              <li class="dropdown__item"><a href="/mypage/hostingList">호스트페이지</a></li>
+	              <li class="dropdown__item"><a href="/mypage/hostingList">호스팅리스트</a></li>
 	            </ul>
             </div>
 
