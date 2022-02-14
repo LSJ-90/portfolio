@@ -40,4 +40,11 @@ public class HomeAccommoDto {
 	private long maxPrice;
 	private int minNumber;
 	private int maxNumber;
+	
+	private String offerContent;
+	private int actNo;
+	private String actName;
+	private String actRegionDepth1;
+	private String actRegionDepth2;
+	
 }

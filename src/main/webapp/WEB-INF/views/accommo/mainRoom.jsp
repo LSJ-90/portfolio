@@ -25,7 +25,7 @@
 	    <c:forEach var="roomListDto" items="${roomListDto }" varStatus="status">
 
 	        <c:if test="${status.first}">
-	          <div class="main-room__wrap ${roomListDto.no}" id="${roomListDto.no }">
+	          <div class="main-room__wrap ${roomListDto.no}" id="first-wrap">
 			      <div class="main-room__info-box">
 			        <div class="col-6">
 						<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
@@ -34,13 +34,15 @@
 									<c:choose>
 										<c:when test="${status.index == 0}">
 											<div class="carousel-item active">
+												<img src="/resources/images/room/${image.image }" class="d-block w-100" alt="...">
+											</div>
 										</c:when>
 										<c:otherwise>
 											<div class="carousel-item">
-										</c:otherwise>
-									</c:choose>
 												<img src="/resources/images/room/${image.image }" class="d-block w-100" alt="...">
 											</div>
+										</c:otherwise>
+									</c:choose>
 								</c:forEach>
 							</div>
 							<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
@@ -127,13 +129,16 @@
 									<c:choose>
 										<c:when test="${status.index == 0}">
 											<div class="carousel-item active">
+											<img src="/resources/images/room/${image.image }" class="d-block w-100" alt="...">
+											</div>
 										</c:when>
 										<c:otherwise>
 											<div class="carousel-item">
+											<img src="/resources/images/room/${image.image }" class="d-block w-100" alt="...">
+											</div>
 										</c:otherwise>
 									</c:choose>
-												<img src="/resources/images/room/${image.image }" class="d-block w-100" alt="...">
-											</div>
+												
 								</c:forEach>
 							</div>
 							<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
@@ -223,12 +228,13 @@ activeMenu('객실관리');
 $(function() {
     $('.roomNo').on('click', function(e){
       var atagId = this.id;
-      
+      $('#first-wrap').hide();
       var li = $('#contents').find('.main-room__wrap')
       $.each(li, function(index, item){
          if(atagId == item.id){
-            $(item).removeClass('d-none');
+           $(item).removeClass('d-none');
          } else {
+           // $(item).addClass('d-none');
             $(item).addClass('d-none');
          }
       });
