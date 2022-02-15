@@ -24,7 +24,7 @@
       <article id="accommo-detail">
         <div class="width-wrap">
           <div class="accommo-detail__header">
-            <div class="accommo-detail__title">${accMainDto.accName}</div>
+           <button class="btn__date-search" type="button" id="chat-connect">나의 채팅목록에 추가</button>
             <a class="accommo-back" href="javascript:history.back()"><img src="/resources/images/common/back.JPG">돌아가기</a>
           </div>
 
@@ -651,6 +651,21 @@ function datePickerSet(sDate, eDate) {
 	});
 
 
+
+$("#chat-connect").click(function(){
+	  
+	$.ajax({
+	        url: '/accommo/chat-connect.do'
+	        , type: 'post'
+	        , dataType: 'text'
+	        , data: {
+	        	hostNo: ${accMainDto.hostNo}
+	        }
+	    });
+	//alert('채팅목록에 추가되었습니다');
+	 $(this).html('채팅목록에 추가됨');
+	
+});
 
 
 

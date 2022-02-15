@@ -140,12 +140,13 @@ public class HostController {
 					int green = randomGenerator.nextInt(256);
 					int blue = randomGenerator.nextInt(256);
 					// rgba(215, 215, 215, 0.3);
-					String color = "rgba("+red+", "+green+","+blue+", 0.5)";
+					String color = "rgba("+red+", "+green+","+blue+", 0.2)";
+					String borderColor = "rgba("+red+", "+green+","+blue+", 1)";
 					
 					
 					hostCalendar.setBackgroundcolor(color);
-					hostCalendar.setTextColor("white");
-					hostCalendar.setBordercolor(color);
+					hostCalendar.setTextColor("black");
+					hostCalendar.setBordercolor(borderColor);
 					hostCalendar.setTitle(booking.getRoomName()+"-"+booking.getRoomUserName()+" ("+booking.getRoomUserTel()+") 추가인원: "+booking.getExtraPeople()+"명");
 					hostCalendar.setStart(booking.getCheckInDate());
 					hostCalendar.setEnd(booking.getCheckOutDate());
