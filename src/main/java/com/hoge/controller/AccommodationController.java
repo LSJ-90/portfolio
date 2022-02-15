@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.hoge.config.auth.LoginedUser;
 import com.hoge.dto.AccMainDto;
 import com.hoge.dto.AccReviewDto;
 import com.hoge.dto.AccommoListDto;
@@ -22,12 +23,15 @@ import com.hoge.dto.RoomDto;
 import com.hoge.dto.RoomListDto;
 import com.hoge.form.Criteria;
 import com.hoge.service.AccommodationService;
+import com.hoge.service.ChatRoomService;
 import com.hoge.service.HostService;
 import com.hoge.service.ReviewService;
 import com.hoge.service.UserService;
 import com.hoge.util.SessionUtils;
 import com.hoge.vo.accommo.AccommoImage;
 import com.hoge.vo.accommo.RoomImage;
+import com.hoge.vo.other.ChatRoom;
+import com.hoge.vo.other.HostQnA;
 import com.hoge.vo.other.PromotionDiscount;
 import com.hoge.vo.other.PromotionOffer;
 import com.hoge.vo.other.User;
@@ -49,7 +53,11 @@ public class AccommodationController {
 	private ReviewService reviewService;
 	
 	@Autowired
+	private ChatRoomService chatRoomService;
+
+  @Autowired
 	private UserService userService;
+
 
 	// 염주환
 	@GetMapping("/list")
@@ -194,7 +202,16 @@ public class AccommodationController {
 
 
 
-
+		@PostMapping("/chat-connect.do")
+		public void updateAnswerHost(int hostNo, @LoginedUser User user) {
+			
+			ChatRoom chatRoom = new ChatRoom();
+			chatRoom.setHostNo(hostNo);
+			chatRoom.setUserNo(user.getNo());
+			
+			chatRoomService.insertChatRoom(chatRoom);
+			
+		}
 
 
 

@@ -44,3 +44,8 @@
     </article>
   </div>
 </main>
+<script>
+	$("#btn_findId").click(function() {
+		alert("이메일이 성공적으로 보내졌습니다.");
+	});
+</script>

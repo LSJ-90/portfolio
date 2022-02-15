@@ -24,7 +24,7 @@
            </button>
            <ul class="admin-dropdown__menu">
              <li class="dropdown__item"><a href="/mypage/myrevlist">마이페이지</a></li>
-	         <li class="dropdown__item"><a href="/mypage/hostingList">호스트페이지</a></li>
+	         <li class="dropdown__item"><a href="/mypage/hostingList">호스팅리스트</a></li>
            </ul>
           </div>
           

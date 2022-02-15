@@ -1,16 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../common/tags.jsp" %>
-
 <div class="mypage__content">
   <article class="user-update">
      <div class="update-title">회원 정보 수정</div>
      <div class="section-wrap">
-       <c:if test="${not empty error }">
+       
+       <section class="left__form">
+	   <c:if test="${not empty error }">
 	     <div class="mb-3 alert alert-danger">${error }</div>
 	   </c:if>
-       <section class="left__form">
-       
        <!-- 회원 기본정보 수정 폼 -->
          <form
            class="form__user-update"
@@ -88,6 +87,7 @@
                name="pwd"
                placeholder="현재 비밀번호를 입력해 주세요"
              />
+             <div class="warning" id="check_pwd"></div>
            </div>
            <div class="update__box">
              <label for="changePwd">변경할 비밀번호</label>
@@ -97,7 +97,9 @@
                name="changePwd"
                placeholder="변경할 비밀번호를 입력해 주세요"
              />
+             <div class="warning" id="check_changePwd"></div>
            </div>
+           
            <div class="update__box last">
              <label for="confirmPwd">변경할 비밀번호 확인</label>
              <input
@@ -106,6 +108,7 @@
                name="confirmPwd"
                placeholder="변경할 비밀번호를 확인해 주세요"
              />
+             <div class="warning" id="check_pwdConfirm"></div>
            </div>
            <div class="update__btn">
              <button

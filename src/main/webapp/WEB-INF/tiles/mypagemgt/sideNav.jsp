@@ -381,6 +381,7 @@ function send() {
 			
 			$.getJSON('/mypage/chat-enter.do', {no:ChatRoomNo}, function(ChattingMessageDto) {
 				console.log('가져오는 거 오키');
+				
 				$.each(ChattingMessageDto, function(index, value) {
 					
 					

@@ -18,6 +18,7 @@ import com.hoge.dto.MyLoveDto;
 import com.hoge.dto.UserRevInfoDto;
 import com.hoge.exception.FindException;
 import com.hoge.exception.LoginException;
+import com.hoge.exception.UpdateException;
 import com.hoge.form.CriteriaAdminUser;
 import com.hoge.mapper.AccommodationMapper;
 import com.hoge.mapper.HostMapper;
@@ -40,7 +41,7 @@ import com.hoge.vo.other.Wish;
 @Service
 public class UserService {
 	
-	static final Logger logger = LogManager.getLogger(AdminController.class);
+	static final Logger logger = LogManager.getLogger(UserService.class);
 	
 	@Autowired
 	private UserMapper userMapper;
@@ -122,7 +123,7 @@ public class UserService {
 		
 		String authPwd = DigestUtils.sha512Hex(pwd);
 		if (!authPwd.equals(savedUser.getPwd())) {
-			throw new LoginException("비밀번호가 일치하지 않습니다.");
+			throw new UpdateException("비밀번호가 일치하지 않습니다.");
 		}
 		
 		String deletedValue = "Y";
@@ -282,7 +283,7 @@ public class UserService {
 		userMapper.updateUser(savedUser);
 		// accommodationMapper.upadateRefundUserPnt(refundtoUserNo, refundPoint);
 		
-		if (myRevInfoByBookingNo.getPayment() == "카드") {
+		if (myRevInfoByBookingNo.getPayment().equals("카드")) {
 			// booking status 변경 1>2, (cancelReason, cancelDate) update
 			accommodationMapper.updateRoomBooking(myRevInfoByBookingNo);
 			// booking roomAvailability 삭제
