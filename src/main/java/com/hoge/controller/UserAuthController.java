@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hoge.dto.HogeUserDto;
 import com.hoge.dto.KakaoUserDto;
+import com.hoge.dto.MailDto;
+import com.hoge.service.SendEmailService;
 import com.hoge.service.UserService;
 import com.hoge.util.SessionUtils;
 import com.hoge.vo.other.User;
@@ -28,6 +30,8 @@ public class UserAuthController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private SendEmailService sendEmailService;
 	// 이승준: 로그인폼 페이지 리턴
 	@GetMapping("/login")
 	public String loginInit() throws Exception {
@@ -71,7 +75,7 @@ public class UserAuthController {
 		userService.register(newUser);
 		SessionUtils.addAttribute("LOGIN_USER", newUser);
 		
-		return "redirect:home";
+		return "form/completeRegister.tiles";
 	}
 	
 	// 이승준: 카카오톡 로그인
@@ -111,6 +115,16 @@ public class UserAuthController {
 	public String findPwdInit() {
 		
 		return "form/findPwdForm.tiles";
+	}
+	
+	// 이승준: 이메일로 패스워드 찾기
+	@PostMapping("/findpwd")
+	public String findPwd(@RequestParam("userId") String id, @RequestParam("userEmail") String email, Model model) {
+		MailDto mailDto = sendEmailService.createMailAndChangePassword(id, email);
+	
+		sendEmailService.mailSend(mailDto);
+		
+		return  "form/loginForm.tiles";
 	}
 	
 	// 이승준: 로그아웃 시 홈 페이지로 리다이렉트

@@ -237,7 +237,7 @@ public class MyPageController {
 		String saveDirectory = "C:\\final-workspace\\finalproject-chanel5\\src\\main\\webapp\\resources\\images\\userprofiles";
 		MultipartFile myProfile = form.getMyProfile();
 	    System.out.println(myProfile);
-		if (!myProfile.isEmpty()) {		
+		if (myProfile != null) {		
 			String fileName = myProfile.getOriginalFilename();
 			savedUser.setImage(fileName);
 			InputStream in = myProfile.getInputStream();

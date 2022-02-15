@@ -444,13 +444,13 @@ $(function() {
 });
 
 function handelHeart(accommoNo) {
- 	alert(accommoNo);
+ 	
  	$.ajax({
  	    url: '/rest/mypage/mylovelist/insertlovelist',
  	    type: 'get',
  	    data: {"accommoNo" : accommoNo},
  	    success: function (result){
- 	       
+ 	    	console.log("관심목록이 변경되었습니다.");
  	    },
  	    error: function (error){
  	        alert("에러");
