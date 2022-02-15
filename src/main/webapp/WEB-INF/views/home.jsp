@@ -59,9 +59,9 @@
 												<h2 class="info__title">${accommoDto.accommoName }</h2>
 												<p class="info__text">
 													${accommoDto.accommoRegionDepth1 } / ${accommoDto.accommoRegionDepth2 } &#183; 
-														<fmt:formatNumber value="${accommoDto.minPrice }" type="currency" currencySymbol="￦" /> 
+														<fmt:formatNumber value="${accommoDto.minPrice }" type="currency" currencySymbol="￦" pattern="##,###"/> 
 														~ 
-														<fmt:formatNumber value="${accommoDto.maxPrice }" type="currency" currencySymbol="￦" />
+														<fmt:formatNumber value="${accommoDto.maxPrice }" type="currency" currencySymbol="￦" pattern="##,###"/>
 												</p>
 												<span class="read-more">read more</span>
 											</div>
@@ -115,9 +115,9 @@
 									최대 ${homePromotionDiscountDto.maxNumber }명 
 								</p>
 								<p class="discount__text">
-									<fmt:formatNumber value="${homePromotionDiscountDto.minPrice * (1-homePromotionDiscountDto.weekdaysDiscountRate)}" type="currency" currencySymbol="￦" />
+									<fmt:formatNumber value="${homePromotionDiscountDto.minPrice * (1-homePromotionDiscountDto.weekdaysDiscountRate)}" type="currency" currencySymbol="￦" pattern="##,###"/>
 									 ~ 
-									<fmt:formatNumber value="${homePromotionDiscountDto.maxPrice * (1-homePromotionDiscountDto.peakSeasonDiscountRate)}" type="currency" currencySymbol="￦" />
+									<fmt:formatNumber value="${homePromotionDiscountDto.maxPrice * (1-homePromotionDiscountDto.peakSeasonDiscountRate)}" type="currency" currencySymbol="￦" pattern="##,###"/>
 								</p>
 							</div>
 						</div>
