@@ -131,7 +131,7 @@
                 <c:forEach var="image" items="${roomSearchList.roomImages}" varStatus="status">
 				  <c:if test="${status.index == 0}">
 		              <div class="slide__item" style="background-image: url('/resources/images/room/${image.image }')">
-		                <a href="/accommo/roomDetail?accNo=${param.accNo }&check_in=${param.check_in }&check_out=${param.check_out }&roomNo=${roomSearchList.no }&days=${param.days }">
+		                <a class="searchDate" href="/accommo/roomDetail?accNo=${param.accNo }&check_in=${param.check_in }&check_out=${param.check_out }&roomNo=${roomSearchList.no }&days=${param.days }">
 		                  <div class="room__text">
 		                    <div class="room__text-box">
 		                      <div class="room__name">${roomSearchList.name}</div>
@@ -631,8 +631,7 @@ function datePickerSet(sDate, eDate) {
 		e.preventDefault();
 	})
 	
-	
-	$(".card-img-top").on("click", function(e) {
+	$('.searchDate').click(function(e){
 		if (${param.check_in == ''}) {
 			alert('날짜를 선택하세요.');
 			e.preventDefault();
@@ -641,6 +640,8 @@ function datePickerSet(sDate, eDate) {
 			e.preventDefault();
 		}
 	})
+	
+	
 	
 	var reviewModal = new bootstrap.Modal(document.getElementById('modal-review'), {
 		keyboard: false
