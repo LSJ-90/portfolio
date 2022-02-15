@@ -5,7 +5,7 @@
 <link rel="stylesheet" type="text/css" href="../../../../resources/css/promotionList.css" />
 
 <main id="main">
-  <article id="promotion">
+  <article id="main-promotion">
     <section class="pomotion-stay">
       <header class="section__header">
         <h1 class="section__title">STAY</h1>
@@ -78,7 +78,7 @@
 				<div class="promotion-list__img" style='background-image: url("/resources/images/hostMainImage/${actDiscountPromotions.mainImage}")'>
 					<div class="promotion-main__left">${actDiscountPromotions.deadlineDate }DAYS LEFT</div>
 					<div class="promo-title">${actDiscountPromotions.actName }</div>
-					<div class="promotion-main__depth">${actDiscountPromotions.actRegionDepth1 }/${actDiscountPromotions.actRegionDepth1 }</div>
+					<div class="promotion-main__depth">${actDiscountPromotions.accommoRegionDepth1 }/${actDiscountPromotions.accommoRegionDepth2 }</div>
 				</div>
 				<div class="promotion-list__description">
 					<div class="promotion-list__name">< ${actDiscountPromotions.actName } ></div>
@@ -107,7 +107,7 @@
 				<div class="promotion-list__img" style='background-image: url("/resources/images/hostMainImage/${actOfferPromotions.mainImage}")'>
 					<div class="promotion-main__left">${actOfferPromotions.deadlineDate }DAYS LEFT</div>
 					<div class="promo-title">${actOfferPromotions.actName }</div>
-					<div class="promotion-main__depth">${actOfferPromotions.actRegionDepth1 }/${actOfferPromotions.actRegionDepth2 }</div>
+					<div class="promotion-main__depth">${actOfferPromotions.accommoRegionDepth1 }/${actOfferPromotions.accommoRegionDepth2 }</div>
 				</div>
 				<div class="promotion-list__description">
 					<div class="promotion-list__name">< ${actOfferPromotions.actName } ></div>

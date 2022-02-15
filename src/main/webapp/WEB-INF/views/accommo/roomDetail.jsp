@@ -33,7 +33,7 @@
 			
 		</div>
 		<div class="col-6 text-center ">
-			<h5 class="room-detail__date">${param.check_in} ~ ${param.check_in} [${param.days }박]</h5>
+			<h5 class="room-detail__date">${param.check_in} ~ ${param.check_out} [${param.days }박]</h5>
 		</div>
 		<div class="col-3" id="box1">
 			<a href="/reserve/accommo?no=${param.accNo }&roomNo=${roomDto.no }&checkIn=${param.check_in }&checkOut=${param.check_out }">

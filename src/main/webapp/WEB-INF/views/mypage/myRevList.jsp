@@ -451,7 +451,6 @@ function creatingModal(roomBookingNo) {
 	
 	});
 	
-	
 	$.getJSON('/mypage/myrevlist/cancelrev', {roomBookingNo:roomBookingNo}, function(myRevInfoByBookingNo) {
 			$("#bookingMadeDate").text(myRevInfoByBookingNo.bookingMadeDate);
 			$('#roomBookingNo').text(myRevInfoByBookingNo.roomBookingNo);
