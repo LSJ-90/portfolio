@@ -242,7 +242,12 @@ public class UserService {
 		List<AccommoListDto> myLoveList = new ArrayList<>();
 		
 		for (Wish accommoNo : accommoNoList) {
-			myLoveList.add(userMapper.getAccommodationByNo(accommoNo.getAccommoNo()));	
+			myLoveList.add(userMapper.getAccommodationByNo(accommoNo.getAccommoNo()));
+		}
+		
+		for (AccommoListDto myLovePage : myLoveList) {
+			List<AccommoImage> accommoImages = hostMapper.getAccImagesByAccNo(myLovePage.getNo());
+			myLovePage.setAccommoImages(accommoImages);
 		}
 		
 		logger.info(myLoveList);
@@ -289,8 +294,8 @@ public class UserService {
 		
 	}
 
-	public int getTourListCnt(int Userno) {
-		return userMapper.getTourListCnt(Userno);
+	public int getTourListCnt(int userNo) {
+		return userMapper.getTourListCnt(userNo);
 	}
 
 	public void insertMyLovePage(MyLoveDto myLoveDto) {
@@ -303,5 +308,9 @@ public class UserService {
 	
 	public int getMyLoveListCnt(MyLoveDto myLoveDto) {
 		return userMapper.getMyLoveListCnt(myLoveDto);
+	}
+	
+	public List<Wish> getMyLoveListByNo(int userNo) {
+		return userMapper.getMyLoveListByNo(userNo);
 	}
 }

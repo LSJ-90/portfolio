@@ -9,7 +9,8 @@
 <div class="mypage__info">
 	<p class="info__title"><c:out value="${LOGIN_USER.name}"/>님 반가워요!</p>
 	<p class="info__count">호게와 함께 ${cnt }번의 여행을 했어요.</p>
-	<p class="info__point"><c:out value="${LOGIN_USER.pnt}"/> point</p>
+	<p class="info__point"><fmt:formatNumber value="${LOGIN_USER.pnt}"/> point</p>
+	
 </div>
 
 <div class="host">
