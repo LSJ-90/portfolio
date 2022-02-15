@@ -59,8 +59,8 @@
         
         </div>
       </article>
-      <article class="accommo__map">
-         <div id="map" style="width:100%;height:600px;"></div>
+      <article class="accommo__map" style="height: 600px;">
+         <div id="map" style="width:100%;height:600px; position: sticky; top: 0;"></div>
       </article>
     </div>
   </article>

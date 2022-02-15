@@ -6,7 +6,7 @@
 <main id="main">
   <article id="admin-user">
   <form
-      class="search-user__form"
+      class="search-user__form only-child"
       id="form-search-userQnA"
       method="get"
       action="user-qna"
@@ -75,21 +75,16 @@
 		</table>
 
 		<!-- 페이지 내비게이션 표시 -->
-		<!-- 페이지 내비게이션 표시 -->
-		<div class="row mb-3">
-			<div class="col">
-				<div class="pagination">
-					<ul id="paginationBox" class="pagination">
-		
-					</ul>
-				</div>
+			<div id="pagination">
+				<ul id="paginationBox" class="pagination__list">
+	
+				</ul>
 			</div>
-		</div>
 
  </article>
   <article id="admin-user">
   <form
-      class="search-user__form"
+      class="search-user__form only-child"
       id="form-search-userQnA"
       method="get"
       action="user-qna"
@@ -158,21 +153,16 @@
 		</table>
 
 		<!-- 페이지 내비게이션 표시 -->
-		<!-- 페이지 내비게이션 표시 -->
-		<div class="row mb-3">
-			<div class="col">
-				<div class="pagination">
-					<ul id="paginationBox1" class="pagination">
-		
-					</ul>
-				</div>
+			<div id="pagination">
+				<ul id="paginationBox1" class="pagination__list">
+	
+				</ul>
 			</div>
-		</div>
 
  </article>
   <article id="admin-user">
   <form
-      class="search-user__form"
+      class="search-user__form only-child"
       id="form-search-userQnA"
       method="get"
       action="user-qna"
@@ -241,16 +231,11 @@
 		</table>
 
 		<!-- 페이지 내비게이션 표시 -->
-		<!-- 페이지 내비게이션 표시 -->
-		<div class="row mb-3">
-			<div class="col">
-				<div class="pagination">
-					<ul id="paginationBox2" class="pagination">
-		
-					</ul>
-				</div>
+			<div id="pagination">
+				<ul id="paginationBox2" class="pagination__list">
+	
+				</ul>
 			</div>
-		</div>
 
  </article>
  </main>
@@ -307,9 +292,9 @@ function searchDeniedActivities(page) {
 					if (pagination['prevPage']) {
 						block += "<li class='page-item'><a class='page-link' onclick='searchDeniedActivities("
 								+ (pagination['beginPage'] - 1)
-								+ ")'> < </a></li>";
+								+ ")'> <i class='fas fa-chevron-left'></i> </a></li>";
 					} else {
-						block += "<li class='page-item disabled'><a class='page-link'> < </a></li>";
+						block += "<li class='page-item disabled'><a class='page-link'> <i class='fas fa-chevron-left'></i> </a></li>";
 					}
 
 					// 번호를 표시하는 부분
@@ -326,9 +311,9 @@ function searchDeniedActivities(page) {
 					if (pagination['nextPage']) {
 						block += "<li class='page-item'><a class='page-link' onclick='searchDeniedActivities("
 								+ (pagination['endPage'] + 1)
-								+ ")'>  > </a></li>";
+								+ ")'> <i class='fas fa-chevron-right'></i> </a></li>";
 					} else {
-						block += "<li class='page-item disabled'><a class='page-link'> > </a></li>";
+						block += "<li class='page-item disabled'><a class='page-link'> <i class='fas fa-chevron-right'></i> </a></li>";
 					}
 					
 					$("#paginationBox").html(block);
@@ -376,9 +361,9 @@ function searchEndedActivities(page) {
 					if (pagination['prevPage']) {
 						block += "<li class='page-item'><a class='page-link' onclick='searchEndedActivities("
 								+ (pagination['beginPage'] - 1)
-								+ ")'> < </a></li>";
+								+ ")'> <i class='fas fa-chevron-left'></i> </a></li>";
 					} else {
-						block += "<li class='page-item disabled'><a class='page-link'> < </a></li>";
+						block += "<li class='page-item disabled'><a class='page-link'> <i class='fas fa-chevron-left'></i> </a></li>";
 					}
 
 					// 번호를 표시하는 부분
@@ -395,9 +380,9 @@ function searchEndedActivities(page) {
 					if (pagination['nextPage']) {
 						block += "<li class='page-item'><a class='page-link' onclick='searchEndedActivities("
 								+ (pagination['endPage'] + 1)
-								+ ")'>  > </a></li>";
+								+ ")'>  <i class='fas fa-chevron-right'></i> </a></li>";
 					} else {
-						block += "<li class='page-item disabled'><a class='page-link'> > </a></li>";
+						block += "<li class='page-item disabled'><a class='page-link'> <i class='fas fa-chevron-right'></i> </a></li>";
 					}
 					
 					$("#paginationBox1").html(block);
@@ -445,9 +430,9 @@ function searchClosedActivities(page) {
 					if (pagination['prevPage']) {
 						block += "<li class='page-item'><a class='page-link' onclick='searchClosedActivities("
 								+ (pagination['beginPage'] - 1)
-								+ ")'> < </a></li>";
+								+ ")'> <i class='fas fa-chevron-left'></i> </a></li>";
 					} else {
-						block += "<li class='page-item disabled'><a class='page-link'> < </a></li>";
+						block += "<li class='page-item disabled'><a class='page-link'> <i class='fas fa-chevron-left'></i> </a></li>";
 					}
 
 					// 번호를 표시하는 부분
@@ -464,9 +449,9 @@ function searchClosedActivities(page) {
 					if (pagination['nextPage']) {
 						block += "<li class='page-item'><a class='page-link' onclick='searchClosedActivities("
 								+ (pagination['endPage'] + 1)
-								+ ")'>  > </a></li>";
+								+ ")'>  <i class='fas fa-chevron-right'></i> </a></li>";
 					} else {
-						block += "<li class='page-item disabled'><a class='page-link'> > </a></li>";
+						block += "<li class='page-item disabled'><a class='page-link'> <i class='fas fa-chevron-right'></i> </a></li>";
 					}
 					
 					$("#paginationBox2").html(block);

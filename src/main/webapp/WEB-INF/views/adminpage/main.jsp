@@ -75,6 +75,10 @@
     </article>
     <article class="section-wrap">
       <h1 class="section__title">월별 순이익</h1>
+      <div class="profit__item top">
+          누적액
+          <span id="todayOrder"><fmt:formatNumber value="${accumlatedMoney }" pattern="#,###" /></span>원
+        </div>
       <canvas id="myChart" width="400" height="80"></canvas>
       <ul class="profit__list">
         <li class="profit__item">
@@ -82,20 +86,16 @@
           <span id="todayOrder"><fmt:formatNumber value="${depositAmountThisMonth }" pattern="#,###" /></span>원
         </li>
         <li class="profit__item">
-          결제취소액
+          <span style="margin-right: 25px; color: black;">-</span>결제취소액
           <span id="todayOrder"><fmt:formatNumber value="${cancelAmountThisMonth }" pattern="#,###" /></span>원
         </li>
         <li class="profit__item">
-          출금액
+         <span style="margin-right: 25px; color: black;">-</span>출금액
           <span id="todayOrder"><fmt:formatNumber value="${withdrawalAmountThisMonth }" pattern="#,###" /></span>원
         </li>
         <li class="profit__item">
-          순이익
+          <span style="margin-right: 25px; color: black;">=</span>순이익
           <span id="todayOrder"><fmt:formatNumber value="${profitThisMonth }" pattern="#,###" /></span>원
-        </li>
-        <li class="profit__item">
-          누적액
-          <span id="todayOrder"><fmt:formatNumber value="${accumlatedMoney }" pattern="#,###" /></span>원
         </li>
       </ul>
     </article>

@@ -116,13 +116,13 @@ $(function() {
 		});
 
 		var iwContent = '<div class="row" style="padding:5px; width:400px; height:130px;">';
-		iwContent += '<div class="col-7">';
-		iwContent += '<h5>' + position.name + '</h5>';
+		iwContent += '<div class="col-7" style="padding: 15px 0 10px 20px;">';
+		iwContent += '<h5 class="map-name" style="margin-bottom: 20px;">' + position.name + '</h5>';
 		if (position.checkOut) {
-			iwContent += '<h6>' + position.roomName + '</h6>';
+			iwContent += '<h6 class="map-room" >' + position.roomName + '</h6>';
 		} 
 		iwContent += '<div class="d-flex align-items-end">'
-		iwContent += '<p>' + position.checkIn;
+		iwContent += '<p class="discount__text">' + position.checkIn;
 		if (position.checkOut) {
 			iwContent += ' ~ ' + position.checkOut;
 		} 

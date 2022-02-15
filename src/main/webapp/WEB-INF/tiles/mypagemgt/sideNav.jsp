@@ -36,7 +36,7 @@
 	<div class="modal fade" id="modal-creating-chatting" aria-labelledby="호스트문의" aria-hidden="true">
 	  <div class="modal-dialog modal-xl ">
 	    <input type="hidden" id="sessionId" name="sessionId" value="">
-	     <article class="modal-content mychat">
+	     <article class="modal-content mychat" style="padding: 0;">
            <section class="mychat__list">
              <div class="section-title">예약 문의 리스트</div>
              <div class="section-main">

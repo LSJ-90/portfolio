@@ -1760,6 +1760,12 @@ details[open] summary::after {
   height: 40px;
 }
 
+#checkInBox,
+#checkOutBox,
+.accommo-search__form input {
+  width: 185px;
+}
+
 .accommo-search__select {
   font-size: 15px;
   width: 120px;
@@ -1839,13 +1845,18 @@ details[open] summary::after {
 .mini-title {
   font-size: 20px;
   font-weight: var(--weight-regular);
-  padding: 10px 0 0 10px;
+  padding-top: 10px;
 }
 
-.discount__text.mini {
-	padding-left: 10px;
+.map-name {
+  font-size: 18px;
+  font-weight: var(--weight-regular);
 }
 
+.map-room {
+  font-size: 16px;
+  font-weight: var(--weight-light);
+}
 /* Footer */
 
 #footer {

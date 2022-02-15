@@ -5,84 +5,82 @@
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
  -->	
- <style>
 
-#mainImg { width: 1100px; height:500px;}
-</style>
-<main id="main">
-    <article id="admin-user">
-    	<div class="row">
-    		<div class="col-12">
-    			 <img
-	              src="../../resources/images/hostMainImage/${host.mainImage }"
-	              id="mainImg"
-	            />
-    		</div>
-    		<div class="col-12">
-		    	 <h1 class="section__title">호스트 기본정보</h1>
-		    	 <form>
-		 		<table class="user-list-table mt-2 mb-5">
-					<colgroup>
-		            <col style="width: 8%" />
-		            <col style="width: 10%" />
-		            <col style="width: 8%" />
-		            <col style="width: 16%" />
-		            <col style="width: 10%" />
-		            <col style="width: 10%" />
-		            <col style="width: 10%" />
-		          </colgroup>
-		          <thead>
-		            <tr>
-		              <th>호스트번호</th>
-		              <th>호스트이름</th>
-		              <th>회원번호</th>
-		              <th>연락처</th>
-		              <th>등급</th>
-		              <th>승인</th>
-		              <th>승인상세</th>
-		            </tr>
-		          </thead>
-					<tbody>
-						<tr class="text-middle">
-							<td>${host.no }</td>
-							<td>${host.name }</td>
-							<td>${host.userNo }</td>
-							<td>${host.tel }</td>
-							<td>${host.gradeName }</td>
-							<td>
-							<select class="search__select" name="approval">
-		            			   <option value="${host.status }" selected disabled="disabled">
-		            			   <c:if test="${host.status == 'Y'}">
-		            			   승인완료
-		            			   </c:if>
-		            			   <c:if test="${host.status == 'N'}">
-		            			   승인반려
-		            			   </c:if>
-		            			   <c:if test="${host.status == 'W'}">
-		            			   승인대기
-		            			   </c:if>
-		            			   <c:if test="${host.status == 'D'}">
-		            			   호스팅종료
-		            			   </c:if>
-		            			   <c:if test="${host.status == 'R'}">
-		            			   강제종료
-		            			   </c:if>
-		            			   </option>
-		           				   <option value="Y">승인완료</option>
-		            			   <option value="N">승인반려</option>
-             					   <option value="R">강제종료</option>
-							</select>
-							</td>
-							<td><input type="text" class="search-user" name="statusDetail" value="${host.statusDetail }" /></td>
-						</tr>
-					</tbody>
-				</table>
-					 </form>
-				  <button type="button" class="btn__search" id="btn-search-userQnA" onclick="modifyStatus()">
-	          		변경
-	        	</button>
-				
-				 <h1 class="section__title">출금 정보</h1>
+ <main id="main">
+   <article id="admin-user">
+     <section class="admin-accommo-info">
+       <div class="accommo-info__img" style="background-image: url('../../resources/images/hostMainImage/${host.mainImage }')"></div>
+       <div class="accommo-info">
+         <div class="accommo-info__name">${host.name }</div>
+		 <form>         
+         <ul class="accommo-info__list">
+           <li class="accommo-info__item">
+             <div class="accommo-info__label">호스트번호</div>
+             <div class="accommo-info__content">${host.no }</div>
+           </li>
+           <li class="accommo-info__item">
+             <div class="accommo-info__label">회원번호</div>
+             <div class="accommo-info__content">
+               ${host.userNo }
+             </div>
+           </li>
+           <li class="accommo-info__item">
+             <div class="accommo-info__label">연락처</div>
+             <div class="accommo-info__content">${host.tel }</div>
+           </li>
+           <li class="accommo-info__item">
+             <div class="accommo-info__label">등급</div>
+             <div class="accommo-info__content">${host.gradeName }</div>
+           </li>
+           <li class="accommo-info__item">
+             <div class="accommo-info__label">승인</div>
+             <div class="accommo-info__content">
+               <select class="search__select" name="approval">
+      			   <option value="${host.status }" selected disabled="disabled">
+      			   <c:if test="${host.status == 'Y'}">
+      			   승인완료
+      			   </c:if>
+      			   <c:if test="${host.status == 'N'}">
+      			   승인반려
+      			   </c:if>
+      			   <c:if test="${host.status == 'W'}">
+      			   승인대기
+      			   </c:if>
+      			   <c:if test="${host.status == 'D'}">
+      			   호스팅종료
+      			   </c:if>
+      			   <c:if test="${host.status == 'R'}">
+      			   강제종료
+      			   </c:if>
+      			   </option>
+     			   <option value="Y">승인완료</option>
+      			   <option value="N">승인반려</option>
+     			   <option value="R">강제종료</option>
+			   </select>
+             </div>
+           </li>
+           <li class="accommo-info__item">
+             <div class="accommo-info__label">승인상세</div>
+             <div class="accommo-info__content">
+			   <input type="text" class="search-user" name="statusDetail" value="${host.statusDetail }" />
+			 </div>
+           </li>
+         </ul>
+          </form>
+         <div class="btn-wrap">
+           <button
+             type="button"
+             class="btn__info-modify"
+             id="btn-search-userQnA"
+             onclick="modifyStatus()"
+           >
+             변경
+           </button>
+         </div>
+       </div>
+     </section>
+     <section class="accommo-info-box">
+     <h1 class="section__title">출금 정보</h1>
 		 		<table class="user-list-table mt-2 mb-3">
 					<colgroup>
 		            <col style="width: 25%" />
@@ -109,9 +107,9 @@
 				</table>
     		</div>
     	</div>
-    	
+    	</section>
     
-    	
+    	<section class="accommo-info-box">
     	<div class="row mt-2">
     	 <h1 class="section__title">숙소정보</h1>
     		<div class="col-12">
@@ -133,6 +131,9 @@
     		</div>
     		
     	</div>	
+    	</section>
+    	
+    	<section class="accommo-info-box">
     	<c:if test="${not empty roomList}">
     	<div class="row mt-5">
     	 <h1 class="section__title">객실리스트</h1>
@@ -177,12 +178,11 @@
     	<c:if test="${empty roomList}">
     	<h5>등록된 객실이 없습니다.</h5>
 	</c:if>
-    	
-     	
-
-  
-	</article>
-</main>
+    </section> 
+     
+     
+   </article>
+ </main>
 
 <script type="text/javascript">
 $(function(){
