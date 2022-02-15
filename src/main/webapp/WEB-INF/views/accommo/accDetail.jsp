@@ -280,7 +280,6 @@
 		    <p style="margin-bottom:15px;"><a href="" class="" id="33">이용 안내</a></p>
 		    <p style="margin-bottom:15px;"><a href="" class="" id="44">부대시설 안내</a></p>
 		    <p style="margin-bottom:15px;"><a href="" class="" id="55">기타 안내</a></p>
-		    <p style="margin-bottom:15px;"><a href="" class="" id="66">호스트에게 문의</a></p>
 	    </div>
 	    
 		<div class="col-10" id="1">
