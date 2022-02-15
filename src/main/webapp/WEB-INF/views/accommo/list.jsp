@@ -1,58 +1,71 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../common/tags.jsp" %>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-   <title></title>
-     <meta charset="utf-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1">
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
-</head>
-<body>
-<div class="container">
-	<!-- 승준추가 -->
-	<select class="form-select" aria-label="Default select example" name="accommoType">
-	  <option selected>숙소타입설정</option>
-	  <option value="호텔">호텔</option>
-	  <option value="민박">민박</option>
-	  <option value="렌탈하우스">렌탈하우스</option>
-	  <option value="한옥">한옥</option>
-	</select>
-	<!-- 승준추가 end -->
-    <div class="row mb-3">
-       <div class="col">
-       	  <form method="get" action="/accommo/detail">
-	          <span id="span-address">${criteria.addressValue }</span>
-	          <input id="checkInBox" type="text" name="checkInDate" autocomplete="off" placeholder="날짜 입력" > - 
-	          <input id="checkOutBox" type="text" name="checkOutDate" autocomplete="off" placeholder="날짜 입력" >
-	          <input type="hidden" name="number" value="${criteria.maxStandardNumberValue }">
-       	  </form>
-       </div>
+
+<main id="main">
+   <article id="accommo-list">
+     <header class="section__header">
+       <h1 class="section__title">FIND STAY</h1>
+       <p class="section__text">머무는 것 자체로 여행이 되는 공간</p>
+     </header>
+     <div class="accommo-search">
+       <form
+         class="accommo-search__form"
+         method="get"
+         action="/accommo/detail"
+       >
+         <span id="span-address">서울</span>
+         <input
+           id="checkInBox"
+           type="date"
+           name="checkInDate"
+           autocomplete="off"
+           placeholder="날짜 입력"
+         />
+         -
+         <input
+           id="checkOutBox"
+           type="date"
+           name="checkOutDate"
+           autocomplete="off"
+           placeholder="날짜 입력"
+         />
+         <input
+           type="hidden"
+           name="number"
+           value="${criteria.maxStandardNumberValue }"
+        />
+      </form>
+      <select
+        class="accommo-search__select"
+        aria-label="Default select example"
+        name="accommoType"
+      >
+        <option selected>숙소타입</option>
+        <option value="호텔">호텔</option>
+        <option value="민박">민박</option>
+        <option value="렌탈하우스">렌탈하우스</option>
+        <option value="한옥">한옥</option>
+      </select>
     </div>
-    <div class="row mb-3">
-       <div class="col-6">
-          <!-- List 영역 -->
-          <div class="accommos">
+    <div class="accommo-content">
+      <article class="accommo__list">
+      	<div class="accommos">
           
-          </div>
-          <div class="row mb-3">
-             <div class="col">
-                <div class="pagination">
-                
-                </div>
-             </div>
-          </div>   
-       </div>
-       
-       <!-- 지도 -->
-       <div class="col-6">
-          <div id="map" style="width:100%;height:600px;"></div>
-       </div>
+        </div>
+        <div class="pagination">
+        
+        </div>
+      </article>
+      <article class="accommo__map">
+         <div id="map" style="width:100%;height:600px;"></div>
+      </article>
     </div>
-</div>
+  </article>
+</main>
+
+
+
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8606c7f07c8e2d80f27869dab7ebaec2&libraries=services,clusterer"></script>
 
 <script>
@@ -247,15 +260,15 @@ $(function() {
                     } else if (accommo.isOfferPromotion) {
                     	row += '<h6 style="display:inline;">Gifts</h6>';
                     }
-                    row += '<h6>'+accommo.type+'</h6>';
+                    row += '<h6 class="accommo-type" style="margin: 0;">'+accommo.type+'</h6>';
                     row += '<div class="row">';
                     row += '<div class="col-3">';
-                    row += '<ul>';
-                    row += '<li>'+accommo.regionDepth1+'</li>';
-                    row += '<li>기준 '+accommo.minNumber+'명(최대 '+accommo.maxNumber+'명)</li>';
-                    row += '<li>'+parseInt(accommo.minPrice).toLocaleString()+'~'+parseInt(accommo.maxPrice).toLocaleString()+'</li>';
-                    row += '<li>'+accommo.averageStar+'</li>';
-                    row += '<li><a href="/accommo/detail?accNo='+accommo.no+'&check_in=${criteria.checkInBoxValue}&check_out=${criteria.checkOutBoxValue}">예약하기</a></li>';
+                    row += '<ul class="accommo-list__menu">';
+                    row += '<li class="discount__text">'+accommo.regionDepth1+'</li>';
+                    row += '<li class="discount__text">기준 '+accommo.minNumber+'명(최대 '+accommo.maxNumber+'명)</li>';
+                    row += '<li class="discount__text">'+parseInt(accommo.minPrice).toLocaleString()+'~'+parseInt(accommo.maxPrice).toLocaleString()+'</li>';
+                    row += '<li class="discount__text"><i class="fa-solid fa-star acc"></i>'+accommo.averageStar+'</li>';
+                    row += '<li class="btn__accommo-list"><a href="/accommo/detail?accNo='+accommo.no+'&check_in=${criteria.checkInBoxValue}&check_out=${criteria.checkOutBoxValue}"><span class="btn__accommo-list-book">예약하기</span></a></li>';
                   	row += '</ul>';
                   	row += '</div>';
                   	row += '<div class="col-7">';
@@ -316,14 +329,13 @@ $(function() {
                   });
                })
                
-               pageRow += '<nav>';
-               pageRow += '<ul class="pagination justify-content-center">';
+               
                if (accommoPagination.pagination.existPrev) {
                   pageRow += '<li class="page-item">';
                } else {
                   pageRow += '<li class="page-item disabled">';
                }
-               pageRow += '<button class="page-link" data-page="'+accommoPagination.pagination.prevPage+'">이전</button>';
+               pageRow += '<button class="page-link" data-page="'+accommoPagination.pagination.prevPage+'"> <i class="fas fa-chevron-left"></i></button>';
                pageRow += '</li>';
                for (var i = accommoPagination.pagination.beginPage; i <= accommoPagination.pagination.endPage; i++) {
                   if (accommoPagination.pagination.pageNo == i) {
@@ -339,7 +351,7 @@ $(function() {
                } else {
                   pageRow += '<li class="page-item disabled">';
                }
-               pageRow += '<button class="page-link" data-page="'+accommoPagination.pagination.nextPage+'">다음</button>';
+               pageRow += '<button class="page-link" data-page="'+accommoPagination.pagination.nextPage+'"><i class="fas fa-chevron-right"></i></button>';
                pageRow += '</li>';
                
                $pagination.append(pageRow);
@@ -400,11 +412,11 @@ $(function() {
        clusterer.addMarker(marker);
        
        var iwContent = '<div class="row" style="padding:5px; width:400px; height:130px;">';
-       iwContent += '<div class="col-8">';
-       iwContent += '<h5>'+position.name+'</h5>';
+       iwContent += '<div class="col-8" >';
+       iwContent += '<h5 class="mini-title">'+position.name+'</h5>';
        iwContent += '<div class="d-flex align-items-end">'
-       iwContent += '<p>기준 '+position.minNumber+'명(최대 '+position.maxNumber+'명)</br>';
-       iwContent += position.star+'</br>';
+       iwContent += '<p class="discount__text mini">기준 '+position.minNumber+'명(최대 '+position.maxNumber+'명)</br>';
+       iwContent += '<i class="fa-solid fa-star acc"></i>'+position.star+'</br>';
        iwContent += parseInt(position.minPrice).toLocaleString()+'~'+parseInt(position.maxPrice).toLocaleString()+'</p>';
        iwContent += '</div>';
        iwContent += '</div>';

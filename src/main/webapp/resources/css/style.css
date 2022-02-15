@@ -434,10 +434,6 @@ textarea {
   left: 0;
 }
 
-.info-bottom p {
-  margin-top
-}
-
 .discount__text {
   font-size: 14px;
   font-weight: var(--weight-light);
@@ -1740,6 +1736,114 @@ details[open] summary::after {
   font-size: 15px;
   font-weight: var(--weight-regular);
   font-family: var(--font-family-spoqa);
+}
+
+/* Accommo-List */
+
+#accommo-list {
+  width: 1400px;
+  margin: 0 auto;
+}
+
+.accommo-search {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 5px;
+  border-bottom: 2px solid var(--color-black);
+}
+
+.accommo-search__form input,
+.accommo-search__select {
+  font-family: var(--font-family-spoqa);
+  text-align: center;
+  height: 40px;
+}
+
+.accommo-search__select {
+  font-size: 15px;
+  width: 120px;
+  border: 1px solid var(--color-input-gray);
+  border-radius: 5px;
+}
+
+#span-address {
+  padding: 0 10px;
+  margin-right: 10px;
+  border-right: 1px solid var(--color-form-gray);
+}
+
+.accommo-content {
+  display: flex;
+  padding-top: 30px;
+}
+
+.accommo__list,
+.accommo__map {
+  flex-basis: 50%;
+}
+
+.btn__accommo-list-book {
+  font-size: 14px;
+  font-weight: var(--weight-medium);
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--color-black);
+}
+
+.accommo-list__menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+}
+
+.btn__accommo-list {
+  margin-top: 20px;
+}
+
+.fa-star.acc {
+  margin-right: 5px;
+}
+
+.accommo a {
+  color: var(--color-black);
+}
+
+.accommo {
+  padding: 40px 0;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.accommo-no {
+  font-size: 32px;
+  font-weight: var(--weight-regular);
+}
+
+.accommo-type {
+  font-size: 13px;
+  font-weight: var(--weight-light);
+}
+
+.page-item.active .page-link {
+  background-color: var(--color-white) !important;
+  border: none;
+  color: var(--color-black);
+  font-size: 16px;
+}
+
+.mini-title {
+  font-size: 20px;
+  font-weight: var(--weight-regular);
+  padding: 10px 0 0 10px;
+}
+
+.discount__text.mini {
+	padding-left: 10px;
 }
 
 /* Footer */
