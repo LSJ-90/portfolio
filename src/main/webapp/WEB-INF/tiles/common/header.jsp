@@ -35,7 +35,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staySearchModalLabel">STAY SEARCH</h5>
+        <h5 id="staySearchModalLabel">STAY SEARCH</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -76,7 +76,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="activitySearchModalLabel">ACTIVITY SEARCH</h5>
+        <h5  id="activitySearchModalLabel">ACTIVITY SEARCH</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -101,6 +101,15 @@
     </div>
   </div>
 </div>
+
+<style>
+#address,
+#checkInBox,
+#checkOutBox,
+#maxStandardNumber
+ {
+width: 110px;}
+</style>
 
 <script type="text/javascript">
 	$(function () {
