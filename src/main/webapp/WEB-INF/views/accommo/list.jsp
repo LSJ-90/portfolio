@@ -26,8 +26,8 @@
        <div class="col">
        	  <form method="get" action="/accommo/detail">
 	          <span id="span-address">${criteria.addressValue }</span>
-	          <input id="checkInBox" type="text" name="checkInDate" autocomplete="off" placeholder="날짜 입력" > - 
-	          <input id="checkOutBox" type="text" name="checkOutDate" autocomplete="off" placeholder="날짜 입력" >
+	          <input id="checkInBox" type="date" name="checkInDate" autocomplete="off" value="${criteria.checkInBoxValue }"> - 
+	          <input id="checkOutBox" type="date" name="checkOutDate" autocomplete="off" value="${criteria.checkOutBoxValue }">
 	          <input type="hidden" name="number" value="${criteria.maxStandardNumberValue }">
        	  </form>
        </div>
@@ -57,53 +57,32 @@
 
 <script>
 $(function() {
-	datePickerSet($("input[name=checkInDate]"), $("input[name=checkOutDate]"));
+	$("input[name=checkInDate], input[name=checkOutDate]").change(function() {
+		clusterer.clear();
+    	// 클릭한 페이지내비게이션의 페이지번호 조회하기
+        // var pageNo = $(this).attr("data-page");
+        // 검색폼의 히든필드에 클릭한 페이지내비게이션의 페이지번호 설정
+        //$(":input[name=page]").val(pageNo);
+      	var bounds = map.getBounds();
+      	
+        // 영역의 남서쪽 좌표를 얻어옵니다 
+        var swLatLng = bounds.getSouthWest(); 
+       
+        // 영역의 북동쪽 좌표를 얻어옵니다 
+        var neLatLng = bounds.getNorthEast(); 
+      
+        var number = $("input[name=number]").val();
+        var checkIn = $("input[name=checkInDate]").val();
+        var checkOut = $("input[name=checkOutDate]").val();
+        var page = $(this).attr("data-page");
+        var accommoType = $("select[name=accommoType]").val();
+        
+      	mapAreaList(number, checkIn, checkOut, page, accommoType, swLatLng.getLat(), swLatLng.getLng(), neLatLng.getLat(), neLatLng.getLng());
+      
+      	// 검색폼에 onsubmit 이벤트 발생시키기
+      	// $("#form-search-accommo").trigger("submit");
+	})
 
-   	// 달력생성함수 sDate:시작일 eDate:종료일
-    function datePickerSet(sDate, eDate) {
-   		
-            var sDay = sDate.val();
-            var eDay = eDate.val();
-
-            // 체크인 달력 생성
-            if (!isValidStr(eDay)) {
-                sDate.datepicker({
-                    maxDate: new Date(eDay)
-                });
-            }
-            
-            sDate.datepicker({
-                language: 'ko',
-                minDate: new Date(),
-                autoClose: true,
-                onSelect: function () {
-                    datePickerSet(sDate, eDate);
-                }
-            });
-			
-            // 체크아웃 달력 생성
-            if (!isValidStr(sDay)) {
-                eDate.datepicker({
-                    minDate: new Date(sDay)
-                });
-            } 
-            
-            eDate.datepicker({
-                language: 'ko',
-                autoClose: true,
-                onSelect: function () {
-                    datePickerSet(sDate, eDate);
-                }
-            });
-            
-        //날짜 생성 여부
-        function isValidStr(str) {
-            if (str == null || str == undefined || str == "")
-                return true;
-            else
-                return false;
-        }
-    }
    	// 페이지내비게이션의 링크를 클릭했을 때 실행될 이벤트핸들러 함수를 등록한다.
 	$(document).on("click", ".pagination button", function (e) {
 		clusterer.clear();
@@ -253,7 +232,7 @@ $(function() {
                     row += '<ul>';
                     row += '<li>'+accommo.regionDepth1+'</li>';
                     row += '<li>기준 '+accommo.minNumber+'명(최대 '+accommo.maxNumber+'명)</li>';
-                    row += '<li>'+parseInt(accommo.minPrice).toLocaleString()+'~'+parseInt(accommo.maxPrice).toLocaleString()+'</li>';
+                    row += '<li>￦'+parseInt(accommo.minPrice).toLocaleString()+'~'+parseInt(accommo.maxPrice).toLocaleString()+'</li>';
                     row += '<li>'+accommo.averageStar+'</li>';
                     row += '<li><a href="/accommo/detail?accNo='+accommo.no+'&check_in=${criteria.checkInBoxValue}&check_out=${criteria.checkOutBoxValue}">예약하기</a></li>';
                   	row += '</ul>';
