@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="common/tags.jsp" %>
-<main id="main">
+<main>
 	<!-- 
    - ul 이 슬라이드 전체, li가 보여지는 슬라이드 화면 1개 라고 보시면 됩니다. 
    - 페이지 네이션은 부트스트랩 자체 기능으로 조절 가능.
@@ -24,7 +24,7 @@
 								${newSixAccommoDto.accIntroTitle }
 							</p>
 							<p class="event">NEW LAUNCHING</p>
-							<p class="read-more">read more</p>
+							<span class="read-more">read more</span>
 						</div>
 					</a>
 			    </li>
@@ -43,47 +43,36 @@
 		
 		<!-- 전체 숙소 -->
 		<article id="stay-total">
-			<h1>S T A Y</h1>
-			<div class="container-fluid my-5">
-				<div class="row">
-					<div class="col-12 m-auto">
+			<h1 class="article-title">STAY</h1>
+			
 						<ul class="stay-total__list owl-carousel owl-theme">
 							<c:forEach var="accommoDto" items="${accommoDtos }" varStatus="status">
 							<li class="stay-total__item-wrap">
-								<button class="btn__like">
-									<i class="far fa-heart"></i>
-								</button>
+								
 								<a href="/accommo/detail?accNo=${accommoDto.accommoNo }&check_in=&check_out=&days=">
 									<div class="stay-total__item">
-										<div class="card border-1">
-											<img style="background-image: url('../resources/images/hostMainImage/${accommoDto.mainImage }')" alt="" class="stay-total__image" />
-											<div class="card-body">
-												<div class="card-title text-center">
-													<div class="stay-total__info">
-														<h2 class="info__title">${accommoDto.accommoName }</h2>
-														<p class="info__text">
-															${accommoDto.accommoRegionDepth1 } /
-															${accommoDto.accommoRegionDepth2 } 
-														</p>
-															<span> 
-																<fmt:formatNumber value="${accommoDto.minPrice }" type="currency" currencySymbol="￦" /> 
-																~ 
-																<fmt:formatNumber value="${accommoDto.maxPrice }" type="currency" currencySymbol="￦" />
-															</span>
-														<p class="read-more">read more</p>
-													</div>
-												</div>
+										<img style="background-image: url('../resources/images/hostMainImage/${accommoDto.mainImage }')" alt="" class="stay-total__image" />
+											<button class="btn__like">
+												<i class="far fa-heart"></i>
+											</button>
+											<div class="stay-total__info">
+												<h2 class="info__title">${accommoDto.accommoName }</h2>
+												<p class="info__text">
+													${accommoDto.accommoRegionDepth1 } / ${accommoDto.accommoRegionDepth2 } &#183; 
+														<fmt:formatNumber value="${accommoDto.minPrice }" type="currency" currencySymbol="￦" /> 
+														~ 
+														<fmt:formatNumber value="${accommoDto.maxPrice }" type="currency" currencySymbol="￦" />
+												</p>
+												<span class="read-more">read more</span>
 											</div>
 										</div>
-									</div>
-								</a>
-							</li>
+									</a>
+								</li>
 							</c:forEach>
 						</ul>
-					</div>
-				</div>
-			</div>
+			
 		</article>
+	</section>
 	<!-- 프로모션 -->
 	<section id="promotion">
 		<!-- 프로모션 이미지 배너 -->
@@ -94,18 +83,21 @@
 		</div>
 
 		<!-- 할인 -->
-		<article id="discount">
+	<article id="discount">
+	  <div class="discount-wrap">
 		<div id="carouselDiscountAccControls" class="carousel slide" data-bs-ride="carousel">
 			<ul class="discount__list carousel-inner">
 			    <c:forEach var="homePromotionDiscountDto" items="${homePromotionDiscountDtos }">
 			    <li id="discount__item" class="discount__item carousel-item">
+					<h1 class="article-title discount">DISCOUNT</h1>
 				    <a href="/accommo/detail?accNo=${homePromotionDiscountDto.accommoNo }&check_in=&check_out=&days=">
+					  <div class="discount__item-box">
 					    <div class="discount__info">
 							<div class="info-top">
-								<p class="text">
+								<p class="text--discount">
 									${homePromotionDiscountDto.introContent }
 								</p>
-								<p class="event">
+								<p class="event--discount">
 									평일 숙박 
 									<fmt:formatNumber value="${homePromotionDiscountDto.weekdaysDiscountRate }" type="percent"/>
 									할인!!!
@@ -113,14 +105,16 @@
 							</div>
 							<div class="info-bottom">
 								<h2 class="info__title">${homePromotionDiscountDto.accommoName }</h2>
-								<p class="info__text">
+								<p class="discount__text">
 									${homePromotionDiscountDto.accommoRegionDepth1 } / 
 									${homePromotionDiscountDto.accommoRegionDepth2 } · 
-									<span>${homePromotionDiscountDto.accommoType }</span>
-									<br /> 
+									${homePromotionDiscountDto.accommoType }
+								</p>
+								<p class="discount__text">
 									최소 ${homePromotionDiscountDto.minNumber }명 / 
 									최대 ${homePromotionDiscountDto.maxNumber }명 
-									<br />
+								</p>
+								<p class="discount__text">
 									<fmt:formatNumber value="${homePromotionDiscountDto.minPrice * (1-homePromotionDiscountDto.weekdaysDiscountRate)}" type="currency" currencySymbol="￦" />
 									 ~ 
 									<fmt:formatNumber value="${homePromotionDiscountDto.maxPrice * (1-homePromotionDiscountDto.peakSeasonDiscountRate)}" type="currency" currencySymbol="￦" />
@@ -130,8 +124,10 @@
 						<div class="discount__image">
 							<img src="../resources/images/hostMainImage/${homePromotionDiscountDto.mainImage }"/>
 						</div>
+					  </div>
 						<div class="promotion-date">
-							${homePromotionDiscountDto.deadlineDate } DAYS <br />LEFT!
+							<p>${homePromotionDiscountDto.deadlineDate } DAYS</p>
+							<p>LEFT!</p>
 						</div>
 					</a>
 			    </li>
@@ -146,51 +142,45 @@
 			   <span class="visually-hidden">Next</span>
 			 </button>
 		</div>
+		</div>
 		</article>
 		
 		<!-- 증정 -->
 		<article id="event">
-			<h1>E V E N T</h1>
+			<h1 class="article-title">EVENT</h1>
 			<!-- 증정 3개 묶어서 1개 슬라이드 화면 -->
 			<div class="container-fluid my-5">
-				<div class="row">
-					<div class="col-12 m-auto">
+				
 						<ul class="event__list owl-carousel owl-theme">
 							<c:forEach var="homePromotionOfferDto" items="${homePromotionOfferDtos }" varStatus="status">
 							<li class="event__item-wrap">
-								<button class="btn__like">
-									<i class="far fa-heart"></i>
-								</button>
+								
 								<a href="/accommo/detail?accNo=${homePromotionOfferDto.accommoNo }&check_in=&check_out=&days=">
-									<div class="event__item mb-5">
-										<div class="card border-1">
-											<img style="background-image: url('../resources/images/hostMainImage/${homePromotionOfferDto.mainImage }')" alt="" class="event__image" />
-											<div class="promotion-date">
-												${homePromotionOfferDto.deadlineDate } DAYS <br />LEFT!
-											</div>
-											<div class="card-body">
-												<div class="card-title text-center">
-													<div class="event__info">
-														<h2 class="info__title">${homePromotionOfferDto.accommoName }</h2>
-														<p class="info__text">
-															${homePromotionOfferDto.accommoRegionDepth1 } /
-															${homePromotionOfferDto.accommoRegionDepth2 } 
-														</p>
-														<p class="info__description">
-															${homePromotionOfferDto.introContent }
-														</p>
-														<p class="read-more">자세히 보기</p>
-													</div>
-												</div>
-											</div>
+									<div class="event__item">
+									  <img style="background-image: url('../resources/images/hostMainImage/${homePromotionOfferDto.mainImage }')" alt="" class="event__image" />
+										<button class="btn__like">
+											<i class="far fa-heart"></i>
+										</button>
+										<div class="promotion-date">
+											<p>${homePromotionOfferDto.deadlineDate } DAYS</p>
+											<p>LEFT!</p>
+										</div>
+										<div class="event__info">
+											<h2 class="info__title">${homePromotionOfferDto.accommoName }</h2>
+											<p class="info__text">
+												${homePromotionOfferDto.accommoRegionDepth1 } /
+												${homePromotionOfferDto.accommoRegionDepth2 } 
+											</p>
+											<p class="event-info__description">
+												${homePromotionOfferDto.introContent }
+											</p>
+											<span class="read-more">자세히 보기</span>
 										</div>
 									</div>
 								</a>
 							</li>
 							</c:forEach>
 						</ul>
-					</div>
-				</div>
 			</div>
 		</article>
 	</section>
@@ -198,7 +188,6 @@
 	<!-- 체험 -->
 	<section id="activity">
 		<!-- 최신순 -->
-		<h1>A C T I V I T Y</h1>
 		<article id="activity-new">
 		<div id="carouselNewActivityControls" class="carousel slide" data-bs-ride="carousel">
 			<ul class="activity-new__list carousel-inner">
@@ -209,17 +198,17 @@
 				    		<img src="../resources/images/hostMainImage/${newSixAcivityDto.mainImage }"/>
 				    	</div>
 				    	<div class="activity-new__info">
-							<div class="info-top">
-								<p class="event">
-									NEW LAUNCHING
-								</p>
-								<p class="text">
-									${newSixAcivityDto.actIntroTitle }
-								</p>
-							</div>
-							<p class="title">${newSixAcivityDto.actName }</p>
-							<p class="read-more">read more</p>
-						</div>
+		                  <div class="act-new__left">
+		                    <p class="act-event">NEW LAUNCHING </p>
+		                    <span class="read-more act">read more</span>
+		                  </div>
+		                  <div class="act-new__right">
+		                    <p class="text">
+		                      ${newSixAcivityDto.actIntroTitle }
+		                    </p>
+		                    <p class="title">${newSixAcivityDto.actName }</p>
+		                  </div>
+		                </div>
 					</a>
 			    </li>
 			 </c:forEach>   
@@ -237,48 +226,35 @@
 
 		<!-- 전체 체험 -->
 		<article id="activity-total">
-			<h1>E V E N T</h1>
+			<h1 class="article-title">EVENT</h1>
 			<!-- 증정 3개 묶어서 1개 슬라이드 화면 -->
-			<div class="container-fluid my-5">
-				<div class="row">
-					<div class="col-12 m-auto">
-						<ul class="activity-total__list owl-carousel owl-theme">
-							<c:forEach var="activityPromotion" items="${activityPromotionDto }" varStatus="status">
-								<li class="activity-total__item-wrap">
-									<button class="btn__like">
-										<i class="far fa-heart"></i>
-									</button> 
-									<a href="/activity/detail?actNo=${activityPromotion.activityNo }">
-										<div class="activity-total__item">
-											<div class="card border-1">
-												<img style="background-image: url('../resources/images/hostMainImage/${activityPromotion.mainImage }')"
-													 alt="" class="activity-total__image" />
-												<div class="promotion-date">
-													${activityPromotion.deadlineDate } DAYS <br />LEFT!
-												</div>
-												<div class="card-body">
-													<div class="card-title text-center">
-														<div class="activity-total__info">
-															<h2 class="info__title">
-																${activityPromotion.activityName }
-															</h2>
-															<p class="info__text">
-															${activityPromotion.depth1 }
-															/
-															${activityPromotion.depth2 }</p>
-															<p class="read-more">read more</p>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</a>
-								</li>
-							</c:forEach>
-						</ul>
-					</div>
-				</div>
-			</div>
+				<ul class="activity-total__list owl-carousel owl-theme">
+					<c:forEach var="activityPromotion" items="${activityPromotionDto }" varStatus="status">
+						<li class="activity-total__item-wrap">
+							<button class="btn__act-like">
+								<i class="far fa-heart"></i>
+							</button> 
+							<a href="/activity/detail?actNo=${activityPromotion.activityNo }">
+								<img style="background-image: url('../resources/images/hostMainImage/${activityPromotion.mainImage }')"
+									 alt="" class="activity-total__image" />
+								<div class="promotion-date">
+									<p>${activityPromotion.deadlineDate } DAYS<p>
+									<p>LEFT!</p>
+								</div>
+								<div class="activity-total__info">
+									<h2 class="info__title act">
+										${activityPromotion.activityName }
+									</h2>
+									<p class="info__text">
+									${activityPromotion.depth1 }
+									/
+									${activityPromotion.depth2 }</p>
+									<span class="read-more">read more</span>
+								</div>
+							</a>
+						</li>
+					</c:forEach>
+				</ul>
 		</article>
 	</section>
 </main>
@@ -302,7 +278,7 @@
 	owl.owlCarousel({
 	    loop:true,
 	    nav:false,
-	    margin:10,
+	    margin:30,
 	    responsive:{
 	        0:{
 	            items:1
@@ -314,7 +290,7 @@
 	            items:3
 	        },
 	        1200:{
-	            items:4
+	            items:3
 	        }
 	    }
 	});

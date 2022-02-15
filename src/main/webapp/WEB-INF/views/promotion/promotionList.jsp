@@ -5,7 +5,7 @@
 <link rel="stylesheet" type="text/css" href="../../../../resources/css/promotionList.css" />
 
 <main id="main">
-  <article id="promotion">
+  <article id="main-promotion">
     <section class="pomotion-stay">
       <header class="section__header">
         <h1 class="section__title">STAY</h1>
