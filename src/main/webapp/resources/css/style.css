@@ -219,7 +219,9 @@ textarea {
 
 .article-title {
   font-family: var(--font-family-title);
+  font-weight: var(--weight-bold);
   font-size: 16px;
+  text-align: center;
   letter-spacing: 11px;
   margin-bottom: 50px;
 }
@@ -227,6 +229,7 @@ textarea {
 .stay-new__item a {
   display: block;
   position: relative;
+  color: var(--color-black);
 }
 
 /* 이승준 수정 */
@@ -235,10 +238,14 @@ textarea {
   height: 850px;
   background-repeat: no-repeat;
   background-size: cover;
+  background-color: #333333;
 }
 
 .stay-new__info {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 320px;
   height: 300px;
   position: absolute;
@@ -247,6 +254,32 @@ textarea {
   padding: 30px 0;
   margin-top: -150px;
   background-color: var(--color-white);
+}
+
+.title {
+  font-size: 20px;
+}
+
+.info__description {
+  font-size: 16px;
+  font-weight: var(--weight-light);
+  margin-top: 25px;
+}
+
+.event {
+  font-family: var(--font-family-abel);
+  font-size: 13px;
+  font-weight: var(--weight-bold);
+  letter-spacing: 5px;
+  margin: 30px 0 20px 0;
+}
+
+.read-more {
+  font-family: var(--font-family-abel);
+  font-size: 13px;
+  letter-spacing: 1.3px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--color-black);
 }
 
 /* 이승준 수정 */
@@ -275,8 +308,45 @@ textarea {
 .stay-total__image {
   width: 410px;
   height: 250px;
+  background-color: #676767;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.stay-total__item-wrap a {
+  color: var(--color-black);
+}
+
+.stay-total__item {
+  position: relative;
+}
+
+.stay-total__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 30px;
+}
+
+.info__title {
+  font-size: 22px;
+  font-weight: var(--weight-regular);
+  margin-top: 30px;
+}
+
+.info__text {
+  font-size: 14px;
+  font-weight: var(--weight-light);
+  margin: 15px 0 20px 0;
+}
+
+.btn__like {
+  position: absolute;
+  font-size: 22px;
+  top: 210px;
+  right: 8px;
+  color: var(--color-white);
 }
 
 .promotion-banner {
@@ -284,6 +354,10 @@ textarea {
 }
 
 .promotion__image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
   color: white;
   background-color: black;
   height: 350px;
@@ -294,8 +368,17 @@ textarea {
   background-color: var(--color-background-gray);
 }
 
+.discount-wrap {
+  width: 1300px;
+  margin: 0 auto;
+}
+
+.discount__item {
+  position: relative;
+}
+
 .discount__item a {
-  display: flex;
+  color: var(--color-black);
 }
 
 /* 이승준 주석
@@ -313,21 +396,110 @@ textarea {
   background-size: cover;
 }
 
+.discount__item-box {
+  display: flex;
+}
+
+.discount__info {
+  width: 340px;
+}
+
+.text--discount {
+  font-size: 30px;
+  font-weight: var(--weight-regular);
+}
+
+.event--discount {
+  font-size: 14px;
+  font-weight: var(--weight-light);
+  margin-top: 20px;
+}
+
+.discount__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 100px 20px 0 0;
+}
+
+.discount__image {
+  width: 960px;
+  height: 540px;
+  background-color: #676767;
+}
+
+.article-title.discount {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.info-bottom p {
+  margin-top
+}
+
+.discount__text {
+  font-size: 14px;
+  font-weight: var(--weight-light);
+  margin-top: 5px;
+}
+
 /* 이승준 수정 */
 .event__item-wrap {
   justify-content: center;
 }
 
+.event__item-wrap a {
+  color: var(--color-black);
+}
+
+.event__item {
+  position: relative;
+}
+
 .event__image {
   width: 410px;
   height: 250px;
+  background-color: var(--color-input-gray);
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.event__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 30px;
+}
+
+.event-info__description {
+  font-size: 16px;
+  font-weight: var(--weight-light);
+  margin-bottom: 20px;
+}
+
+.promotion-date {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  font-family: var(--font-family-abel);
+  font-size: 18px;
+  color: var(--color-white);
+  top: 1px;
+  right: 1px;
+  width: 100px;
+  height: 80px;
+  opacity: 0.8;
+  background-color: var(--color-black);
 }
 
 .activity-new__item a {
   display: block;
   position: relative;
+  color: var(--color-black);
 }
 
 /* 이승준 주석 
@@ -338,6 +510,10 @@ textarea {
 }
 */
 
+.activity-new__image {
+  background-color: #676767;
+}
+
 .activity-new__image img {
   width: 100%;
   height: 650px;
@@ -345,18 +521,51 @@ textarea {
   background-size: cover;
 }
 
+.activity-new__item {
+  position: relative;
+}
+
 .activity-new__info {
+  display: flex;
   width: 400px;
   height: 160px;
   position: absolute;
   right: 0;
   bottom: 0;
+  padding: 35px 0 0 35px;
   background-color: var(--color-white);
+}
+
+.act-new__left {
+  flex-basis: 30%;
+}
+
+.act-new__right {
+  flex-basis: 70%;
+  padding-left: 15px;
+}
+
+.act-new__left,
+.act-new__right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.act-event {
+  font-family: var(--font-family-abel);
+  font-size: 13px;
+  font-weight: var(--weight-bold);
+  letter-spacing: 5px;
 }
 
 /* 이승준 수정 */
 .activity-total__item-wrap {
   justify-content: center;
+}
+
+.activity-total__item-wrap a {
+  color: var(--color-black);
 }
 
 /* 이승준 수정 */
@@ -365,6 +574,32 @@ textarea {
   height: 400px;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.btn__act-like {
+  position: absolute;
+  font-size: 22px;
+  top: 360px;
+  right: 8px;
+  color: var(--color-white);
+}
+
+.activity-total__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 15px;
+}
+
+.info__title.act {
+  height: 53px;
+}
+
+.read-more.act {
+  position: absolute;
+  left: 35px;
+  bottom: 0;
 }
 
 /* Main-login, Join */
@@ -572,7 +807,7 @@ details[open] summary::after {
 
 /* Promotion */
 
-#promotion {
+#main-promotion {
   width: 1400px;
   margin: 0 auto;
 }
