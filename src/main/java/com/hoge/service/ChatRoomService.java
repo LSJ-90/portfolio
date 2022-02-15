@@ -95,7 +95,10 @@ public class ChatRoomService {
 	}
 	
 
-	
+	public void insertChatRoom(ChatRoom chatRoom) {
+		chatRoomMapper.insertChatRoom(chatRoom);
+		
+	}
 	
 	
 	

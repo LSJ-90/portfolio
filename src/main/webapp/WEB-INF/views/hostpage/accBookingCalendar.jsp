@@ -48,12 +48,12 @@
   --fc-bg-event-color: rgb(143, 223, 130);
   --fc-bg-event-opacity: 0.3;
   --fc-highlight-color: rgba(188, 232, 241, 0.3);
-  --fc-today-bg-color: rgba(100, 100, 40, 0.1);
+  --fc-today-bg-color: rgba(253, 161, 249, 0.3);
   --fc-now-indicator-color: red;
 }
 
   #calendar {
-        max-width: 800px;
+        max-width: 850px;
         margin: 0 auto;
         
     }
@@ -63,7 +63,30 @@
 /*날짜 색깔*/
 .fc-daygrid-day-number {color:black;} 
 
+.fc .fc-button-primary:not(:disabled).fc-button-active, .fc .fc-button-primary:not(:disabled):active {
+    color: black;
+    color: black;
+    background-color: white;
+    background-color: white;
+    border-color: gray;
+    border-color: gray;
+}
 
+.fc .fc-button-primary {
+    color: black;
+  	 background-color: white;
+       border-color: gray;
+}
+
+.fc .fc-toolbar-title {
+    font-size: 1.3em;
+    margin: 0;
+}
+
+.fc .fc-button {
+
+    padding: 0.2em 0.35em;
+}
 </style>
 </head>
 <body>
