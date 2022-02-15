@@ -34,9 +34,8 @@ public class MyPageRestController {
 	}
 	
 	@GetMapping("/mylovelist/insertlovelist")
-	public void InsertMyLovePage(@LoginedUser User savedUser, int accommoNo) { 
+	public void insertMyLovePage(@LoginedUser User savedUser, int accommoNo) { 
 		
-		System.out.println(accommoNo);
 		MyLoveDto myLoveDto = new MyLoveDto();
 		myLoveDto.setUserNo(savedUser.getNo());
 		myLoveDto.setAccommoNo(accommoNo);

@@ -334,7 +334,7 @@
 	 -->
 	<select id="getMyLoveListByNo" resultType="com.hoge.vo.other.Wish" parameterType="int">
 		select 
-			accommo_no as accommoNo
+			user_no as userNo, accommo_no as accommoNo, activity_no as activityNo
 		from 
 			tb_final_wishes
 		where 
@@ -348,7 +348,7 @@
 	 -->
 	<select id="getAccommodationByNo" resultType="com.hoge.dto.AccommoListDto" parameterType="int">
 		select
-			a.accommo_no as accommoNo, 
+			a.accommo_no as no, 
 			a.host_no as hostNo, 
 			a.accommo_type as type, 
 			a.accommo_name as name, 
@@ -408,6 +408,5 @@
 		where user_no = #{userNo}
 		and accommo_no = #{accommoNo}
 	</select>
-	
 	
 </mapper>

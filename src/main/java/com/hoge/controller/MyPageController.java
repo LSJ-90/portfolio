@@ -194,6 +194,16 @@ public class MyPageController {
 		
 		List<AccommoListDto> myLoveList = userService.getMyLoveList(savedUser.getNo()); 
 		
+		for (AccommoListDto myLovePage : myLoveList) {
+			
+			MyLoveDto myLoveDto = new MyLoveDto();
+			myLoveDto.setUserNo(savedUser.getNo());
+			myLoveDto.setAccommoNo(myLovePage.getNo());
+			
+			int cnt = userService.getMyLoveListCnt(myLoveDto);
+			myLovePage.setCnt(cnt);
+		}
+		
 		if (!(myLoveList.isEmpty())) {
 			model.addAttribute("myLoveList", myLoveList);
 		}

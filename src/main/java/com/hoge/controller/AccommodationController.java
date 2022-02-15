@@ -16,16 +16,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hoge.dto.AccMainDto;
 import com.hoge.dto.AccReviewDto;
+import com.hoge.dto.AccommoListDto;
+import com.hoge.dto.MyLoveDto;
 import com.hoge.dto.RoomDto;
 import com.hoge.dto.RoomListDto;
 import com.hoge.form.Criteria;
 import com.hoge.service.AccommodationService;
 import com.hoge.service.HostService;
 import com.hoge.service.ReviewService;
+import com.hoge.service.UserService;
+import com.hoge.util.SessionUtils;
 import com.hoge.vo.accommo.AccommoImage;
 import com.hoge.vo.accommo.RoomImage;
 import com.hoge.vo.other.PromotionDiscount;
 import com.hoge.vo.other.PromotionOffer;
+import com.hoge.vo.other.User;
 
 
 @Controller
@@ -42,12 +47,34 @@ public class AccommodationController {
 	
 	@Autowired
 	private ReviewService reviewService;
+	
+	@Autowired
+	private UserService userService;
 
 	// 염주환
 	@GetMapping("/list")
 	public String list(@RequestParam(name = "page", required = false, defaultValue = "1") String page,
 			Criteria criteria, Model model) throws Exception {
-
+		
+		User savedUser = (User) SessionUtils.getAttribute("LOGIN_USER");
+		if (savedUser != null) {
+			List<AccommoListDto> cherkWishs = userService.getMyLoveList(savedUser.getNo()); 
+			
+			for (AccommoListDto cherkWish : cherkWishs) {
+				
+				MyLoveDto myLoveDto = new MyLoveDto();
+				myLoveDto.setUserNo(savedUser.getNo());
+				myLoveDto.setAccommoNo(cherkWish.getNo());
+				
+				int cnt = userService.getMyLoveListCnt(myLoveDto);
+				cherkWish.setCnt(cnt);
+			}
+			
+			if (!(cherkWishs.isEmpty())) {
+				model.addAttribute("cherkWishs", cherkWishs);
+			}
+		}
+		
 		model.addAttribute("criteria", criteria);
 
 		return "accommo/list.tiles";
