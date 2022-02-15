@@ -69,9 +69,8 @@
 				}
 			});
 		--%>
-		
 			// 아이디 유효성 체크
-			$("#userId").blur(function() {
+			$("#userId").on("keyup", function() {
 				var id = $(this).val();
 				
 				$.ajax({
@@ -91,7 +90,7 @@
 							// 0 : 정상, 형식검사 시작
 							if (idRegex.test(id)) {
 								$("#check_id").text("사용가능한 아이디 입니다!!  :)");
-								$("#check_id").css("color", "blue");
+								$("#check_id").css("color", "green");
 							} else if (id == "") {
 								$("#check_id").text("아이디를 입력해주세요!!  :(");
 								$("#check_id").css("color", "red");
@@ -127,6 +126,7 @@
               id="userId"
               name="id"
               placeholder="아이디를 입력해 주세요"
+              autocomplete="off"
             />
             <div class="warning" id="check_id"></div>
           </div>
@@ -157,6 +157,7 @@
               id="userName"
               name="name"
               placeholder="이름을 입력해 주세요"
+              autocomplete="off"
             />
           </div>
           <div class="join__box">
@@ -166,6 +167,7 @@
               id="userTel"
               name="tel"
               placeholder="휴대전화번호를 입력해 주세요"
+              autocomplete="off"
             />
           </div>
           <div class="join__box">
@@ -175,6 +177,7 @@
               id="userEmail"
               name="email"
               placeholder="이메일을 입력해 주세요"
+              autocomplete="off"
             />
           </div>
           <div class="join__check">
