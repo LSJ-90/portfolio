@@ -6,7 +6,7 @@
 <main id="main">
   <article id="admin-user">
   <form
-      class="search-user__form"
+      class="search-user__form only-child"
       id="form-search-userQnA"
       method="get"
       action="user-qna"
@@ -76,16 +76,13 @@
 		</table>
 
 		<!-- 페이지 내비게이션 표시 -->
-		<!-- 페이지 내비게이션 표시 -->
-		<div class="row mb-3">
-			<div class="col">
-				<div class="pagination">
-					<ul id="paginationBox" class="pagination">
+		
+				<div id="pagination">
+					<ul id="paginationBox" class="pagination__list">
 		
 					</ul>
 				</div>
-			</div>
-		</div>
+		
 
  </article>
  </main>
@@ -140,9 +137,9 @@ function searchActivities(page) {
 					if (pagination['prevPage']) {
 						block += "<li class='page-item'><a class='page-link' onclick='searchActivities("
 								+ (pagination['beginPage'] - 1)
-								+ ")'> < </a></li>";
+								+ ")'> <i class='fas fa-chevron-left'></i> </a></li>";
 					} else {
-						block += "<li class='page-item disabled'><a class='page-link'> < </a></li>";
+						block += "<li class='page-item disabled'><a class='page-link'> <i class='fas fa-chevron-left'></i> </a></li>";
 					}
 
 					// 번호를 표시하는 부분
@@ -159,9 +156,9 @@ function searchActivities(page) {
 					if (pagination['nextPage']) {
 						block += "<li class='page-item'><a class='page-link' onclick='searchActivities("
 								+ (pagination['endPage'] + 1)
-								+ ")'>  > </a></li>";
+								+ ")'>  <i class='fas fa-chevron-right'></i> </a></li>";
 					} else {
-						block += "<li class='page-item disabled'><a class='page-link'> > </a></li>";
+						block += "<li class='page-item disabled'><a class='page-link'> <i class='fas fa-chevron-right'></i> </a></li>";
 					}
 					
 					$("#paginationBox").html(block);

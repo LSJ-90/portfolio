@@ -6,6 +6,17 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js"></script>
 	<link rel="stylesheet" href="../../resources/css/admin_style.css" />
 </head>
+<style>
+.text--discount a,
+.text a{
+ color: var(--color-black);}
+.modal__title.nav {
+margin: 0;
+padding-left: 15px;
+}
+</style>
+
+
 <div class="mypage__content">
 	<ul class="content__menu">
 		<li class="content__item"><a href="/mypage/myrevlist" class="active">STAY</a></li>
@@ -19,22 +30,22 @@
 			<div class="row my-5 justify-content-center">
 				<div class="col-6 border-start border-top border-bottom bg-light">
 					<div class="row">
-						<div class="row ms-1 fs-2 fw-bold">
+						<div class="row ms-1 fs-2 fw-bold text--discount" style="padding: 0;">
 							<a href="#">${myRevInfo.accommoName }</a>
 						</div>
-						<div class="row ms-1 mb-3">
+						<div class="row ms-1 text" style="padding: 0; margin: 0;">
 							<a href="#">${myRevInfo.roomName }</a>
 						</div>
-						<div class="row ms-1">
+						<div class="row ms-1 discount__text">
 							${myRevInfo.accommoRegionDepth1 }/${myRevInfo.accommoRegionDepth2 }
 						</div>					
-						<div class="row ms-1">CHECK IN ::
+						<div class="row ms-1 discount__text">CHECK IN ::
 							<fmt:formatDate value="${myRevInfo.checkInDate }" type="both" pattern="yyyy-MM-dd '/ PM' HH:mm" />
 						</div>					
-						<div class="row ms-1">CHECK OUT ::
+						<div class="row ms-1 discount__text">CHECK OUT ::
 							<fmt:formatDate value="${myRevInfo.checkOutDate }" type="both" pattern="yyyy-MM-dd '/ AM' HH:mm" />
 						</div>					
-						<div class="row ms-1">PAY INFO ::
+						<div class="row ms-1 discount__text">PAY INFO ::
 							<fmt:formatNumber value="${myRevInfo.roomTaxIncludedPrice }" type="currency" currencySymbol="￦" />
 						</div>	
 						<div class="row-2 d-flex">
@@ -55,11 +66,9 @@
 								<div class="modal fade" id="modal-review-insert${myRevInfo.roomBookingNo }" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 								  <div class="modal-dialog">
 								    <article class="modal-content">
-								      <header class="modal-title">
-								        <p class="modal__title">리뷰작성</p>
-								      </header>
+								        <p class="modal__title nav">리뷰작성</p>
 								      <div class="modal-body">
-										<h3>${myRevInfo.accommoName }/${myRevInfo.roomName }</h3>
+										<h3 style="margin-bottom: 10px;">${myRevInfo.accommoName }/${myRevInfo.roomName }</h3>
 										<input id="reviewAccommoNo" type="hidden" name="accommoNo" value="${myRevInfo.accommoNo }"/>
 										<input id="reviewRoomBookingNo" type="hidden" name="roomBookingNo" value="${myRevInfo.roomBookingNo }"/>
 										<div class="make_star1">
@@ -110,7 +119,7 @@
 												<input type="hidden" name="locationStar"/>
 											</div>
 										</div>
-										<textarea class="answer__textarea" name="content" id=""></textarea>
+										<textarea class="answer__textarea" name="content" id="" style="margin-top: 10px;"></textarea>
 								      </div>
 								      <div class="modal-footer">
 								        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">닫기</button>
@@ -126,12 +135,12 @@
 							<div class="modal fade" id="modal-review-select${myRevInfo.roomBookingNo }" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 							  <div class="modal-dialog">
 							    <article class="modal-content">
-							      <header class="modal-title">
-							        <p class="modal__title">리뷰조회 및 수정</p>
-							      </header>
-							      <fmt:formatDate value="${myRevInfo.myReview.updatedDate }" type="both" pattern="yyyy-MM-dd HH:mm:ss" />
+							        <p class="modal__title nav">리뷰조회 및 수정</p>
 							      <div class="modal-body">
-									<h3>${myRevInfo.accommoName }/${myRevInfo.roomName }</h3>
+							        <div style="margin-bottom: 10px;">
+							      	<fmt:formatDate value="${myRevInfo.myReview.updatedDate }" type="both" pattern="yyyy-MM-dd HH:mm:ss" />
+							      </div>
+									<h3 style="margin-bottom: 10px;">${myRevInfo.accommoName }/${myRevInfo.roomName }</h3>
 									<div class="make_star1">
 										<div class="selectrating" data-rate="${myRevInfo.myReview.cleanlinessStar }">
 											<span class="" id="">청결점수</span>
@@ -181,7 +190,7 @@
 										</div>
 									</div>
 									<input type="hidden" name="no" value="${myRevInfo.myReview.no }"/>
-									<textarea class="answer__textarea" name="content" >${myRevInfo.myReview.content }</textarea>
+									<textarea class="answer__textarea" name="content" style="margin-top: 10px;">${myRevInfo.myReview.content }</textarea>
 								  </div>
 							      <div class="modal-footer">
 							        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">닫기</button>
@@ -237,9 +246,7 @@
 <div class="modal fade" id="modal-cancelRev" tabindex="-1" aria-labelledby="예약취소" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<article class="modal-content">
-			<header class="modal-title">
 				<p class="modal__title">예약 정보</p>
-			</header>
 			<main class="modal-main">
 				<p class="question__title" id="defaultTitle">기본정보</p>
 				<table class="user-list-table">
