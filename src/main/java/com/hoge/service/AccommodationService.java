@@ -305,7 +305,7 @@ public class AccommodationService {
         params.add("cid", "TC0ONETIME");
         params.add("tid", myRevInfoByBookingNo.getTID());
         params.add("cancel_amount", Long.toString(myRevInfoByBookingNo.getPaidPrice()));
-        params.add("cancel_vat_amount", Long.toString(myRevInfoByBookingNo.getPaidPrice()));
+        params.add("cancel_tax_free_amount", Long.toString(myRevInfoByBookingNo.getPaidPrice()));
  
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
  
