@@ -8,7 +8,7 @@
 		TB_FINAL_OFFER_PROMOTIONS
 		set status = 'D'
 		where PROMOTION_ENDING_DATE &lt;= sysdate
-		and status = 'Y';
+		and status = 'Y'
 	</update>
 	
 	<!-- 성하민 할인프로모션 시간 지난거 종료로 변경-->
@@ -17,7 +17,7 @@
 		TB_FINAL_DISCOUNT_PROMOTIONS
 		set status = 'D'
 		where PROMOTION_ENDING_DATE &lt;= sysdate
-		and status = 'Y';
+		and status = 'Y'
 	</update>
 	
 	

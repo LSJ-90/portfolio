@@ -64,7 +64,7 @@ public class AccommoRestController {
 			for (AccommoListDto dto : accommoListDtos) {
 				MergeAccommoListDto merge = new MergeAccommoListDto();
 				BeanUtils.copyProperties(dto, merge);
-				merge.setAverageStar((dto.getCleanlinessStar()+dto.getCommunicationStar()+dto.getAccuracyStar()+dto.getLocationStar())/4);
+				merge.setAverageStar(Math.round(((dto.getCleanlinessStar()+dto.getCommunicationStar()+dto.getAccuracyStar()+dto.getLocationStar()))/4*10)/10.0);
 				merge.setMinPrice(dto.getMinWeekdaysPrice());
 				merge.setMaxPrice(dto.getMaxWeekendPrice());
 				merges.add(merge);
@@ -346,7 +346,7 @@ public class AccommoRestController {
 			
 			merge.setMinPrice(minPrice);
 			merge.setMaxPrice(maxPrice);
-			merge.setAverageStar((dto.getCleanlinessStar()+dto.getCommunicationStar()+dto.getAccuracyStar()+dto.getLocationStar())/4);
+			merge.setAverageStar(Math.round(((dto.getCleanlinessStar()+dto.getCommunicationStar()+dto.getAccuracyStar()+dto.getLocationStar()))/4*10)/10.0);
 			
 			if (!promotionDiscountDtos.isEmpty()) {
 				merge.setIsDiscountPromotion(true);

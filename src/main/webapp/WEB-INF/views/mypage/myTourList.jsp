@@ -58,7 +58,7 @@ $(function() {
 						latlng: new kakao.maps.LatLng(result.xce, result.yce),
 						images : result.accommoImages
 					});
-				} else if (result.accommoImages == null && result.activityImages[0].image != null) {
+				} else if (result.accommoImages == null && (result.activityImages != "" || result.activityImages != null || result.activityImages != undefined || ( result.activityImages == null && typeof result.activityImages != "object" && Object.keys(result.activityImages).length))) {
 					positions.push({
 						no : result.no,
 						name : result.name,
