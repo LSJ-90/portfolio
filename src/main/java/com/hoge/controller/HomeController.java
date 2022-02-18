@@ -40,7 +40,9 @@ public class HomeController {
 		
 		model.addAttribute("newSixAccommoDtos", newSixAccommoDtos);
 		model.addAttribute("newSixAcivityDtos", newSixAcivityDtos);
-		model.addAttribute("homePromotionDiscountDtos", homePromotionDiscountDtos);
+		if (!(homePromotionDiscountDtos.isEmpty())) {
+			model.addAttribute("homePromotionDiscountDtos", homePromotionDiscountDtos);
+		}
 		model.addAttribute("homePromotionOfferDtos", homePromotionOfferDtos);
 		model.addAttribute("activityPromotionDto", activityPromotionDto);
 		

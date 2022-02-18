@@ -19,22 +19,22 @@
 			<div class="row my-5 justify-content-center">
 				<div class="col-6 border-start border-top border-bottom bg-light">
 					<div class="row">
-						<div class="row ms-1 fs-2 fw-bold">
+						<div class="row ms-1 fs-2 fw-bold discount__text">
 							<a href="#">${myLoveInfo.name }</a>
 						</div>
-						<div class="row ms-1 mb-3">
+						<div class="row ms-1 mb-3 discount__text">
 							<a href="#">${myLoveInfo.type }</a>
 						</div>
-						<div class="row ms-1">
+						<div class="row ms-1 discount__text">
 							CITY :: ${myLoveInfo.regionDepth1 }
 						</div>					
-						<div class="row ms-1">
+						<div class="row ms-1 discount__text">
 							<fmt:formatDate value="" type="both" pattern="yyyy-MM-dd '/ PM' HH:mm" />
 						</div>					
-						<div class="row ms-1">PEOPLE ::
+						<div class="row ms-1 discount__text">PEOPLE ::
 							기준 ${myLoveInfo.minNumber }명(최대 ${myLoveInfo.maxNumber }명)
 						</div>					
-						<div class="row ms-1">PAY INFO ::
+						<div class="row ms-1 discount__text">PAY INFO ::
 							<fmt:formatNumber value="${myLoveInfo.minWeekdaysPrice }" type="currency" currencySymbol="￦" />
 							~
 							<fmt:formatNumber value="${myLoveInfo.maxPeakSeasonPrice }" type="currency" currencySymbol="￦" />

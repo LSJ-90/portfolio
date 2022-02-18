@@ -150,37 +150,39 @@
 			<h1 class="article-title">EVENT</h1>
 			<!-- 증정 3개 묶어서 1개 슬라이드 화면 -->
 			<div class="container-fluid my-5">
-				
-						<ul class="event__list owl-carousel owl-theme">
-							<c:forEach var="homePromotionOfferDto" items="${homePromotionOfferDtos }" varStatus="status">
-							<li class="event__item-wrap">
-								
-								<a href="/accommo/detail?accNo=${homePromotionOfferDto.accommoNo }&check_in=&check_out=&days=">
-									<div class="event__item">
-									  <img style="background-image: url('../resources/images/hostMainImage/${homePromotionOfferDto.mainImage }')" alt="" class="event__image" />
-										<button class="btn__like">
-											<i class="far fa-heart"></i>
-										</button>
-										<div class="promotion-date">
-											<p>${homePromotionOfferDto.deadlineDate } DAYS</p>
-											<p>LEFT!</p>
-										</div>
-										<div class="event__info">
-											<h2 class="info__title">${homePromotionOfferDto.accommoName }</h2>
-											<p class="info__text">
-												${homePromotionOfferDto.accommoRegionDepth1 } /
-												${homePromotionOfferDto.accommoRegionDepth2 } 
-											</p>
-											<p class="event-info__description">
-												${homePromotionOfferDto.introContent }
-											</p>
-											<span class="read-more">자세히 보기</span>
-										</div>
-									</div>
-								</a>
-							</li>
-							</c:forEach>
-						</ul>
+				<c:if test="${empty homePromotionOfferDtos }">
+					<div class="mb-3 text-center alert alert-info">제공 가능한 프로모션이 존재하지 않습니다.</div>
+				</c:if>
+				<ul class="event__list owl-carousel owl-theme">
+					<c:forEach var="homePromotionOfferDto" items="${homePromotionOfferDtos }" varStatus="status">
+					<li class="event__item-wrap">
+						
+						<a href="/accommo/detail?accNo=${homePromotionOfferDto.accommoNo }&check_in=&check_out=&days=">
+							<div class="event__item">
+							  <img style="background-image: url('../resources/images/hostMainImage/${homePromotionOfferDto.mainImage }')" alt="" class="event__image" />
+								<button class="btn__like">
+									<i class="far fa-heart"></i>
+								</button>
+								<div class="promotion-date">
+									<p>${homePromotionOfferDto.deadlineDate } DAYS</p>
+									<p>LEFT!</p>
+								</div>
+								<div class="event__info">
+									<h2 class="info__title">${homePromotionOfferDto.accommoName }</h2>
+									<p class="info__text">
+										${homePromotionOfferDto.accommoRegionDepth1 } /
+										${homePromotionOfferDto.accommoRegionDepth2 } 
+									</p>
+									<p class="event-info__description">
+										${homePromotionOfferDto.introContent }
+									</p>
+									<span class="read-more">자세히 보기</span>
+								</div>
+							</div>
+						</a>
+					</li>
+					</c:forEach>
+				</ul>
 			</div>
 		</article>
 	</section>
