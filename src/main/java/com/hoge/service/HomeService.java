@@ -55,7 +55,9 @@ public class HomeService {
 			// logger.info(homePromotionDiscountDto);
 			AccommoImage accommoImage = new AccommoImage();
 			accommoImage = homeMapper.getAccMainImage(homePromotionDiscountDto.getNo());
-			homePromotionDiscountDto.setMainImage(accommoImage.getImage());
+			if (accommoImage != null) {
+				homePromotionDiscountDto.setMainImage(accommoImage.getImage());
+			}
 			
 			HomeAccommoDto minMaxDto = new HomeAccommoDto();
 			minMaxDto = homeMapper.getMinMaxByHostNo(homePromotionDiscountDto.getHostNo());
