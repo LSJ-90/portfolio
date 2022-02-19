@@ -23,15 +23,15 @@ public class ActivityRestController {
 	
 	@GetMapping("/mapArea")
 	public ActivityPagination list(MapArea mapArea) throws Exception {
-		System.out.println("================================");
-		System.out.println(mapArea.getCheckIn());
-		System.out.println(mapArea.getPage());
-		System.out.println(mapArea.getNeLat());
-		System.out.println("================================");
+//		System.out.println("================================");
+//		System.out.println(mapArea.getCheckIn());
+//		System.out.println(mapArea.getPage());
+//		System.out.println(mapArea.getNeLat());
+//		System.out.println("================================");
 		ActivityPagination activityPagination = new ActivityPagination();
 		
 		int totalRecords = activityService.getTotalRows(mapArea);
-		System.out.println(totalRecords);
+		//System.out.println(totalRecords);
 		
 		Pagination pagination = new Pagination(mapArea.getPage(), totalRecords, 5);
 		
