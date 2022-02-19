@@ -188,8 +188,7 @@ $(function() {
 	                    row += '<li><a href="/activity/detail?actNo='+activity.no+'">예약하기</a></li>';
 	                  	row += '</ul>';
 	                  	row += '</div>';
-	                  	if (activity.activityImages[0].image != null) {
-	                  		console.log("있어");
+	                  	if (typeof(activity.activityImages) !== 'undefined' && Array.isArray(activity.activityImages) && activity.activityImages.length > 0) {
 	                  		row += '<div class="col-7">';
     	                  	row += '<div id="carouselExampleIndicators'+activity.no+'" class="carousel slide" data-bs-interval="false">';
     	                  	row += '<div class="carousel-indicators">';
@@ -208,7 +207,7 @@ $(function() {
     	                     	} else {
     	                        	row += '<div class="carousel-item">';
     	                     	}
-    	                    row += '<a href="/activity/detail?actNo='+activity.no+'"><img width="10" src="/resources/images/activities/'+image.image+'" class="d-block w-100" alt="image"></a>';
+    	                    row += '<a href="/activity/detail?actNo='+activity.no+'"><img src="/resources/images/activities/'+image.image+'" class="d-block w-100" alt="image"></a>';
     	                    row += '</div>';
     	                  	});
     	                  	row += '</div>';
@@ -222,6 +221,7 @@ $(function() {
     	                  	row += '</button>';
     	                  	row += '</div>';
     	                  	row += '</div>';
+    	                  	console.log(activity.activityImages[0].image);
 	                  		positions.push({
 	                  			name: activity.name,
 	                  			latlng: new kakao.maps.LatLng(activity.xce, activity.yce),
@@ -232,7 +232,6 @@ $(function() {
     		                    image: activity.activityImages[0].image
 	                  		})
 	                  	} else {
-	                  		console.log("없어");
 	                  		positions.push({
 	                  			name: activity.name,
 	                  			latlng: new kakao.maps.LatLng(activity.xce, activity.yce),
@@ -287,7 +286,7 @@ $(function() {
 	            
 	            $accommos.append(row);
 	            
-	            console.log(positions);
+	            //console.log(positions);
 	            markerAdd(positions);
 	            
 	         },

@@ -26,7 +26,7 @@
 				인원 : ${book.numberOfPeople } 명</p>
 			</div>
 			<div>
-				<h3>￦${book.paidPrice }</h3>
+				<h3>￦<fmt:formatNumber value="${book.paidPrice }" /></h3>
 				<p>결제 완료(<fmt:formatDate value="${book.bookingMadeDate }" pattern="yyyy-MM-dd"/>)
 			</div>
 		</div>
