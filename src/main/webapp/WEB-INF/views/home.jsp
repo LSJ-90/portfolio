@@ -17,7 +17,7 @@
 			    <c:forEach var="newSixAccommoDto" items="${newSixAccommoDtos }">
 			    <li id="stay-new__item" class="stay-new__item carousel-item">
 				    <a href="/accommo/detail?accNo=${newSixAccommoDto.accNo }&check_in=&check_out=&days=">
-					    <img style="background-image: url('../resources/images/hostMainImage/${newSixAccommoDto.mainImage}')" alt="" class="stay-new__image" />
+					    <img style="background-image: url('../resources/images/accommodation/${newSixAccommoDto.mainImage}')" alt="" class="stay-new__image" />
 					    <div class="stay-new__info">
 							<p class="title">${newSixAccommoDto.accName }</p>
 							<p class="info__description">
@@ -51,7 +51,7 @@
 								
 								<a href="/accommo/detail?accNo=${accommoDto.accommoNo }&check_in=&check_out=&days=">
 									<div class="stay-total__item">
-										<img style="background-image: url('../resources/images/hostMainImage/${accommoDto.mainImage }')" alt="" class="stay-total__image" />
+										<img style="background-image: url('../resources/images/accommodation/${accommoDto.mainImage }')" alt="" class="stay-total__image" />
 											<button class="btn__like">
 												<i class="far fa-heart"></i>
 											</button>

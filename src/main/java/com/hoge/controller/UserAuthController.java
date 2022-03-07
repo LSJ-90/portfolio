@@ -19,7 +19,7 @@ import com.hoge.vo.other.User;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 사용자 을 위한 컨트롤러
+ * 사용자를 위한 컨트롤러
  * @author 이승준
  *
  */
@@ -32,6 +32,7 @@ public class UserAuthController {
 	
 	@Autowired
 	private SendEmailService sendEmailService;
+	
 	// 이승준: 로그인폼 페이지 리턴
 	@GetMapping("/login")
 	public String loginInit() throws Exception {
@@ -39,16 +40,31 @@ public class UserAuthController {
 		return "form/loginForm.tiles";
 	}
 	
-	// 이승준: 로그인 성공 시 홈 페이지로 리다이렉트(관리자일 경우 관리자페이지 메인으로 리다이렉트)
+	// 이승준: 로그인 시도 >> 성공 시 홈 페이지로 리다이렉트(관리자일 경우 관리자페이지 메인으로 리다이렉트)
 	@PostMapping("/login")
 	public String login(String id, String pwd) {
 		
 		User savedUser = userService.login(id, pwd);
 		SessionUtils.addAttribute("LOGIN_USER", savedUser);
 		
+		// 관리자 계정은 admin01, admin02로 사용한다.
 		if ("admin01".equals(savedUser.getId()) || "admin02".equals(savedUser.getId())) {
 			return "redirect:admin/main";
 		}
+		
+		return "redirect:home";
+	}
+	
+	// 이승준: 카카오톡 로그인
+	@PostMapping("/loginKakao")
+	public String loginKakao(KakaoUserDto kakaoUser) {
+		
+		log.info("카카오 로그인 인증정보 : " + kakaoUser );
+	
+		User savedUser = userService.loginKakao(kakaoUser);
+		
+		SessionUtils.addAttribute("LOGIN_USER", savedUser);
+		
 		
 		return "redirect:home";
 	}
@@ -76,20 +92,6 @@ public class UserAuthController {
 		SessionUtils.addAttribute("LOGIN_USER", newUser);
 		
 		return "form/completeRegister.tiles";
-	}
-	
-	// 이승준: 카카오톡 로그인
-	@PostMapping("/loginKakao")
-	public String loginKakao(KakaoUserDto kakaoUser) {
-		
-		log.info("카카오 로그인 인증정보 : " + kakaoUser );
-	
-		User savedUser = userService.loginKakao(kakaoUser);
-		
-		SessionUtils.addAttribute("LOGIN_USER", savedUser);
-		
-		
-		return "redirect:home";
 	}
 	
 	// 이승준: 아이디 찾기 페이지 리턴

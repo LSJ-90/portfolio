@@ -171,7 +171,7 @@ public class AccommodationController {
 		
 		
 
-		logger.info("결과값:" );
+		// logger.info("결과값:" );
 
 		return "accommo/roomDetail.tiles";
 	}

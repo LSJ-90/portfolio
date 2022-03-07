@@ -139,25 +139,32 @@ public class UserService {
 		userMapper.updateUser(user);
 	}
 	
-	// 이승준 로그인페이지
+	// 이승준: 로그인 처리
 	public User login(String id, String pwd) {
 		
-		if (!StringUtils.hasText(id) || !StringUtils.hasText(pwd)) {
+		// 사용자가 입력한 데이터를 비교하여, 아이디 혹은 비밀번호를 입력하지 않았을 시 예외를 던진다.
+		if (!(StringUtils.hasText(id)) || !(StringUtils.hasText(pwd))) {
 			throw new LoginException("<strong>아이디</strong> 또는 <strong>비밀번호</strong>를 입력하지 않았습니다.");
 		}
 		
+		// 사용자가 입력한 아이디로 DB에서 사용자 정보를 가져온다.
 		User savedUser = userMapper.getUserById(id);		
 		
+		// 사용자 정보가 존재하지 않을 경우
 		if (savedUser == null) {
 			throw new LoginException("회원정보가 존재하지 않습니다.");
 		}
 		
+		// 탈퇴처리된 사용자일 경우
 		if ("Y".equals(savedUser.getDeleted())) {
 			throw new LoginException("탈퇴처리된 아이디입니다. 재가입해주세요.");
 		}
 		
+		// 사용자가 입력한 패스워드를 DigestUtils를 사용해 암호화 한다.
 		String authPwd = DigestUtils.sha512Hex(pwd);
-		if (!authPwd.equals(savedUser.getPwd())) {
+		
+		// 비밀번호가 일치하지 않을 경우
+		if (!(authPwd.equals(savedUser.getPwd()))) {
 			throw new LoginException("비밀번호가 일치하지 않습니다.");
 		}
 		

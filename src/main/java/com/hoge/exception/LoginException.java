@@ -1,7 +1,7 @@
 package com.hoge.exception;
 
 /**
- * LoginException을 발생시키기 위한 클래스
+ * LoginException을 처리하기 위한 클래스
  * @author 이승준
  *
  */

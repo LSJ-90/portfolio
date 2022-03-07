@@ -25,7 +25,7 @@
 				</div>
 				<div class="login__etc">
 					<a href="/register" class="sign-in">회원가입</a>
-					<a href="/findid" class="forgot-pwd">아이디 찾기</a>
+					<a href="/findid" class="forgot-id">아이디 찾기</a>
 					<a href="/findpwd" class="forgot-pwd">패스워드 찾기</a>
 				</div>
 			</form>
