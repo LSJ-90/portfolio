@@ -4,7 +4,7 @@
 	
 	<!-- 이승준 테스트용
 		List<User> getAllUsers();
-	 -->
+	
 	 <select id="getAllUsers" resultType="com.hoge.vo.other.User">
 	 	select
 	 		user_no as no,
@@ -25,6 +25,7 @@
 	 	order by
 	 		user_no desc
 	 </select>
+	 -->
 	 
 	 <!-- 이승준 
 		User getUserByNo(int no);

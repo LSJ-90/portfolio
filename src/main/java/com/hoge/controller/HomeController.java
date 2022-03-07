@@ -53,31 +53,4 @@ public class HomeController {
 		
 		return "home.tiles";
 	}
-	
-	/*
-	// 이승준: 홈 페이지로 리턴
-	@GetMapping("/home")
-	public String home(@RequestParam(name = "page", required = false, defaultValue = "1") String page, 
-														Criteria criteria, Model model) throws Exception {
-		
-		List<AccMainDto> newSixAccommoDtos = homeService.getNewSixAccommoMainImages();
-		List<HomeAccommoDto> homePromotionDiscountDtos = homeService.getAccDiscountPromotionsForHome();
-		List<HomeAccommoDto> homePromotionOfferDtos = homeService.getAccOfferPromotionsForHome();
-		
-		model.addAttribute("newSixAccommoDtos", newSixAccommoDtos);
-		model.addAttribute("homePromotionDiscountDtos", homePromotionDiscountDtos);
-		model.addAttribute("homePromotionOfferDtos", homePromotionOfferDtos);
-		
-		// int totalRecords = homeService.getAllAccommodationTotalRows();
-		// Pagination pagination = new Pagination(page, totalRecords, 3);
-		// criteria.setBeginIndex(pagination.getBegin());
-		// criteria.setEndIndex(pagination.getEnd());
-		List<HomeAccommoDto> accommoDtos = homeService.getAllAccommodation(criteria);
-		model.addAttribute("accommoDtos", accommoDtos);
-		// model.addAttribute("pagination", pagination);
-		
-		logger.info("오퍼프로모션:" + homePromotionOfferDtos);
-		return "home.tiles";
-	}
-	*/
 }

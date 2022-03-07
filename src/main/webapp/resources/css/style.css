@@ -767,6 +767,7 @@ details[open] summary::after {
 }
 
 .sign-in,
+.forgot-id,
 .forgot-pwd {
   font-size: 14px;
   font-weight: var(--weight-regular);

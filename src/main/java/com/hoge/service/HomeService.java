@@ -16,7 +16,7 @@ import com.hoge.mapper.PromotionMapper;
 import com.hoge.vo.accommo.AccommoImage;
 
 /**
- * User에 관한 서비스 로직
+ * 홈페이지에 관한 서비스 로직
  * @author 이승준
  *
  */
