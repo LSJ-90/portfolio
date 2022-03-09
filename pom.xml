@@ -50,6 +50,10 @@
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>2.2.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
 		
 		
 		<!-- json simple 성하민 추가-->
@@ -72,9 +76,7 @@
 		  <version>2.8.6</version>
 		</dependency>
 		
-		
 		<!-- json simple  -->
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -92,6 +94,7 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+		
 		<!-- cloud wallet -->
 		<dependency>
 			<groupId>com.oracle.database.security</groupId>
@@ -128,6 +131,7 @@
     		<groupId>javax.servlet</groupId>
     		<artifactId>jstl</artifactId>
 		</dependency>
+		
 		<!-- 타일즈 관련 의존성 추가  -->
 		<dependency>
 			<groupId>org.apache.tiles</groupId>

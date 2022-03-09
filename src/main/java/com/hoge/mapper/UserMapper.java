@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.hoge.dto.AccommoListDto;
+import com.hoge.dto.HogeUserDto;
 import com.hoge.dto.KakaoUserDto;
 import com.hoge.dto.MyLoveDto;
 import com.hoge.dto.UserRevInfoDto;
@@ -37,7 +38,7 @@ public interface UserMapper {
 	void updateUser(User user);
 	
 	// 이승준: 회원가입을 위한 메소드이다.
-	void insertUser(User user);
+	void insertUser(HogeUserDto user);
 	
 	// (성하민 수정) 카카오 로그인을 통해 회원가입
 	void insertUserKaKao(KakaoUserDto user);
