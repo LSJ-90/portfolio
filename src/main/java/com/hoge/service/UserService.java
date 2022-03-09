@@ -1,7 +1,9 @@
 package com.hoge.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.LogManager;
@@ -9,10 +11,13 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 
 import com.hoge.config.auth.LoginedUser;
 import com.hoge.controller.AdminController;
 import com.hoge.dto.AccommoListDto;
+import com.hoge.dto.HogeUserDto;
 import com.hoge.dto.KakaoUserDto;
 import com.hoge.dto.MyLoveDto;
 import com.hoge.dto.UserRevInfoDto;
@@ -190,11 +195,10 @@ public class UserService {
 	}
 	
 	// 이승준: 회원가입 페이지
-	public User register(User newUser) {
-		
+	public void register(HogeUserDto newUser) {
+		String authPwd = DigestUtils.sha512Hex(newUser.getPwd());
+		newUser.setPwd(authPwd);
 		userMapper.insertUser(newUser);
-		
-		return newUser;
 	}
 	
 	// 성하민 관리자페이지

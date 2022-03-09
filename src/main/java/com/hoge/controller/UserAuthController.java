@@ -1,10 +1,13 @@
 package com.hoge.controller;
 
-import org.apache.commons.codec.digest.DigestUtils;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -71,24 +74,21 @@ public class UserAuthController {
 	
 	// 이승준: 회원가입 페이지로 리턴
 	@GetMapping("/register")
-	public String registerInit() {
-		
+	public String registerInit(Model model) {
+		model.addAttribute("registerForm", new HogeUserDto());
 		return "form/registerForm.tiles";
 	}
 	
 	// 이승준: 회원가입 
 	@PostMapping("/register")
-	public String register(HogeUserDto user) {
-		User newUser = User.builder()
-				.id(user.getId())
-				.pwd(DigestUtils.sha512Hex(user.getPwd()))
-				.name(user.getName())
-				.tel(user.getTel())
-				.email(user.getEmail())
-				.gender(user.getGender())
-				.build();
+	public String register(@ModelAttribute("registerForm") @Valid HogeUserDto newUser, BindingResult errors, Model model) {
+		
+		if (errors.hasErrors()) {
+			return "form/registerForm.tiles";
+		}
 		
 		userService.register(newUser);
+		
 		SessionUtils.addAttribute("LOGIN_USER", newUser);
 		
 		return "form/completeRegister.tiles";
