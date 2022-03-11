@@ -45,6 +45,8 @@ public interface UserMapper {
 	
 	// 이승준: 아이디 중복여부체크 1: 중복 / 0: 정상
 	int userCheckByid(String id);
+	int userCheckByTel(String tel);
+	int userCheckByEmail(String email);
 	
 	// 성하민
 	int getUsersTotalRows(CriteriaAdminUser CAU);
@@ -72,5 +74,5 @@ public interface UserMapper {
 
 	void insertMyLovePage(MyLoveDto myLoveDto);
 	void deleteMyLovePage(MyLoveDto myLoveDto);
-	int getMyLoveListCnt(MyLoveDto myLoveDto);
+	int getMyLoveListCnt(MyLoveDto myLoveDto);   
 }

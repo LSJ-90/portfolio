@@ -153,6 +153,30 @@
 		where 
 			user_id = #{value}
 	</select>
+
+	<!-- 이승준 
+		int userCheckByTel(String tel);
+	 -->
+	<select id="userCheckByTel" parameterType="string" resultType="int">
+		select 
+			count(*) 
+		from 
+			tb_final_users 
+		where 
+			user_tel = #{value}
+	</select>
+
+	<!-- 이승준 
+		int userCheckByEmail(String email);
+	 -->
+	 <select id="userCheckByEmail" parameterType="string" resultType="int">
+		select 
+			count(*) 
+		from 
+			tb_final_users 
+		where 
+			user_email = #{value}
+	</select>
 	
 	 <!-- 성하민
 		int getUsersTotalRows(CriteriaAdminUser CAU);

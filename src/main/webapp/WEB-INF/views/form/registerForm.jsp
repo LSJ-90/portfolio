@@ -30,7 +30,7 @@
               placeholder="비밀번호를 입력해 주세요"
               path="pwd"
             />
-            <div class="warning" id="check_pwd"></div>
+            <div class="warning" id="check_pwd"><form:errors path="pwd" /></div>
           </div>
           <div class="join__box">
             <label for="userPwdConfirm">비밀번호 확인</label>
@@ -55,13 +55,14 @@
           </div>
           <div class="join__box">
             <label for="userTel">휴대전화</label>
-            <input
+            <form:input
               type="tel"
               id="userTel"
-              name="tel"
               placeholder="휴대전화번호를 입력해 주세요"
               autocomplete="off"
+              path="tel"
             />
+            <div class="warning" id="check_tel"><form:errors path="tel" /></div>
           </div>
           <div class="join__box">
             <label for="userEmail">이메일</label>
