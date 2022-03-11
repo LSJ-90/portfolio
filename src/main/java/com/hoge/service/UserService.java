@@ -1,21 +1,14 @@
 package com.hoge.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.Errors;
-import org.springframework.validation.FieldError;
-
 import com.hoge.config.auth.LoginedUser;
-import com.hoge.controller.AdminController;
 import com.hoge.dto.AccommoListDto;
 import com.hoge.dto.HogeUserDto;
 import com.hoge.dto.KakaoUserDto;
@@ -189,9 +182,19 @@ public class UserService {
 		return savedUser;
 	}
 	
-	// 이승준: 회원가입 페이지
+	// 이승준: 회원가입 페이지(아이디 중복체크)
 	public int userCheckById(String id) {
 		return userMapper.userCheckByid(id);
+	}
+
+	// 이승준: 회원가입 페이지(전화번호 중복체크)
+	public int userCheckByTel(String tel) {
+		return userMapper.userCheckByTel(tel);
+	}
+
+	// 이승준: 회원가입 페이지(이메일 중복체크)
+	public int userCheckByEmail(String email) {
+		return userMapper.userCheckByEmail(email);
 	}
 	
 	// 이승준: 회원가입 페이지
