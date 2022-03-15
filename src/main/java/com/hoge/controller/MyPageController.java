@@ -56,7 +56,7 @@ import com.hoge.vo.other.UserQnA;
 @RequestMapping("/mypage")
 public class MyPageController {
 	
-	static final Logger logger = LogManager.getLogger(AdminController.class);
+	static final Logger logger = LogManager.getLogger(MyPageController.class);
 	
 	@Autowired
 	private ChatRoomService chatRoomService;
@@ -234,7 +234,7 @@ public class MyPageController {
 		savedUser.setEmail(form.getEmail());
 		savedUser.setTel(form.getTel());
 		
-		String saveDirectory = "C:\\final-workspace\\finalproject-chanel5\\src\\main\\webapp\\resources\\images\\userprofiles";
+		String saveDirectory = "C:\\final-workspace\\portfolio\\src\\main\\webapp\\resources\\images\\userprofiles";
 		MultipartFile myProfile = form.getMyProfile();
 	    System.out.println(myProfile);
 		if (myProfile != null) {		
