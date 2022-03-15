@@ -74,5 +74,5 @@ public interface UserMapper {
 
 	void insertMyLovePage(MyLoveDto myLoveDto);
 	void deleteMyLovePage(MyLoveDto myLoveDto);
-	int getMyLoveListCnt(MyLoveDto myLoveDto);   
+	int getMyLoveListCnt(MyLoveDto myLoveDto);
 }

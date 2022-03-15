@@ -12,7 +12,7 @@ public class UserAuthRestController {
 	
 	@Autowired
 	private UserService userService;
-	
+
 	// 이승준: 아이디 중복여부 체크
 	@PostMapping("/register/checkId")
 	public int checkId(@RequestParam("userId") String id) {
