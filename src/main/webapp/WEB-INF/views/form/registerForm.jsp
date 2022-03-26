@@ -3,6 +3,7 @@
 <%@ include file="../common/tags.jsp" %>
 <script src="/resources/js/registerForm.js"></script>
 <script src="/resources/js/kakaoLogin.js"></script>
+<script src="/resources/javascript/main.js"></script>
 <main id="main">
   <div class="login-wrap">
     <header class="section__header">

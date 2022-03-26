@@ -29,7 +29,7 @@ public class SendEmailService {
 	
     // 이승준: 임시비밀번호를 포함한 이메일생성
     public MailDto createMailAndChangePassword(String id, String email){
-    	User savedUser = userService.getUserByEmail(email);
+    	User savedUser = userService.checkUserByEmail(email);
     	String str = getTempPassword();
         MailDto mailDto = new MailDto();
         mailDto.setAddress(savedUser.getEmail());
@@ -52,9 +52,9 @@ public class SendEmailService {
         message.setTo(mailDto.getAddress());
         message.setSubject(mailDto.getTitle());
         message.setText(mailDto.getMessage());
-
+        // System.out.println(message);
         mailSender.send(message);
-        System.out.println("이멜 전송 완료!");
+        // System.out.println("이멜 전송 완료!");
     }
     
     // 이승준: 난수 생성

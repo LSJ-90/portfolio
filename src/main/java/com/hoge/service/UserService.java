@@ -15,6 +15,7 @@ import com.hoge.dto.KakaoUserDto;
 import com.hoge.dto.MyLoveDto;
 import com.hoge.dto.UserRevInfoDto;
 import com.hoge.exception.FindException;
+import com.hoge.exception.FindPwdException;
 import com.hoge.exception.LoginException;
 import com.hoge.exception.UpdateException;
 import com.hoge.form.CriteriaAdminUser;
@@ -71,6 +72,18 @@ public class UserService {
 		
 		if (savedUser == null) {
 			throw new FindException("회원정보가 존재하지 않습니다.");
+		}
+		
+		return savedUser;
+	}
+
+	// 이승준: 이메일 정보를 조회하여 유저정보를 리턴
+	public User checkUserByEmail(String email) {
+		
+		User savedUser = userMapper.getUserByEmail(email);
+		
+		if (savedUser == null) {
+			throw new FindPwdException("회원정보가 존재하지 않습니다.");
 		}
 		
 		return savedUser;
@@ -149,13 +162,8 @@ public class UserService {
 		User savedUser = userMapper.getUserById(id);		
 		
 		// 사용자 정보가 존재하지 않을 경우
-		if (savedUser == null) {
+		if (savedUser == null || "Y".equals(savedUser.getDeleted())) {
 			throw new LoginException("회원정보가 존재하지 않습니다.");
-		}
-		
-		// 탈퇴처리된 사용자일 경우
-		if ("Y".equals(savedUser.getDeleted())) {
-			throw new LoginException("탈퇴처리된 아이디입니다. 재가입해주세요.");
 		}
 		
 		// 사용자가 입력한 패스워드를 DigestUtils를 사용해 암호화 한다.
