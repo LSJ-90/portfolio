@@ -10,6 +10,7 @@ import com.hoge.exception.AdminException;
 // import com.hoge.dto.ResponseDto;
 import com.hoge.exception.CustomException;
 import com.hoge.exception.FindException;
+import com.hoge.exception.FindPwdException;
 import com.hoge.exception.UpdateException;
 import com.hoge.exception.LoginException;
 import com.hoge.exception.RegisterException;
@@ -38,6 +39,14 @@ public class ExceptionHandlerControllerAdvice {
 		e.printStackTrace();
 		model.addAttribute("error", e.getMessage());
 		return "form/findIdForm.tiles";
+	}
+
+	// 이승준: 메세지를 포함하여 FindPwdException이 발생한 findPwdForm 페이지로 리턴
+	@ExceptionHandler(FindPwdException.class) 
+	public String handleFindPwdException(FindPwdException e, Model model){
+		e.printStackTrace();
+		model.addAttribute("error", e.getMessage());
+		return "form/findPwdForm.tiles";
 	}
 	
 	 // 이승준: 메세지를 포함하여 UpdateException이 발생한 findIdForm 페이지로 리턴

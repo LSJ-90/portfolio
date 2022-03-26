@@ -9,8 +9,8 @@
     </header>
     <article id="login">
       <c:if test="${not empty error }">
-		<div class="mb-3 alert alert-danger">${error }</div>
-	  </c:if>
+		    <div class="mb-3 alert alert-danger">${error }</div>
+	    </c:if>
       <form action="/findpwd" class="login-form" method="post">
         <div class="form__wrap">
           <p class="find__text">
@@ -35,7 +35,7 @@
             />
           </div>
           <div class="login__btn">
-            <button type="submit" class="btn__login" id="btn_findId">
+            <button type="submit" class="btn__login" id="btn_findPwd">
               GO FIND
             </button>
           </div>
@@ -44,8 +44,3 @@
     </article>
   </div>
 </main>
-<script>
-	$("#btn_findId").click(function() {
-		alert("이메일이 성공적으로 보내졌습니다.");
-	});
-</script>

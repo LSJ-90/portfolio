@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.hoge.dto.HogeUserDto;
 import com.hoge.dto.KakaoUserDto;
 import com.hoge.dto.MailDto;
+import com.hoge.exception.FindPwdException;
 import com.hoge.service.SendEmailService;
 import com.hoge.service.UserService;
 import com.hoge.util.SessionUtils;
@@ -121,11 +122,12 @@ public class UserAuthController {
 	
 	// 이승준: 이메일로 패스워드 찾기
 	@PostMapping("/findpwd")
-	public String findPwd(@RequestParam("userId") String id, @RequestParam("userEmail") String email, Model model) {
-		MailDto mailDto = sendEmailService.createMailAndChangePassword(id, email);
-	
-		sendEmailService.mailSend(mailDto);
+	public String findPwd(@RequestParam("userId") String id, @RequestParam("userEmail") String email) {
 		
+			MailDto mailDto = sendEmailService.createMailAndChangePassword(id, email);
+			sendEmailService.mailSend(mailDto);
+		
+	
 		return  "form/loginForm.tiles";
 	}
 	
