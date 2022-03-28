@@ -31,10 +31,10 @@ padding-left: 15px;
 				<div class="col-6 border-start border-top border-bottom bg-light">
 					<div class="row">
 						<div class="row ms-1 fs-2 fw-bold text--discount" style="padding: 0;">
-							<a href="#">${myRevInfo.accommoName }</a>
+							<a href="/accommo/detail?accNo=${myRevInfo.accommoNo }">${myRevInfo.accommoName }</a>
 						</div>
 						<div class="row ms-1 text" style="padding: 0; margin: 0;">
-							<a href="#">${myRevInfo.roomName }</a>
+							<a href="/accommo/detail?accNo=${myRevInfo.accommoNo }">${myRevInfo.roomName }</a>
 						</div>
 						<div class="row ms-1 discount__text">
 							${myRevInfo.accommoRegionDepth1 }/${myRevInfo.accommoRegionDepth2 }
@@ -50,7 +50,7 @@ padding-left: 15px;
 						</div>	
 						<div class="row-2 d-flex">
 							<c:if test="${myRevInfo.roomBookingStatus eq 1 }">
-								<button id="" class="btn btn-dark me-2" onclick="creatingModal(${myRevInfo.roomBookingNo })">예약정보 및 취소</button>
+								<button id="" class="btn btn-dark me-2" onclick="creatingModal('${myRevInfo.roomBookingNo }')">예약정보 및 취소</button>
 							</c:if>
 							<c:if test="${myRevInfo.roomBookingStatus eq 2 }">
 								<button id="" type="button" class="btn btn-dark me-2">취소완료</button>

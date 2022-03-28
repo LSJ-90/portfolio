@@ -1,7 +1,5 @@
 package com.hoge.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -15,10 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hoge.dto.AccMainDto;
-import com.hoge.dto.AccReviewDto;
 import com.hoge.dto.ActMainDto;
 import com.hoge.dto.ActReviewDto;
-import com.hoge.dto.RoomListDto;
 import com.hoge.form.ActTimeForm;
 import com.hoge.form.Criteria;
 import com.hoge.service.ActivityService;

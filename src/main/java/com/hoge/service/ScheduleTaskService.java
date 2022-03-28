@@ -6,22 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hoge.dto.ActivityBookingBatchDto;
-import com.hoge.dto.AdminHostQnADto;
-import com.hoge.dto.AdminUserQnADto;
 import com.hoge.dto.RoomBookingBatchDto;
-import com.hoge.form.CriteriaAdminQnA;
-import com.hoge.form.CriteriaAdminUser;
 import com.hoge.mapper.AccommodationMapper;
 import com.hoge.mapper.ActivityMapper;
 import com.hoge.mapper.HostMapper;
 import com.hoge.mapper.PromotionMapper;
-import com.hoge.mapper.QnAMapper;
 import com.hoge.mapper.UserMapper;
 import com.hoge.vo.accommo.RoomBooking;
 import com.hoge.vo.other.Host;
-import com.hoge.vo.other.HostQnA;
 import com.hoge.vo.other.User;
-import com.hoge.vo.other.UserQnA;
 
 
 @Service

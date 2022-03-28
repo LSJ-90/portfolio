@@ -1,10 +1,8 @@
 package com.hoge.dto;
 
 import java.util.Date;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.hoge.vo.accommo.AccommoImage;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
