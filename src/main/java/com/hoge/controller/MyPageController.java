@@ -110,7 +110,7 @@ public class MyPageController {
 		Transaction latestTransaction = adminTransactionService.getlatestTransaction(); // 가장 최근 트랜잭션
 		long accumulatedMoney = latestTransaction.getAccumulatedMoney(); // 마지막 누적액
 		
-		userService.canceleReservation(savedUser, roomBookingNo, cancelReason, accumulatedMoney);
+		userService.cancelReservation(savedUser, roomBookingNo, cancelReason, accumulatedMoney);
 		
 		return "redirect:/mypage/myrevlist";
 	}

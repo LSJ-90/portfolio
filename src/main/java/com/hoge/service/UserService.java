@@ -282,28 +282,26 @@ public class UserService {
 		return userMapper.getRevInfoByBookingNo(roomBookingNo);
 	}
 
-	public void canceleReservation(@LoginedUser User savedUser, int roomBookingNo, String cancelReason, long accumulatedMoney) {
+	public void cancelReservation(@LoginedUser User savedUser, int roomBookingNo, String cancelReason, long accumulatedMoney) {
 		
-		RoomBooking myRevInfoByBookingNo = accommodationMapper.getRoomBookingByRoomBookingNo(roomBookingNo); // 고객부킹정보
-		myRevInfoByBookingNo.setCancelReason(cancelReason);
-		myRevInfoByBookingNo.setStatus(2);
+		RoomBooking myRevInfoByBookingNo = accommodationMapper.getRoomBookingByRoomBookingNo(roomBookingNo); 
+		myRevInfoByBookingNo.setCancelReason(cancelReason); // 예약취소사유 등록
+		myRevInfoByBookingNo.setStatus(2); // 예약 상태 값 변경
 		
 		int refundtoUserNo = myRevInfoByBookingNo.getUserNo(); // 환불받을사람번호
 		long refundPrice = myRevInfoByBookingNo.getPaidPrice(); //환불 해야할 금액
 		long refundPoint = myRevInfoByBookingNo.getUsedPnt(); // 환불 해야할 포인트
 		
-		// 트랜젝션 환불처리
+		// 결제 금액 환불
 		Transaction transaction = new Transaction();
 		transaction.setAmount(refundPrice);
 		transaction.setToUserNo(refundtoUserNo);
-		transaction.setAccumulatedMoney(accumulatedMoney - refundPrice); 
-		// transaction.setAccommoBookingNo(roomBookingNo);
+		transaction.setAccumulatedMoney(accumulatedMoney - refundPrice);
 		transactionMapper.insertUserTransaction(transaction);
 		
 		// 포인트 환불
 		savedUser.setPnt(savedUser.getPnt() + refundPoint);
 		userMapper.updateUser(savedUser);
-		// accommodationMapper.upadateRefundUserPnt(refundtoUserNo, refundPoint);
 		
 		if (myRevInfoByBookingNo.getPayment().equals("카드")) {
 			// booking status 변경 1>2, (cancelReason, cancelDate) update
@@ -311,10 +309,9 @@ public class UserService {
 			// booking roomAvailability 삭제
 			accommodationMapper.deleteRoomAvailavility(roomBookingNo);
 		} else {
+			// 카카오페이 일 경우 취소
 			accommodationService.kakaoPayCancele(myRevInfoByBookingNo, roomBookingNo);
 		}
-		
-		
 	}
 
 	public int getTourListCnt(int userNo) {

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.hoge.dto.HomeAccommoDto;
 import com.hoge.service.HomeService;
-import com.hoge.service.HostService;
 
 @Controller
 public class PromotionController {

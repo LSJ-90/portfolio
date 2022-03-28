@@ -31,7 +31,6 @@ import com.hoge.util.SessionUtils;
 import com.hoge.vo.accommo.AccommoImage;
 import com.hoge.vo.accommo.RoomImage;
 import com.hoge.vo.other.ChatRoom;
-import com.hoge.vo.other.HostQnA;
 import com.hoge.vo.other.PromotionDiscount;
 import com.hoge.vo.other.PromotionOffer;
 import com.hoge.vo.other.User;

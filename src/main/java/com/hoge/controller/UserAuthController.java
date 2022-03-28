@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.hoge.dto.HogeUserDto;
 import com.hoge.dto.KakaoUserDto;
 import com.hoge.dto.MailDto;
-import com.hoge.exception.FindPwdException;
 import com.hoge.service.SendEmailService;
 import com.hoge.service.UserService;
 import com.hoge.util.SessionUtils;
